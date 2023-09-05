@@ -1,0 +1,20 @@
+{
+  "@@locale": "es",
+  "title": "REC Parenting ES",
+  "@title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentLanguage": "es",
+  "generalTitle": "Hola",
+  "menuHome": "INICIO",
+  "logout": "Salir",
+  "offerValidAt": "Hasta: {date}",
+  "@offerValidAt": {
+    "placeholders": {
+      "date": {
+              "type": "String"
+      }
+    }
+  }
+}
