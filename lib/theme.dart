@@ -17,6 +17,7 @@ class RecThemeData {
         appBarTheme: const AppBarTheme(
           color: colorRecDark,
           foregroundColor: Colors.white,
+          titleTextStyle: TextStyle(fontSize: 18),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         drawerTheme: const DrawerThemeData(backgroundColor: colorRecDark),
@@ -36,6 +37,7 @@ class RecThemeData {
         appBarTheme: const AppBarTheme(
           color: colorRecDark,
           foregroundColor: Colors.white,
+          titleTextStyle: TextStyle(fontSize: 18),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         drawerTheme: const DrawerThemeData(backgroundColor: colorRecDark),
