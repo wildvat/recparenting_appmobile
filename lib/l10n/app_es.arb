@@ -9,6 +9,18 @@
   "generalTitle": "Hola",
   "menuHome": "INICIO",
   "logout": "Salir",
+  "generalEmail": "Email",
+  "generalPassword": "Contraseña",
+  "generalAccess": "Acceder",
+  "generalSend": "Enviar",
+  "generalMoreInfo": "+ Info",
+  "generalSearch": "Buscar...",
+  "generalError": "Hubo un error al intentar esta acción",
+  "generalFormLoginError": "Usuario o contraseña incorrectos",
+  "generalNoData": "No hay datos disponibles",
+  "generalFormErrorEmail": "Por favor introduzca un email",
+  "recoveryPassLinnk": "Recuperar contraseña",
+  "webPageTitle": "WEB externa",
   "offerValidAt": "Hasta: {date}",
   "@offerValidAt": {
     "placeholders": {

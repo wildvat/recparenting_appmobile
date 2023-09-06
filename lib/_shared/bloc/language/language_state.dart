@@ -10,8 +10,7 @@ abstract class LanguageState extends Equatable {
 
 class LanguageLoaded extends LanguageState {
   @override
-  final String language;
-  const LanguageLoaded(this.language) : super(language);
+  const LanguageLoaded(super.language);
 
   @override
   List<Object> get props => [language];

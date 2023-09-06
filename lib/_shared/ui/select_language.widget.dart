@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
 
 class SelectLanguageWidget extends StatelessWidget {
+  // ignore: prefer_const_constructors_in_immutables
   SelectLanguageWidget({
     super.key,
   });

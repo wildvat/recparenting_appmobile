@@ -4,12 +4,11 @@ import 'package:recparenting/_shared/ui/drawer.dart';
 
 class ScaffoldDefault extends StatefulWidget {
   late Widget body;
-  String? title;
-  FloatingActionButton? floatingActionButton;
+  final String? title;
+  final FloatingActionButton? floatingActionButton;
 
   ScaffoldDefault(
-      {required this.body, this.title, this.floatingActionButton, Key? key})
-      : super(key: key);
+      {required this.body, this.title, this.floatingActionButton, super.key});
 
   @override
   State<ScaffoldDefault> createState() => _ScaffoldDefaultState();

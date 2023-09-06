@@ -9,4 +9,6 @@ class ProdConfig implements EnvConfig {
   String get clientId => '2';
   @override
   String get clientSecret => 'EV0UA75FX23zhkJFbB7D8SaHNRloZdQCXDW17hdu';
+  @override
+  String get authorizationRecMobile => 'xxxx';
 }

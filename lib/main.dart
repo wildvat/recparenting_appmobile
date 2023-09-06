@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
+import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 import 'package:recparenting/theme.dart';
@@ -32,8 +34,9 @@ class MyApp extends StatelessWidget {
               //theme: RecThemeData.darkTheme,
               routes: RouterRec.routes,
               onGenerateRoute: RouterRec.generateRoute,
-              //initialRoute: homeRoute,
-              home: const HomePage(),
+              initialRoute: splashRoute,
+              //home: const HomePage(),
+              navigatorKey: navigatorKey,
               locale: Locale(state.language),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,

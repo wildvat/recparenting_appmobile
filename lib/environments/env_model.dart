@@ -3,4 +3,5 @@ abstract class EnvConfig {
   String get apiUrl;
   String get clientId;
   String get clientSecret;
+  String get authorizationRecMobile;
 }

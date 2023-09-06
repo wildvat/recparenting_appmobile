@@ -9,6 +9,18 @@
   "generalTitle": "Hello",
   "menuHome": "HOME",
   "logout": "Logout",
+  "generalEmail": "Email",
+  "generalPassword": "Password",
+  "generalAccess": "Access",
+  "generalSend": "Send",
+  "generalMoreInfo": "+ Info",
+  "generalSearch": "Search...",
+  "generalError": "There was an error attempting this action",
+  "generalFormLoginError": "Incorrect username or password",
+  "generalNoData": "There isn't available data",
+  "generalFormErrorEmail": "Please enter an email",
+  "recoveryPassLinnk": "Recovery password",
+  "webPageTitle": "External WEB",
   "offerValidAt": "To: {date}",
   "@offerValidAt": {
     "placeholders": {

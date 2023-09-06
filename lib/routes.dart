@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/models/webpage_arguments.dart';
+import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/splash_screen.dart';
+import 'package:recparenting/src/auth/ui/login.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 
 class RouterRec {
   static Map<String, Widget Function(BuildContext)> routes = {
     homeRoute: (_) => const HomePage(),
+    splashRoute: (_) => const SplashScreen(),
+    loginRoute: (_) => const LoginScreen(),
+    webPageRoute: (context) {
+      final WebpageArguments argument =
+          ModalRoute.of(context)!.settings.arguments as WebpageArguments;
+      return WebPageScreen(arguments: argument);
+    },
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {
