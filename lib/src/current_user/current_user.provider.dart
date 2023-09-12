@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:recparenting/src/patient/models/patient.model.dart';
+import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/providers/http.dart';
@@ -13,12 +15,18 @@ class CurrentUserApi {
   final TokenRepository _tokenRepository = TokenRepository();
 
   Future<User?> getUser() async {
-    const String endpoint = 'users/me';
+    const String endpoint = 'user/me';
     try {
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
-        final User user = User.fromJson(response.data);
-        _currentUserRepository.setPreferences(user);
+        User user = User.fromJson(response.data);
+        if(user.type=='patient'){
+          user = Patient.fromJson(response.data);
+        }
+        if(user.type=='therapist'){
+          user = Therapist.fromJson(response.data);
+        }
+       _currentUserRepository.setPreferences(user);
         return user;
       } else {
         _currentUserRepository.clearCurrentUser();

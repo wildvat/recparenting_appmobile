@@ -16,8 +16,9 @@ class AuthApi {
   final CurrentUserRepository _currentUserRepository = CurrentUserRepository();
   final GenericHttp _client = GenericHttp();
 
-  Future<bool> login({required String email, required String password}) async {
+  Future<User?> login({required String email, required String password}) async {
     try {
+      _currentUserRepository.clearCurrentUser();
       final Response response = await _client.dio.post('oauth/token', data: {
         'username': email,
         'password': password,
@@ -28,19 +29,22 @@ class AuthApi {
       });
       if (response.statusCode == 200) {
         _tokenRepository.initializeTokens(TokenModel.fromJson(response.data));
-        CurrentUserApi().getUser().then((User? userApi) async {
+         return await CurrentUserApi().getUser().then((User? userApi) async {
           if (userApi != null) {
             _currentUserRepository.setPreferences(userApi);
+            return userApi;
+
+          }else{
+            return null;
           }
         });
-        return true;
       } else {
-        return false;
+        return null;
       }
     } on DioException catch (e) {
       developer.log('error 2');
       developer.log(e.message.toString());
-      return false;
+      return null;
     }
   }
 
