@@ -9,6 +9,7 @@
   "generalTitle": "Hola",
   "menuHome": "INICIO",
   "menuChat": "CHAT",
+  "menuProfile": "Perfil",
   "logout": "Salir",
   "generalEmail": "Email",
   "generalPassword": "Contraseña",

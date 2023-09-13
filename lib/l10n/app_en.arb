@@ -9,6 +9,7 @@
   "generalTitle": "Hello",
   "menuHome": "HOME",
   "menuChat": "CHAT",
+  "menuProfile": "PROFILE",
   "logout": "Logout",
   "generalEmail": "Email",
   "generalPassword": "Password",

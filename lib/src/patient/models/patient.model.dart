@@ -16,7 +16,7 @@ class Patient extends User {
       String? email,
       String status,
       bool verified,
-      String? avatar,
+      String avatar,
       List<String> roles,
       String permission,
       String type,
@@ -25,8 +25,8 @@ class Patient extends User {
       this.conference,
       this.room,
       this.subscription)
-      : super(id, name, lastname, nickname, email, status, verified, avatar, roles,
-            permission, type, config);
+      : super(id, name, lastname, nickname, email, status, verified, avatar,
+            roles, permission, type, config);
 
   factory Patient.fromJson(Map<String, dynamic> json) {
     User user = User.fromJson(json);

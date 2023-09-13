@@ -14,14 +14,14 @@ class Therapist extends User {
       String? email,
       String status,
       bool verified,
-      String? avatar,
+      String avatar,
       List<String> roles,
       String permission,
       String type,
       UserConfig config,
       this.data)
-      : super(id, name, lastname, email, nickname, status, verified, avatar, roles,
-      permission, type, config);
+      : super(id, name, lastname, email, nickname, status, verified, avatar,
+            roles, permission, type, config);
 
   factory Therapist.fromJson(Map<String, dynamic> json) {
     User user = User.fromJson(json);
@@ -38,8 +38,7 @@ class Therapist extends User {
         user.permission,
         user.type,
         user.config,
-        TherapistData.fromJson(json['data'])
-    );
+        TherapistData.fromJson(json['data']));
   }
 /*
   @override

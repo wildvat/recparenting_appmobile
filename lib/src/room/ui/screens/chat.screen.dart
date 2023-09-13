@@ -30,10 +30,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldDefault(
-      actionButton: IconButton(
-        icon: const Icon(Icons.ac_unit_outlined),
-        onPressed: () {},
-      ),
       body: Text(_currentUser.room),
     );
   }

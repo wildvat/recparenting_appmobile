@@ -8,8 +8,7 @@ import 'package:recparenting/environments/env.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/src/auth/models/login_model.dart';
 import 'package:recparenting/src/auth/repository/token_respository.dart';
-import 'package:recparenting/src/current_user/current_user.provider.dart';
-import 'package:recparenting/src/current_user/current_user.repository.dart';
+import 'package:recparenting/src/current_user/providers/current_user.provider.dart';
 
 class AuthApi {
   final TokenRepository _tokenRepository = TokenRepository();

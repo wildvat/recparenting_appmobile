@@ -8,14 +8,14 @@ class User {
   late final String? email;
   late final String status;
   late final bool verified;
-  late final String? avatar;
+  late final String avatar;
   late final List<String> roles;
   late final String permission;
   late final String type;
   late final UserConfig config;
 
-
-  User(this.id,
+  User(
+      this.id,
       this.name,
       this.lastname,
       this.nickname,
@@ -34,6 +34,7 @@ class User {
     }
     return false;
   }
+
   bool isAdminOrEmployee() {
     return false;
     //return roles.isNotEmpty && roles.map(role => ['admin', 'employee'].includes(role));
@@ -90,6 +91,7 @@ class User {
     }
     return false;
   }
+
   factory User.fromJson(Map<String, dynamic> json) {
     List apiRoles = json['roles'] as List;
     List<String> roles = apiRoles.map((i) => i.toString()).toList();
@@ -102,8 +104,8 @@ class User {
     if (json['permission'] != null) {
       permission = json['permission'];
     }
-    String? avatar = json['logo'] != null ? json['logo']['url'] : null;
-    avatar = json['logo'] != null ? json['logo']['url'] : null;
+    String avatar = json['image'];
+    //avatar = json['logo'] != null ? json['logo']['url'] : null;
     UserConfig config = UserConfig.fromJson(json['config']);
 
     return User(
@@ -134,8 +136,6 @@ class User {
       'permission': permission,
       'type': type,
       'config': config.toJson()
-
-
     };
   }
 }

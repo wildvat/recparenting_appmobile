@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/src/current_user/current_user.provider.dart';
-import 'package:recparenting/src/current_user/current_user.repository.dart';
 import 'dart:developer' as developer;
+
+import 'package:recparenting/src/current_user/providers/current_user.provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
