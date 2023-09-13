@@ -37,10 +37,9 @@ String encryptAESCryptoJS(String plainText, String passphrase) {
 }
 
 String decryptAESCryptoJS(String encrypted, String passphrase) {
+  developer.log('decryptAESCryptoJS');
   var json = jsonDecode(encrypted);
   var salt = convert.hex.decode(json['s']);
-  // var iv = convert.hex.decode(json['iv']);
-  var ct = base64Decode(json["ct"]);
 
   // final salt = encryptedBytesWithSalt.sublist(8, 16);
   var keyndIV = deriveKeyAndIV(passphrase, salt);
