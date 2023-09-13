@@ -1,42 +1,47 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recparenting/navigator_key.dart';
+import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/src/auth/repository/token_respository.dart';
-import 'package:recparenting/src/current_user/current_user.repository.dart';
 
 class CurrentUserApi {
   late User user;
-  AuthApiHttp client = AuthApiHttp();
+  final AuthApiHttp client = AuthApiHttp();
+  final CurrentUserBloc _currentUserBloc =
+      BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
 
-  final CurrentUserRepository _currentUserRepository = CurrentUserRepository();
   final TokenRepository _tokenRepository = TokenRepository();
 
   Future<User?> getUser() async {
+    if (_currentUserBloc.state is CurrentUserLoaded) {
+      return (_currentUserBloc.state as CurrentUserLoaded).user;
+    }
     const String endpoint = 'user/me';
     try {
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
         User user = User.fromJson(response.data);
-        if(user.type=='patient'){
+        if (user.type == 'patient') {
           user = Patient.fromJson(response.data);
-        }
-        if(user.type=='therapist'){
+        } else if (user.type == 'therapist') {
           user = Therapist.fromJson(response.data);
+        } else {
+          return null;
         }
-       _currentUserRepository.setPreferences(user);
+        _currentUserBloc.add(FetchCurrentUser(user));
         return user;
       } else {
-        _currentUserRepository.clearCurrentUser();
         _tokenRepository.clearTokens();
         return null;
       }
     } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
-      _currentUserRepository.clearCurrentUser();
       _tokenRepository.clearTokens();
       return null;
     }
@@ -62,5 +67,9 @@ class CurrentUserApi {
       developer.log(e.error.toString());
       return null;
     }
+  }
+
+  void removeUser() {
+    _currentUserBloc.add(CurrentUserInitialize());
   }
 }

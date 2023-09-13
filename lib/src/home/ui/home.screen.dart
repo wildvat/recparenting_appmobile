@@ -30,9 +30,9 @@ class _HomePageState extends State<HomePage> {
                     if (state is CurrentUserLoaded) {
                       return Column(
                         children: [
-                          Text("NOMBRE:${state.user.name}"),
+                          Text("NOMBRE: ${state.user.name}"),
                           Text("EMAIL: ${state.user.email ?? "Sin email"}"),
-                          Text("ID:${state.user.id.toString()}"),
+                          Text("ID: ${state.user.id.toString()}"),
                         ],
                       );
                     }

@@ -14,32 +14,24 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late User currentUser;
-  final CurrentUserRepository _currentUserRepository = CurrentUserRepository();
 
   _checkUser() {
     try {
-      _currentUserRepository.getPreferences().then((User? user) async {
-        if (user != null) {
-          CurrentUserApi().getUser().then((User? userApi) async {
-            FlutterNativeSplash.remove();
-            if (userApi != null) {
-              if (userApi.isActive()) {
-                return Navigator.pushReplacementNamed(context, homeRoute);
-              } else {
-                return Navigator.pushReplacementNamed(context, loginRoute);
-              }
-            }
-            return false;
-          }).catchError((onError) {
-            FlutterNativeSplash.remove();
-
-            developer.log('SplashScreen Error 1 ${onError.toString()}');
+      CurrentUserApi().getUser().then((User? userApi) async {
+        FlutterNativeSplash.remove();
+        if (userApi != null) {
+          if (userApi.isActive()) {
+            return Navigator.pushReplacementNamed(context, homeRoute);
+          } else {
             return Navigator.pushReplacementNamed(context, loginRoute);
-          });
-        } else {
-          FlutterNativeSplash.remove();
-          return Navigator.pushReplacementNamed(context, loginRoute);
+          }
         }
+        return false;
+      }).catchError((onError) {
+        FlutterNativeSplash.remove();
+
+        developer.log('SplashScreen Error 1 ${onError.toString()}');
+        return Navigator.pushReplacementNamed(context, loginRoute);
       });
     } catch (error) {
       FlutterNativeSplash.remove();

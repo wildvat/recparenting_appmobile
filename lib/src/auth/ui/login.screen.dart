@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
@@ -18,7 +17,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final CurrentUserBloc _currentUserBloc;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _passwordEditingController =
@@ -28,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _currentUserBloc = BlocProvider.of<CurrentUserBloc>(context);
 /*
     if(_currentUserBloc.state is CurrentUserLoaded){
       Navigator.pushReplacementNamed(context, homeRoute);
@@ -38,8 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     //TODO para ahorrame meter la contraseña en el login
-    _emailEditingController.text = 'jsuarez@upthemedia.com';
-    _passwordEditingController.text = 'Milladoiro.123456';
+    /*
+    Therapist:
+    ryley.kilback@example.net
+    password
+    ----
+    Patient
+    madelynn97@example.com
+    password
+    */
+    _emailEditingController.text = 'madelynn97@example.com';
+    _passwordEditingController.text = 'password';
 
     return Scaffold(
         backgroundColor: colorRec,
@@ -113,8 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (!mounted) return;
                                 late final SnackBar snackBar;
                                 if (response != null) {
-                                  _currentUserBloc
-                                      .add(FetchCurrentUser(response));
                                   Navigator.pushReplacementNamed(
                                       context, homeRoute);
                                   return;

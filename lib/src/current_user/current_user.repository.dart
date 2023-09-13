@@ -3,10 +3,10 @@ import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer' as developer;
 
-class CurrentUserRepository {
+class CurrentUserRepositoryOld {
   static const String _name = 'User';
 
-  CurrentUserRepository();
+  CurrentUserRepositoryOld();
 
   Future<bool> setPreferences(User user) async {
     try {

@@ -13,12 +13,10 @@ import 'package:recparenting/src/current_user/current_user.repository.dart';
 
 class AuthApi {
   final TokenRepository _tokenRepository = TokenRepository();
-  final CurrentUserRepository _currentUserRepository = CurrentUserRepository();
   final GenericHttp _client = GenericHttp();
 
   Future<User?> login({required String email, required String password}) async {
     try {
-      _currentUserRepository.clearCurrentUser();
       final Response response = await _client.dio.post('oauth/token', data: {
         'username': email,
         'password': password,
@@ -29,12 +27,10 @@ class AuthApi {
       });
       if (response.statusCode == 200) {
         _tokenRepository.initializeTokens(TokenModel.fromJson(response.data));
-         return await CurrentUserApi().getUser().then((User? userApi) async {
+        return await CurrentUserApi().getUser().then((User? userApi) async {
           if (userApi != null) {
-            _currentUserRepository.setPreferences(userApi);
             return userApi;
-
-          }else{
+          } else {
             return null;
           }
         });
@@ -50,7 +46,7 @@ class AuthApi {
 
   void logout() async {
     _tokenRepository.clearTokens();
-    _currentUserRepository.clearCurrentUser();
+    CurrentUserApi().removeUser();
     navigatorKey.currentState
         ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false);
     return;

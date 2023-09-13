@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/ui/drawer.menu_item.dart';
 import 'package:recparenting/_shared/ui/select_language.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/src/auth/providers/login.provider.dart';
 
 class DrawerApp extends StatefulWidget {
   const DrawerApp({Key? key}) : super(key: key);
@@ -49,7 +50,9 @@ class _DrawerAppState extends State<DrawerApp> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    AuthApi().logout();
+                  },
                   child: Text(
                     AppLocalizations.of(context)!.logout,
                   )),

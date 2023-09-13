@@ -4,7 +4,7 @@ import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
-import 'package:recparenting/src/chat/ui/screens/chat.screen.dart';
+import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 
 class RouterRec {
