@@ -5,6 +5,7 @@ import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
+import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/theme.dart';
 
 void main() {
@@ -15,6 +16,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   final _languageBloc = LanguageBloc();
+  final _currentUserBloc = CurrentUserBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<LanguageBloc>(
             create: (context) => _languageBloc,
+          ),
+          BlocProvider<CurrentUserBloc>(
+            create: (BuildContext context) => _currentUserBloc,
           )
         ],
         child: BlocBuilder<LanguageBloc, LanguageState>(

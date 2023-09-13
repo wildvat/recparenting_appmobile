@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
+
+import '../../../_shared/models/user.model.dart';
+import '../../current_user/bloc/current_user_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late final CurrentUserBloc _currentUserBloc;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _passwordEditingController =
@@ -21,7 +26,21 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    _currentUserBloc = BlocProvider.of<CurrentUserBloc>(context);
+/*
+    if(_currentUserBloc.state is CurrentUserLoaded){
+      Navigator.pushReplacementNamed(context, homeRoute);
+    }*/
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //TODO para ahorrame meter la contraseña en el login
+    _emailEditingController.text = 'jsuarez@upthemedia.com';
+    _passwordEditingController.text = 'Milladoiro.123456';
+
     return Scaffold(
         backgroundColor: colorRec,
         body: Center(
@@ -39,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailEditingController,
                         keyboardType: TextInputType.emailAddress,
+
                         // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -84,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() {
                                   _isLoading = true;
                                 });
-                                bool response = await AuthApi().login(
+                                User? response = await AuthApi().login(
                                     email: _emailEditingController.text,
                                     password: _passwordEditingController.text);
                                 setState(() {
@@ -92,7 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 });
                                 if (!mounted) return;
                                 late final SnackBar snackBar;
-                                if (response) {
+                                if (response != null) {
+                                  _currentUserBloc
+                                      .add(FetchCurrentUser(response));
                                   Navigator.pushReplacementNamed(
                                       context, homeRoute);
                                   return;
