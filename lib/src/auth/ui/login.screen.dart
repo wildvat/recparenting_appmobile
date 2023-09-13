@@ -29,6 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _currentUserBloc = BlocProvider.of<CurrentUserBloc>(context);
+/*
+    if(_currentUserBloc.state is CurrentUserLoaded){
+      Navigator.pushReplacementNamed(context, homeRoute);
+    }*/
   }
 
   @override
