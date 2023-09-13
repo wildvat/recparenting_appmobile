@@ -10,5 +10,11 @@ class ProdConfig implements EnvConfig {
   @override
   String get clientSecret => 'EV0UA75FX23zhkJFbB7D8SaHNRloZdQCXDW17hdu';
   @override
-  String get authorizationRecMobile => 'xxxx';
+  String get pusherAppId => '1404349';
+  @override
+  String get pusherAppKey => '75a6a9ada98076b7556c';
+  @override
+  String get pusherAppSecret => 'c79d8ba17123c386ad4e';
+  @override
+  String get pusherAppCluster => 'eu';
 }

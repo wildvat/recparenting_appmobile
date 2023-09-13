@@ -38,6 +38,10 @@ class _DrawerAppState extends State<DrawerApp> {
                 title: AppLocalizations.of(context)!.menuHome,
                 route: homeRoute,
               ),
+              DrawerMenuItem(
+                title: AppLocalizations.of(context)!.menuChat,
+                route: chatPageRoute,
+              ),
             ],
           )),
           Row(

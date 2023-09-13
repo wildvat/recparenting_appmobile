@@ -3,5 +3,8 @@ abstract class EnvConfig {
   String get apiUrl;
   String get clientId;
   String get clientSecret;
-  String get authorizationRecMobile;
+  String get pusherAppId;
+  String get pusherAppKey;
+  String get pusherAppSecret;
+  String get pusherAppCluster;
 }

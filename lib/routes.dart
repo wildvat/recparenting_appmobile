@@ -4,6 +4,7 @@ import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
+import 'package:recparenting/src/chat/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 
 class RouterRec {
@@ -16,6 +17,7 @@ class RouterRec {
           ModalRoute.of(context)!.settings.arguments as WebpageArguments;
       return WebPageScreen(arguments: argument);
     },
+    chatPageRoute: (_) => const ChatScreen(),
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

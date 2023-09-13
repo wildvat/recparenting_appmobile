@@ -27,7 +27,9 @@ class GenericApiHttp {
   GenericApiHttp() {
     dio.options.baseUrl = env.apiUrl;
     dio.options.headers['Accept'] = 'application/json';
+    /*
     dio.options.headers['x-control-origin'] = env.authorizationRecMobile;
+    */
   }
 }
 
@@ -36,6 +38,8 @@ class GenericHttp {
   GenericHttp() {
     dio.options.baseUrl = env.url;
     dio.options.headers['Accept'] = 'application/json';
+    /*
     dio.options.headers['x-control-origin'] = env.authorizationRecMobile;
+    */
   }
 }

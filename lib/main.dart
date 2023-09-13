@@ -5,7 +5,6 @@ import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
-import 'package:recparenting/src/home/ui/home.screen.dart';
 import 'package:recparenting/theme.dart';
 
 void main() {

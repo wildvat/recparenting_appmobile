@@ -8,6 +8,7 @@
   "currentLanguage": "en",
   "generalTitle": "Hello",
   "menuHome": "HOME",
+  "menuChat": "CHAT",
   "logout": "Logout",
   "generalEmail": "Email",
   "generalPassword": "Password",

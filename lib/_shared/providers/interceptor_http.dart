@@ -53,7 +53,7 @@ class AuthInterceptors extends QueuedInterceptor {
       return;
     }
 
-    options._setXControlOrigin();
+    /*options._setXControlOrigin();*/
     options._setAuthenticationHeader(accessToken);
     handler.next(options);
   }
@@ -107,7 +107,7 @@ class AuthInterceptors extends QueuedInterceptor {
       _authApi.logout();
       return null;
     }
-    options._setXControlOrigin();
+    /*options._setXControlOrigin();*/
     options._setAuthenticationHeader(accessToken);
     await _tokenRepository.setToken(responseRefresh.data['access_token']);
     await _tokenRepository
@@ -128,10 +128,10 @@ class AuthInterceptors extends QueuedInterceptor {
 extension AuthRequestOptionsX on RequestOptions {
   void _setAuthenticationHeader(final String token) =>
       headers['Authorization'] = 'Bearer $token';
-
+  /*
   void _setXControlOrigin() =>
       headers['x-control-origin'] = env.authorizationRecMobile;
-
+  */
   int get _retryAttempt => (extra['auth_retry_attempt'] as int?) ?? 0;
 
   set _retryAttempt(final int attempt) => extra['auth_retry_attempt'] = attempt;
