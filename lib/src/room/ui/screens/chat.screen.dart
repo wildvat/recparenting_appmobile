@@ -4,6 +4,7 @@ import 'package:recparenting/_shared/ui/scaffold_default.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/providers/pusher.provider.dart';
+import 'package:recparenting/_shared/ui/app_submenu.widget.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -29,6 +30,10 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldDefault(
+      actionButton: IconButton(
+        icon: const Icon(Icons.ac_unit_outlined),
+        onPressed: () {},
+      ),
       body: Text(_currentUser.room),
     );
   }
