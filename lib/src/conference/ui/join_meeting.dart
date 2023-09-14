@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
@@ -18,15 +19,14 @@ import 'meeting.dart';
 
 class JoinMeetingView extends StatefulWidget {
   final String conferenceId;
-  const JoinMeetingView({Key? key, required this.conferenceId}) : super(key: key);
+  const JoinMeetingView({Key? key, required this.conferenceId})
+      : super(key: key);
 
   @override
   State<JoinMeetingView> createState() => _JoinMeetingViewState();
 }
 
 class _JoinMeetingViewState extends State<JoinMeetingView> {
-
-
   late final CurrentUserBloc _currentUserBloc;
   late User currentUser;
 
@@ -34,52 +34,61 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
   void initState() {
     super.initState();
     _currentUserBloc = context.read<CurrentUserBloc>();
-    if(_currentUserBloc.state is CurrentUserLoaded){
-
+    if (_currentUserBloc.state is CurrentUserLoaded) {
       currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
-      if(currentUser is Therapist){
+      if (currentUser is Therapist) {
         currentUser = (currentUser as Therapist);
       }
-      if(currentUser is Patient){
+      if (currentUser is Patient) {
         currentUser = (currentUser as Patient);
       }
-
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final joinMeetingProvider = Provider.of<JoinMeetingViewModel>(context);
-    final methodChannelProvider = Provider.of<MethodChannelCoordinator>(context);
+    final methodChannelProvider =
+        Provider.of<MethodChannelCoordinator>(context);
     final meetingProvider = Provider.of<MeetingViewModel>(context);
 
     final orientation = MediaQuery.of(context).orientation;
 
-    return joinMeetingBody(joinMeetingProvider, methodChannelProvider, meetingProvider, context, orientation);
+    return joinMeetingBody(joinMeetingProvider, methodChannelProvider,
+        meetingProvider, context, orientation);
   }
 
 //
-  Widget joinMeetingBody(JoinMeetingViewModel joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
-      MeetingViewModel meetingProvider, BuildContext context, Orientation orientation) {
+  Widget joinMeetingBody(
+      JoinMeetingViewModel joinMeetingProvider,
+      MethodChannelCoordinator methodChannelProvider,
+      MeetingViewModel meetingProvider,
+      BuildContext context,
+      Orientation orientation) {
     if (orientation == Orientation.portrait) {
-      return joinMeetingBodyPortrait(joinMeetingProvider, methodChannelProvider, meetingProvider, context);
+      return joinMeetingBodyPortrait(
+          joinMeetingProvider, methodChannelProvider, meetingProvider, context);
     } else {
-      return joinMeetingBodyLandscape(joinMeetingProvider, methodChannelProvider, meetingProvider, context);
+      return joinMeetingBodyLandscape(
+          joinMeetingProvider, methodChannelProvider, meetingProvider, context);
     }
   }
 
 //
-  Widget joinMeetingBodyPortrait(JoinMeetingViewModel joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
-      MeetingViewModel meetingProvider, BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        title: const Text('Amazon Chime SDK'),
-      ),
+  Widget joinMeetingBodyPortrait(
+      JoinMeetingViewModel joinMeetingProvider,
+      MethodChannelCoordinator methodChannelProvider,
+      MeetingViewModel meetingProvider,
+      BuildContext context) {
+    return ScaffoldDefault(
+      title: 'One to One VIDEO',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             titleFlutterDemo(5),
-            joinButton(joinMeetingProvider, methodChannelProvider, meetingProvider, context),
+            joinButton(joinMeetingProvider, methodChannelProvider,
+                meetingProvider, context),
             loadingIcon(joinMeetingProvider),
             errorMessage(joinMeetingProvider),
           ],
@@ -89,8 +98,11 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
   }
 
 //
-  Widget joinMeetingBodyLandscape(JoinMeetingViewModel joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
-      MeetingViewModel meetingProvider, BuildContext context) {
+  Widget joinMeetingBodyLandscape(
+      JoinMeetingViewModel joinMeetingProvider,
+      MethodChannelCoordinator methodChannelProvider,
+      MeetingViewModel meetingProvider,
+      BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -101,7 +113,8 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
                 height: 60,
               ),
               titleFlutterDemo(10),
-              joinButton(joinMeetingProvider, methodChannelProvider, meetingProvider, context),
+              joinButton(joinMeetingProvider, methodChannelProvider,
+                  meetingProvider, context),
               loadingIcon(joinMeetingProvider),
               errorMessage(joinMeetingProvider),
             ],
@@ -112,8 +125,11 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
   }
 
 //
-  Widget joinButton(JoinMeetingViewModel joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
-      MeetingViewModel meetingProvider, BuildContext context) {
+  Widget joinButton(
+      JoinMeetingViewModel joinMeetingProvider,
+      MethodChannelCoordinator methodChannelProvider,
+      MeetingViewModel meetingProvider,
+      BuildContext context) {
     return ElevatedButton(
       child: const Text("Join Meeting"),
       onPressed: () async {
@@ -133,15 +149,18 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
             methodChannelProvider.initializeMethodCallHandler();
 
             // Call api, format to JSON and send to native
-            bool isMeetingJoined =
-                await joinMeetingProvider.joinMeeting(meetingProvider, methodChannelProvider, meeetingId, attendeeId);
+            bool isMeetingJoined = await joinMeetingProvider.joinMeeting(
+                meetingProvider, methodChannelProvider, meeetingId, attendeeId);
             if (isMeetingJoined) {
               print('entro y redirigjo');
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MeetingView(joinMeetingProvider: joinMeetingProvider, methodChannelProvider:methodChannelProvider, meetingProvider:meetingProvider),
+                  builder: (context) => MeetingView(
+                      joinMeetingProvider: joinMeetingProvider,
+                      methodChannelProvider: methodChannelProvider,
+                      meetingProvider: meetingProvider),
                 ),
               );
             }
@@ -187,7 +206,9 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
 
   Widget loadingIcon(JoinMeetingViewModel joinMeetingProvider) {
     if (joinMeetingProvider.loadingStatus) {
-      return const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: CircularProgressIndicator());
+      return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: CircularProgressIndicator());
     } else {
       return const SizedBox.shrink();
     }
