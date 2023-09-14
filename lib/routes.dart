@@ -4,8 +4,10 @@ import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
+import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
+import 'package:recparenting/src/therapist/ui/screens/therapist_bio.screen.dart';
 
 class RouterRec {
   static Map<String, Widget Function(BuildContext)> routes = {
@@ -18,6 +20,10 @@ class RouterRec {
       return WebPageScreen(arguments: argument);
     },
     chatPageRoute: (_) => const ChatScreen(),
+    contactPageRoute: (_) => const ContactScreen(),
+    therapistBioPageRoute: (_) {
+      return const TherapistBioScreen();
+    },
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

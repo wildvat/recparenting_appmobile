@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recparenting/_shared/ui/scaffold_default.dart';
+import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/providers/pusher.provider.dart';
-import 'package:recparenting/_shared/ui/app_submenu.widget.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});

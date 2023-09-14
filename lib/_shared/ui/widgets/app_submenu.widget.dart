@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recparenting/_shared/ui/app_submenu_item.dart';
+import 'package:recparenting/_shared/models/webpage_arguments.dart';
+import 'package:recparenting/_shared/ui/widgets/app_submenu_item.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,20 +28,6 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
       menuChildren: [
         AppSubmenuItemWidget(
             onPress: () async {
-              await Navigator.pushNamed(context, homeRoute);
-              await Future.delayed(const Duration(milliseconds: 10));
-              _menuController.close();
-            },
-            titleUrl: AppLocalizations.of(context)!.menuHome),
-        AppSubmenuItemWidget(
-            onPress: () async {
-              await Navigator.pushNamed(context, chatPageRoute);
-              await Future.delayed(const Duration(milliseconds: 10));
-              _menuController.close();
-            },
-            titleUrl: AppLocalizations.of(context)!.menuChat),
-        AppSubmenuItemWidget(
-            onPress: () async {
               if (mounted) {
                 await showModalBottomSheet(
                     useRootNavigator: true,
@@ -52,7 +39,23 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
                 _menuController.close();
               }
             },
-            titleUrl: AppLocalizations.of(context)!.menuProfile)
+            titleUrl: AppLocalizations.of(context)!.menuProfile),
+        AppSubmenuItemWidget(
+            onPress: () async {
+              await Navigator.pushNamed(context, webPageRoute,
+                  arguments: WebpageArguments(
+                      url: 'https://www.recparenting.com/privacy-policy/'));
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: AppLocalizations.of(context)!.menuLegal),
+        AppSubmenuItemWidget(
+            onPress: () async {
+              await Navigator.pushNamed(context, contactPageRoute);
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: AppLocalizations.of(context)!.menuContact),
       ],
       child: const Icon(Icons.more_vert, color: Colors.white),
     );

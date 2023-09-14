@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/ui/widgets/notransition_builder.dart';
 import 'package:recparenting/constants/colors.dart';
 
 class RecThemeData {
   static ThemeData get lightTheme {
     return ThemeData(
         useMaterial3: true,
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            for (final platform in TargetPlatform.values)
+              platform: const NoTransitionsBuilder(),
+          },
+        ),
         textTheme: const TextTheme(
           displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           bodyLarge: TextStyle(fontSize: 18, color: Colors.black87),
@@ -13,7 +20,9 @@ class RecThemeData {
             style: ButtonStyle(
                 foregroundColor: MaterialStatePropertyAll(colorRecLight))),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: colorRecLight, foregroundColor: Colors.white),
+            shape: CircleBorder(),
+            backgroundColor: colorRecLight,
+            foregroundColor: Colors.white),
         appBarTheme: const AppBarTheme(
           color: colorRecDark,
           foregroundColor: Colors.white,
@@ -27,6 +36,12 @@ class RecThemeData {
   static ThemeData get darkTheme {
     return ThemeData(
         useMaterial3: true,
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            for (final platform in TargetPlatform.values)
+              platform: const NoTransitionsBuilder(),
+          },
+        ),
         scaffoldBackgroundColor: Colors.black38,
         textTheme: const TextTheme(
           displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),

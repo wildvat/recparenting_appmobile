@@ -6,3 +6,5 @@ const String profileRoute = '/profile';
 const String calendarRoute = '/calendar';
 const String webPageRoute = '/web';
 const String chatPageRoute = '/chat';
+const String therapistBioPageRoute = '/therapist_bio';
+const String contactPageRoute = '/contact';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:recparenting/_shared/ui/scaffold_default.dart';
+import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 
 class HomePage extends StatefulWidget {

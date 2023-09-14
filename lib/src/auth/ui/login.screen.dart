@@ -7,7 +7,6 @@ import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
 
 import '../../../_shared/models/user.model.dart';
-import '../../current_user/bloc/current_user_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

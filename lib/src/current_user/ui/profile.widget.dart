@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/_shared/ui/select_language.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/select_language.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
@@ -19,7 +19,6 @@ class ProfileWidget extends StatefulWidget {
 class _ProfileWidgetState extends State<ProfileWidget> {
   late User _currentUser;
   late CurrentUserBloc _currentUserBloc;
-  late Widget _avatar;
 
   @override
   void initState() {
@@ -44,17 +43,17 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             width: 70,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
-              // todo api always return same image && image is an svg
               child: _currentUser.avatar.contains('/avatar/user')
                   ? SvgPicture.network(
                       _currentUser.avatar,
+                      fit: BoxFit.cover,
                     )
-                  : Image.network(_currentUser.avatar),
+                  : Image.network(_currentUser.avatar, fit: BoxFit.cover),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            '${_currentUser.name!} ${_currentUser.lastname}',
+            '${_currentUser.name} ${_currentUser.lastname}',
             style: const TextStyle(color: Colors.white),
           ),
           Text(

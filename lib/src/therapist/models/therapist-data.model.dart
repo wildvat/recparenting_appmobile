@@ -1,6 +1,6 @@
 import 'package:recparenting/src/therapist/models/working-hours.model.dart';
 
-class TherapistData{
+class TherapistData {
   late String bio;
   late int years_practice;
   late List<String> areas_expertise;
@@ -19,7 +19,7 @@ class TherapistData{
     bio = json['bio'];
     years_practice = json['years_practice'];
     religion = json['religion'];
-    gender = json['gender'] ;
+    gender = json['gender'];
     language = apiLanguages.map((i) => i.toString()).toList();
     areas_expertise = apiAreasExpertise.map((i) => i.toString()).toList();
     working_hours = WorkingHours.fromJson(json['working_hours']);
