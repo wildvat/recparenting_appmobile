@@ -30,7 +30,8 @@ class _BottomAppBarPatientState extends State<BottomAppBarPatient> {
               color: Colors.white,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.popAndPushNamed(context, conferenceRoute),
           ),
           IconButton(
             icon: const Icon(
