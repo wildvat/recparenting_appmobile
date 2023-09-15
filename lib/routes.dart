@@ -4,6 +4,7 @@ import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
+import 'package:recparenting/src/calendar/ui/screens/calendar.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
@@ -26,6 +27,8 @@ class RouterRec {
     therapistBioPageRoute: (_) {
       return const TherapistBioScreen();
     },
+    calendarRoute: (_) => const CalendarScreen(),
+
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

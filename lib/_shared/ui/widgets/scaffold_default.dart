@@ -11,7 +11,7 @@ class ScaffoldDefault extends StatefulWidget {
   late Widget body;
   final String? title;
   final FloatingActionButton? floatingActionButton;
-  final IconButton? actionButton;
+  final Widget? actionButton;
 
   ScaffoldDefault(
       {required this.body,
