@@ -4,18 +4,17 @@
  */
 
 import 'package:dio/dio.dart';
+import 'dart:developer' as dev;
 import 'package:recparenting/environments/env.dart';
-
 import '../../../_shared/providers/http.dart';
 import '../models/join_info.model.dart';
-
 
 class ConferenceApi {
   final String _baseUrl = env.apiUrl;
   final AuthApiHttp client = AuthApiHttp();
 
   Future<JoinInfo?> join(String meetingId, String attendeeId) async {
-    print('conferenceia $meetingId');
+    dev.log('conferenceia $meetingId');
     String url = "${_baseUrl}conference/$meetingId/meeting";
     String urlAttendee = "${_baseUrl}conference/$meetingId/attendee";
 
@@ -26,28 +25,31 @@ class ConferenceApi {
       //final http.Response responseAttendee = await http.post(Uri.parse(urlAttendee));
       Response responseAttendee = await client.dio.post(urlAttendee);
 
-      print("STATUS MEETING: ${response.statusCode}");
-      print("STATUS ATTENDEE: ${responseAttendee.statusCode}");
+      dev.log("STATUS MEETING: ${response.statusCode}");
+      dev.log("STATUS ATTENDEE: ${responseAttendee.statusCode}");
 
-      if ( response.statusCode! >= 200 && response.statusCode! < 300 && responseAttendee.statusCode! >= 200 && responseAttendee.statusCode! < 300) {
-
-        print("POST - join api call successful!");
-        /*print('RESPONSE meeting');
-        print(response);
-        print('RESPONSE attendee');
-        print(responseAttendee);*/
+      if (response.statusCode! >= 200 &&
+          response.statusCode! < 300 &&
+          responseAttendee.statusCode! >= 200 &&
+          responseAttendee.statusCode! < 300) {
+        dev.log("POST - join api call successful!");
+        /*dev.log('RESPONSE meeting');
+        dev.log(response);
+        dev.log('RESPONSE attendee');
+        dev.log(responseAttendee);*/
         Map<String, dynamic> joinInfoMeetingMap = response.data;
         Map<String, dynamic> joinInfoAttendeeMap = responseAttendee.data;
-        print('final mapeo');
-        /*print('RESPONSE joinInfoAttendeeMap');
-        print(joinInfoAttendeeMap);*/
-        print('RESPONSE joinInfoMeetingMap');
-        print(joinInfoMeetingMap['Meeting']);
-        JoinInfo joinInfo = JoinInfo.fromJson(joinInfoMeetingMap, joinInfoAttendeeMap);
+        dev.log('final mapeo');
+        /*dev.log('RESPONSE joinInfoAttendeeMap');
+        dev.log(joinInfoAttendeeMap);*/
+        dev.log('RESPONSE joinInfoMeetingMap');
+        dev.log(joinInfoMeetingMap['Meeting']);
+        JoinInfo joinInfo =
+            JoinInfo.fromJson(joinInfoMeetingMap, joinInfoAttendeeMap);
         return joinInfo;
       }
     } catch (e) {
-      print("join request Failed. Status: ${e.toString()}");
+      dev.log("join request Failed. Status: ${e.toString()}");
       return null;
     }
     return null;
@@ -70,11 +72,6 @@ class ConferenceApi {
     return flattenedJSON;
   }
 }
-
-
-
-
-
 
 class ApiResponse {
   final bool response;

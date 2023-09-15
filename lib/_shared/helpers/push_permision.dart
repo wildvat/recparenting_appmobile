@@ -4,18 +4,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:recparenting/_shared/helpers/request_permission.dart';
 
 import '../../src/current_user/providers/current_user.provider.dart';
-
+import 'dart:developer' as dev;
 
 getPermissionPushApp() async {
   var permission = RequestPermissions();
   NotificationSettings settings = await permission.push();
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('User granted permission');
+    dev.log('User granted permission');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    print('User granted provisional permission');
+    dev.log('User granted provisional permission');
   } else {
-    print('User declined or has not accepted permission');
+    dev.log('User declined or has not accepted permission');
   }
 
   String platform = '';

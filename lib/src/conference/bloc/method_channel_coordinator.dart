@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recparenting/src/conference/models/response_enums.dart';
+import 'dart:developer' as dev;
 
 import '../interfaces/attendee.dart';
 import '../interfaces/audio_video_interface.dart';
@@ -14,10 +15,9 @@ import '../interfaces/video_tile.dart';
 import '../interfaces/video_tile_interface.dart';
 import 'meeting_view_model.dart';
 
-
-
 class MethodChannelCoordinator extends ChangeNotifier {
-  final MethodChannel methodChannel = const MethodChannel("appmobile.recparenting.methodChannel");
+  final MethodChannel methodChannel =
+      const MethodChannel("appmobile.recparenting.methodChannel");
 
   RealtimeInterface? realtimeObserver;
   VideoTileInterface? videoTileObserver;
@@ -25,7 +25,7 @@ class MethodChannelCoordinator extends ChangeNotifier {
 
   void initializeMethodCallHandler() {
     methodChannel.setMethodCallHandler(methodCallHandler);
-    print("Flutter Method Call Handler initialized.");
+    dev.log("Flutter Method Call Handler initialized.");
   }
 
   void initializeRealtimeObserver(RealtimeInterface realtimeInterface) {
@@ -44,102 +44,103 @@ class MethodChannelCoordinator extends ChangeNotifier {
     initializeRealtimeObserver(meetingProvider);
     initializeAudioVideoObserver(meetingProvider);
     initializeVideoTileObserver(meetingProvider);
-    print("Observers initialized");
+    dev.log("Observers initialized");
   }
 
-  Future<MethodChannelResponse?> callMethod(String methodName, [dynamic args]) async {
-    print("Calling $methodName through method channel with args: $args");
+  Future<MethodChannelResponse?> callMethod(String methodName,
+      [dynamic args]) async {
+    dev.log("Calling $methodName through method channel with args: $args");
     try {
       dynamic response = await methodChannel.invokeMethod(methodName, args);
-      print('**************************************************');
-      print('response callMetdo $methodName');
-      print(response);
-      print('**************************************************');
+      dev.log('**************************************************');
+      dev.log('response callMetdo $methodName');
+      dev.log(response);
+      dev.log('**************************************************');
 
       return MethodChannelResponse.fromJson(response);
     } catch (e) {
-      print('**************************************************');
-      print('entre en error callMetdo $methodName');
-      print(e.toString());
-      print('**************************************************');
+      dev.log('**************************************************');
+      dev.log('entre en error callMetdo $methodName');
+      dev.log(e.toString());
+      dev.log('**************************************************');
 
       return MethodChannelResponse(false, null);
     }
   }
 
   Future<void> methodCallHandler(MethodCall call) async {
-    print("Recieved method call ${call.method} with arguments: ${call.arguments}");
+    dev.log(
+        "Recieved method call ${call.method} with arguments: ${call.arguments}");
 
     switch (call.method) {
       case MethodCallOption.join:
         final Attendee attendee = Attendee.fromJson(call.arguments);
         realtimeObserver?.attendeeDidJoin(attendee);
-        print('**************************************************');
-        print('añado un attendee');
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('añado un attendee');
+        dev.log('**************************************************');
 
         break;
       case MethodCallOption.leave:
         final Attendee attendee = Attendee.fromJson(call.arguments);
         realtimeObserver?.attendeeDidLeave(attendee, didDrop: false);
-        print('**************************************************');
-        print('salgo de la conferecen');
-        print(attendee);
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('salgo de la conferecen');
+        dev.log(attendee.toString());
+        dev.log('**************************************************');
 
         break;
       case MethodCallOption.drop:
         final Attendee attendee = Attendee.fromJson(call.arguments);
         realtimeObserver?.attendeeDidLeave(attendee, didDrop: true);
-        print('**************************************************');
-        print('drop de la conferecen');
-        print(attendee);
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('drop de la conferecen');
+        dev.log(attendee.toString());
+        dev.log('**************************************************');
         break;
       case MethodCallOption.mute:
         final Attendee attendee = Attendee.fromJson(call.arguments);
         realtimeObserver?.attendeeDidMute(attendee);
-        print('**************************************************');
-        print('lo pongo en mute');
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('lo pongo en mute');
+        dev.log('**************************************************');
         break;
       case MethodCallOption.unmute:
         final Attendee attendee = Attendee.fromJson(call.arguments);
         realtimeObserver?.attendeeDidUnmute(attendee);
-        print('**************************************************');
-        print('lo pongo con sonido');
-        print('**************************************************');
-
+        dev.log('**************************************************');
+        dev.log('lo pongo con sonido');
+        dev.log('**************************************************');
 
         break;
       case MethodCallOption.videoTileAdd:
         final String attendeeId = call.arguments["attendeeId"];
         final VideoTile videoTile = VideoTile.fromJson(call.arguments);
         videoTileObserver?.videoTileDidAdd(attendeeId, videoTile);
-        print('**************************************************');
-        print('añado un video');
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('añado un video');
+        dev.log('**************************************************');
 
         break;
       case MethodCallOption.videoTileRemove:
         final String attendeeId = call.arguments["attendeeId"];
         final VideoTile videoTile = VideoTile.fromJson(call.arguments);
         videoTileObserver?.videoTileDidRemove(attendeeId, videoTile);
-        print('**************************************************');
-        print('quito un video');
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('quito un video');
+        dev.log('**************************************************');
         break;
       case MethodCallOption.audioSessionDidStop:
         audioVideoObserver?.audioSessionDidStop();
-        print('**************************************************');
-        print('audioSessionDidStop');
-        print('**************************************************');
+        dev.log('**************************************************');
+        dev.log('audioSessionDidStop');
+        dev.log('**************************************************');
         break;
       default:
-        print('**************************************************');
-        print("Method ${call.method} with args ${call.arguments} does not exist");
-        print('**************************************************');
-
+        dev.log('**************************************************');
+        dev.log(
+            "Method ${call.method} with args ${call.arguments} does not exist");
+        dev.log('**************************************************');
     }
   }
 }

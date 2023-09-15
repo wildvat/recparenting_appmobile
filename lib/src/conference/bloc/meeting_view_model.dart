@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/src/conference/models/response_enums.dart';
+import 'dart:developer' as dev;
 
 import '../../current_user/bloc/current_user_bloc.dart';
 import '../interfaces/attendee.dart';
@@ -19,9 +20,12 @@ import '../interfaces/video_tile_interface.dart';
 import '../models/join_info.model.dart';
 import 'method_channel_coordinator.dart';
 
-
 class MeetingViewModel extends ChangeNotifier
-    implements RealtimeInterface, VideoTileInterface, AudioDevicesInterface, AudioVideoInterface {
+    implements
+        RealtimeInterface,
+        VideoTileInterface,
+        AudioDevicesInterface,
+        AudioVideoInterface {
   String? meetingId;
 
   JoinInfo? meetingData;
@@ -40,9 +44,11 @@ class MeetingViewModel extends ChangeNotifier
 
   bool isReceivingScreenShare = false;
   bool isMeetingActive = false;
-   final CurrentUserBloc _currentUserBloc = BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
+  final CurrentUserBloc _currentUserBloc =
+      BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
   MeetingViewModel(BuildContext context) {
-    methodChannelProvider = Provider.of<MethodChannelCoordinator>(context, listen: false);
+    methodChannelProvider =
+        Provider.of<MethodChannelCoordinator>(context, listen: false);
   }
 
   //
@@ -58,16 +64,17 @@ class MeetingViewModel extends ChangeNotifier
 
   void initializeLocalAttendee() {
     if (meetingData == null) {
-      print(Response.null_meeting_data);
+      dev.log(Response.null_meeting_data);
       return;
     }
     localAttendeeId = meetingData!.attendee.attendeeId;
 
     if (localAttendeeId == null) {
-      print(Response.null_local_attendee);
+      dev.log(Response.null_local_attendee);
       return;
     }
-    currAttendees[localAttendeeId!] = Attendee(localAttendeeId!, meetingData!.attendee.externalUserId);
+    currAttendees[localAttendeeId!] =
+        Attendee(localAttendeeId!, meetingData!.attendee.externalUserId);
     notifyListeners();
   }
 
@@ -79,11 +86,11 @@ class MeetingViewModel extends ChangeNotifier
   void attendeeDidJoin(Attendee attendee) {
     String? attendeeIdToAdd = attendee.attendeeId;
     if (_isAttendeeContent(attendeeIdToAdd)) {
-      print("Content detected");
+      dev.log("Content detected");
       contentAttendeeId = attendeeIdToAdd;
       if (contentAttendeeId != null) {
         currAttendees[contentAttendeeId!] = attendee;
-        print("Content added to the meeting");
+        dev.log("Content added to the meeting");
       }
       notifyListeners();
       return;
@@ -92,11 +99,12 @@ class MeetingViewModel extends ChangeNotifier
     if (attendeeIdToAdd != localAttendeeId) {
       remoteAttendeeId = attendeeIdToAdd;
       if (remoteAttendeeId == null) {
-        print(Response.null_remote_attendee);
+        dev.log(Response.null_remote_attendee);
         return;
       }
       currAttendees[remoteAttendeeId!] = attendee;
-      print("${formatExternalUserId(currAttendees[remoteAttendeeId]?.externalUserId)} has joined the meeting.");
+      dev.log(
+          "${formatExternalUserId(currAttendees[remoteAttendeeId]?.externalUserId)} has joined the meeting.");
       notifyListeners();
     }
   }
@@ -107,9 +115,11 @@ class MeetingViewModel extends ChangeNotifier
     final attIdToDelete = attendee.attendeeId;
     currAttendees.remove(attIdToDelete);
     if (didDrop) {
-      print("${formatExternalUserId(attendee.externalUserId)} has dropped from the meeting");
+      dev.log(
+          "${formatExternalUserId(attendee.externalUserId)} has dropped from the meeting");
     } else {
-      print("${formatExternalUserId(attendee.externalUserId)} has left the meeting");
+      dev.log(
+          "${formatExternalUserId(attendee.externalUserId)} has left the meeting");
     }
     notifyListeners();
   }
@@ -126,9 +136,9 @@ class MeetingViewModel extends ChangeNotifier
 
   @override
   void videoTileDidAdd(String attendeeId, VideoTile videoTile) {
-    print('**************************************************');
-    print('videoTileDidAdd $attendeeId $videoTile');
-    print('**************************************************');
+    dev.log('**************************************************');
+    dev.log('videoTileDidAdd $attendeeId $videoTile');
+    dev.log('**************************************************');
     currAttendees[attendeeId]?.videoTile = videoTile;
     if (videoTile.isContentShare) {
       isReceivingScreenShare = true;
@@ -148,62 +158,64 @@ class MeetingViewModel extends ChangeNotifier
       currAttendees[attendeeId]?.videoTile = null;
       currAttendees[attendeeId]?.isVideoOn = false;
     }
-    print('**************************************************');
-    print('videoTileDidRemove $attendeeId $videoTile');
-    print('**************************************************');
+    dev.log('**************************************************');
+    dev.log('videoTileDidRemove $attendeeId $videoTile');
+    dev.log('**************************************************');
     notifyListeners();
   }
 
   @override
   Future<void> initialAudioSelection() async {
-    MethodChannelResponse? device = await methodChannelProvider?.callMethod(MethodCallOption.initialAudioSelection);
+    MethodChannelResponse? device = await methodChannelProvider
+        ?.callMethod(MethodCallOption.initialAudioSelection);
     if (device == null) {
-      print(Response.null_initial_audio_device);
+      dev.log(Response.null_initial_audio_device);
       return;
     }
-    print("Initial audio device selection: ${device.arguments}");
+    dev.log("Initial audio device selection: ${device.arguments}");
     selectedAudioDevice = device.arguments;
     notifyListeners();
   }
 
   @override
   Future<void> listAudioDevices() async {
-    MethodChannelResponse? devices = await methodChannelProvider?.callMethod(MethodCallOption.listAudioDevices);
+    MethodChannelResponse? devices = await methodChannelProvider
+        ?.callMethod(MethodCallOption.listAudioDevices);
 
     if (devices == null) {
-      print(Response.null_audio_device_list);
+      dev.log(Response.null_audio_device_list);
       return;
     }
     final deviceIterable = devices.arguments.map((device) => device.toString());
 
     final devList = List<String?>.from(deviceIterable.toList());
-    print("Devices available: $devList");
+    dev.log("Devices available: $devList");
     deviceList = devList;
     notifyListeners();
   }
 
   @override
   void updateCurrentDevice(String device) async {
-    MethodChannelResponse? updateDeviceResponse =
-        await methodChannelProvider?.callMethod(MethodCallOption.updateAudioDevice, device);
+    MethodChannelResponse? updateDeviceResponse = await methodChannelProvider
+        ?.callMethod(MethodCallOption.updateAudioDevice, device);
 
     if (updateDeviceResponse == null) {
-      print(Response.null_audio_device_update);
+      dev.log(Response.null_audio_device_update);
       return;
     }
 
     if (updateDeviceResponse.result) {
-      print("${updateDeviceResponse.arguments} to: $device");
+      dev.log("${updateDeviceResponse.arguments} to: $device");
       selectedAudioDevice = device;
       notifyListeners();
     } else {
-      print("${updateDeviceResponse.arguments}");
+      dev.log("${updateDeviceResponse.arguments}");
     }
   }
 
   @override
   void audioSessionDidStop() {
-    print("Audio session stopped by AudioVideoObserver.");
+    dev.log("Audio session stopped by AudioVideoObserver.");
     _resetMeetingValues();
   }
 
@@ -215,88 +227,99 @@ class MeetingViewModel extends ChangeNotifier
     final attIdToggleMute = attendee.attendeeId;
     currAttendees[attIdToggleMute]?.muteStatus = mute;
     if (mute) {
-      print("${formatExternalUserId(attendee.externalUserId)} has been muted");
+      dev.log(
+          "${formatExternalUserId(attendee.externalUserId)} has been muted");
     } else {
-      print("${formatExternalUserId(attendee.externalUserId)} has been unmuted");
+      dev.log(
+          "${formatExternalUserId(attendee.externalUserId)} has been unmuted");
     }
     notifyListeners();
   }
 
   void sendLocalMuteToggle() async {
     if (!currAttendees.containsKey(localAttendeeId)) {
-      print("Local attendee not found");
+      dev.log("Local attendee not found");
       return;
     }
 
     if (currAttendees[localAttendeeId]!.muteStatus) {
-      MethodChannelResponse? unmuteResponse = await methodChannelProvider?.callMethod(MethodCallOption.unmute);
+      MethodChannelResponse? unmuteResponse =
+          await methodChannelProvider?.callMethod(MethodCallOption.unmute);
       if (unmuteResponse == null) {
-        print(Response.unmute_response_null);
+        dev.log(Response.unmute_response_null);
         return;
       }
 
       if (unmuteResponse.result) {
-        print("${unmuteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
+        dev.log(
+            "${unmuteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
         notifyListeners();
       } else {
-        print("${unmuteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
+        dev.log(
+            "${unmuteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
       }
     } else {
-      MethodChannelResponse? muteResponse = await methodChannelProvider?.callMethod(MethodCallOption.mute);
+      MethodChannelResponse? muteResponse =
+          await methodChannelProvider?.callMethod(MethodCallOption.mute);
       if (muteResponse == null) {
-        print(Response.mute_response_null);
+        dev.log(Response.mute_response_null);
         return;
       }
 
       if (muteResponse.result) {
-        print("${muteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
+        dev.log(
+            "${muteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
         notifyListeners();
       } else {
-        print("${muteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
+        dev.log(
+            "${muteResponse.arguments} ${formatExternalUserId(currAttendees[localAttendeeId]?.externalUserId)}");
       }
     }
   }
 
   void sendLocalVideoTileOn() async {
     if (!currAttendees.containsKey(localAttendeeId)) {
-      print("Local attendee not found");
+      dev.log("Local attendee not found");
       return;
     }
 
     if (currAttendees[localAttendeeId]!.isVideoOn) {
-      MethodChannelResponse? videoStopped = await methodChannelProvider?.callMethod(MethodCallOption.localVideoOff);
+      MethodChannelResponse? videoStopped = await methodChannelProvider
+          ?.callMethod(MethodCallOption.localVideoOff);
       if (videoStopped == null) {
-        print(Response.video_stopped_response_null);
+        dev.log(Response.video_stopped_response_null);
         return;
       }
 
       if (videoStopped.result) {
-        print(videoStopped.arguments);
+        dev.log(videoStopped.arguments);
       } else {
-        print(videoStopped.arguments);
+        dev.log(videoStopped.arguments);
       }
     } else {
-      MethodChannelResponse? videoStart = await methodChannelProvider?.callMethod(MethodCallOption.localVideoOn);
+      MethodChannelResponse? videoStart = await methodChannelProvider
+          ?.callMethod(MethodCallOption.localVideoOn);
       if (videoStart == null) {
-        print(Response.video_start_response_null);
+        dev.log(Response.video_start_response_null);
         return;
       }
 
       if (videoStart.result) {
-        print(videoStart.arguments);
+        dev.log(videoStart.arguments);
       } else {
-        print(videoStart.arguments);
+        dev.log(videoStart.arguments);
       }
     }
   }
 
   void stopMeeting() async {
-    MethodChannelResponse? stopResponse = await methodChannelProvider?.callMethod(MethodCallOption.stop);
+    MethodChannelResponse? stopResponse =
+        await methodChannelProvider?.callMethod(MethodCallOption.stop);
     if (stopResponse == null) {
-      print(Response.stop_response_null);
+      dev.log(Response.stop_response_null);
       return;
     }
-    print(stopResponse.arguments);
+    dev.log(stopResponse.arguments);
   }
 
   //
@@ -314,15 +337,15 @@ class MeetingViewModel extends ChangeNotifier
     currAttendees = {};
     isReceivingScreenShare = false;
     isMeetingActive = false;
-    print("Meeting values reset");
+    dev.log("Meeting values reset");
     notifyListeners();
   }
 
   String formatExternalUserId(String? externalUserId) {
-    if(_currentUserBloc.state is CurrentUserLoaded){
-
-        if((_currentUserBloc.state as CurrentUserLoaded).user.id == externalUserId){
-          return (_currentUserBloc.state as CurrentUserLoaded).user.name ;
+    if (_currentUserBloc.state is CurrentUserLoaded) {
+      if ((_currentUserBloc.state as CurrentUserLoaded).user.id ==
+          externalUserId) {
+        return (_currentUserBloc.state as CurrentUserLoaded).user.name;
       }
     }
     List<String>? externalUserIdArray = externalUserId?.split("#");
@@ -330,7 +353,8 @@ class MeetingViewModel extends ChangeNotifier
       return "UNKNOWN";
     }
     //TODO un get user a la api para asaber el nombre de la persona
-    String extUserId = externalUserIdArray.length == 2 ? externalUserIdArray[1] : "UNKNOWN";
+    String extUserId =
+        externalUserIdArray.length == 2 ? externalUserIdArray[1] : "UNKNOWN";
     return extUserId;
   }
 

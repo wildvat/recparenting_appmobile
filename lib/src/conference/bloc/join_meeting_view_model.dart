@@ -1,4 +1,3 @@
-
 /*
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * SPDX-License-Identifier: MIT-0
@@ -10,7 +9,7 @@ import 'package:recparenting/src/conference/models/response_enums.dart';
 import '../provider/conference.provider.dart';
 import 'meeting_view_model.dart';
 import 'dart:io' show InternetAddress, SocketException;
-
+import 'dart:developer' as dev;
 import 'method_channel_coordinator.dart';
 
 class JoinMeetingViewModel extends ChangeNotifier {
@@ -27,20 +26,28 @@ class JoinMeetingViewModel extends ChangeNotifier {
     if (meetingId.isEmpty || attendeeName.isEmpty) {
       _createError(Response.empty_parameter);
       return false;
-    } else if (meetingId.length < 2 || meetingId.length > 64 || attendeeName.length < 2 || attendeeName.length > 64) {
+    } else if (meetingId.length < 2 ||
+        meetingId.length > 64 ||
+        attendeeName.length < 2 ||
+        attendeeName.length > 64) {
       _createError(Response.invalid_attendee_or_meeting);
       return false;
     }
     return true;
   }
 
-  Future<bool> joinMeeting(MeetingViewModel meetingProvider, MethodChannelCoordinator methodChannelProvider, String meetingId,
+  Future<bool> joinMeeting(
+      MeetingViewModel meetingProvider,
+      MethodChannelCoordinator methodChannelProvider,
+      String meetingId,
       String attendeeName) async {
-    print("Joining Meeting...");
+    dev.log("Joining Meeting...");
     _resetError();
 
-    bool audioPermissions = await _requestAudioPermissions(methodChannelProvider);
-    bool videoPermissions = await _requestVideoPermissions(methodChannelProvider);
+    bool audioPermissions =
+        await _requestAudioPermissions(methodChannelProvider);
+    bool videoPermissions =
+        await _requestVideoPermissions(methodChannelProvider);
 
     // Create error messages for incorrect permissions
     if (!_checkPermissions(audioPermissions, videoPermissions)) {
@@ -57,30 +64,30 @@ class JoinMeetingViewModel extends ChangeNotifier {
     // Make call to api and recieve info in ApiResponse format
     final JoinInfo? apiResponse = await api.join(meetingId, attendeeName);
 
-    print("Api response...");
+    dev.log("Api response...");
     // Check if ApiResponse is not null or returns a false response value indicating failed api call
     if (apiResponse == null) {
       _createError(Response.api_response_null);
       return false;
     }
 
-
-    print("Set meeetingData in meetingProvider...");
+    dev.log("Set meeetingData in meetingProvider...");
 
     // Set meeetingData in meetingProvider
-      meetingProvider.intializeMeetingData(apiResponse);
-
+    meetingProvider.intializeMeetingData(apiResponse);
 
     // Convert JoinInfo object to JSON
     if (meetingProvider.meetingData == null) {
       _createError(Response.null_meeting_data);
       return false;
     }
-    final Map<String, dynamic> jsonArgsToSend = api.joinInfoToJSON(meetingProvider.meetingData!);
+    final Map<String, dynamic> jsonArgsToSend =
+        api.joinInfoToJSON(meetingProvider.meetingData!);
 
     // Send JSON to iOS
-    MethodChannelResponse? joinResponse = await methodChannelProvider.callMethod(MethodCallOption.join, jsonArgsToSend);
-    print("Send JSON to iOS...");
+    MethodChannelResponse? joinResponse = await methodChannelProvider
+        .callMethod(MethodCallOption.join, jsonArgsToSend);
+    dev.log("Send JSON to iOS...");
 
     if (joinResponse == null) {
       _createError(Response.null_join_response);
@@ -88,7 +95,7 @@ class JoinMeetingViewModel extends ChangeNotifier {
     }
 
     if (joinResponse.result) {
-      print(joinResponse.arguments);
+      dev.log(joinResponse.arguments);
       _toggleLoadingStatus(startLoading: false);
       meetingProvider.initializeLocalAttendee();
       await meetingProvider.listAudioDevices();
@@ -100,32 +107,36 @@ class JoinMeetingViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> _requestAudioPermissions(MethodChannelCoordinator methodChannelProvider) async {
-    print('pido permiso audio');
-    MethodChannelResponse? audioPermission = await methodChannelProvider.callMethod(MethodCallOption.manageAudioPermissions);
+  Future<bool> _requestAudioPermissions(
+      MethodChannelCoordinator methodChannelProvider) async {
+    dev.log('pido permiso audio');
+    MethodChannelResponse? audioPermission = await methodChannelProvider
+        .callMethod(MethodCallOption.manageAudioPermissions);
     if (audioPermission == null) {
-      print('pido permiso  y devulvo null');
+      dev.log('pido permiso  y devulvo null');
 
       return false;
     }
     if (audioPermission.result) {
-      print('tiene reusltado true');
-      print(audioPermission.arguments);
+      dev.log('tiene reusltado true');
+      dev.log(audioPermission.arguments);
     } else {
-      print('tiene reusltado false');
+      dev.log('tiene reusltado false');
 
-      print(audioPermission.arguments);
+      dev.log(audioPermission.arguments);
     }
     return audioPermission.result;
   }
 
-  Future<bool> _requestVideoPermissions(MethodChannelCoordinator methodChannelProvider) async {
-    MethodChannelResponse? videoPermission = await methodChannelProvider.callMethod(MethodCallOption.manageVideoPermissions);
+  Future<bool> _requestVideoPermissions(
+      MethodChannelCoordinator methodChannelProvider) async {
+    MethodChannelResponse? videoPermission = await methodChannelProvider
+        .callMethod(MethodCallOption.manageVideoPermissions);
     if (videoPermission != null) {
       if (videoPermission.result) {
-        print(videoPermission.arguments);
+        dev.log(videoPermission.arguments);
       } else {
-        print(videoPermission.arguments);
+        dev.log(videoPermission.arguments);
       }
       return videoPermission.result;
     }
@@ -149,7 +160,7 @@ class JoinMeetingViewModel extends ChangeNotifier {
   void _createError(String errorMessage) {
     error = true;
     this.errorMessage = errorMessage;
-    print(errorMessage);
+    dev.log(errorMessage);
     _toggleLoadingStatus(startLoading: false);
     notifyListeners();
   }

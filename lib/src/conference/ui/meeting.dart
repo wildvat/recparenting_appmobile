@@ -9,6 +9,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'dart:developer' as dev;
 import 'package:recparenting/src/conference/bloc/join_meeting_view_model.dart';
 import 'package:recparenting/src/conference/bloc/method_channel_coordinator.dart';
 import 'package:recparenting/src/conference/ui/screenshare.dart';
@@ -21,23 +22,23 @@ class MeetingView extends StatefulWidget {
   final MethodChannelCoordinator methodChannelProvider;
   final MeetingViewModel meetingProvider;
   const MeetingView(
-      {Key? key, required this.joinMeetingProvider, required this.methodChannelProvider, required this.meetingProvider})
+      {Key? key,
+      required this.joinMeetingProvider,
+      required this.methodChannelProvider,
+      required this.meetingProvider})
       : super(key: key);
-  
 
   @override
   State<MeetingView> createState() => _MeetingViewState();
 }
 
 class _MeetingViewState extends State<MeetingView> {
-
-
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
     if (!widget.meetingProvider.isMeetingActive) {
-      print('no esta actuvi?');
+      dev.log('no esta actuvi?');
       Navigator.maybePop(context);
     }
 
@@ -389,8 +390,13 @@ class _MeetingViewState extends State<MeetingView> {
     }
 
     if (!meetingProvider.isReceivingScreenShare) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) =>  MeetingView(joinMeetingProvider: widget.joinMeetingProvider, methodChannelProvider:widget.methodChannelProvider, meetingProvider:widget.meetingProvider)));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MeetingView(
+                  joinMeetingProvider: widget.joinMeetingProvider,
+                  methodChannelProvider: widget.methodChannelProvider,
+                  meetingProvider: widget.meetingProvider)));
     }
 
     Navigator.pushReplacement(
@@ -407,7 +413,12 @@ class _MeetingViewState extends State<MeetingView> {
                         onDoubleTap: () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MeetingView(joinMeetingProvider: widget.joinMeetingProvider, methodChannelProvider:widget.methodChannelProvider, meetingProvider:widget.meetingProvider))),
+                                builder: (context) => MeetingView(
+                                    joinMeetingProvider:
+                                        widget.joinMeetingProvider,
+                                    methodChannelProvider:
+                                        widget.methodChannelProvider,
+                                    meetingProvider: widget.meetingProvider))),
                         child: contentTile),
                   ),
                 ),
@@ -628,7 +639,7 @@ class _MeetingViewState extends State<MeetingView> {
           );
         });
     if (device == null) {
-      print("No device chosen.");
+      dev.log("No device chosen.");
       return;
     }
 
@@ -653,7 +664,7 @@ class _MeetingViewState extends State<MeetingView> {
             style: TextStyle(color: Colors.black, fontWeight: weight),
           ),
           onPressed: () {
-            print("${meetingProvider.deviceList[i]} was chosen.");
+            dev.log("${meetingProvider.deviceList[i]} was chosen.");
             Navigator.pop(context, meetingProvider.deviceList[i]);
           },
         ),

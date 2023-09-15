@@ -13,7 +13,7 @@
   "menuLegal": "Legal",
   "menuContact": "Contacta",
   "therapistBioTitle": "Tu terapeuta",
-  "workingHoursTitle": "Horas laborales",
+  "workingHoursTitle": "Horario laboral",
   "logout": "Salir",
   "generalEmail": "Email",
   "generalPassword": "Contraseña",
@@ -25,8 +25,22 @@
   "generalFormLoginError": "Usuario o contraseña incorrectos",
   "generalNoData": "No hay datos disponibles",
   "generalFormErrorEmail": "Por favor introduzca un email",
+  "terapistChangeButton": "Cambio de terapeuta",
   "recoveryPassLinnk": "Recuperar contraseña",
   "webPageTitle": "WEB externa",
+  "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {día}}",
+  "@getDay": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "monday": "lunes",
+  "tuesday": "martes",
+  "wednesday": "miércoles",
+  "thursday": "jueves",
+  "friday": "viernes",
+  "saturday": "sábado",
+  "sunday": "domingo",
   "offerValidAt": "Hasta: {date}",
   "@offerValidAt": {
     "placeholders": {

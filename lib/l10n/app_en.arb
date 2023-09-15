@@ -25,8 +25,22 @@
   "generalFormLoginError": "Incorrect username or password",
   "generalNoData": "There isn't available data",
   "generalFormErrorEmail": "Please enter an email",
+  "terapistChangeButton": "Therapist change",
   "recoveryPassLinnk": "Recovery password",
   "webPageTitle": "External WEB",
+  "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {day}}",
+  "@getDay": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "monday": "monday",
+  "tuesday": "tuesday",
+  "wednesday": "wednesday",
+  "thursday": "thursday",
+  "friday": "friday",
+  "saturday": "saturday",
+  "sunday": "sunday",
   "offerValidAt": "To: {date}",
   "@offerValidAt": {
     "placeholders": {

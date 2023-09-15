@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer' as dev;
 import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
@@ -152,7 +152,7 @@ class _JoinMeetingViewState extends State<JoinMeetingView> {
             bool isMeetingJoined = await joinMeetingProvider.joinMeeting(
                 meetingProvider, methodChannelProvider, meeetingId, attendeeId);
             if (isMeetingJoined) {
-              print('entro y redirigjo');
+              dev.log('entro y redirigjo');
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,

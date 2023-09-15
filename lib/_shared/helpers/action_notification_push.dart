@@ -7,11 +7,11 @@ class ActionNotificationPush {
   BuildContext context;
 
   ActionNotificationPush({required this.message, required this.context}) {
-    //  print(this.message.data);
+    //  dev.log(this.message.data);
   }
 
   redirectFromPush([User? user]) async {
-    //print('redirectFromPush');
+    //dev.log('redirectFromPush');
     /*
     user ??= await CurrentUserApi().getUser(message.data['user']);
 
@@ -22,8 +22,6 @@ class ActionNotificationPush {
         .pushNamed(homeRoute);
     return;
     }*/
-
-
   }
 /*
   execute(NotificationTotalBloc notificationsBloc) async {
@@ -37,7 +35,7 @@ class ActionNotificationPush {
         _snackText = R.string.notificationNewChatMessage(_user.userName);
         if (routeObserverStik.history.isNotEmpty &&
             routeObserverStik.history.last.settings.name == '/chat_user') {
-          //  print(routeObserverStik.history);
+          //  dev.log(routeObserverStik.history);
           ChatArgument arguments =
           routeObserverStik.history.last.settings.arguments as ChatArgument;
           if (arguments.user.id == _user.id) {

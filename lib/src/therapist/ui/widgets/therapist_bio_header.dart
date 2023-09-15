@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
@@ -44,7 +45,37 @@ class TherapistBioHeaderWidget extends StatelessWidget {
               color: Colors.white,
               fontSize: 20,
             ),
-          )
+          ),
+          const SizedBox(height: 15),
+          ElevatedButton.icon(
+            onPressed: () {
+              // todo add ask for change therapist
+              showModalBottomSheet<void>(
+                  backgroundColor: Colors.white,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Container(
+                        padding: const EdgeInsets.all(20),
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            const Text(
+                              'Formulario de cambio de terapeuta',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            ElevatedButton(
+                              child: const Text('Enviar'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        ));
+                  });
+            },
+            icon: const Icon(Icons.sync_problem),
+            label: Text(AppLocalizations.of(context)!.terapistChangeButton),
+          ),
         ],
       ),
     );

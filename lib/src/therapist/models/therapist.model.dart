@@ -43,8 +43,8 @@ class Therapist extends User {
 /*
   @override
   toJson() {
-    print('therapist data');
-    print(data);
+    dev.log('therapist data');
+    dev.log(data);
     return {
       'id': id,
       'name': name,

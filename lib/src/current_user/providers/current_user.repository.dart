@@ -26,7 +26,7 @@ class CurrentUserRepositoryOld {
       /*
       if(user != null && user != '') {
 
-        print(UserWithSettings.fromJsonLocal(jsonDecode(user)));
+        dev.log(UserWithSettings.fromJsonLocal(jsonDecode(user)));
       }
        */
       return (user != null && user != '')
