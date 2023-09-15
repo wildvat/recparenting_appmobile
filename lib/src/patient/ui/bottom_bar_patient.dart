@@ -31,7 +31,7 @@ class _BottomAppBarPatientState extends State<BottomAppBarPatient> {
               size: 30,
             ),
             onPressed: () =>
-                Navigator.popAndPushNamed(context, conferenceRoute),
+                Navigator.pushReplacementNamed(context, conferenceRoute),
           ),
           IconButton(
             icon: const Icon(
@@ -40,7 +40,7 @@ class _BottomAppBarPatientState extends State<BottomAppBarPatient> {
               size: 30,
             ),
             onPressed: () =>
-                Navigator.popAndPushNamed(context, therapistBioPageRoute),
+                Navigator.pushReplacementNamed(context, therapistBioPageRoute),
           ),
           const SizedBox(width: 50),
           IconButton(
@@ -49,7 +49,8 @@ class _BottomAppBarPatientState extends State<BottomAppBarPatient> {
               color: Colors.white,
               size: 30,
             ),
-            onPressed: () => Navigator.popAndPushNamed(context, calendarRoute),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, calendarRoute),
           ),
           IconButton(
             icon: const Icon(

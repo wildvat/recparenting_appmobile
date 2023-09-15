@@ -42,7 +42,7 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
             titleUrl: AppLocalizations.of(context)!.menuProfile),
         AppSubmenuItemWidget(
             onPress: () async {
-              await Navigator.pushNamed(context, webPageRoute,
+              await Navigator.pushReplacementNamed(context, webPageRoute,
                   arguments: WebpageArguments(
                       url: 'https://www.recparenting.com/privacy-policy/'));
               await Future.delayed(const Duration(milliseconds: 10));

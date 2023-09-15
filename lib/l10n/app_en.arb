@@ -25,6 +25,7 @@
   "generalFormLoginError": "Incorrect username or password",
   "generalNoData": "There isn't available data",
   "generalFormErrorEmail": "Please enter an email",
+  "calendarTitle": "Calendar",
   "terapistChangeButton": "Therapist change",
   "recoveryPassLinnk": "Recovery password",
   "webPageTitle": "External WEB",

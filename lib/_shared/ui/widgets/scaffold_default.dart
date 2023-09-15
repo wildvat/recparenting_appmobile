@@ -48,7 +48,8 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
       floatingActionButton: _currentUser is Patient
           ? FloatingActionButton(
               child: const Icon(Icons.message),
-              onPressed: () => Navigator.pushNamed(context, chatPageRoute),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, chatPageRoute),
             )
           : FloatingActionButton(
               child: const Icon(Icons.person_search),

@@ -32,6 +32,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       key: scaffoldKey,
       controller: _eventController,
       child: ScaffoldDefault(
+          title: AppLocalizations.of(context)!.calendarTitle,
           actionButton: Row(
             children: [
               IconButton(
