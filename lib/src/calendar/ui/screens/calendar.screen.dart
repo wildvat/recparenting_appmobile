@@ -57,18 +57,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
               return MonthView(
                   headerStyle: const HeaderCalendarStyle(),
                   cellBuilder: (date, events, isToday, isInMonth) {
-                    final bool actualMonth =
-                        date.getMonthDifference(DateTime.now()) < 2
-                            ? true
-                            : false;
-                    // Provide your custom widget
                     return FilledCell(
                       titleColor:
-                          actualMonth ? Colors.black : Colors.grey.shade500,
+                          isInMonth ? Colors.black : Colors.grey.shade500,
                       date: date,
                       shouldHighlight: isToday,
                       backgroundColor:
-                          actualMonth ? Colors.white : Colors.grey.shade200,
+                          isInMonth ? Colors.white : Colors.grey.shade200,
                       events: const [],
                       highlightColor: colorRec,
                     );

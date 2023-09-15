@@ -1,1 +1,1 @@
-enum DaysWeek { monday, tuesday, wednesday, thursday, friday, sturday, sunday }
+enum DaysWeek { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
