@@ -1,3 +1,4 @@
+
 /*
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * SPDX-License-Identifier: MIT-0
@@ -6,13 +7,15 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/src/conference/models/join_info.model.dart';
 import 'package:recparenting/src/conference/models/response_enums.dart';
-import '../provider/conference.provider.dart';
-import 'meeting_view_model.dart';
+import 'conference.provider.dart';
+import 'meeting_provider.dart';
 import 'dart:io' show InternetAddress, SocketException;
-import 'dart:developer' as dev;
-import 'method_channel_coordinator.dart';
 
-class JoinMeetingViewModel extends ChangeNotifier {
+import 'method_channel_coordinator.dart';
+import 'dart:developer' as developer;
+
+
+class JoinMeetingProvider extends ChangeNotifier {
   final ConferenceApi api = ConferenceApi();
 
   bool loadingStatus = false;
@@ -24,30 +27,22 @@ class JoinMeetingViewModel extends ChangeNotifier {
 
   bool verifyParameters(String meetingId, String attendeeName) {
     if (meetingId.isEmpty || attendeeName.isEmpty) {
-      _createError(Response.empty_parameter);
+      _createError(ResponseConference.empty_parameter);
       return false;
-    } else if (meetingId.length < 2 ||
-        meetingId.length > 64 ||
-        attendeeName.length < 2 ||
-        attendeeName.length > 64) {
-      _createError(Response.invalid_attendee_or_meeting);
+    } else if (meetingId.length < 2 || meetingId.length > 64 || attendeeName.length < 2 || attendeeName.length > 64) {
+      _createError(ResponseConference.invalid_attendee_or_meeting);
       return false;
     }
     return true;
   }
 
-  Future<bool> joinMeeting(
-      MeetingViewModel meetingProvider,
-      MethodChannelCoordinator methodChannelProvider,
-      String meetingId,
+  Future<bool> joinMeeting(MeetingProvider meetingProvider, MethodChannelCoordinator methodChannelProvider, String meetingId,
       String attendeeName) async {
-    dev.log("Joining Meeting...");
+    developer.log("Joining Meeting...");
     _resetError();
 
-    bool audioPermissions =
-        await _requestAudioPermissions(methodChannelProvider);
-    bool videoPermissions =
-        await _requestVideoPermissions(methodChannelProvider);
+    bool audioPermissions = await _requestAudioPermissions(methodChannelProvider);
+    bool videoPermissions = await _requestVideoPermissions(methodChannelProvider);
 
     // Create error messages for incorrect permissions
     if (!_checkPermissions(audioPermissions, videoPermissions)) {
@@ -57,45 +52,45 @@ class JoinMeetingViewModel extends ChangeNotifier {
     // Check if device is connected to the internet
     bool deviceIsConnected = await _isConnectedToInternet();
     if (!deviceIsConnected) {
-      _createError(Response.not_connected_to_internet);
+      _createError(ResponseConference.not_connected_to_internet);
       return false;
     }
 
     // Make call to api and recieve info in ApiResponse format
     final JoinInfo? apiResponse = await api.join(meetingId, attendeeName);
 
-    dev.log("Api response...");
+    developer.log("Api response...");
     // Check if ApiResponse is not null or returns a false response value indicating failed api call
     if (apiResponse == null) {
-      _createError(Response.api_response_null);
+      _createError(ResponseConference.api_response_null);
       return false;
     }
 
-    dev.log("Set meeetingData in meetingProvider...");
+
+    developer.log("Set meeetingData in meetingProvider...");
 
     // Set meeetingData in meetingProvider
-    meetingProvider.intializeMeetingData(apiResponse);
+      meetingProvider.intializeMeetingData(apiResponse);
+
 
     // Convert JoinInfo object to JSON
     if (meetingProvider.meetingData == null) {
-      _createError(Response.null_meeting_data);
+      _createError(ResponseConference.null_meeting_data);
       return false;
     }
-    final Map<String, dynamic> jsonArgsToSend =
-        api.joinInfoToJSON(meetingProvider.meetingData!);
+    final Map<String, dynamic> jsonArgsToSend = api.joinInfoToJSON(meetingProvider.meetingData!);
 
     // Send JSON to iOS
-    MethodChannelResponse? joinResponse = await methodChannelProvider
-        .callMethod(MethodCallOption.join, jsonArgsToSend);
-    dev.log("Send JSON to iOS...");
+    MethodChannelResponse? joinResponse = await methodChannelProvider.callMethod(MethodCallOption.join, jsonArgsToSend);
+    developer.log("Send JSON to iOS...");
 
     if (joinResponse == null) {
-      _createError(Response.null_join_response);
+      _createError(ResponseConference.null_join_response);
       return false;
     }
 
     if (joinResponse.result) {
-      dev.log(joinResponse.arguments);
+      developer.log(joinResponse.arguments);
       _toggleLoadingStatus(startLoading: false);
       meetingProvider.initializeLocalAttendee();
       await meetingProvider.listAudioDevices();
@@ -107,36 +102,26 @@ class JoinMeetingViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> _requestAudioPermissions(
-      MethodChannelCoordinator methodChannelProvider) async {
-    dev.log('pido permiso audio');
-    MethodChannelResponse? audioPermission = await methodChannelProvider
-        .callMethod(MethodCallOption.manageAudioPermissions);
+  Future<bool> _requestAudioPermissions(MethodChannelCoordinator methodChannelProvider) async {
+    MethodChannelResponse? audioPermission = await methodChannelProvider.callMethod(MethodCallOption.manageAudioPermissions);
     if (audioPermission == null) {
-      dev.log('pido permiso  y devulvo null');
-
       return false;
     }
     if (audioPermission.result) {
-      dev.log('tiene reusltado true');
-      dev.log(audioPermission.arguments);
+      developer.log(audioPermission.arguments);
     } else {
-      dev.log('tiene reusltado false');
-
-      dev.log(audioPermission.arguments);
+      developer.log(audioPermission.arguments);
     }
     return audioPermission.result;
   }
 
-  Future<bool> _requestVideoPermissions(
-      MethodChannelCoordinator methodChannelProvider) async {
-    MethodChannelResponse? videoPermission = await methodChannelProvider
-        .callMethod(MethodCallOption.manageVideoPermissions);
+  Future<bool> _requestVideoPermissions(MethodChannelCoordinator methodChannelProvider) async {
+    MethodChannelResponse? videoPermission = await methodChannelProvider.callMethod(MethodCallOption.manageVideoPermissions);
     if (videoPermission != null) {
       if (videoPermission.result) {
-        dev.log(videoPermission.arguments);
+        developer.log(videoPermission.arguments);
       } else {
-        dev.log(videoPermission.arguments);
+        developer.log(videoPermission.arguments);
       }
       return videoPermission.result;
     }
@@ -145,13 +130,13 @@ class JoinMeetingViewModel extends ChangeNotifier {
 
   bool _checkPermissions(bool audioPermissions, bool videoPermissions) {
     if (!audioPermissions && !videoPermissions) {
-      _createError(Response.audio_and_video_permission_denied);
+      _createError(ResponseConference.audio_and_video_permission_denied);
       return false;
     } else if (!audioPermissions) {
-      _createError(Response.audio_not_authorized);
+      _createError(ResponseConference.audio_not_authorized);
       return false;
     } else if (!videoPermissions) {
-      _createError(Response.video_not_authorized);
+      _createError(ResponseConference.video_not_authorized);
       return false;
     }
     return true;
@@ -160,7 +145,7 @@ class JoinMeetingViewModel extends ChangeNotifier {
   void _createError(String errorMessage) {
     error = true;
     this.errorMessage = errorMessage;
-    dev.log(errorMessage);
+    developer.log(errorMessage);
     _toggleLoadingStatus(startLoading: false);
     notifyListeners();
   }
