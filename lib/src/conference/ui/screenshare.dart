@@ -12,7 +12,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../bloc/meeting_view_model.dart';
+import '../provider/meeting_provider.dart';
 
 class ScreenShare extends StatelessWidget {
   final int? paramsVT;
@@ -21,7 +21,7 @@ class ScreenShare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MeetingViewModel meetingProvider = Provider.of<MeetingViewModel>(context);
+    MeetingProvider meetingProvider = Provider.of<MeetingProvider>(context);
 
     Widget contentTile;
     Widget body;

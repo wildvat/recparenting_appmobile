@@ -7,6 +7,7 @@
   },
   "currentLanguage": "en",
   "generalTitle": "Hello",
+  "generalButtonMoreInfo": "More information",
   "menuHome": "Home",
   "menuChat": "Chat",
   "menuProfile": "Profile",
@@ -42,6 +43,8 @@
   "friday": "friday",
   "saturday": "saturday",
   "sunday": "sunday",
+  "premiumTitle": "PREMIUM ACCESS",
+  "premiumText": "This functionality is only visible to users with premium subscriptions",
   "offerValidAt": "To: {date}",
   "@offerValidAt": {
     "placeholders": {

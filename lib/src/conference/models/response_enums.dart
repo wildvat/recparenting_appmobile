@@ -5,7 +5,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-class Response {
+class ResponseConference {
   static const String audio_and_video_permission_denied = "ERROR audio and video permissions not authorized.";
   static const String audio_not_authorized = "ERROR audio permissions not authorized.";
   static const String video_not_authorized = "ERROR video permissions not authorized.";

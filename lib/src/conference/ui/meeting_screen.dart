@@ -9,52 +9,53 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'dart:developer' as dev;
-import 'package:recparenting/src/conference/bloc/join_meeting_view_model.dart';
-import 'package:recparenting/src/conference/bloc/method_channel_coordinator.dart';
+import 'package:provider/provider.dart';
 import 'package:recparenting/src/conference/ui/screenshare.dart';
 
-import '../bloc/meeting_view_model.dart';
-import 'style.dart';
+import '../provider/meeting_provider.dart';
+import 'dart:developer' as developer;
 
-class MeetingView extends StatefulWidget {
-  final JoinMeetingViewModel joinMeetingProvider;
-  final MethodChannelCoordinator methodChannelProvider;
-  final MeetingViewModel meetingProvider;
-  const MeetingView(
-      {Key? key,
-      required this.joinMeetingProvider,
-      required this.methodChannelProvider,
-      required this.meetingProvider})
+class MeetingScreen extends StatefulWidget {
+
+
+  const MeetingScreen(
+      {Key? key})
       : super(key: key);
 
   @override
-  State<MeetingView> createState() => _MeetingViewState();
+  State<MeetingScreen> createState() => _MeetingScreenState();
 }
 
-class _MeetingViewState extends State<MeetingView> {
+class _MeetingScreenState extends State<MeetingScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    final meetingProvider = Provider.of<MeetingProvider>(context);
     final orientation = MediaQuery.of(context).orientation;
 
-    if (!widget.meetingProvider.isMeetingActive) {
-      dev.log('no esta actuvi?');
+    if (!meetingProvider.isMeetingActive) {
+      developer.log('no esta actuvi?');
       Navigator.maybePop(context);
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.meetingProvider.meetingId}"),
+        title: Text("${meetingProvider.meetingId}"),
         automaticallyImplyLeading: false,
       ),
       resizeToAvoidBottomInset: true,
-      body: meetingBody(orientation, widget.meetingProvider, context),
+      body: meetingBody(orientation, meetingProvider, context)
+
     );
   }
 
   //
-  Widget meetingBody(Orientation orientation, MeetingViewModel meetingProvider,
+  Widget meetingBody(Orientation orientation, MeetingProvider meetingProvider,
       BuildContext context) {
+    developer.log('********************** meetingBody **********************');
     if (orientation == Orientation.portrait) {
       return meetingBodyPortrait(meetingProvider, orientation, context);
     } else {
@@ -63,7 +64,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   //
-  Widget meetingBodyPortrait(MeetingViewModel meetingProvider,
+  Widget meetingBodyPortrait(MeetingProvider meetingProvider,
       Orientation orientation, BuildContext context) {
     return Center(
       child: Column(
@@ -71,18 +72,10 @@ class _MeetingViewState extends State<MeetingView> {
           const SizedBox(
             height: 8,
           ),
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: displayVideoTiles(meetingProvider, orientation, context),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 30, bottom: 20),
-            child: Text(
-              "Attendees",
-              style: TextStyle(fontSize: Style.titleSize),
-              textAlign: TextAlign.center,
-            ),
           ),
           Column(
             children: displayAttendees(meetingProvider, context),
@@ -97,7 +90,7 @@ class _MeetingViewState extends State<MeetingView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 50),
             child: SizedBox(
-              height: 50,
+              height: 10,
               width: 300,
               child: leaveMeetingButton(meetingProvider, context),
             ),
@@ -108,7 +101,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   List<Widget> displayAttendees(
-      MeetingViewModel meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider, BuildContext context) {
     List<Widget> attendees = [];
     if (meetingProvider.currAttendees
         .containsKey(meetingProvider.localAttendeeId)) {
@@ -124,22 +117,35 @@ class _MeetingViewState extends State<MeetingView> {
     return attendees;
   }
 
-  Widget localListInfo(MeetingViewModel meetingProvider, BuildContext context) {
+  Widget localListInfo(MeetingProvider meetingProvider, BuildContext context) {
+
+    developer.log('localListInfo');
+
     return ListTile(
-      title: Text(
-        meetingProvider.formatExternalUserId(meetingProvider
-            .currAttendees[meetingProvider.localAttendeeId]?.externalUserId),
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: Style.fontSize,
-        ),
+      title: FutureBuilder<String>(
+          future: meetingProvider.formatExternalUserId(meetingProvider
+              .currAttendees[meetingProvider.localAttendeeId]?.externalUserId), // a previously-obtained Future<String> or null
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            developer.log('localListInfo ${snapshot.data}');
+
+            if (snapshot.hasData) {
+              return Text(
+                  snapshot.data,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ));
+            } else {
+              return const SizedBox.shrink();
+            }
+          }
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
             icon: const Icon(Icons.headphones),
-            iconSize: Style.iconSize,
+            iconSize: 26,
             color: Colors.blue,
             onPressed: () {
               showAudioDeviceDialog(meetingProvider, context);
@@ -147,8 +153,8 @@ class _MeetingViewState extends State<MeetingView> {
           ),
           IconButton(
             icon: Icon(localMuteIcon(meetingProvider)),
-            iconSize: Style.iconSize,
-            padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+            iconSize: 26,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             color: Colors.blue,
             onPressed: () {
               meetingProvider.sendLocalMuteToggle();
@@ -156,8 +162,8 @@ class _MeetingViewState extends State<MeetingView> {
           ),
           IconButton(
             icon: Icon(localVideoIcon(meetingProvider)),
-            iconSize: Style.iconSize,
-            padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+            iconSize: 26,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             constraints: const BoxConstraints(),
             color: Colors.blue,
             onPressed: () {
@@ -169,37 +175,51 @@ class _MeetingViewState extends State<MeetingView> {
     );
   }
 
-  Widget remoteListInfo(MeetingViewModel meetingProvider) {
+  Widget remoteListInfo(MeetingProvider meetingProvider) {
+    developer.log('remoteListInfo');
     return (ListTile(
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Icon(
               remoteMuteIcon(meetingProvider),
-              size: Style.iconSize,
+              size: 26,
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Icon(
               remoteVideoIcon(meetingProvider),
-              size: Style.iconSize,
+              size: 26,
             ),
           ),
         ],
       ),
-      title: Text(
-        meetingProvider.formatExternalUserId(meetingProvider
-            .currAttendees[meetingProvider.remoteAttendeeId]?.externalUserId),
-        style: const TextStyle(fontSize: Style.fontSize),
+      title: FutureBuilder<String>(
+          future: meetingProvider.formatExternalUserId(meetingProvider
+              .currAttendees[meetingProvider.remoteAttendeeId]?.externalUserId), // a previously-obtained Future<String> or null
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            developer.log('remoteListInfo ${snapshot.data}');
+
+            if (snapshot.hasData) {
+              return Text(
+                  snapshot.data,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ));
+            } else {
+              return const SizedBox.shrink();
+            }
+          }
       ),
     ));
   }
 
   //
-  Widget meetingBodyLandscape(MeetingViewModel meetingProvider,
+  Widget meetingBodyLandscape(MeetingProvider meetingProvider,
       Orientation orientation, BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -223,7 +243,7 @@ class _MeetingViewState extends State<MeetingView> {
               ),
               const Text(
                 "Attendees",
-                style: TextStyle(fontSize: Style.titleSize),
+                style: TextStyle(fontSize: 34),
               ),
               Column(
                 children: displayAttendeesLanscape(meetingProvider, context),
@@ -247,7 +267,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   List<Widget> displayAttendeesLanscape(
-      MeetingViewModel meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider, BuildContext context) {
     List<Widget> attendees = [];
     if (meetingProvider.currAttendees
         .containsKey(meetingProvider.localAttendeeId)) {
@@ -264,24 +284,33 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   Widget localListInfoLandscape(
-      MeetingViewModel meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider, BuildContext context) {
     return SizedBox(
       width: 500,
       child: ListTile(
-        title: Text(
-          meetingProvider.formatExternalUserId(meetingProvider
-              .currAttendees[meetingProvider.localAttendeeId]?.externalUserId),
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: Style.fontSize,
-          ),
-        ),
+        title: FutureBuilder<String>(
+      future: meetingProvider.formatExternalUserId(meetingProvider
+          .currAttendees[meetingProvider.localAttendeeId]?.externalUserId), // a previously-obtained Future<String> or null
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Text(
+                snapshot.data,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                ));
+          } else {
+            return const SizedBox.shrink();
+          }
+        }
+    ),
+
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
               icon: const Icon(Icons.headphones),
-              iconSize: Style.iconSize,
+              iconSize: 26,
               color: Colors.blue,
               onPressed: () {
                 showAudioDeviceDialog(meetingProvider, context);
@@ -289,8 +318,8 @@ class _MeetingViewState extends State<MeetingView> {
             ),
             IconButton(
               icon: Icon(localMuteIcon(meetingProvider)),
-              iconSize: Style.iconSize,
-              padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+              iconSize: 26,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               color: Colors.blue,
               onPressed: () {
                 meetingProvider.sendLocalMuteToggle();
@@ -298,8 +327,8 @@ class _MeetingViewState extends State<MeetingView> {
             ),
             IconButton(
               icon: Icon(localVideoIcon(meetingProvider)),
-              iconSize: Style.iconSize,
-              padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+              iconSize: 26,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               constraints: const BoxConstraints(),
               color: Colors.blue,
               onPressed: () {
@@ -312,33 +341,41 @@ class _MeetingViewState extends State<MeetingView> {
     );
   }
 
-  Widget remoteListInfoLandscape(MeetingViewModel meetingProvider) {
+  Widget remoteListInfoLandscape(MeetingProvider meetingProvider) {
     return SizedBox(
       width: 500,
       child: ListTile(
-        title: Text(
-          meetingProvider.formatExternalUserId(meetingProvider
-              .currAttendees[meetingProvider.remoteAttendeeId]?.externalUserId),
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: Style.fontSize,
-          ),
+        title: FutureBuilder<String>(
+          future: meetingProvider.formatExternalUserId(meetingProvider
+              .currAttendees[meetingProvider.remoteAttendeeId]?.externalUserId), // a previously-obtained Future<String> or null
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Text(
+                  snapshot.data,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ));
+            } else {
+              return const SizedBox.shrink();
+            }
+          }
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Icon(
                 remoteMuteIcon(meetingProvider),
-                size: Style.iconSize,
+                size: 26,
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Style.iconPadding),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Icon(
                 remoteVideoIcon(meetingProvider),
-                size: Style.iconSize,
+                size: 26,
               ),
             ),
           ],
@@ -349,9 +386,10 @@ class _MeetingViewState extends State<MeetingView> {
 
   //
   void openFullscreenDialog(
-      BuildContext context, int? params, MeetingViewModel meetingProvider) {
+      BuildContext context, int? params, MeetingProvider meetingProvider) {
     Widget contentTile;
 
+    developer.log('********************** openFullscreenDialog **********************');
     if (Platform.isIOS) {
       contentTile = UiKitView(
         viewType: "videoTile",
@@ -390,13 +428,11 @@ class _MeetingViewState extends State<MeetingView> {
     }
 
     if (!meetingProvider.isReceivingScreenShare) {
+      developer.log('no esta recibiendo screen share TODO no se estan pasando los providers');
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => MeetingView(
-                  joinMeetingProvider: widget.joinMeetingProvider,
-                  methodChannelProvider: widget.methodChannelProvider,
-                  meetingProvider: widget.meetingProvider)));
+              builder: (context) => const MeetingScreen()));
     }
 
     Navigator.pushReplacement(
@@ -413,12 +449,7 @@ class _MeetingViewState extends State<MeetingView> {
                         onDoubleTap: () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MeetingView(
-                                    joinMeetingProvider:
-                                        widget.joinMeetingProvider,
-                                    methodChannelProvider:
-                                        widget.methodChannelProvider,
-                                    meetingProvider: widget.meetingProvider))),
+                                builder: (context) => MeetingScreen())),
                         child: contentTile),
                   ),
                 ),
@@ -431,19 +462,22 @@ class _MeetingViewState extends State<MeetingView> {
     );
   }
 
-  List<Widget> displayVideoTiles(MeetingViewModel meetingProvider,
+  List<Widget> displayVideoTiles(MeetingProvider meetingProvider,
       Orientation orientation, BuildContext context) {
     Widget screenShareWidget = Expanded(
         child: videoTile(meetingProvider, context,
             isLocal: false, isContent: true));
+
     Widget localVideoTile =
         videoTile(meetingProvider, context, isLocal: true, isContent: false);
+
     Widget remoteVideoTile =
         videoTile(meetingProvider, context, isLocal: false, isContent: false);
 
     if (meetingProvider.currAttendees
         .containsKey(meetingProvider.contentAttendeeId)) {
       if (meetingProvider.isReceivingScreenShare) {
+        developer.log('recibiendo screen share');
         return [screenShareWidget];
       }
     }
@@ -468,7 +502,7 @@ class _MeetingViewState extends State<MeetingView> {
             meetingProvider.currAttendees[meetingProvider.remoteAttendeeId]
                     ?.videoTile !=
                 null) {
-          videoTiles.add(Expanded(child: remoteVideoTile));
+          videoTiles.add(Container(child: remoteVideoTile));
         }
       }
     }
@@ -493,7 +527,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   Widget contentVideoTile(
-      int? paramsVT, MeetingViewModel meetingProvider, BuildContext context) {
+      int? paramsVT, MeetingProvider meetingProvider, BuildContext context) {
     Widget videoTile;
     if (Platform.isIOS) {
       videoTile = UiKitView(
@@ -550,15 +584,19 @@ class _MeetingViewState extends State<MeetingView> {
     );
   }
 
-  Widget videoTile(MeetingViewModel meetingProvider, BuildContext context,
+  Widget videoTile(MeetingProvider meetingProvider, BuildContext context,
       {required bool isLocal, required bool isContent}) {
     int? paramsVT;
 
+    developer.log('********************** videoTile **********************');
+    developer.log('isContent $isContent');
+    developer.log('isLocal $isLocal');
     if (isContent) {
       if (meetingProvider.contentAttendeeId != null) {
         if (meetingProvider
                 .currAttendees[meetingProvider.contentAttendeeId]?.videoTile !=
             null) {
+          developer.log('cargo el content video tile    ');
           paramsVT = meetingProvider
               .currAttendees[meetingProvider.contentAttendeeId]
               ?.videoTile
@@ -567,6 +605,9 @@ class _MeetingViewState extends State<MeetingView> {
         }
       }
     } else if (isLocal) {
+      developer.log(meetingProvider.currAttendees.toString());
+      developer.log(meetingProvider.localAttendeeId.toString());
+
       paramsVT = meetingProvider
           .currAttendees[meetingProvider.localAttendeeId]?.videoTile?.tileId;
     } else {
@@ -574,6 +615,7 @@ class _MeetingViewState extends State<MeetingView> {
           .currAttendees[meetingProvider.remoteAttendeeId]?.videoTile?.tileId;
     }
 
+    developer.log('paramsVT $paramsVT');
     Widget videoTile;
     if (Platform.isIOS) {
       videoTile = UiKitView(
@@ -611,10 +653,11 @@ class _MeetingViewState extends State<MeetingView> {
       videoTile = const Text("Unrecognized Platform.");
     }
 
+    developer.log('videoTile $videoTile');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: SizedBox(
-        width: 200,
+        width: MediaQuery.of(context).size.width,
         height: 230,
         child: videoTile,
       ),
@@ -622,7 +665,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   void showAudioDeviceDialog(
-      MeetingViewModel meetingProvider, BuildContext context) async {
+      MeetingProvider meetingProvider, BuildContext context) async {
     String? device = await showDialog(
         context: context,
         builder: (context) {
@@ -631,7 +674,7 @@ class _MeetingViewState extends State<MeetingView> {
             elevation: 40,
             titleTextStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: Style.fontSize,
+                fontSize: 20,
                 fontWeight: FontWeight.bold),
             backgroundColor: Colors.white,
             children:
@@ -639,7 +682,7 @@ class _MeetingViewState extends State<MeetingView> {
           );
         });
     if (device == null) {
-      dev.log("No device chosen.");
+      developer.log("No device chosen.");
       return;
     }
 
@@ -647,7 +690,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   List<Widget> getSimpleDialogOptionsAudioDevices(
-      MeetingViewModel meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider, BuildContext context) {
     List<Widget> dialogOptions = [];
     FontWeight weight;
     for (var i = 0; i < meetingProvider.deviceList.length; i++) {
@@ -664,7 +707,7 @@ class _MeetingViewState extends State<MeetingView> {
             style: TextStyle(color: Colors.black, fontWeight: weight),
           ),
           onPressed: () {
-            dev.log("${meetingProvider.deviceList[i]} was chosen.");
+            developer.log("${meetingProvider.deviceList[i]} was chosen.");
             Navigator.pop(context, meetingProvider.deviceList[i]);
           },
         ),
@@ -674,7 +717,7 @@ class _MeetingViewState extends State<MeetingView> {
   }
 
   Widget leaveMeetingButton(
-      MeetingViewModel meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider, BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(primary: Colors.red),
       onPressed: () {
@@ -685,7 +728,12 @@ class _MeetingViewState extends State<MeetingView> {
     );
   }
 
-  IconData localMuteIcon(MeetingViewModel meetingProvider) {
+  IconData localMuteIcon(MeetingProvider meetingProvider) {
+    developer.log('********************************************');
+    developer.log('el estado del mute es');
+    developer.log(meetingProvider.currAttendees[meetingProvider.localAttendeeId]!.muteStatus.toString());
+    developer.log('********************************************');
+
     if (!meetingProvider
         .currAttendees[meetingProvider.localAttendeeId]!.muteStatus) {
       return Icons.mic;
@@ -694,7 +742,7 @@ class _MeetingViewState extends State<MeetingView> {
     }
   }
 
-  IconData remoteMuteIcon(MeetingViewModel meetingProvider) {
+  IconData remoteMuteIcon(MeetingProvider meetingProvider) {
     if (!meetingProvider
         .currAttendees[meetingProvider.remoteAttendeeId]!.muteStatus) {
       return Icons.mic;
@@ -703,7 +751,7 @@ class _MeetingViewState extends State<MeetingView> {
     }
   }
 
-  IconData localVideoIcon(MeetingViewModel meetingProvider) {
+  IconData localVideoIcon(MeetingProvider meetingProvider) {
     if (meetingProvider
         .currAttendees[meetingProvider.localAttendeeId]!.isVideoOn) {
       return Icons.videocam;
@@ -712,7 +760,7 @@ class _MeetingViewState extends State<MeetingView> {
     }
   }
 
-  IconData remoteVideoIcon(MeetingViewModel meetingProvider) {
+  IconData remoteVideoIcon(MeetingProvider meetingProvider) {
     if (meetingProvider
         .currAttendees[meetingProvider.remoteAttendeeId]!.isVideoOn) {
       return Icons.videocam;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
+import 'package:recparenting/_shared/ui/premium.screen.dart';
 import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
@@ -28,6 +29,7 @@ class RouterRec {
       return const TherapistBioScreen();
     },
     calendarRoute: (_) => const CalendarScreen(),
+    premiumRoute: (_) => const PremiumScreen(),
 
     /*
     newsListRoute: (_) => const NewsListScreen(),

@@ -55,7 +55,9 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
               child: const Icon(Icons.person_search),
               onPressed: () {},
             ),
-      bottomNavigationBar: const BottomAppBarPatient(),
+      bottomNavigationBar: _currentUser is Patient
+          ? BottomAppBarPatient(patient: _currentUser as Patient)
+          : const SizedBox.shrink(),
       body: SafeArea(child: widget.body),
       //floatingActionButton: widget.floatingActionButton
     );
