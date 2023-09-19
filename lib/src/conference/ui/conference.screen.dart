@@ -8,7 +8,6 @@ import '../provider/join_meeting_provider.dart';
 import '../provider/meeting_provider.dart';
 import '../provider/method_channel_coordinator.dart';
 import 'join_meeting_screen.dart';
-import 'dart:developer' as developer;
 
 
 class ConferenceScreen extends StatefulWidget {

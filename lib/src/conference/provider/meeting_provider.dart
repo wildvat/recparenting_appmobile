@@ -66,7 +66,7 @@ class MeetingProvider extends ChangeNotifier
     if (meetingData == null) {
       developer.log('**************************************************');
       developer.log('nicializo local attendee');
-      developer.log(ResponseConference.null_meeting_data);
+      developer.log(ResponseConference.nullMeetingData);
       developer.log('**************************************************');
 
       return;
@@ -75,7 +75,7 @@ class MeetingProvider extends ChangeNotifier
 
     if (localAttendeeId == null) {
       developer.log('**************************************************');
-      developer.log(ResponseConference.null_local_attendee);
+      developer.log(ResponseConference.nullLocalAttendee);
       developer.log('local attendee es null');
       developer.log('**************************************************');
 
@@ -97,25 +97,12 @@ class MeetingProvider extends ChangeNotifier
   void attendeeDidJoin(Attendee attendee) {
     developer.log('***********************ATTENDEE JOINED**********************************');
     String? attendeeIdToAdd = attendee.attendeeId;
-    if (_isAttendeeContent(attendeeIdToAdd)) {
-      developer.log('**************************************************');
-      developer.log("Content detected");
-      contentAttendeeId = attendeeIdToAdd;
-      if (contentAttendeeId != null) {
-        currAttendees[contentAttendeeId!] = attendee;
-        developer.log("Content added to the meeting");
-      }
-      developer.log('**************************************************');
-      notifyListeners();
-      return;
-    }
-
     if (attendeeIdToAdd != localAttendeeId) {
       remoteAttendeeId = attendeeIdToAdd;
       if (remoteAttendeeId == null) {
         developer.log('**************************************************');
         developer.log('********REMOVE ATENNDEE NULL**************************');
-        developer.log(ResponseConference.null_remote_attendee);
+        developer.log(ResponseConference.nullRemoteAttendee);
         return;
       }
       currAttendees[remoteAttendeeId!] = attendee;
@@ -193,7 +180,7 @@ class MeetingProvider extends ChangeNotifier
 
     MethodChannelResponse? device = await methodChannelProvider?.callMethod(MethodCallOption.initialAudioSelection);
     if (device == null) {
-      developer.log(ResponseConference.null_initial_audio_device);
+      developer.log(ResponseConference.nullInitialAudioDevice);
       return;
     }
     developer.log("Initial audio device selection: ${device.arguments}");
@@ -208,7 +195,7 @@ class MeetingProvider extends ChangeNotifier
     MethodChannelResponse? devices = await methodChannelProvider?.callMethod(MethodCallOption.listAudioDevices);
 
     if (devices == null) {
-      developer.log(ResponseConference.null_audio_device_list);
+      developer.log(ResponseConference.nullAudioDeviceList);
       return;
     }
     final deviceIterable = devices.arguments.map((device) => device.toString());
@@ -228,7 +215,7 @@ class MeetingProvider extends ChangeNotifier
         await methodChannelProvider?.callMethod(MethodCallOption.updateAudioDevice, device);
 
     if (updateDeviceResponse == null) {
-      developer.log(ResponseConference.null_audio_device_update);
+      developer.log(ResponseConference.nullAudioDeviceUpdate);
       return;
     }
 
@@ -275,7 +262,7 @@ class MeetingProvider extends ChangeNotifier
     if (currAttendees[localAttendeeId]!.muteStatus) {
       MethodChannelResponse? unmuteResponse = await methodChannelProvider?.callMethod(MethodCallOption.unmute);
       if (unmuteResponse == null) {
-        developer.log(ResponseConference.unmute_response_null);
+        developer.log(ResponseConference.unmuteResponseNull);
         return;
       }
 
@@ -288,7 +275,7 @@ class MeetingProvider extends ChangeNotifier
     } else {
       MethodChannelResponse? muteResponse = await methodChannelProvider?.callMethod(MethodCallOption.mute);
       if (muteResponse == null) {
-        developer.log(ResponseConference.mute_response_null);
+        developer.log(ResponseConference.muteResponseNull);
         return;
       }
 
@@ -312,7 +299,7 @@ class MeetingProvider extends ChangeNotifier
     if (currAttendees[localAttendeeId]!.isVideoOn) {
       MethodChannelResponse? videoStopped = await methodChannelProvider?.callMethod(MethodCallOption.localVideoOff);
       if (videoStopped == null) {
-        developer.log(ResponseConference.video_stopped_response_null);
+        developer.log(ResponseConference.videoStoppedResponseNull);
         return;
       }
 
@@ -324,7 +311,7 @@ class MeetingProvider extends ChangeNotifier
     } else {
       MethodChannelResponse? videoStart = await methodChannelProvider?.callMethod(MethodCallOption.localVideoOn);
       if (videoStart == null) {
-        developer.log(ResponseConference.video_start_response_null);
+        developer.log(ResponseConference.videoStartResponseNull);
         return;
       }
 
@@ -340,7 +327,7 @@ class MeetingProvider extends ChangeNotifier
     developer.log('***********************STOP MEETING**********************************');
     MethodChannelResponse? stopResponse = await methodChannelProvider?.callMethod(MethodCallOption.stop);
     if (stopResponse == null) {
-      developer.log(ResponseConference.stop_response_null);
+      developer.log(ResponseConference.stopResponseNull);
       return;
     }
     ConferenceApi().deleteMeeting(meetingId!);
@@ -375,34 +362,15 @@ class MeetingProvider extends ChangeNotifier
           return (_currentUserBloc.state as CurrentUserLoaded).user.name ;
       }
     }
-    /*
-    List<String>? externalUserIdArray = externalUserId?.split("#");
-    if (externalUserIdArray == null) {
-      return "UNKNOWN";
-    }*/
-    //TODO un get user a la api para asaber el nombre de la persona
+
     final User? extUser;
-
     extUser = await UserApi().getUserById(externalUserId!);
-
     if(extUser != null){
       if(extUser.isTherapist()){
         return extUser.name;
       }
-      return extUser.nickname??"--";
     }
 
     return 'UNKNOWN';
-
-
-    /*
-    String extUserId = externalUserIdArray.length == 2 ? externalUserIdArray[1] : "UNKNOWNA";
-    return extUserId;*/
-  }
-
-  bool _isAttendeeContent(String? attendeeId) {
-    developer.log('***********************IS ATTENDEE CONTENT**********************************');
-    List<String>? attendeeIdArray = attendeeId?.split("#");
-    return attendeeIdArray?.length == 2;
   }
 }

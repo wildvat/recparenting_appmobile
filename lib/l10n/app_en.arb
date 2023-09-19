@@ -52,5 +52,12 @@
               "type": "String"
       }
     }
-  }
+  },
+  "conferenceTitle": "Conference",
+  "conferenceJoin": "Join the conference",
+  "conferenceWaitingTherapist":"Waiting for the therapist",
+  "permissionAudioVideoDenied": "You have denied access to the camera and microphone. Please allow access to the camera and microphone to continue.",
+  "permissionAudioNotAuthorized": "You have denied access to the microphone. Please allow access to the microphone to continue.",
+  "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
+  "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again."
 }
