@@ -8,6 +8,7 @@ import 'package:recparenting/src/auth/ui/login.screen.dart';
 import 'package:recparenting/src/calendar/ui/screens/calendar.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
+import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 import 'package:recparenting/src/therapist/ui/screens/therapist_bio.screen.dart';
@@ -18,6 +19,8 @@ class RouterRec {
     splashRoute: (_) => const SplashScreen(),
     loginRoute: (_) => const LoginScreen(),
     conferenceRoute: (_) => const ConferenceScreen(),
+    patientsRoute: (_) => const PatientsScreen(),
+
     webPageRoute: (context) {
       final WebpageArguments argument =
           ModalRoute.of(context)!.settings.arguments as WebpageArguments;

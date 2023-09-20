@@ -18,7 +18,7 @@ import '../provider/conference.provider.dart';
 import '../provider/join_meeting_provider.dart';
 import '../provider/meeting_provider.dart';
 import '../provider/method_channel_coordinator.dart';
-import 'meeting_screen.dart';
+import 'meeting.screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JoinMeetingScreen extends StatefulWidget {
