@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recparenting/_shared/helpers/avatar_image.dart';
 
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/select_language.widget.dart';
@@ -43,12 +43,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             width: 70,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
-              child: _currentUser.avatar.contains('/avatar/user')
-                  ? SvgPicture.network(
-                      _currentUser.avatar,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(_currentUser.avatar, fit: BoxFit.cover),
+              child:AvatarImage(user: _currentUser),
             ),
           ),
           const SizedBox(height: 20),
@@ -56,10 +51,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             '${_currentUser.name} ${_currentUser.lastname}',
             style: const TextStyle(color: Colors.white),
           ),
-          Text(
+          (_currentUser.email != null)
+              ? Text(
             _currentUser.email!,
             style: const TextStyle(color: Colors.white),
-          ),
+          ): const SizedBox(),
           Text(
             _currentUser.nickname!,
             style: const TextStyle(color: Colors.white, fontSize: 20),

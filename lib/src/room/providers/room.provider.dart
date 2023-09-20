@@ -26,6 +26,8 @@ class RoomApi {
     try {
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
+        print('**************************************');
+        print('RESPONSE ${response.statusCode}');
         return Rooms.fromJson(response.data);
       } else {
         return null;

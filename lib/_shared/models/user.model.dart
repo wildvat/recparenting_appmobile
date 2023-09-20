@@ -3,7 +3,7 @@ import 'package:recparenting/_shared/models/user-config.model.dart';
 class User {
   late final String id;
   late final String name;
-  late final String lastname;
+  late final String? lastname;
   late final String? nickname;
   late final String? email;
   late final String status;
@@ -105,12 +105,16 @@ class User {
       permission = json['permission'];
     }
     String avatar = json['image'];
-    //avatar = json['logo'] != null ? json['logo']['url'] : null;
     UserConfig config = UserConfig.fromJson(json['config']);
-
+    String name = '';
+    if (json['type'] == 'patient') {
+      name = json['nickname'];
+    } else {
+      name = json['name'];
+    }
     return User(
         json['uuid'],
-        json['name'],
+        name,
         json['last_name'],
         json['nickname'],
         json['email'],

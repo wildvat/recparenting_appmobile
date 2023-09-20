@@ -2,7 +2,7 @@ import 'package:recparenting/src/room/models/room.model.dart';
 
 class Rooms {
   late final int total;
-  late final List<Room?> rooms;
+  late final List<Room> rooms;
 
   Rooms({required this.total, required this.rooms});
 
