@@ -11,7 +11,7 @@ class Patient extends User {
   Patient(
       String id,
       String name,
-      String lastname,
+      String? lastname,
       String? nickname,
       String? email,
       String status,

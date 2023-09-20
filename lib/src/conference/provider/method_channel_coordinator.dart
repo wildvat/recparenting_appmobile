@@ -54,7 +54,7 @@ class MethodChannelCoordinator extends ChangeNotifier {
       dynamic response = await methodChannel.invokeMethod(methodName, args);
       developer.log('**************************************************');
       developer.log('response callMethod $methodName');
-      developer.log(response);
+      print(response);
       developer.log('**************************************************');
 
       return MethodChannelResponse.fromJson(response);

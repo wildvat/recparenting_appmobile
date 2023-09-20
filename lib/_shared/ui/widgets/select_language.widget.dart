@@ -21,7 +21,7 @@ class SelectLanguageWidget extends StatelessWidget {
             child: Text(
               'EN',
               style: TextStyle(
-                  color: (context.read<LanguageBloc>().state.language == 'es')
+                  color: (context.read<LanguageBloc>().state.language == 'en')
                       ? Colors.white
                       : Colors.white54),
             )),
@@ -33,7 +33,7 @@ class SelectLanguageWidget extends StatelessWidget {
                 : null,
             child: Text('ES',
                 style: TextStyle(
-                  color: (context.read<LanguageBloc>().state.language == 'en')
+                  color: (context.read<LanguageBloc>().state.language == 'es')
                       ? Colors.white
                       : Colors.white54,
                 )))
