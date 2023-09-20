@@ -8,9 +8,12 @@ class EventsApiModel {
   EventsApiModel({required this.workingHours, required this.events});
 
   EventsApiModel.fromJson(Map<String, dynamic> json, User currentUser) {
-    workingHours = WorkingHours.fromJson(json['working_hours']);
-    events = EventsModel.fromJson(json['events'], currentUser);
-  }
+    if(json['working_hours'] != null) {
+      workingHours = WorkingHours.fromJson(json['working_hours']);
+      }
+      events = EventsModel.fromJson(json['events'], currentUser);
+    }
+
 
   factory EventsApiModel.mock(User currentUser) {
     return EventsApiModel(
