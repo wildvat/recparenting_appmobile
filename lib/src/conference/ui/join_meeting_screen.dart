@@ -168,9 +168,9 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                   if (!joinMeetingProvider.joinButtonClicked) {
                     // Prevent multiple clicks
                     joinMeetingProvider.joinButtonClicked = true;
-                    String meeetingId = widget.conferenceId;
+                    String meetingId = widget.conferenceId;
 
-                    if (joinMeetingProvider.verifyParameters(meeetingId)) {
+                    if (joinMeetingProvider.verifyParameters(meetingId)) {
                       // Observers should be initialized before MethodCallHandler
                       methodChannelProvider.initializeObservers(
                           meetingProvider);
@@ -179,7 +179,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                       // Call api, format to JSON and send to native
                       bool isMeetingJoined =
                       await joinMeetingProvider.joinMeeting(
-                          meetingProvider, methodChannelProvider, meeetingId,
+                          meetingProvider, methodChannelProvider, meetingId,
                           currentUser.id);
                       if (isMeetingJoined) {
                         // ignore: use_build_context_synchronously
