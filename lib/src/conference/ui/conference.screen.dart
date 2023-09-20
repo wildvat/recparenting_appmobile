@@ -4,17 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/models/rooms.model.dart';
+import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 import '../../../_shared/ui/widgets/scaffold_default.dart';
 import '../../room/providers/room.provider.dart';
-import '../provider/join_meeting_provider.dart';
-import '../provider/meeting_provider.dart';
-import '../provider/method_channel_coordinator.dart';
-import 'join_meeting.screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConferenceScreen extends StatefulWidget {
@@ -27,6 +25,7 @@ class ConferenceScreen extends StatefulWidget {
 class _ConferenceScreenState extends State<ConferenceScreen> {
   late CurrentUserBloc _currentUserBloc;
   late User currentUser;
+  late Future<Rooms?> rooms;
 
   @override
   void initState() {
@@ -34,6 +33,10 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
     _currentUserBloc = context.read<CurrentUserBloc>();
     if (_currentUserBloc.state is CurrentUserLoaded) {
       currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
+      if(currentUser is Therapist){
+        RoomApi roomApi = RoomApi();
+        rooms =roomApi.getAll(1, 9999);
+      }
     }
   }
 
@@ -41,24 +44,15 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
   Widget build(BuildContext context) {
     if (currentUser is Patient) {
       Patient patient = currentUser as Patient;
-      return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => MethodChannelCoordinator()),
-          ChangeNotifierProvider(create: (_) => JoinMeetingProvider()),
-          ChangeNotifierProvider(create: (context) => MeetingProvider(context)),
-        ],
-        child: JoinMeetingScreen(
-          conferenceId: patient.conference,
-        ),
-      );
+      Navigator.pushNamed(context, joinConferencePageRoute,
+          arguments: patient.conference);
+
     }
-    RoomApi roomApi = RoomApi();
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.conferenceTitle,
         body: FutureBuilder<Rooms?>(
-            future: roomApi.getAll(1, 9999),
-            builder:
-                (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
+            future: rooms,
+            builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                     child: SizedBox(
@@ -91,41 +85,28 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
     late Patient? participant;
     for (var element in room.participants) {
       if (element.id != currentUser.id) {
-        if(element.isPatient()){
+        if (element.isPatient()) {
           participant = element as Patient;
         }
       }
     }
-    if(participant == null) {
+    if (participant == null) {
       return Container();
     }
     return ListTile(
       leading: CircleAvatar(
         radius: 30,
         backgroundColor: Colors.transparent,
-        child: AvatarImage(user:participant),
+        child: AvatarImage(user: participant),
       ),
       title: Text(participant.name),
-      subtitle: (room.lastMessage != null)? Text(DateFormat.yMMMEd().format(room.lastMessage!.createdAt)): const SizedBox(),
+      subtitle: (room.lastMessage != null)
+          ? Text(DateFormat.yMMMEd().format(room.lastMessage!.createdAt))
+          : const SizedBox(),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MultiProvider(
-                      providers: [
-                        ChangeNotifierProvider(
-                            create: (_) => MethodChannelCoordinator()),
-                        ChangeNotifierProvider(
-                            create: (_) => JoinMeetingProvider()),
-                        ChangeNotifierProvider(
-                            create: (context) => MeetingProvider(context)),
-                      ],
-                      child: JoinMeetingScreen(
-                        conferenceId: participant!.conference,
-                      ),
-                    )));
+        Navigator.pushNamed(context, joinConferencePageRoute,
+            arguments: participant!.conference);
       },
     );
   }
-
 }

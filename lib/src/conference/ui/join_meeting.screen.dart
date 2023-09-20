@@ -34,6 +34,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
   late final CurrentUserBloc _currentUserBloc;
   late User currentUser;
+  late Future<Meeting?> meeting;
 
   @override
   void initState() {
@@ -43,6 +44,8 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
       currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
       if(currentUser is Therapist){
+        final ConferenceApi api = ConferenceApi();
+        meeting = api.get(widget.conferenceId);
         currentUser = (currentUser as Therapist);
       }
       if(currentUser is Patient){
@@ -117,7 +120,6 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
     if(joinMeetingProvider.loadingStatus){
       //return const SizedBox();
     }
-    final ConferenceApi api = ConferenceApi();
     if(currentUser.isTherapist()){
 
       return ElevatedButton(
@@ -155,9 +157,8 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
       );
     }
     return FutureBuilder<Meeting?>(
-        future: api.get(widget.conferenceId),
+        future: meeting,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-
           if(snapshot.connectionState == ConnectionState.waiting){
             return  const SizedBox();
           }else {

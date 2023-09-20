@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
-
-import '../../../conference/provider/join_meeting_provider.dart';
-import '../../../conference/provider/meeting_provider.dart';
-import '../../../conference/provider/method_channel_coordinator.dart';
-import '../../../conference/ui/join_meeting.screen.dart';
+import '../../../../constants/router_names.dart';
 
 class PatientShowScreen extends StatefulWidget {
   final Patient patient;
@@ -56,27 +51,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      MultiProvider(
-                                        providers: [
-                                          ChangeNotifierProvider(
-                                              create: (_) =>
-                                                  MethodChannelCoordinator()),
-                                          ChangeNotifierProvider(
-                                              create: (_) =>
-                                                  JoinMeetingProvider()),
-                                          ChangeNotifierProvider(
-                                              create: (context) =>
-                                                  MeetingProvider(context)),
-                                        ],
-                                        child: JoinMeetingScreen(
-                                          conferenceId: widget.patient
-                                              .conference,
-                                        ),
-                                      )));
+                          Navigator.pushNamed(context, joinConferencePageRoute, arguments: widget.patient.conference);
                         },
                         icon: const Icon(Icons.video_camera_front_outlined),
 
