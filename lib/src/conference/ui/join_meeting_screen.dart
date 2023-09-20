@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/conference/models/meeting.model.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -93,8 +94,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 //
   Widget joinMeetingBodyLandscape(JoinMeetingProvider joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
       MeetingProvider meetingProvider, BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +108,6 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
             ],
           ),
         ),
-      ),
     );
   }
 
@@ -116,8 +115,10 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
   Widget joinButton(JoinMeetingProvider joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
       MeetingProvider meetingProvider, BuildContext context) {
 
+    if(joinMeetingProvider.loadingStatus){
+      //return const SizedBox();
+    }
     final ConferenceApi api = ConferenceApi();
-
     if(currentUser.isTherapist()){
 
       return ElevatedButton(
@@ -157,50 +158,69 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
     return FutureBuilder<Meeting?>(
         future: api.get(widget.conferenceId),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.hasData){
-            return ElevatedButton(
-              child: Text(AppLocalizations.of(context)!.conferenceJoin),
-              onPressed: () async {
-                if (!joinMeetingProvider.joinButtonClicked) {
-                  // Prevent multiple clicks
-                  joinMeetingProvider.joinButtonClicked = true;
-                  String meeetingId = widget.conferenceId;
 
-                  if (joinMeetingProvider.verifyParameters(meeetingId)) {
-                    // Observers should be initialized before MethodCallHandler
-                    methodChannelProvider.initializeObservers(meetingProvider);
-                    methodChannelProvider.initializeMethodCallHandler();
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return  const SizedBox();
+          }else {
+            if (snapshot.hasData) {
+              return ElevatedButton(
+                child: Text(AppLocalizations.of(context)!.conferenceJoin),
+                onPressed: () async {
+                  if (!joinMeetingProvider.joinButtonClicked) {
+                    // Prevent multiple clicks
+                    joinMeetingProvider.joinButtonClicked = true;
+                    String meeetingId = widget.conferenceId;
 
-                    // Call api, format to JSON and send to native
-                    bool isMeetingJoined =
-                    await joinMeetingProvider.joinMeeting(meetingProvider, methodChannelProvider, meeetingId, currentUser.id);
-                    if (isMeetingJoined) {
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>ChangeNotifierProvider.value(
-                                value: meetingProvider,
-                                child: const MeetingScreen()
-                            )
-                        ),
-                      );
+                    if (joinMeetingProvider.verifyParameters(meeetingId)) {
+                      // Observers should be initialized before MethodCallHandler
+                      methodChannelProvider.initializeObservers(
+                          meetingProvider);
+                      methodChannelProvider.initializeMethodCallHandler();
+
+                      // Call api, format to JSON and send to native
+                      bool isMeetingJoined =
+                      await joinMeetingProvider.joinMeeting(
+                          meetingProvider, methodChannelProvider, meeetingId,
+                          currentUser.id);
+                      if (isMeetingJoined) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ChangeNotifierProvider.value(
+                                      value: meetingProvider,
+                                      child: const MeetingScreen()
+                                  )
+                          ),
+                        );
+                      }
                     }
+                    joinMeetingProvider.joinButtonClicked = false;
                   }
-                  joinMeetingProvider.joinButtonClicked = false;
-                }
-              },
+                },
+              );
+            }
+
+            return Column(
+              children: [
+                Text(AppLocalizations.of(context)!.conferenceWaitingTherapist),
+                const Text(
+                    "Podemos añadir algun texto para decirle que espere a que el terapeuta inicie la conferencia"),
+                const Text(
+                    "Ya que el solo puede entrar si la ha inciado el terapeuta"),
+                const Text("recordar que hay que traducrilo a ingles tambien",
+                  style: TextStyle(color: Colors.red, fontSize: 25),)
+              ],
             );
           }
-          return Text(AppLocalizations.of(context)!.conferenceWaitingTherapist);
-
         }
     );
   }
 
   Widget loadingIcon(JoinMeetingProvider joinMeetingProvider) {
     if (joinMeetingProvider.loadingStatus) {
-      return const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: CircularProgressIndicator());
+      return const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: CircularProgressIndicator( color: colorRec));
     } else {
       return const SizedBox.shrink();
     }

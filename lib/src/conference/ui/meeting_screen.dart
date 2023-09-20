@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/conference/ui/screenshare.dart';
 
 import '../provider/meeting_provider.dart';
@@ -153,7 +154,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
       videoTile = const Text("Unrecognized Platform.");
     }
 
-    return videoTile;
+    return  videoTile;
   }
 
   Widget showLocalVideoTile(
@@ -248,51 +249,68 @@ class _MeetingScreenState extends State<MeetingScreen> {
   Widget localListInfo(MeetingProvider meetingProvider, BuildContext context) {
     developer.log('localListInfo');
 
-    return Row(
+    return Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
-          icon: const Icon(Icons.headphones),
-          iconSize: 50,
-          color: Colors.blue,
+        ElevatedButton(
           onPressed: () {
             showAudioDeviceDialog(meetingProvider, context);
           },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(20),
+            backgroundColor: colorRec, // <-- Button color
+            foregroundColor: colorRecLight, // <-- Splash color
+          ),
+          child: const Icon(Icons.headphones, color: Colors.white),
         ),
-        IconButton(
-          icon: Icon(localMuteIcon(meetingProvider)),
-          iconSize: 50,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          color: Colors.blue,
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+        ElevatedButton(
           onPressed: () {
             meetingProvider.sendLocalMuteToggle();
           },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(20),
+            backgroundColor: colorRec, // <-- Button color
+            foregroundColor: colorRecLight, // <-- Splash color
+          ),
+          child: Icon(localMuteIcon(meetingProvider), color: Colors.white),
         ),
-        IconButton(
-          icon: Icon(localVideoIcon(meetingProvider)),
-          iconSize: 50,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          constraints: const BoxConstraints(),
-          color: Colors.blue,
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+
+        ElevatedButton(
           onPressed: () {
             meetingProvider.sendLocalVideoTileOn();
           },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(20),
+            backgroundColor: colorRec, // <-- Button color
+            foregroundColor: colorRecLight, // <-- Splash color
+          ),
+          child: Icon(localVideoIcon(meetingProvider), color: Colors.white),
         ),
-        IconButton(
-            icon: const Icon(Icons.power_settings_new_outlined),
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            constraints: const BoxConstraints(),
-            iconSize: 50,
-            color: Colors.red,
-            onPressed: () {
-              meetingProvider.stopMeeting();
-              leaveMeetingButton(meetingProvider, context);
-              Navigator.pop(context);
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
 
-            },
+        ElevatedButton(
+          onPressed: () {
+            meetingProvider.stopMeeting();
+            leaveMeetingButton(meetingProvider, context);
+            Navigator.pop(context);
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(20),
+            backgroundColor: Colors.red, // <-- Button color
+            foregroundColor: Colors.red, // <-- Splash color
+          ),
+          child: const Icon(Icons.power_settings_new_outlined, color: Colors.white),
         ),
+
+
       ],
-    );
+    ));
   }
 
   List<Widget> displayVideoTiles(MeetingProvider meetingProvider,
