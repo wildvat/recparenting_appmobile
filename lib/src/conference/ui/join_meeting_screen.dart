@@ -13,6 +13,7 @@ import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 import '../../../_shared/models/user.model.dart';
+import '../../../_shared/ui/widgets/scaffold_default.dart';
 import '../provider/conference.provider.dart';
 import '../provider/join_meeting_provider.dart';
 import '../provider/meeting_provider.dart';
@@ -74,10 +75,8 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 //
   Widget joinMeetingBodyPortrait(JoinMeetingProvider joinMeetingProvider, MethodChannelCoordinator methodChannelProvider,
       MeetingProvider meetingProvider, BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        title:  Text(AppLocalizations.of(context)!.conferenceTitle),
-      ),
+    return  ScaffoldDefault(
+        title:  AppLocalizations.of(context)!.conferenceTitle,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

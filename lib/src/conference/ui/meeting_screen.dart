@@ -25,22 +25,23 @@ class MeetingScreen extends StatefulWidget {
 
 class _MeetingScreenState extends State<MeetingScreen> {
 
-  late MeetingProvider meetingProvider;
   @override
   void initState() {
     super.initState();
-    meetingProvider = Provider.of<MeetingProvider>(context);
 
   }
 
   @override
   void dispose() {
-    super.dispose();
-    meetingProvider.stopMeeting();
+    super.dispose();/*
+  final    meetingProvider = Provider.of<MeetingProvider>(context);
+    meetingProvider.stopMeeting();*/
     developer.log('dispose');
   }
   @override
   Widget build(BuildContext context) {
+
+    final meetingProvider = Provider.of<MeetingProvider>(context);
     final orientation = MediaQuery.of(context).orientation;
 
     if (!meetingProvider.isMeetingActive) {
@@ -49,11 +50,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("${meetingProvider.meetingId}"),
-          automaticallyImplyLeading: false,
-        ),
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: meetingBody(orientation, meetingProvider, context));
   }
 
@@ -253,10 +250,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
   Widget localListInfo(MeetingProvider meetingProvider, BuildContext context) {
     developer.log('localListInfo');
 
+
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 1),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             ElevatedButton(
               onPressed: () {

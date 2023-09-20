@@ -9,6 +9,7 @@ import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/models/rooms.model.dart';
 
+import '../../../_shared/ui/widgets/scaffold_default.dart';
 import '../../room/providers/room.provider.dart';
 import '../provider/join_meeting_provider.dart';
 import '../provider/meeting_provider.dart';
@@ -52,10 +53,8 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
       );
     }
     RoomApi roomApi = RoomApi();
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.conferenceTitle),
-        ),
+    return ScaffoldDefault(
+        title: AppLocalizations.of(context)!.conferenceTitle,
         body: FutureBuilder<Rooms?>(
             future: roomApi.getAll(1, 9999),
             builder:
