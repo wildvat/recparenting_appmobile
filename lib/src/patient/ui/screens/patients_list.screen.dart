@@ -25,6 +25,9 @@ class PatientsScreen extends StatefulWidget {
 class _PatientsScreenState extends State<PatientsScreen> {
   late CurrentUserBloc _currentUserBloc;
   late User currentUser;
+  late Future<Rooms?> rooms;
+
+
 
   @override
   void initState() {
@@ -33,15 +36,16 @@ class _PatientsScreenState extends State<PatientsScreen> {
     if (_currentUserBloc.state is CurrentUserLoaded) {
       currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
     }
+    RoomApi roomApi = RoomApi();
+    rooms =roomApi.getAll(1, 9999);
   }
 
   @override
   Widget build(BuildContext context) {
-    RoomApi roomApi = RoomApi();
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.menuPatients,
         body: FutureBuilder<Rooms?>(
-            future: roomApi.getAll(1, 9999),
+            future: rooms,
             builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

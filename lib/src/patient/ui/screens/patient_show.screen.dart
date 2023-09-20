@@ -6,6 +6,7 @@ import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import '../../../../constants/router_names.dart';
+import '../../../calendar/models/events_api.model.dart';
 
 class PatientShowScreen extends StatefulWidget {
   final Patient patient;
@@ -17,16 +18,22 @@ class PatientShowScreen extends StatefulWidget {
 }
 
 class PatientShowScreenState extends State<PatientShowScreen> {
+  late Future<EventsApiModel> calendar;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     final now = DateTime.now();
     CalendarApi calendarApi = CalendarApi();
     DateTime start = DateTime(now.year, now.month, 1);
     DateTime end = DateTime(now.year, now.month + 1, 0);
-    var calendar = calendarApi.getPatientEvents(patientId: widget.patient.id,
+    calendar = calendarApi.getPatientEvents(patientId: widget.patient.id,
         start: start,
         end: end,
         currentUser: widget.patient);
+  }
+  @override
+  Widget build(BuildContext context) {
+
 
     return ScaffoldDefault(
       title: widget.patient.name,
