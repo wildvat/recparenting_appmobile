@@ -8,6 +8,7 @@ import 'package:recparenting/src/auth/ui/login.screen.dart';
 import 'package:recparenting/src/calendar/ui/screens/calendar.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
+import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 import 'package:recparenting/src/therapist/ui/screens/therapist_bio.screen.dart';
@@ -23,7 +24,11 @@ class RouterRec {
           ModalRoute.of(context)!.settings.arguments as WebpageArguments;
       return WebPageScreen(arguments: argument);
     },
-    chatPageRoute: (_) => const ChatScreen(),
+    chatPageRoute: (context) {
+      final Patient patient =
+          ModalRoute.of(context)!.settings.arguments as Patient;
+      return ChatScreen(patient: patient);
+    },
     contactPageRoute: (_) => const ContactScreen(),
     therapistBioPageRoute: (_) {
       return const TherapistBioScreen();
