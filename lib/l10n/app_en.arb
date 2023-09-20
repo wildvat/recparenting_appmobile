@@ -30,6 +30,14 @@
   "terapistChangeButton": "Therapist change",
   "recoveryPassLinnk": "Recovery password",
   "webPageTitle": "External WEB",
+  "eventType": "{type, select, basic {appointment} appointment_chat {chat} appointment_video {videoconference} availability {available} not_available {not available}  other {appointment}}",
+  "@eventType": {
+    "placeholder": {
+      "type": {}
+    }
+  },
+  "eventFrom": "From",
+  "eventTo": "To",  
   "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {day}}",
   "@getDay": {
     "placeholders": {
