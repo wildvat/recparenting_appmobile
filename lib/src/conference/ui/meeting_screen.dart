@@ -18,7 +18,6 @@ class MeetingScreen extends StatefulWidget {
 }
 
 class _MeetingScreenState extends State<MeetingScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -32,9 +31,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
   @override
   Widget build(BuildContext context) {
     final meetingProvider = Provider.of<MeetingProvider>(context);
-    final orientation = MediaQuery
-        .of(context)
-        .orientation;
+    final orientation = MediaQuery.of(context).orientation;
 
     if (!meetingProvider.isMeetingActive) {
       Navigator.maybePop(context);
@@ -42,30 +39,30 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Center(
-            child: Stack(
-              children: [
-                displayVideoTileRemote(meetingProvider, orientation, context),
-                showLocalVideoTile(meetingProvider, context),
-                Positioned(
-                  bottom: 10,
-                  child: localListInfo(meetingProvider, context),
-                ),
-                WillPopScope(
-                  onWillPop: () async {
-                    meetingProvider.stopMeeting();
-                    return true;
-                  },
-                  child: const Spacer(),
-                ),
-              ],
-
-            )
-        ));
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+        child:Stack(
+          alignment: Alignment.center,
+          children: [
+            displayVideoTileRemote(meetingProvider, orientation, context),
+            showLocalVideoTile(meetingProvider, context),
+            Positioned(
+              bottom: 10,
+              child: localListInfo(meetingProvider, context),
+            ),
+            WillPopScope(
+              onWillPop: () async {
+                meetingProvider.stopMeeting();
+                return true;
+              },
+              child: const Spacer(),
+            ),
+          ],
+        )));
   }
 
-  Widget showRemoteVideoTile(MeetingProvider meetingProvider,
-      BuildContext context) {
+  Widget showRemoteVideoTile(
+      MeetingProvider meetingProvider, BuildContext context) {
     int? paramsVT;
 
     paramsVT = meetingProvider
@@ -92,7 +89,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         },
         onCreatePlatformView: (PlatformViewCreationParams params) {
           final AndroidViewController controller =
-          PlatformViewsService.initExpensiveAndroidView(
+              PlatformViewsService.initExpensiveAndroidView(
             id: params.id,
             viewType: 'videoTile',
             layoutDirection: TextDirection.ltr,
@@ -113,72 +110,73 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Widget localListInfo(MeetingProvider meetingProvider, BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                showAudioDeviceDialog(meetingProvider, context);
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(20),
-                backgroundColor: colorRec, // <-- Button color
-                foregroundColor: colorRecLight, // <-- Splash color
-              ),
-              child: const Icon(Icons.headphones, color: Colors.white),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              showAudioDeviceDialog(meetingProvider, context);
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(20),
+              backgroundColor: colorRec, // <-- Button color
+              foregroundColor: colorRecLight, // <-- Splash color
             ),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-            ElevatedButton(
-              onPressed: () {
-                meetingProvider.sendLocalMuteToggle();
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(20),
-                backgroundColor: colorRec, // <-- Button color
-                foregroundColor: colorRecLight, // <-- Splash color
-              ),
-              child: Icon(localMuteIcon(meetingProvider), color: Colors.white),
+            child: const Icon(Icons.headphones, color: Colors.white),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+          ElevatedButton(
+            onPressed: () {
+              meetingProvider.sendLocalMuteToggle();
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(20),
+              backgroundColor: colorRec, // <-- Button color
+              foregroundColor: colorRecLight, // <-- Splash color
             ),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-            ElevatedButton(
-              onPressed: () {
-                meetingProvider.sendLocalVideoTileOn();
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(20),
-                backgroundColor: colorRec, // <-- Button color
-                foregroundColor: colorRecLight, // <-- Splash color
-              ),
-              child: Icon(localVideoIcon(meetingProvider), color: Colors.white),
+            child: Icon(localMuteIcon(meetingProvider), color: Colors.white),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+          ElevatedButton(
+            onPressed: () {
+              meetingProvider.sendLocalVideoTileOn();
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(20),
+              backgroundColor: colorRec, // <-- Button color
+              foregroundColor: colorRecLight, // <-- Splash color
             ),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-            ElevatedButton(
-              onPressed: () {
-                meetingProvider.stopMeeting();
-                leaveMeetingButton(meetingProvider, context);
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(20),
-                backgroundColor: Colors.red, // <-- Button color
-                foregroundColor: Colors.red, // <-- Splash color
-              ),
-              child: const Icon(Icons.power_settings_new_outlined,
-                  color: Colors.white),
+            child: Icon(localVideoIcon(meetingProvider), color: Colors.white),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+          ElevatedButton(
+            onPressed: () {
+              meetingProvider.stopMeeting();
+              leaveMeetingButton(meetingProvider, context);
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(20),
+              backgroundColor: Colors.red, // <-- Button color
+              foregroundColor: Colors.red, // <-- Splash color
             ),
-          ],
-        ));
+            child: const Icon(Icons.power_settings_new_outlined,
+                color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 
-
-  Widget showLocalVideoTile(MeetingProvider meetingProvider,
-      BuildContext context) {
+  Widget showLocalVideoTile(
+      MeetingProvider meetingProvider, BuildContext context) {
     int? paramsVT;
 
     paramsVT = meetingProvider
@@ -188,7 +186,6 @@ class _MeetingScreenState extends State<MeetingScreen> {
         .currAttendees[meetingProvider.localAttendeeId]!.isVideoOn) {
       return const SizedBox();
     }
-    developer.log('paramsVT $paramsVT');
     Widget videoTile;
     if (Platform.isIOS) {
       videoTile = UiKitView(
@@ -209,7 +206,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         },
         onCreatePlatformView: (PlatformViewCreationParams params) {
           final AndroidViewController controller =
-          PlatformViewsService.initExpensiveAndroidView(
+              PlatformViewsService.initExpensiveAndroidView(
             id: params.id,
             viewType: 'videoTile',
             layoutDirection: TextDirection.ltr,
@@ -226,30 +223,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
       videoTile = const Text("Unrecognized Platform.");
     }
 
-    developer.log('videoTile $videoTile');
-
-    /*if(isLocal){
-      return Text('soy local');
-    }else{
-      return Center( child: Stack(
-        //This will help to expand video in Horizontal mode till last pixel of screen
-        fit:  StackFit.expand,
-        children: [
-          videoTile
-        ],
-      ));
-    }*/
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: SizedBox(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width / 2,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height / 3,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 3,
         child: videoTile,
       ),
     );
@@ -261,10 +239,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
       if (meetingProvider.currAttendees
           .containsKey(meetingProvider.remoteAttendeeId)) {
         if ((meetingProvider.currAttendees[meetingProvider.remoteAttendeeId]
-            ?.isVideoOn ??
-            false) &&
+                    ?.isVideoOn ??
+                false) &&
             meetingProvider.currAttendees[meetingProvider.remoteAttendeeId]
-                ?.videoTile !=
+                    ?.videoTile !=
                 null) {
           return showRemoteVideoTile(meetingProvider, context);
         }
@@ -278,8 +256,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
     );
   }
 
-  void showAudioDeviceDialog(MeetingProvider meetingProvider,
-      BuildContext context) async {
+  void showAudioDeviceDialog(
+      MeetingProvider meetingProvider, BuildContext context) async {
     String? device = await showDialog(
         context: context,
         builder: (context) {
@@ -290,7 +268,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
             backgroundColor: Colors.white,
             children:
-            getSimpleDialogOptionsAudioDevices(meetingProvider, context),
+                getSimpleDialogOptionsAudioDevices(meetingProvider, context),
           );
         });
     if (device == null) {
@@ -328,8 +306,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
     return dialogOptions;
   }
 
-  Widget leaveMeetingButton(MeetingProvider meetingProvider,
-      BuildContext context) {
+  Widget leaveMeetingButton(
+      MeetingProvider meetingProvider, BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         meetingProvider.stopMeeting();
