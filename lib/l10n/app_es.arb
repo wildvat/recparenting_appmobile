@@ -16,6 +16,7 @@
   "therapistBioTitle": "Tu terapeuta",
   "workingHoursTitle": "Horario laboral",
   "logout": "Salir",
+  "generalButtonDelete": "Eliminar",
   "generalEmail": "Email",
   "generalPassword": "Contraseña",
   "generalAccess": "Acceder",
@@ -38,6 +39,7 @@
   },
   "eventFrom": "Desde",
   "eventTo": "Hasta",
+  "eventGoSessionBtn": "Ir a la sesión",
   "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {día}}",
   "@getDay": {
     "placeholders": {

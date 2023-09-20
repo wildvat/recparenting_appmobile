@@ -12,12 +12,14 @@ class ScaffoldDefault extends StatefulWidget {
   final String? title;
   final FloatingActionButton? floatingActionButton;
   final Widget? actionButton;
+  final TabBar? tabBar;
 
   ScaffoldDefault(
       {required this.body,
       this.title,
       this.floatingActionButton,
       this.actionButton,
+      this.tabBar,
       super.key});
 
   @override
@@ -43,13 +45,16 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
           widget.actionButton ?? const SizedBox.shrink(),
           const AppSubmenuWidget()
         ],
+        bottom: widget.tabBar,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _currentUser is Patient
           ? FloatingActionButton(
               child: const Icon(Icons.message),
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, chatPageRoute),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, chatPageRoute,
+                    arguments: _currentUser);
+              },
             )
           : FloatingActionButton(
               child: const Icon(Icons.person_search),

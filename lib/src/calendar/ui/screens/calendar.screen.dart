@@ -12,6 +12,7 @@ import 'package:recparenting/src/calendar/models/events_api.model.dart';
 import 'package:recparenting/src/calendar/models/type_calendar.enum.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/calendar/ui/widgets/calendar_header.widget.dart';
+import 'package:recparenting/src/calendar/ui/widgets/legend_bottomshhet.dart';
 import 'package:recparenting/src/calendar/ui/widgets/month_view.widget.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -24,10 +25,11 @@ class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarScreenState extends State<CalendarScreen>
+    with TickerProviderStateMixin {
   late final EventController _eventController = EventController();
   late final Future<EventsApiModel> _getTherapistEvents;
-
+  late final TabController _tabController;
   late CalendarTypes _calendarType;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late final User _currentUser;
@@ -46,6 +48,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
     _calendarType = CalendarTypes.month;
     _start = DateTime(_now.year, _now.month, 1);
     _end = DateTime(_now.year, _now.month + 1, 0);
+    _tabController = TabController(length: 3, vsync: this)
+      ..addListener(() {
+        if (!_tabController.indexIsChanging) {
+          setState(() {
+            if (_tabController.index == 0) {
+              _calendarType = CalendarTypes.month;
+            } else if (_tabController.index == 1) {
+              _calendarType = CalendarTypes.week;
+            } else {
+              _calendarType = CalendarTypes.day;
+            }
+          });
+        }
+      });
     _getUntilAvailableCalendar =
         _getUntilAvailableCalendarFn().then((therapist) {
       if (therapist != null) {
@@ -92,6 +108,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    _eventController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<Therapist?>(
         future: _getUntilAvailableCalendar,
@@ -103,6 +126,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
               controller: _eventController,
               child: ScaffoldDefault(
                   title: AppLocalizations.of(context)!.calendarTitle,
+                  tabBar: TabBar(
+                    controller: _tabController,
+                    tabs: const <Widget>[
+                      Tab(
+                        icon: Icon(Icons.calendar_month),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.calendar_view_week),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.calendar_view_day),
+                      ),
+                    ],
+                  ),
+                  actionButton: IconButton(
+                      icon: const Icon(Icons.info_outline),
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                const CalendarLegendWidget());
+                      }),
+                  /*
                   actionButton: Row(
                     children: [
                       IconButton(
@@ -122,6 +168,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ),
                     ],
                   ),
+                  */
+
                   body: Builder(builder: (context) {
                     return FutureBuilder<EventsApiModel>(
                         future: _getTherapistEvents,
@@ -136,7 +184,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 onCellTap: (events, date) {
                                   setState(() {
                                     _initialDay = date;
-                                    _calendarType = CalendarTypes.day;
+                                    _tabController.index = 2;
                                   });
                                 },
                                 eventController: _eventController,

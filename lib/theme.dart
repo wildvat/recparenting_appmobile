@@ -33,6 +33,13 @@ class RecThemeData {
           titleTextStyle: TextStyle(fontSize: 18),
           iconTheme: IconThemeData(color: Colors.white),
         ),
+        tabBarTheme: const TabBarTheme(
+            labelColor: Colors.white,
+            indicatorColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: UnderlineTabIndicator(
+                // color for indicator (underline)
+                borderSide: BorderSide(color: Colors.white))),
         drawerTheme: const DrawerThemeData(backgroundColor: colorRecDark),
         brightness: Brightness.light);
   }
@@ -65,6 +72,10 @@ class RecThemeData {
           foregroundColor: Colors.white,
           titleTextStyle: TextStyle(fontSize: 18),
           iconTheme: IconThemeData(color: Colors.white),
+        ),
+        tabBarTheme: const TabBarTheme(
+          labelColor: Colors.white,
+          indicatorColor: Colors.white,
         ),
         drawerTheme: const DrawerThemeData(backgroundColor: colorRecDark),
         brightness: Brightness.dark);
