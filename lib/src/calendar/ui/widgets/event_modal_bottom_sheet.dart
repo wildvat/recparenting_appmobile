@@ -81,18 +81,19 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
               children: [
                 ElevatedButton(
                   onPressed: () {
+                    late final Patient patient;
+                    if (_currentUser.isPatient()) {
+                      patient = _currentUser as Patient;
+                    } else {
+                      patient = _eventApi.user as Patient;
+                    }
                     if (_eventApi.type.contains('appointment_chat')) {
-                      late final Patient patient;
-                      if (_currentUser.isPatient()) {
-                        patient = _currentUser as Patient;
-                      } else {
-                        patient = _eventApi.user as Patient;
-                      }
                       Navigator.pushNamed(context, chatPageRoute,
                           arguments: patient);
                     } else if (_eventApi.type.contains('appointment_video')) {
                       //todo enviar room o paciente....
-                      Navigator.pushNamed(context, conferenceRoute);
+                      Navigator.pushNamed(context, joinConferencePageRoute,
+                          arguments: patient.conference);
                     }
                   },
                   child: Text(AppLocalizations.of(context)!.eventGoSessionBtn),
