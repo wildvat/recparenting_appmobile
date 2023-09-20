@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/premium.screen.dart';
 import 'package:recparenting/_shared/ui/webpage_screen.dart';
@@ -6,9 +7,14 @@ import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
 import 'package:recparenting/src/calendar/ui/screens/calendar.screen.dart';
+import 'package:recparenting/src/conference/provider/join_meeting_provider.dart';
+import 'package:recparenting/src/conference/provider/meeting_provider.dart';
+import 'package:recparenting/src/conference/provider/method_channel_coordinator.dart';
+import 'package:recparenting/src/conference/ui/join_meeting.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
+import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 import 'package:recparenting/src/therapist/ui/screens/therapist_bio.screen.dart';
@@ -19,6 +25,7 @@ class RouterRec {
     splashRoute: (_) => const SplashScreen(),
     loginRoute: (_) => const LoginScreen(),
     conferenceRoute: (_) => const ConferenceScreen(),
+    patientsRoute: (_) => const PatientsScreen(),
     webPageRoute: (context) {
       final WebpageArguments argument =
           ModalRoute.of(context)!.settings.arguments as WebpageArguments;
@@ -28,6 +35,20 @@ class RouterRec {
       final Patient patient =
           ModalRoute.of(context)!.settings.arguments as Patient;
       return ChatScreen(patient: patient);
+    },
+    joinConferencePageRoute: (context) {
+      final String argument =
+          ModalRoute.of(context)!.settings.arguments as String;
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => MethodChannelCoordinator()),
+          ChangeNotifierProvider(create: (_) => JoinMeetingProvider()),
+          ChangeNotifierProvider(create: (context) => MeetingProvider(context)),
+        ],
+        child: JoinMeetingScreen(
+          conferenceId: argument,
+        ),
+      );
     },
     contactPageRoute: (_) => const ContactScreen(),
     therapistBioPageRoute: (_) {

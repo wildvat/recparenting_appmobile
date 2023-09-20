@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/app_submenu.widget.dart';
-import 'package:recparenting/src/patient/ui/bottom_bar_patient.dart';
+import 'package:recparenting/src/patient/ui/widgets/bottom_bar_patient.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
+import 'package:recparenting/src/therapist/models/therapist.model.dart';
+import 'package:recparenting/src/therapist/ui/widgets/botton_bar_therapist.dart';
 
 class ScaffoldDefault extends StatefulWidget {
   late Widget body;
@@ -58,11 +60,13 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
             )
           : FloatingActionButton(
               child: const Icon(Icons.person_search),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, patientsRoute);
+              },
             ),
       bottomNavigationBar: _currentUser is Patient
           ? BottomAppBarPatient(patient: _currentUser as Patient)
-          : const SizedBox.shrink(),
+          : BottomAppBarTherapist(therapist: _currentUser as Therapist),
       body: SafeArea(child: widget.body),
       //floatingActionButton: widget.floatingActionButton
     );

@@ -4,28 +4,30 @@ import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
+import 'package:recparenting/src/patient/ui/screens/patient_show.screen.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/models/rooms.model.dart';
-import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
-import '../../../_shared/ui/widgets/scaffold_default.dart';
-import '../../room/providers/room.provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ConferenceScreen extends StatefulWidget {
-  const ConferenceScreen({Key? key}) : super(key: key);
+import '../../../../_shared/ui/widgets/scaffold_default.dart';
+import '../../../room/providers/room.provider.dart';
+
+class PatientsScreen extends StatefulWidget {
+  const PatientsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ConferenceScreen> createState() => _ConferenceScreenState();
+  State<PatientsScreen> createState() => _PatientsScreenState();
 }
 
-class _ConferenceScreenState extends State<ConferenceScreen> {
+class _PatientsScreenState extends State<PatientsScreen> {
   late CurrentUserBloc _currentUserBloc;
   late User currentUser;
   late Future<Rooms?> rooms;
+
+
 
   @override
   void initState() {
@@ -33,23 +35,15 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
     _currentUserBloc = context.read<CurrentUserBloc>();
     if (_currentUserBloc.state is CurrentUserLoaded) {
       currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
-      if(currentUser is Therapist){
-        RoomApi roomApi = RoomApi();
-        rooms =roomApi.getAll(1, 9999);
-      }
     }
+    RoomApi roomApi = RoomApi();
+    rooms =roomApi.getAll(1, 9999);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (currentUser is Patient) {
-      Patient patient = currentUser as Patient;
-      Navigator.pushNamed(context, joinConferencePageRoute,
-          arguments: patient.conference);
-
-    }
     return ScaffoldDefault(
-        title: AppLocalizations.of(context)!.conferenceTitle,
+        title: AppLocalizations.of(context)!.menuPatients,
         body: FutureBuilder<Rooms?>(
             future: rooms,
             builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
@@ -94,19 +88,21 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
       return Container();
     }
     return ListTile(
-      leading: CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.transparent,
-        child: AvatarImage(user: participant),
-      ),
-      title: Text(participant.name),
-      subtitle: (room.lastMessage != null)
-          ? Text(DateFormat.yMMMEd().format(room.lastMessage!.createdAt))
-          : const SizedBox(),
-      onTap: () {
-        Navigator.pushNamed(context, joinConferencePageRoute,
-            arguments: participant!.conference);
-      },
-    );
+        leading: CircleAvatar(
+          radius: 30,
+          backgroundColor: Colors.transparent,
+          child: AvatarImage(user: participant),
+        ),
+        title: Text(participant.name),
+        subtitle: (room.lastMessage != null)
+            ? Text(DateFormat.yMMMEd().format(room.lastMessage!.createdAt))
+            : const SizedBox(),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      PatientShowScreen(patient: participant!)));
+        });
   }
 }

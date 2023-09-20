@@ -12,6 +12,7 @@ class EventsApiModel {
     events = EventsModel.fromJson(json['events'], currentUser);
   }
 
+
   factory EventsApiModel.mock(User currentUser) {
     return EventsApiModel(
         workingHours: WorkingHours(),
