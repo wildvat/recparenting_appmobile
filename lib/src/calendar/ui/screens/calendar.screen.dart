@@ -8,8 +8,8 @@ import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/src/calendar/models/event_api.model.dart';
-import 'package:recparenting/src/calendar/models/events_api.model.dart';
+import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
+import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/type_calendar.enum.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/calendar/ui/widgets/calendar_action_buttons.dart';
@@ -31,7 +31,7 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen>
     with TickerProviderStateMixin {
   late final EventController _eventController = EventController();
-  late final Future<EventsApiModel> _getTherapistEvents;
+  late final Future<EventsCalendarApiModel> _getTherapistEvents;
   late final TabController _tabController;
   late CalendarTypes _calendarType;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -90,7 +90,7 @@ class _CalendarScreenState extends State<CalendarScreen>
     final DateTime firstDayMont = DateTime(date.year, date.month, 1);
     if (!_monthsLoaded.contains(firstDayMont)) {
       _monthsLoaded.add(firstDayMont);
-      EventsApiModel eventsApi = await CalendarApi().getTherapistEvents(
+      EventsCalendarApiModel eventsApi = await CalendarApi().getTherapistEvents(
           therapist: _therapist!.id,
           start: DateTime(date.year, date.month, 1),
           end: DateTime(date.year, date.month + 1, 0),
@@ -119,7 +119,7 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   _onEventTap(CalendarEventData event, DateTime date) async {
     if (_currentUser.isPatient() &&
-        (event.event as EventApiModel).user.id != _currentUser.id) {
+        (event.event as EventCalendarApiModel).user.id != _currentUser.id) {
       return;
     }
     bool? eventDeleted = await showModalBottomSheet(
@@ -213,10 +213,10 @@ class _CalendarScreenState extends State<CalendarScreen>
                   actionButton: CalendarActionButtonsWidget(
                       therapist: snapshotAvailable.data!),
                   body: Builder(builder: (context) {
-                    return FutureBuilder<EventsApiModel>(
+                    return FutureBuilder<EventsCalendarApiModel>(
                         future: _getTherapistEvents,
                         builder: (BuildContext context,
-                            AsyncSnapshot<EventsApiModel> asyncSnapshotEvents) {
+                            AsyncSnapshot<EventsCalendarApiModel> asyncSnapshotEvents) {
                           if (asyncSnapshotEvents.hasData) {
                             _eventController.addAll(asyncSnapshotEvents
                                 .data!.events.events.nonNulls

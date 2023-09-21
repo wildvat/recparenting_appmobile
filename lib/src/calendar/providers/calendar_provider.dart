@@ -3,13 +3,13 @@ import 'package:recparenting/_shared/models/user.model.dart';
 import 'dart:developer' as developer;
 
 import 'package:recparenting/_shared/providers/http.dart';
-import 'package:recparenting/src/calendar/models/events_para_integrar.model.dart';
-import 'package:recparenting/src/calendar/models/events_api.model.dart';
+import 'package:recparenting/src/calendar/models/events.model.dart';
+import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart';
 
 class CalendarApi {
   AuthApiHttp client = AuthApiHttp();
 
-  Future<EventsApiModel> getTherapistEvents(
+  Future<EventsCalendarApiModel> getTherapistEvents(
       {required String therapist,
       required DateTime start,
       required DateTime end,
@@ -22,17 +22,17 @@ class CalendarApi {
       dio.Response response = await client.dio
           .get('$endpoint/$therapist?start=$startToApi&end=$endToApi');
       if (response.statusCode == 200) {
-        return EventsApiModel.fromJson(response.data, currentUser);
+        return EventsCalendarApiModel.fromJson(response.data, currentUser);
       }
-      return EventsApiModel.mock(currentUser);
+      return EventsCalendarApiModel.mock(currentUser);
     } on dio.DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
-      return EventsApiModel.mock(currentUser);
+      return EventsCalendarApiModel.mock(currentUser);
     }
   }
 
-  Future<EventsModelNew?> getPatientEvents(
+  Future<EventsModel?> getPatientEvents(
       {required String patientId,
       required DateTime start,
       required DateTime end,
@@ -45,8 +45,8 @@ class CalendarApi {
       dio.Response response = await client.dio
           .get('$endpoint/$patientId?start=$startToApi&end=$endToApi');
       if (response.statusCode == 200) {
-        EventsModelNew events =
-            EventsModelNew.fromJson(response.data['events']);
+        EventsModel events =
+            EventsModel.fromJson(response.data['events']);
         return events;
       }
       return null;

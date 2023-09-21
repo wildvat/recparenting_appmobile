@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:equatable/equatable.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
-import 'package:recparenting/src/calendar/models/events_api.model.dart';
-import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 
 part 'calendar_event.dart';
 part 'calendar_state.dart';

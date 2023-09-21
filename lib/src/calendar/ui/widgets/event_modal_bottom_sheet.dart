@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/src/calendar/models/event_api.model.dart';
+import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -19,13 +19,13 @@ class EventModalBottomSheet extends StatefulWidget {
 
 class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
   late final User _currentUser;
-  late final EventApiModel _eventApi;
+  late final EventCalendarApiModel _eventApi;
   bool _loading = false;
 
   @override
   void initState() {
     super.initState();
-    _eventApi = widget.event.event as EventApiModel;
+    _eventApi = widget.event.event as EventCalendarApiModel;
     _currentUser =
         (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
   }
@@ -49,7 +49,7 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                 child: Text(AppLocalizations.of(context)!
-                    .eventType((widget.event.event! as EventApiModel).type)
+                    .eventType((widget.event.event! as EventCalendarApiModel).type)
                     .toUpperCase())),
             const SizedBox(height: 20),
             Row(

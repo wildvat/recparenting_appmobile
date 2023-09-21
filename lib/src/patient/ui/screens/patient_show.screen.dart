@@ -5,7 +5,7 @@ import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/calendar/models/event.model.dart';
-import 'package:recparenting/src/calendar/models/events_para_integrar.model.dart';
+import 'package:recparenting/src/calendar/models/events.model.dart';
 import 'package:recparenting/src/calendar/models/type_appointments.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -22,7 +22,7 @@ class PatientShowScreen extends StatefulWidget {
 }
 
 class PatientShowScreenState extends State<PatientShowScreen> {
-  late Future<EventsModelNew?> calendar;
+  late Future<EventsModel?> calendar;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
               ],
             ),
           ),
-          FutureBuilder<EventsModelNew?>(
+          FutureBuilder<EventsModel?>(
           future: calendar,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
