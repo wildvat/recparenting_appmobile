@@ -13,6 +13,8 @@ class Messages {
       messages = messagesApi.map((item) {
         return Message.fromJson(item);
       }).toList();
+    }else {
+      messages = [];
     }
   }
 }

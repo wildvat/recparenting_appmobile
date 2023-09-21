@@ -13,6 +13,8 @@ class Rooms {
       rooms = roomsApi.map((item) {
         return Room.fromJson(item);
       }).toList();
+    }else{
+      rooms = [];
     }
   }
 }

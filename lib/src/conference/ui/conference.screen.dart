@@ -102,6 +102,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
       );
 
   }
+
   Widget getParticipantFromRoom(Room room) {
     late Patient? participant;
     for (var element in room.participants) {

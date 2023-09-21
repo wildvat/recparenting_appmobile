@@ -13,6 +13,8 @@ class Patients {
       users = usersApi.map((item) {
         return Patient.fromJson(item);
       }).toList();
+    }else {
+      users = [];
     }
   }
 }
