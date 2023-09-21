@@ -30,12 +30,13 @@ class CalendarApi {
       return EventsApiModel.mock(currentUser);
     }
   }
+
   Future<EventsApiModel> getPatientEvents(
       {required String patientId,
-        required DateTime start,
-        required DateTime end,
-        required User currentUser,
-        int? page = 1}) async {
+      required DateTime start,
+      required DateTime end,
+      required User currentUser,
+      int? page = 1}) async {
     const String endpoint = 'calendar/user';
     final String startToApi = start.toUtc().toString();
     final String endToApi = end.toUtc().toString();
@@ -50,6 +51,21 @@ class CalendarApi {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
       return EventsApiModel.mock(currentUser);
+    }
+  }
+
+  Future<bool> deleteEvent(String idEvent) async {
+    final String endpoint = 'calendar/event/$idEvent';
+    try {
+      dio.Response response = await client.dio.delete(endpoint);
+      if (response.statusCode == 204) {
+        return true;
+      }
+      return false;
+    } on dio.DioException catch (e) {
+      developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
+      developer.log(e.response.toString());
+      return false;
     }
   }
 }

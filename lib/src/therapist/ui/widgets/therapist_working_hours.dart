@@ -26,6 +26,7 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(AppLocalizations.of(context)!.workingHoursTitle,
             style: const TextStyle(fontWeight: FontWeight.bold)),

@@ -29,6 +29,9 @@
   "generalNoData": "No hay datos disponibles",
   "generalFormErrorEmail": "Por favor introduzca un email",
   "calendarTitle": "Agenda",
+  "calendarHelpMonth": "En el calendario mensual, mantener puslsado una hora, te redirige al calendario de ese día",
+  "calendarHelpDayWeek": "En el calendario semanal y diario, mantener puslsado te abre la interfaz de crear una cita",
+  "calendarHelpColors": "Colores de los eventos:",
   "terapistChangeButton": "Cambio de terapeuta",
   "recoveryPassLinnk": "Recuperar contraseña",
   "webPageTitle": "WEB externa",
@@ -40,6 +43,8 @@
   },
   "eventFrom": "Desde",
   "eventTo": "Hasta",
+  "eventDeleteOk": "Evento eliminado",
+  "eventDeleteError": "No se ha podido eliminar el evento",
   "eventGoSessionBtn": "Ir a la sesión",
   "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {día}}",
   "@getDay": {

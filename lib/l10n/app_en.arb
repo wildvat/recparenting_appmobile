@@ -29,6 +29,9 @@
   "generalNoData": "There isn't available data",
   "generalFormErrorEmail": "Please enter an email",
   "calendarTitle": "Calendar",
+  "calendarHelpMonth": "In the monthly calendar, holding down an hour, redirects you to that day's calendar",
+  "calendarHelpDayWeek": "In the weekly and daily calendar, pressing and holding opens the interface to create an appointment",
+  "calendarHelpColors": "Event colors:",
   "terapistChangeButton": "Therapist change",
   "recoveryPassLinnk": "Recovery password",
   "webPageTitle": "External WEB",
@@ -40,6 +43,8 @@
   },
   "eventFrom": "From",
   "eventTo": "To",  
+  "eventDeleteOk": "Event deleted",
+  "eventDeleteError": "Could not delete event",
   "eventGoSessionBtn": "Go to session",
   "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {day}}",
   "@getDay": {

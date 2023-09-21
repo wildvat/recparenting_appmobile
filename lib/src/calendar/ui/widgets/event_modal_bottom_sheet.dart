@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/calendar/models/event_api.model.dart';
+import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 
@@ -19,6 +20,7 @@ class EventModalBottomSheet extends StatefulWidget {
 class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
   late final User _currentUser;
   late final EventApiModel _eventApi;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -102,12 +104,24 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                 /// only tehrapist or my owns events can be visible in modal
                 /// then not need to check if visible here
                 ElevatedButton(
-                    onPressed: () => print('eliminar'),
+                    onPressed: () async {
+                      setState(() => _loading = true);
+                      bool response =
+                          await CalendarApi().deleteEvent(_eventApi.id);
+                      setState(() => _loading = false);
+                      if (response && mounted) {
+                        Navigator.pop(context, response);
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red.shade900),
-                    child: Text(
-                        AppLocalizations.of(context)!.generalButtonDelete,
-                        style: const TextStyle(color: Colors.white)))
+                    child: _loading
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            AppLocalizations.of(context)!.generalButtonDelete,
+                            style: const TextStyle(color: Colors.white)))
               ],
             )
           ],

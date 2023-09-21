@@ -8,24 +8,35 @@ class CalendarLegendWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: AppointmentTypes.values.length,
-        itemBuilder: ((BuildContext context, int index) {
-          return ListTile(
-            leading: Text(
-              AppLocalizations.of(context)!
-                  .eventType(AppointmentTypes.values[index]
-                      .toString()
-                      .replaceAll('AppointmentTypes.', ''))
-                  .toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            tileColor: calendarEventsColors[AppointmentTypes.values[index]
-                .toString()
-                .replaceAll('AppointmentTypes.', '')],
-          );
-        }));
+    return Padding(
+        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(AppLocalizations.of(context)!.calendarHelpDayWeek),
+            const SizedBox(height: 10),
+            Text(AppLocalizations.of(context)!.calendarHelpColors),
+            ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: AppointmentTypes.values.length,
+                itemBuilder: ((BuildContext context, int index) {
+                  return ListTile(
+                    leading: Text(
+                      AppLocalizations.of(context)!
+                          .eventType(AppointmentTypes.values[index]
+                              .toString()
+                              .replaceAll('AppointmentTypes.', ''))
+                          .toUpperCase(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    tileColor: calendarEventsColors[AppointmentTypes
+                        .values[index]
+                        .toString()
+                        .replaceAll('AppointmentTypes.', '')],
+                  );
+                }))
+          ],
+        ));
   }
 }

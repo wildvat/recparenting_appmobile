@@ -8,11 +8,14 @@ import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/src/calendar/models/event_api.model.dart';
 import 'package:recparenting/src/calendar/models/events_api.model.dart';
 import 'package:recparenting/src/calendar/models/type_calendar.enum.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
+import 'package:recparenting/src/calendar/ui/widgets/calendar_action_buttons.dart';
+import 'package:recparenting/src/calendar/ui/widgets/calendar_form_create_event.dart';
 import 'package:recparenting/src/calendar/ui/widgets/calendar_header.widget.dart';
-import 'package:recparenting/src/calendar/ui/widgets/legend_bottomshhet.dart';
+import 'package:recparenting/src/calendar/ui/widgets/event_modal_bottom_sheet.dart';
 import 'package:recparenting/src/calendar/ui/widgets/month_view.widget.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -41,6 +44,10 @@ class _CalendarScreenState extends State<CalendarScreen>
   //late CalendarBloc? _calendarBloc;
   bool _currentUserIsPatient = false;
   DateTime? _initialDay;
+  late final List<DateTime> _monthsLoaded;
+  final DateTime _minMonth =
+      DateTime(DateTime.now().year, DateTime.now().month, 1);
+  Therapist? _therapist;
 
   @override
   void initState() {
@@ -48,6 +55,8 @@ class _CalendarScreenState extends State<CalendarScreen>
     _calendarType = CalendarTypes.month;
     _start = DateTime(_now.year, _now.month, 1);
     _end = DateTime(_now.year, _now.month + 1, 0);
+
+    _monthsLoaded = [_start];
     _tabController = TabController(length: 3, vsync: this)
       ..addListener(() {
         if (!_tabController.indexIsChanging) {
@@ -65,6 +74,7 @@ class _CalendarScreenState extends State<CalendarScreen>
     _getUntilAvailableCalendar =
         _getUntilAvailableCalendarFn().then((therapist) {
       if (therapist != null) {
+        _therapist = therapist;
         _getTherapistEvents = CalendarApi().getTherapistEvents(
             therapist: therapist.id,
             start: _start,
@@ -74,6 +84,66 @@ class _CalendarScreenState extends State<CalendarScreen>
       }
       return null;
     });
+  }
+
+  _onPageChange(DateTime date, int page) async {
+    final DateTime firstDayMont = DateTime(date.year, date.month, 1);
+    if (!_monthsLoaded.contains(firstDayMont)) {
+      _monthsLoaded.add(firstDayMont);
+      EventsApiModel eventsApi = await CalendarApi().getTherapistEvents(
+          therapist: _therapist!.id,
+          start: DateTime(date.year, date.month, 1),
+          end: DateTime(date.year, date.month + 1, 0),
+          currentUser: _currentUser);
+      if (eventsApi.events.events.isNotEmpty) {
+        //eventController.removeWhere((element) => true);
+        _eventController.addAll(eventsApi.events.events.nonNulls.toList());
+      }
+    }
+  }
+
+  _onDateLongPressWeekDay(DateTime date) =>
+      // todo show modal with create event
+
+      showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.white,
+          builder: (BuildContext context) {
+            return CalendarFormCreateEventWidget(start: date);
+          });
+
+  //_onDateTap(DateTime date) => print('onDatTap $date');
+
+  _onEventsTap(List<CalendarEventData> events, DateTime date) =>
+      _onEventTap(events[0], date);
+
+  _onEventTap(CalendarEventData event, DateTime date) async {
+    if (_currentUser.isPatient() &&
+        (event.event as EventApiModel).user.id != _currentUser.id) {
+      return;
+    }
+    bool? eventDeleted = await showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        builder: (BuildContext context) => EventModalBottomSheet(event: event));
+    if (eventDeleted != null && mounted) {
+      if (eventDeleted) {
+        _eventController.remove(event);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.eventDeleteOk,
+            style: const TextStyle(color: Colors.greenAccent),
+          ),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.eventDeleteError,
+            style: const TextStyle(color: Colors.redAccent),
+          ),
+        ));
+      }
+    }
   }
 
   Future<Therapist?> _getUntilAvailableCalendarFn() async {
@@ -140,36 +210,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                       ),
                     ],
                   ),
-                  actionButton: IconButton(
-                      icon: const Icon(Icons.info_outline),
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                const CalendarLegendWidget());
-                      }),
-                  /*
-                  actionButton: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.calendar_month),
-                        onPressed: () =>
-                            setState(() => _calendarType = CalendarTypes.month),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.calendar_view_week),
-                        onPressed: () =>
-                            setState(() => _calendarType = CalendarTypes.week),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.calendar_view_day),
-                        onPressed: () =>
-                            setState(() => _calendarType = CalendarTypes.day),
-                      ),
-                    ],
-                  ),
-                  */
-
+                  actionButton: CalendarActionButtonsWidget(
+                      therapist: snapshotAvailable.data!),
                   body: Builder(builder: (context) {
                     return FutureBuilder<EventsApiModel>(
                         future: _getTherapistEvents,
@@ -181,6 +223,9 @@ class _CalendarScreenState extends State<CalendarScreen>
                                 .toList());
                             if (_calendarType == CalendarTypes.month) {
                               return MonthViewRec(
+                                minMonth: _minMonth,
+                                onPageChange: _onPageChange,
+                                onEventTap: _onEventTap,
                                 onCellTap: (events, date) {
                                   setState(() {
                                     _initialDay = date;
@@ -192,15 +237,20 @@ class _CalendarScreenState extends State<CalendarScreen>
                               );
                             } else if (_calendarType == CalendarTypes.week) {
                               return WeekView(
-                                  headerStyle: const HeaderCalendarStyle(),
-                                  onEventTap: (events, date) => setState(() {
-                                        _initialDay = date;
-                                        _calendarType = CalendarTypes.day;
-                                      }));
+                                  minDay: _minMonth,
+                                  onPageChange: _onPageChange,
+                                  onEventTap: _onEventsTap,
+                                  onDateLongPress: _onDateLongPressWeekDay,
+                                  headerStyle: const HeaderCalendarStyle());
                             }
                             return DayView(
+                                minDay: _minMonth,
+                                onPageChange: _onPageChange,
+                                onEventTap: _onEventsTap,
                                 initialDay: _initialDay,
+                                heightPerMinute: 1,
                                 controller: _eventController,
+                                onDateLongPress: _onDateLongPressWeekDay,
                                 headerStyle: const HeaderCalendarStyle());
                           }
                           return const Center(
