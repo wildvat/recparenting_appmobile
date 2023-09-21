@@ -81,7 +81,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          print('sadf');
+                          Navigator.pushNamed(context, chatPageRoute, arguments: widget.patient);
                         },
                         icon: const Icon(Icons.message),
 

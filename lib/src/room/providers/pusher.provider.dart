@@ -8,7 +8,16 @@ import 'package:recparenting/src/auth/repository/token_respository.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
 import 'package:recparenting/src/room/providers/encryptMessage.dart';
 
+import '../bloc/conversation_bloc.dart';
+
 class ChatApi {
+
+  late ConversationBloc _conversationBloc;
+
+  ChatApi(ConversationBloc bloc){
+    _conversationBloc = bloc;
+
+  }
   final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
   Future<void> connect(String roomId) async {
@@ -74,13 +83,16 @@ class ChatApi {
     try {
       developer.log("onEventOk: $event");
       if (event.eventName == 'new-message') {
-        final message = Message.fromJson(jsonDecode(event.data));
+        Message message = Message.fromJson(jsonDecode(event.data));
+        _conversationBloc.add(ReceiveMessageToConversation(message: message));
+
         if (message.type == 'text') {
           developer.log("onEventOk1 ${message.message}");
           developer.log("onEventOk2 ${message.user.id}");
           final String messageDecrypted =
               decryptAESCryptoJS(message.message, message.user.id);
           developer.log('Decrypt: $messageDecrypted');
+         // message.message = messageDecrypted;
           // todo add message to screen
         }
       }
@@ -109,4 +121,5 @@ class ChatApi {
     developer.log(
         "onSubscriptionCount: $channelName subscriptionCount: $subscriptionCount");
   }
+
 }
