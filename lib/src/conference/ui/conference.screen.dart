@@ -15,6 +15,11 @@ import '../../../_shared/ui/widgets/scaffold_default.dart';
 import '../../room/providers/room.provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../provider/join_meeting_provider.dart';
+import '../provider/meeting_provider.dart';
+import '../provider/method_channel_coordinator.dart';
+import 'join_meeting.screen.dart';
+
 class ConferenceScreen extends StatefulWidget {
   const ConferenceScreen({Key? key}) : super(key: key);
 
@@ -43,11 +48,13 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
   @override
   Widget build(BuildContext context) {
     if (currentUser is Patient) {
-      Patient patient = currentUser as Patient;
-      Navigator.pushNamed(context, joinConferencePageRoute,
-          arguments: patient.conference);
-
+      return conferenceToPatient();
     }
+    return conferenceToTherapist();
+  }
+
+
+  Widget conferenceToTherapist(){
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.conferenceTitle,
         body: FutureBuilder<Rooms?>(
@@ -63,7 +70,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                 if (snapshot.hasData) {
                   return ListView.separated(
                       separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
+                      const Divider(),
                       padding: const EdgeInsets.symmetric(vertical: 30),
                       itemCount: snapshot.data!.total,
                       itemBuilder: (BuildContext context, int index) {
@@ -81,6 +88,20 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
             }));
   }
 
+  Widget conferenceToPatient(){
+      Patient patient = currentUser as Patient;
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => MethodChannelCoordinator()),
+          ChangeNotifierProvider(create: (_) => JoinMeetingProvider()),
+          ChangeNotifierProvider(create: (context) => MeetingProvider(context)),
+        ],
+        child: JoinMeetingScreen(
+          conferenceId: patient.conference,
+        ),
+      );
+
+  }
   Widget getParticipantFromRoom(Room room) {
     late Patient? participant;
     for (var element in room.participants) {
