@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
@@ -12,8 +9,14 @@ import 'package:recparenting/src/room/models/rooms.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 import '../../../_shared/ui/widgets/scaffold_default.dart';
+import '../../patient/ui/widgets/patient_list_tile.widget.dart';
 import '../../room/providers/room.provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../provider/join_meeting_provider.dart';
+import '../provider/meeting_provider.dart';
+import '../provider/method_channel_coordinator.dart';
+import 'join_meeting.screen.dart';
 
 class ConferenceScreen extends StatefulWidget {
   const ConferenceScreen({Key? key}) : super(key: key);
@@ -43,11 +46,13 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
   @override
   Widget build(BuildContext context) {
     if (currentUser is Patient) {
-      Patient patient = currentUser as Patient;
-      Navigator.pushNamed(context, joinConferencePageRoute,
-          arguments: patient.conference);
-
+      return conferenceToPatient();
     }
+    return conferenceToTherapist();
+  }
+
+
+  Widget conferenceToTherapist(){
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.conferenceTitle,
         body: FutureBuilder<Rooms?>(
@@ -63,7 +68,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                 if (snapshot.hasData) {
                   return ListView.separated(
                       separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
+                      const Divider(),
                       padding: const EdgeInsets.symmetric(vertical: 30),
                       itemCount: snapshot.data!.total,
                       itemBuilder: (BuildContext context, int index) {
@@ -81,6 +86,21 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
             }));
   }
 
+  Widget conferenceToPatient(){
+      Patient patient = currentUser as Patient;
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => MethodChannelCoordinator()),
+          ChangeNotifierProvider(create: (_) => JoinMeetingProvider()),
+          ChangeNotifierProvider(create: (context) => MeetingProvider(context)),
+        ],
+        child: JoinMeetingScreen(
+          conferenceId: patient.conference,
+        ),
+      );
+
+  }
+
   Widget getParticipantFromRoom(Room room) {
     late Patient? participant;
     for (var element in room.participants) {
@@ -93,20 +113,6 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
     if (participant == null) {
       return Container();
     }
-    return ListTile(
-      leading: CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.transparent,
-        child: AvatarImage(user: participant),
-      ),
-      title: Text(participant.name),
-      subtitle: (room.lastMessage != null)
-          ? Text(DateFormat.yMMMEd().format(room.lastMessage!.createdAt))
-          : const SizedBox(),
-      onTap: () {
-        Navigator.pushNamed(context, joinConferencePageRoute,
-            arguments: participant!.conference);
-      },
-    );
+    return PatientListTile(patient: participant);
   }
 }

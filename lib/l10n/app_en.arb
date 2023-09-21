@@ -76,5 +76,6 @@
   "permissionAudioNotAuthorized": "You have denied access to the microphone. Please allow access to the microphone to continue.",
   "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
   "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "patientNotHasEvents": "You don't have any scheduled appointments"
 }

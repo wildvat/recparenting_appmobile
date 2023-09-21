@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
-import 'package:recparenting/src/patient/ui/screens/patient_show.screen.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/models/rooms.model.dart';
 
@@ -14,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../_shared/ui/widgets/scaffold_default.dart';
 import '../../../room/providers/room.provider.dart';
+import '../widgets/patient_list_tile.widget.dart';
 
 class PatientsScreen extends StatefulWidget {
   const PatientsScreen({Key? key}) : super(key: key);
@@ -87,22 +85,9 @@ class _PatientsScreenState extends State<PatientsScreen> {
     if (participant == null) {
       return Container();
     }
-    return ListTile(
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.transparent,
-          child: AvatarImage(user: participant),
-        ),
-        title: Text(participant.name),
-        subtitle: (room.lastMessage != null)
-            ? Text(DateFormat.yMMMEd().format(room.lastMessage!.createdAt))
-            : const SizedBox(),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      PatientShowScreen(patient: participant!)));
-        });
+    return PatientListTile(
+      patient: participant,
+      room: room
+    );
   }
 }

@@ -13,6 +13,8 @@ class Users {
       users = usersApi.map((item) {
         return User.fromJson(item);
       }).toList();
+    }else {
+      users = [];
     }
   }
 }

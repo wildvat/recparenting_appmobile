@@ -43,11 +43,13 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
     if(_currentUserBloc.state is CurrentUserLoaded){
 
       currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
+
       if(currentUser is Therapist){
         final ConferenceApi api = ConferenceApi();
         meeting = api.get(widget.conferenceId);
         currentUser = (currentUser as Therapist);
       }
+
       if(currentUser is Patient){
         currentUser = (currentUser as Patient);
       }

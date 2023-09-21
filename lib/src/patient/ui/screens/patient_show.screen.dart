@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/src/calendar/models/event.model.dart';
+import 'package:recparenting/src/calendar/models/events_para_integrar.model.dart';
+import 'package:recparenting/src/calendar/models/type_appointments.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
-import '../../../../constants/router_names.dart';
-import '../../../calendar/models/events_api.model.dart';
+import 'package:recparenting/constants/router_names.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PatientShowScreen extends StatefulWidget {
   final Patient patient;
@@ -18,7 +22,8 @@ class PatientShowScreen extends StatefulWidget {
 }
 
 class PatientShowScreenState extends State<PatientShowScreen> {
-  late Future<EventsApiModel> calendar;
+  late Future<EventsModelNew?> calendar;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +36,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
         end: end,
         currentUser: widget.patient);
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -97,19 +103,55 @@ class PatientShowScreenState extends State<PatientShowScreen> {
               ],
             ),
           ),
-          Text('Aqui podemos poner por ejemplo las citas ${widget.patient}'),
-          FutureBuilder(
+          FutureBuilder<EventsModelNew?>(
           future: calendar,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox();
+              return const Center( child: CircularProgressIndicator(color: colorRec));
             } else {
-              if (snapshot.hasData) {}
+              if (snapshot.hasData && snapshot.data.events.isNotEmpty) {
+                return Expanded(child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+                    padding: const EdgeInsets.symmetric(vertical: 30),
+                    itemCount: snapshot.data!.total,
+                    itemBuilder: (BuildContext context, int index) {
+                      EventModel event = snapshot.data?.events[index];
+                        return getEventListTile(event);
+
+                    }));
+              }else{
+                return Text(AppLocalizations.of(context)!.patientNotHasEvents);
+              }
             }
-            return SizedBox();
           })
         ],
       ),
     );
   }
+
+  Widget getEventListTile(EventModel event) {
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundColor: Colors.transparent,
+        child: Icon(event.getIcon())
+      ),
+      title: Text(DateFormat.yMMMMEEEEd().format(event.start)),
+      subtitle: Text('${DateFormat.Hm().format(event.start)} - ${DateFormat.Hm().format(event.end)}'),
+
+      onTap: () {
+        if(event.type == AppointmentTypes.appointment_video){
+          Navigator.pushNamed(context, joinConferencePageRoute,
+              arguments: event.patient.conference);
+        }
+        /*
+        Navigator.pushNamed(context, joinConferencePageRoute,
+            arguments: participant!.conference);*/
+      },
+    );
+  }
+
 }
