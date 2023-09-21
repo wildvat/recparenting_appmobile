@@ -1,10 +1,10 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/src/calendar/models/event.model.dart';
 import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/events_color.enum.dart';
 
+//TODO: este deberia ser una extension de EventModel
 class EventsCalendarModel {
   late List<CalendarEventData?> events;
   late int total;
