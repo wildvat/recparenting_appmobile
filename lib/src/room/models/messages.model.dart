@@ -2,7 +2,7 @@ import 'package:recparenting/src/room/models/message.model.dart';
 
 class Messages {
   late final int total;
-  late final List<Message?> messages;
+  late final List<Message> messages;
 
   Messages({required this.total, required this.messages});
 

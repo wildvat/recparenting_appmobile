@@ -105,12 +105,18 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       if (state is ConversationLoaded) {
         ConversationLoaded currentStatus = (state as ConversationLoaded);
         emit(ConversationLoading());
-        conversation.messages.messages.addAll(currentStatus.messages.messages);
+        currentStatus.messages.messages.addAll(conversation.messages.messages);
+        /*if(conversation.messages.messages.isNotEmpty){
+          for(var message in conversation.messages.messages){
+            messages.insert(0, message);
+          }
+        }*/
+       // conversation.messages.messages.addAll(currentStatus.messages.messages);
         bool hasReachedMax = false;
-        if(conversation.messages.messages.length == conversation.messages.total){
+        if(currentStatus.messages.messages.length == currentStatus.messages.total){
           hasReachedMax = true;
         }
-        emit(currentStatus.copyWith(messages: conversation.messages, hasReachedMax: hasReachedMax));
+        emit(currentStatus.copyWith(messages: currentStatus.messages, hasReachedMax: hasReachedMax));
 
       } else {
         emit(ConversationLoaded(
