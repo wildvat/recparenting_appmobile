@@ -15,6 +15,10 @@ class ReceiveMessageToConversation extends ConversationEvent {
   final Message message;
   const ReceiveMessageToConversation({required this.message});
 }
+class DeleteMessageFromConversation extends ConversationEvent {
+  final Message message;
+  const DeleteMessageFromConversation({required this.message});
+}
 class ConversationFetch extends ConversationEvent {
   final int? page;
   const ConversationFetch({required this.page});
