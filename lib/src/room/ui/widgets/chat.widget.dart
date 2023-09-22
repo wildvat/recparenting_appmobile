@@ -89,7 +89,8 @@ class _ChatWidgetState extends State<ChatWidget> {
           itemBuilder: (BuildContext context, int index) {
             return index >= state.messages.messages.length
                 ? Container()
-                : messageWidget(state.messages.messages[index]!);
+                : messageWidget(state.messages.messages[index],
+                    (index > 0) ? state.messages.messages[index - 1] : null);
           },
           itemCount: state.hasReachedMax
               ? state.messages.messages.length
@@ -112,7 +113,19 @@ class _ChatWidgetState extends State<ChatWidget> {
     });
   }
 
-  Widget messageWidget(Message message) {
+  bool _shouldShowDateSeparator(Message? previousMessage, Message message) {
+    if (previousMessage == null) {
+      // Means this is the first message
+      return true;
+    }
+    return previousMessage.createdAt
+            .difference(message.createdAt)
+            .inDays
+            .abs() >
+        0;
+  }
+
+  Widget messageWidget(Message message, Message? previousMessage) {
     Color backgroundColor = Colors.grey.shade100;
     Color textColor = Colors.black;
     Alignment alignment = Alignment.centerLeft;
@@ -121,48 +134,63 @@ class _ChatWidgetState extends State<ChatWidget> {
       textColor = Colors.black;
       alignment = Alignment.centerRight;
     }
-    if(message.isDeleted) {
-      textColor = textColor.withOpacity(0.3);
+    if (message.isDeleted) {
+       textColor = textColor.withOpacity(0.3);
     }
 
+    Widget currentDate = SizedBox();
+    if (_shouldShowDateSeparator(previousMessage, message)) {
+      currentDate = Center(
+          child: Text(
+        DateFormat.yMMMMd().format(message.createdAt),
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.red,
+          fontSize: 10,
+        ),
+      ));
+    }
     return Container(
         constraints: const BoxConstraints(maxWidth: 150),
         alignment: alignment,
-        child: GestureDetector(
-            onLongPress: () {
-              if(currentUser?.id == message.user.id){
-                print('lo borro');
-                showAlertRemoveMessage(context, message);
-              }
-            },
-            child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius:  BorderRadius.only(
-                    topLeft:Radius.circular(20), 
-                    topRight: Radius.circular(20),
-                    bottomLeft: (currentUser!.id == message.user.id)?Radius.circular(20):Radius.circular(0),
-                    bottomRight: (currentUser!.id != message.user.id)?Radius.circular(20):Radius.circular(0)
-                )
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-
-                Text(decryptAESCryptoJS(message.message, message.user.id),
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 18,
-                    )),
-                Text(DateFormat.Hm().format(message.createdAt),
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 10,
-                    )),
-              ],
-            ))));
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          currentDate,
+          GestureDetector(
+              onLongPress: () {
+                if (currentUser?.id == message.user.id) {
+                  showAlertRemoveMessage(context, message);
+                }
+              },
+              child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: backgroundColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: (currentUser!.id == message.user.id)
+                              ? Radius.circular(20)
+                              : Radius.circular(0),
+                          bottomRight: (currentUser!.id != message.user.id)
+                              ? Radius.circular(20)
+                              : Radius.circular(0))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(decryptAESCryptoJS(message.message, message.user.id),
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 18,
+                          )),
+                      Text(DateFormat.Hm().format(message.createdAt),
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 10,
+                          )),
+                    ],
+                  )))
+        ]));
   }
 
   void sendMessage(String message) {
@@ -200,18 +228,18 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   showAlertRemoveMessage(BuildContext context, Message message) {
-
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text('cancel'),
-      onPressed:  () {
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
       child: Text('Continue'),
-      onPressed:  () {
-        message.message = encryptAESCryptoJS('This message has been deleted', message.user.id);
+      onPressed: () {
+        message.message = encryptAESCryptoJS(
+            'This message has been deleted', message.user.id);
         conversationBloc.add(DeleteMessageFromConversation(message: message));
         Navigator.of(context).pop();
       },
