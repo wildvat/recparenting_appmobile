@@ -23,7 +23,6 @@ class Room {
         ? Message.fromJson(json['last_message'])
         : null;
 
-    print(json['participants']);
     participants = List<User>.from(json['participants'].map((user) {
 
       User userf = User.fromJson(user);

@@ -13,6 +13,7 @@ abstract class ConversationState extends Equatable {
 
 class ConversationUninitialized extends ConversationState {}
 class ConversationError extends ConversationState {}
+class ConversationLoading extends ConversationState {}
 
 final class ConversationLoaded extends ConversationState {
   final Messages messages;

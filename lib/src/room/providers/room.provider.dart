@@ -5,15 +5,17 @@ import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/providers/http.dart';
 
+import '../../../environments/env.dart';
 import '../models/rooms.model.dart';
 
 class RoomApi {
   late User user;
   AuthApiHttp client = AuthApiHttp();
+  final String _baseUrl = env.apiUrl;
 
 
   Future<Rooms?> getAll(int? page, int? limit) async {
-     String endpoint = 'conversation';
+     String endpoint = '${_baseUrl}conversation';
     bool queryAdded = false;
     if (page != null) {
       endpoint = '$endpoint?page=$page';
@@ -39,7 +41,7 @@ class RoomApi {
     }
   }
   Future<Conversation?> getConversation(String id, int? page) async {
-    String endpoint = 'conversation/$id';
+    String endpoint = '${_baseUrl}conversation/$id';
     if (page != null) {
       endpoint = '$endpoint?page=$page';
     }
@@ -59,7 +61,7 @@ class RoomApi {
   }
 
   Future<Conversation?> getConversationWithUser(User user) async {
-    String endpoint = 'conversation/user/${user.id}';
+    String endpoint = '${_baseUrl}conversation/user/${user.id}';
     try {
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
@@ -75,7 +77,7 @@ class RoomApi {
   }
 
   Future<Rooms?> getConversationSharedPatientWithTherapist(User user) async {
-    String endpoint = 'patient/${user.id}/shared/conversations';
+    String endpoint = '${_baseUrl}patient/${user.id}/shared/conversations';
     try {
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
@@ -90,8 +92,8 @@ class RoomApi {
     }
   }
 
-  Future<Message?> sendMessage(String id, User user, Message message) async {
-    String endpoint = 'conversation/$id';
+  Future<Message?> sendMessage(String roomId, Message message) async {
+    String endpoint = '${_baseUrl}conversation/$roomId';
     try {
       Map<String, dynamic> body = {
         'type': message.type,
@@ -107,7 +109,7 @@ class RoomApi {
         return null;
       }
     } on DioException catch (e) {
-      developer.log('/** ERROR RoomApi.getConversationWithUser **/');
+      developer.log('/** ERROR RoomApi.sendMessage **/');
       developer.log(e.response.toString());
       return null;
     }
@@ -138,7 +140,7 @@ class RoomApi {
 
    */
   Future<void> deleteMessage(String idConversation, String idMessage) async {
-    String endpoint = 'conversation/$idConversation/message/$idMessage';
+    String endpoint = '${_baseUrl}conversation/$idConversation/message/$idMessage';
     try {
       Response response = await client.dio.delete(endpoint);
       if (response.statusCode == 200) {
@@ -153,7 +155,7 @@ class RoomApi {
     }
   }
   Future<void> deleteConversation(String id) async {
-    String endpoint = 'conversation/$id';
+    String endpoint = '${_baseUrl}conversation/$id';
     try {
       Response response = await client.dio.delete(endpoint);
       if (response.statusCode == 200) {

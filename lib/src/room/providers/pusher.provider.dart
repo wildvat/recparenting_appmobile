@@ -2,20 +2,19 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:recparenting/environments/env.dart';
 import 'package:recparenting/src/auth/repository/token_respository.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
-import 'package:recparenting/src/room/providers/encryptMessage.dart';
-
 import '../bloc/conversation_bloc.dart';
 
 class ChatApi {
 
   late ConversationBloc _conversationBloc;
 
-  ChatApi(ConversationBloc bloc){
-    _conversationBloc = bloc;
+  ChatApi(context){
+    _conversationBloc = BlocProvider.of<ConversationBloc>(context);
 
   }
   final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
@@ -81,17 +80,19 @@ class ChatApi {
 
   void onEvent(PusherEvent event) {
     try {
-      developer.log("onEventOk: $event");
+     // developer.log("onEventOk: $event");
       if (event.eventName == 'new-message') {
         Message message = Message.fromJson(jsonDecode(event.data));
+        print('envio evento ReceiveMessageToConversation');
         _conversationBloc.add(ReceiveMessageToConversation(message: message));
+        print('ya esta enviado evento ReceiveMessageToConversation');
 
         if (message.type == 'text') {
-          developer.log("onEventOk1 ${message.message}");
-          developer.log("onEventOk2 ${message.user.id}");
-          final String messageDecrypted =
-              decryptAESCryptoJS(message.message, message.user.id);
-          developer.log('Decrypt: $messageDecrypted');
+         // developer.log("onEventOk1 ${message.message}");
+        //  developer.log("onEventOk2 ${message.user.id}");
+        //  final String messageDecrypted =
+        //      decryptAESCryptoJS(message.message, message.user.id);
+       //   developer.log('Decrypt: $messageDecrypted');
          // message.message = messageDecrypted;
           // todo add message to screen
         }

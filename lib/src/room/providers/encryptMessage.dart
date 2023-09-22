@@ -37,7 +37,7 @@ String encryptAESCryptoJS(String plainText, String passphrase) {
 }
 
 String decryptAESCryptoJS(String encrypted, String passphrase) {
-  developer.log('decryptAESCryptoJS');
+  //developer.log('decryptAESCryptoJS');
   var json = jsonDecode(encrypted);
   var salt = convert.hex.decode(json['s']);
 
