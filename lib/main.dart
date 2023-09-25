@@ -6,6 +6,7 @@ import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
+import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/theme.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
   final _languageBloc = LanguageBloc();
   final _currentUserBloc = CurrentUserBloc();
-
+  final _notificationsBloc = NotificationBloc();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<CurrentUserBloc>(
             create: (BuildContext context) => _currentUserBloc,
+          ),
+          BlocProvider<NotificationBloc>(
+            create: (BuildContext context) => _notificationsBloc,
           )
         ],
         child: BlocBuilder<LanguageBloc, LanguageState>(

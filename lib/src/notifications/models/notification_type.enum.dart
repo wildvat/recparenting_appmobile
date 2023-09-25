@@ -1,0 +1,17 @@
+enum NotificationType {
+  TherapistDisabledAtNotification,
+  ToPatientWhenTherapistWasAssigned,
+  UserDisabledAtNotification,
+  PatientDisabledAtNotification,
+  ToTherapistWhenPatientWasAssigned,
+  ToTherapistDisabledWhenPatientWasAssigned,
+  ToPatientWhenRequestedChange,
+  ToTherapistWhenPatientRequestedChange,
+  ToParticipantsWhenEventAppointmentWasCreated,
+  ToParticipantsWhenEventAppointmentWasDeleted,
+  ToEmployeeWhenPatientRequestedChange,
+  ToParticipantsWhenForumMessageWasCreated,
+  PatientDisabledAtReminderNotification,
+  ToTherapistWhenPatientDisabledAtNotification,
+  ConversationUnreadNotification,
+}
