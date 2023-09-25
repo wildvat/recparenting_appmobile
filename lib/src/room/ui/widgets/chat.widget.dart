@@ -87,7 +87,7 @@ class _ChatWidgetState extends State<ChatWidget> {
             Navigator.pushNamed(context, therapistBioPageRoute,
                 arguments: widget.patient.therapist);
           },
-          child: Text(AppLocalizations.of(context)!.therapistBioTitle),
+          child: Text(AppLocalizations.of(context)!.therapistShow),
         )
         );
       }
