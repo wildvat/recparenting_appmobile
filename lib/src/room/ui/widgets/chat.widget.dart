@@ -6,6 +6,7 @@ import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
+import 'package:recparenting/src/room/helpers/participans_from_room.dart';
 import 'package:recparenting/src/room/models/conversation.model.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
 import 'package:recparenting/src/room/providers/pusher.provider.dart';
@@ -78,21 +79,22 @@ class _ChatWidgetState extends State<ChatWidget> {
           icon: const Icon(Icons.refresh));
 
       widgets.add(reload);*/
-      if(currentUser!.isPatient()) {
-        widgets.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shadowColor: colorRecLight,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, therapistBioPageRoute,
-                arguments: widget.patient.therapist);
-          },
-          child: Text(AppLocalizations.of(context)!.therapistShow),
-        )
-        );
-      }
+
 
       if (state is ConversationLoaded) {
+        if(currentUser!.isPatient()) {
+          widgets.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shadowColor: colorRecLight,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, therapistBioPageRoute,
+                  arguments: getTherapistFromRoom(state.conversation.room, currentUser!));
+            },
+            child: Text(AppLocalizations.of(context)!.therapistShow),
+          )
+          );
+        }
         if(state.loading){
           widgets.add( const SizedBox(
               height: 35,

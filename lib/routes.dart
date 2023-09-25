@@ -17,6 +17,7 @@ import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
+import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'package:recparenting/src/therapist/ui/screens/therapist_bio.screen.dart';
 
 class RouterRec {
@@ -51,8 +52,10 @@ class RouterRec {
       );
     },
     contactPageRoute: (_) => const ContactScreen(),
-    therapistBioPageRoute: (_) {
-      return const TherapistBioScreen();
+    therapistBioPageRoute: (context) {
+      final Therapist argument =
+      ModalRoute.of(context)!.settings.arguments as Therapist;
+      return  TherapistBioScreen(therapist: argument);
     },
     calendarRoute: (_) => const CalendarScreen(),
     premiumRoute: (_) => const PremiumScreen(),
