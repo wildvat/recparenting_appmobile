@@ -31,34 +31,36 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
         Text(AppLocalizations.of(context)!.workingHoursTitle,
             style: const TextStyle(fontWeight: FontWeight.bold)),
         const SizedBox(height: 10),
-        ListView.separated(
-            shrinkWrap: true,
-            itemCount: _workingHours.length,
-            separatorBuilder: (BuildContext context, int index) =>
-                const SizedBox(height: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!
-                        .getDay(_workingHours[index]['day'])
-                        .toUpperCase(),
-                    style: const TextStyle(color: colorRec),
-                  ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: (_workingHours[index]['startEnd']
-                              as WorkingHoursStartEndList)
-                          .hours
-                          ?.length,
-                      itemBuilder: (BuildContext context, int indexWh) {
-                        return Text(
-                            '${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours?[indexWh].start} - ${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours?[indexWh].end}');
-                      }),
-                ],
-              );
-            }),
+        _workingHours.isEmpty
+            ? const SizedBox.shrink()
+            : ListView.separated(
+                shrinkWrap: true,
+                itemCount: _workingHours.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: 10),
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!
+                            .getDay(_workingHours[index]['day'])
+                            .toUpperCase(),
+                        style: const TextStyle(color: colorRec),
+                      ),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: (_workingHours[index]['startEnd']
+                                  as WorkingHoursStartEndList)
+                              .hours
+                              .length,
+                          itemBuilder: (BuildContext context, int indexWh) {
+                            return Text(
+                                '${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.start} - ${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.end}');
+                          }),
+                    ],
+                  );
+                }),
       ],
     );
   }

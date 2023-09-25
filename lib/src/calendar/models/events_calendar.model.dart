@@ -1,4 +1,5 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
@@ -16,7 +17,6 @@ class EventsCalendarModel {
       total = json['total'];
       List eventsToCalendar = json['items'];
       if (eventsToCalendar.isNotEmpty) {
-
         events = eventsToCalendar.map((event) {
           //TODO: El modelo EventModel lleva incorporado los iconos y los colores ver si se puede recoger el color desde el eventModel y borrar este
           if (currentUser.isPatient() &&
@@ -33,14 +33,15 @@ class EventsCalendarModel {
               date: DateTime.parse(event['start']).toLocal(),
               startTime: DateTime.parse(event['start']).toLocal(),
               endTime: DateTime.parse(event['end']).toLocal(),
-              event: EventCalendarApiModel.fromJson(event),//TODO: ver si se puede cambiar por el generio EventModel
+              event: EventCalendarApiModel.fromJson(
+                  event), //TODO: ver si se puede cambiar por el generio EventModel
               color: color);
         }).toList();
       } else {
         events = [];
       }
     } catch (e) {
-      print(e.toString());
+      dev.log(e.toString());
       total = 0;
       events = [];
     }

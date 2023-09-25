@@ -12,10 +12,9 @@ class EventsCalendarApiModel {
     events = EventsCalendarModel.fromJson(json['events'], currentUser);
   }
 
-
   factory EventsCalendarApiModel.mock(User currentUser) {
     return EventsCalendarApiModel(
-        workingHours: WorkingHours(),
+        workingHours: WorkingHours.mock(),
         events: EventsCalendarModel(events: [], total: 0));
   }
 }

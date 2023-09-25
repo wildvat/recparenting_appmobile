@@ -1,10 +1,16 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'dart:developer' as developer;
 
 import 'package:recparenting/_shared/providers/http.dart';
+import 'package:recparenting/_shared/providers/r_language.dart';
+import 'package:recparenting/src/calendar/models/create_event_api_response.dart';
+import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/events.model.dart';
 import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart';
+import 'package:recparenting/src/calendar/models/events_color.enum.dart';
 
 class CalendarApi {
   AuthApiHttp client = AuthApiHttp();
@@ -45,8 +51,7 @@ class CalendarApi {
       dio.Response response = await client.dio
           .get('$endpoint/$patientId?start=$startToApi&end=$endToApi');
       if (response.statusCode == 200) {
-        EventsModel events =
-            EventsModel.fromJson(response.data['events']);
+        EventsModel events = EventsModel.fromJson(response.data['events']);
         return events;
       }
       return null;
@@ -67,6 +72,57 @@ class CalendarApi {
       developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
       developer.log(e.response.toString());
       return false;
+    }
+  }
+
+  Future<CreateEventApiResponse> createEvent(
+      {required User currentUser,
+      required String userId,
+      required String modelType,
+      required String modelId,
+      required String title,
+      required String type,
+      required DateTime start,
+      required DateTime end}) async {
+    const String endpoint = 'calendar/event';
+    try {
+      dio.Response response = await client.dio.post(endpoint, data: {
+        'user_id': userId,
+        'model_type': modelType,
+        'model_id': modelId,
+        'title': title,
+        'decription': '',
+        'type': type,
+        'start': start.toUtc().toString(),
+        'end': end.toUtc().toString(),
+      });
+      if (response.statusCode == 204) {
+        print(response.data);
+        Color color;
+        if (currentUser.isPatient() &&
+            currentUser.id != response.data['user']['uuid']) {
+          color = Colors.red;
+        } else {
+          color = calendarEventsColors[response.data['type']] ?? Colors.grey;
+        }
+        return CreateEventApiResponse(
+            event: CalendarEventData(
+                title: currentUser.isPatient() &&
+                        currentUser.id != response.data['user']['uuid']
+                    ? '----'
+                    : response.data['title'],
+                date: DateTime.parse(response.data['start']).toLocal(),
+                startTime: DateTime.parse(response.data['start']).toLocal(),
+                endTime: DateTime.parse(response.data['end']).toLocal(),
+                event: EventCalendarApiModel.fromJson(response.data),
+                color: color));
+      }
+      return CreateEventApiResponse(
+          error: response.data['message'] ?? R.string.generalError);
+    } on dio.DioException catch (e) {
+      developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
+      developer.log(e.response.toString());
+      return CreateEventApiResponse(error: R.string.generalError);
     }
   }
 }

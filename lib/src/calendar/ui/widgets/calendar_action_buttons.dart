@@ -1,3 +1,4 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:recparenting/src/calendar/ui/widgets/calendar_form_create_event.dart';
 import 'package:recparenting/src/calendar/ui/widgets/legend_bottomshhet.dart';
@@ -6,7 +7,9 @@ import 'package:recparenting/src/therapist/ui/widgets/therapist_working_hours.da
 
 class CalendarActionButtonsWidget extends StatelessWidget {
   final Therapist therapist;
-  const CalendarActionButtonsWidget({required this.therapist, super.key});
+  final EventController eventController;
+  const CalendarActionButtonsWidget(
+      {required this.therapist, required this.eventController, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +19,12 @@ class CalendarActionButtonsWidget extends StatelessWidget {
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () {
               showModalBottomSheet<void>(
+                  isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) => Padding(
                       padding: const EdgeInsets.all(20),
-                      child: CalendarFormCreateEventWidget()));
+                      child: CalendarFormCreateEventWidget(
+                          eventController: eventController)));
             }),
         IconButton(
             icon: const Icon(Icons.schedule),

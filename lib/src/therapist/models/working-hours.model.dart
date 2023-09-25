@@ -1,22 +1,98 @@
+import 'dart:developer' as dev;
+
 class WorkingHours {
-  WorkingHoursStartEndList? monday;
-  WorkingHoursStartEndList? tuesday;
-  WorkingHoursStartEndList? wednesday;
-  WorkingHoursStartEndList? thursday;
-  WorkingHoursStartEndList? friday;
-  WorkingHoursStartEndList? saturday;
-  WorkingHoursStartEndList? sunday;
+  late WorkingHoursStartEndList monday;
+  late WorkingHoursStartEndList tuesday;
+  late WorkingHoursStartEndList wednesday;
+  late WorkingHoursStartEndList thursday;
+  late WorkingHoursStartEndList friday;
+  late WorkingHoursStartEndList saturday;
+  late WorkingHoursStartEndList sunday;
 
   WorkingHours(
-      {this.monday,
-      this.tuesday,
-      this.wednesday,
-      this.thursday,
-      this.friday,
-      this.saturday,
-      this.sunday});
+      {required this.monday,
+      required this.tuesday,
+      required this.wednesday,
+      required this.thursday,
+      required this.friday,
+      required this.saturday,
+      required this.sunday});
+
+  _workingHoursToLocal(
+      {required dynamic json,
+      required int timeOffset,
+      required WorkingHoursStartEndList current,
+      required WorkingHoursStartEndList prev,
+      required WorkingHoursStartEndList next}) {
+    final WorkingHoursStartEndList mondayTmp =
+        WorkingHoursStartEndList.fromJson(json);
+    mondayTmp.hours.map((hour) {
+      final startHourLocal =
+          int.parse(hour!.start.substring(0, 2)) + timeOffset;
+      final startMinutes = hour.start.substring(3, 5);
+      final endHourLocal = int.parse(hour.end.substring(0, 2)) + timeOffset;
+      final endMinutes = hour.end.substring(3, 5);
+      String sameDayHourStart =
+          startHourLocal < 10 ? '0$startHourLocal' : '$startHourLocal';
+      String sameDayHourEnd =
+          endHourLocal < 10 ? '0$endHourLocal' : '$endHourLocal';
+
+      if (startHourLocal < 0 && endHourLocal < 0) {
+        dev.log('all hour to prev day');
+        sameDayHourStart = '';
+        sameDayHourEnd = '';
+        final String startLocalFormat = startHourLocal + 24 < 10
+            ? '0${startHourLocal + 24}'
+            : '${startHourLocal + 24}';
+        final String endLocalFormat = endHourLocal + 24 < 10
+            ? '0${endHourLocal + 24}'
+            : '${endHourLocal + 24}';
+        final WorkingHoursStartEnd workingHourLocal = WorkingHoursStartEnd(
+            '$startLocalFormat:$startMinutes', '$endLocalFormat:$endMinutes');
+        prev.hours.add(workingHourLocal);
+      } else if (startHourLocal >= 24 && endHourLocal > 24) {
+        dev.log('all hour to next day');
+        sameDayHourStart = '';
+        sameDayHourEnd = '';
+        final String startLocalFormat = startHourLocal - 24 < 10
+            ? '0${startHourLocal - 24}'
+            : '${startHourLocal - 24}';
+        final String endLocalFormat = endHourLocal - 24 < 10
+            ? '0${endHourLocal - 24}'
+            : '${endHourLocal - 24}';
+        final WorkingHoursStartEnd workingHourLocal = WorkingHoursStartEnd(
+            '$startLocalFormat:$startMinutes', '$endLocalFormat:$endMinutes');
+
+        next.hours.add(workingHourLocal);
+      } else if (startHourLocal < 0 && endHourLocal >= 0) {
+        dev.log('part of hour to prev day');
+        final WorkingHoursStartEnd workingHourLocal = WorkingHoursStartEnd(
+            '${startHourLocal + 24}:$startMinutes', '24:$endMinutes');
+        sameDayHourStart = '00';
+        sameDayHourEnd = endHourLocal < 10 ? '0$endHourLocal' : '$endHourLocal';
+        prev.hours.add(workingHourLocal);
+      } else if (startHourLocal < 24 && endHourLocal > 24) {
+        dev.log('part of hour to next day');
+        sameDayHourEnd = '24:$endMinutes';
+        final String endLocalFormat = endHourLocal - 24 < 10
+            ? '0${endHourLocal - 24}'
+            : '${endHourLocal - 24}';
+        final WorkingHoursStartEnd workingHourLocal = WorkingHoursStartEnd(
+            '00:$startMinutes', '$endLocalFormat:$endMinutes');
+        next.hours.add(workingHourLocal);
+      }
+      if (sameDayHourStart != '' || sameDayHourEnd != '') {
+        dev.log('same');
+        final WorkingHoursStartEnd workingHourLocal = WorkingHoursStartEnd(
+            '$sameDayHourStart:$startMinutes', '$sameDayHourEnd:$endMinutes');
+        current.hours.add(workingHourLocal);
+      }
+    }).toList();
+  }
 
   WorkingHours.fromJson(Map<String, dynamic> json) {
+    int timeZoneOffset = DateTime.now().timeZoneOffset.inHours;
+    /*
     if (json['monday'] != null) {
       monday = WorkingHoursStartEndList.fromJson(json['monday']);
     }
@@ -38,37 +114,145 @@ class WorkingHours {
     if (json['sunday'] != null) {
       sunday = WorkingHoursStartEndList.fromJson(json['sunday']);
     }
+    */
+    try {
+      monday = WorkingHoursStartEndList([]);
+      tuesday = WorkingHoursStartEndList([]);
+      wednesday = WorkingHoursStartEndList([]);
+      thursday = WorkingHoursStartEndList([]);
+      friday = WorkingHoursStartEndList([]);
+      saturday = WorkingHoursStartEndList([]);
+      sunday = WorkingHoursStartEndList([]);
+      if (json['monday'] != null) {
+        dev.log('------ monday -------');
+        _workingHoursToLocal(
+            json: json['monday'],
+            timeOffset: timeZoneOffset,
+            current: monday,
+            prev: sunday,
+            next: tuesday);
+        dev.log('------ / monday -------');
+      } else {
+        monday = WorkingHoursStartEndList([]);
+      }
+
+      if (json['tuesday'] != null) {
+        dev.log('------ tuesday --------');
+        _workingHoursToLocal(
+            json: json['tuesday'],
+            timeOffset: timeZoneOffset,
+            current: tuesday,
+            prev: monday,
+            next: wednesday);
+        dev.log('------ / tuesday --------');
+      } else {
+        tuesday = WorkingHoursStartEndList([]);
+      }
+      if (json['wednesday'] != null) {
+        dev.log('------ wednesday --------');
+        _workingHoursToLocal(
+            json: json['tuesday'],
+            timeOffset: timeZoneOffset,
+            current: wednesday,
+            prev: tuesday,
+            next: thursday);
+        dev.log('------ / wednesday --------');
+      } else {
+        wednesday = WorkingHoursStartEndList([]);
+      }
+      if (json['thursday'] != null) {
+        dev.log('------ thursday --------');
+        _workingHoursToLocal(
+            json: json['tuesday'],
+            timeOffset: timeZoneOffset,
+            current: thursday,
+            prev: wednesday,
+            next: friday);
+        dev.log('------ / thursday --------');
+      } else {
+        thursday = WorkingHoursStartEndList([]);
+      }
+      if (json['friday'] != null) {
+        dev.log('------ friday --------');
+        _workingHoursToLocal(
+            json: json['tuesday'],
+            timeOffset: timeZoneOffset,
+            current: friday,
+            prev: thursday,
+            next: saturday);
+        dev.log('------ / friday --------');
+      } else {
+        friday = WorkingHoursStartEndList([]);
+      }
+      if (json['saturday'] != null) {
+        dev.log('------ saturday --------');
+        _workingHoursToLocal(
+            json: json['saturday'],
+            timeOffset: timeZoneOffset,
+            current: saturday,
+            prev: friday,
+            next: sunday);
+        dev.log('------ / saturday --------');
+      } else {
+        saturday = WorkingHoursStartEndList([]);
+      }
+      if (json['sunday'] != null) {
+        dev.log('------ sunday --------');
+        _workingHoursToLocal(
+            json: json['sunday'],
+            timeOffset: timeZoneOffset,
+            current: sunday,
+            prev: saturday,
+            next: monday);
+        dev.log('------ / sunday --------');
+      } else {
+        sunday = WorkingHoursStartEndList([]);
+      }
+    } catch (error) {
+      dev.log('aqui');
+      dev.log(error.toString());
+    }
   }
 
   List<Map<String, dynamic>> toList() {
     List<Map<String, dynamic>> wHours = [];
-    if (monday != null) {
+    if (monday.hours.isNotEmpty) {
       wHours.add({'day': 'monday', 'startEnd': monday});
     }
-    if (tuesday != null) {
+    if (tuesday.hours.isNotEmpty) {
       wHours.add({'day': 'tuesday', 'startEnd': tuesday});
     }
-    if (wednesday != null) {
+    if (wednesday.hours.isNotEmpty) {
       wHours.add({'day': 'wednesday', 'startEnd': wednesday});
     }
-    if (thursday != null) {
+    if (thursday.hours.isNotEmpty) {
       wHours.add({'day': 'thursday', 'startEnd': thursday});
     }
-    if (friday != null) {
+    if (friday.hours.isNotEmpty) {
       wHours.add({'day': 'friday', 'startEnd': friday});
     }
-    if (saturday != null) {
+    if (saturday.hours.isNotEmpty) {
       wHours.add({'day': 'saturday', 'startEnd': saturday});
     }
-    if (sunday != null) {
+    if (sunday.hours.isNotEmpty) {
       wHours.add({'day': 'sunday', 'startEnd': sunday});
     }
     return wHours;
   }
+
+  WorkingHours.mock() {
+    monday = WorkingHoursStartEndList([]);
+    tuesday = WorkingHoursStartEndList([]);
+    wednesday = WorkingHoursStartEndList([]);
+    thursday = WorkingHoursStartEndList([]);
+    friday = WorkingHoursStartEndList([]);
+    saturday = WorkingHoursStartEndList([]);
+    sunday = WorkingHoursStartEndList([]);
+  }
 }
 
 class WorkingHoursStartEndList {
-  List<WorkingHoursStartEnd>? hours;
+  late List<WorkingHoursStartEnd?> hours;
 
   WorkingHoursStartEndList(this.hours);
 
