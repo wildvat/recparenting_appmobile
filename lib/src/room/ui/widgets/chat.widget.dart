@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
@@ -77,7 +78,19 @@ class _ChatWidgetState extends State<ChatWidget> {
           icon: const Icon(Icons.refresh));
 
       widgets.add(reload);*/
-
+      if(currentUser!.isPatient()) {
+        widgets.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shadowColor: colorRecLight,
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, therapistBioPageRoute,
+                arguments: widget.patient.therapist);
+          },
+          child: Text(AppLocalizations.of(context)!.therapistBioTitle),
+        )
+        );
+      }
 
       if (state is ConversationLoaded) {
         if(state.loading){

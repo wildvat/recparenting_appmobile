@@ -43,6 +43,11 @@ class _ChatScreenState extends State<ChatScreen> {
       roomsShared =
           roomApi.getConversationSharedPatientWithTherapist(widget.patient);
     }
+    if (currentUser!.isPatient()) {
+      RoomApi roomApi = RoomApi();
+      roomsShared =
+          roomApi.getAll(1, null);
+    }
   }
 
   @override
@@ -65,10 +70,12 @@ class _ChatScreenState extends State<ChatScreen> {
     List<Widget> tabs = [];
     List<Widget> tabsContent = [];
 
-    tabs.add( Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
-    tabsContent.add(BlocProvider(
-        create: (_) => ConversationBloc(roomId: widget.patient.room),
-        child: ChatWidget(patient: widget.patient)));
+    if(currentUser!.isTherapist()) {
+      tabs.add(Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
+      tabsContent.add(BlocProvider(
+          create: (_) => ConversationBloc(roomId: widget.patient.room),
+          child: ChatWidget(patient: widget.patient)));
+    }
 
     for (var room in rooms.rooms) {
       Therapist? therapist = getTherapistFromRoom(room, currentUser!);
@@ -111,9 +118,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (currentUser!.isPatient()) {
-      return withOutShared();
-    }
+
 
     return FutureBuilder(
         future: roomsShared,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
+
+import '../../../../_shared/helpers/avatar_image.dart';
 
 class TherapistBioHeaderWidget extends StatelessWidget {
   const TherapistBioHeaderWidget({
@@ -27,15 +28,7 @@ class TherapistBioHeaderWidget extends StatelessWidget {
             width: 100,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(500)),
-              child: _therapist!.avatar.contains('/avatar/user')
-                  ? SvgPicture.network(
-                      _therapist!.avatar,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(
-                      _therapist!.avatar,
-                      fit: BoxFit.cover,
-                    ),
+              child: AvatarImage(user: _therapist!),
             ),
           ),
           const SizedBox(height: 15),
