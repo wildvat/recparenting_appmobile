@@ -116,6 +116,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
       } else {
         emit(ConversationLoaded(
+          conversation: conversation,
             messages: conversation.messages,
             page: event.page ?? 1,
             hasReachedMax: false,

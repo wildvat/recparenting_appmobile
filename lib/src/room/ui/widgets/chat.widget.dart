@@ -5,11 +5,13 @@ import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
+import 'package:recparenting/src/room/models/conversation.model.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
 import 'package:recparenting/src/room/providers/pusher.provider.dart';
 import '../../../../_shared/models/user.model.dart';
 import '../../helpers/time_from_message.dart';
 import '../../providers/encryptMessage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatWidget extends StatefulWidget {
   final Patient patient;
@@ -41,16 +43,15 @@ class _ChatWidgetState extends State<ChatWidget> {
     }
     conversationBloc = BlocProvider.of<ConversationBloc>(context);
     conversationBloc.add(ConversationFetch(page: page));
+
     chatApi = ChatApi(context);
     chatApi.connect(widget.patient.room);
     scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
-    print(scrollController.position.extentAfter);
     if (scrollController.position.extentAfter == 0.0) {
       page++;
-      print('pido p-agna $page');
       conversationBloc.add(ConversationFetch(page: page));
     }
   }
@@ -98,7 +99,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           itemBuilder: (BuildContext context, int index) {
             return index >= state.messages.messages.length
                 ? Container()
-                : messageWidget(state.messages.messages[index],
+                : messageWidget(state.conversation, state.messages.messages[index],
                     (index > 0) ? state.messages.messages[index - 1] : null);
           },
           itemCount: state.hasReachedMax
@@ -107,8 +108,9 @@ class _ChatWidgetState extends State<ChatWidget> {
           controller: scrollController,
         ));
         widgets.add(listChat);
-
-        widgets.add(textField());
+        if(state.conversation.room.isActive) {
+          widgets.add(textField());
+        }
         return Column(
           children: widgets,
         );
@@ -134,7 +136,7 @@ class _ChatWidgetState extends State<ChatWidget> {
         0;
   }
 
-  Widget messageWidget(Message message, Message? previousMessage) {
+  Widget messageWidget(Conversation conversation, Message message, Message? previousMessage) {
     Color backgroundColor = Colors.grey.shade100;
     Color textColor = Colors.black;
     Alignment alignment = Alignment.centerLeft;
@@ -144,7 +146,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       alignment = Alignment.centerRight;
     }
     if (message.isDeleted) {
-      //textColor = textColor.withOpacity(0.3);
+      textColor = textColor.withOpacity(0.3);
     }
 
     Widget currentDate = const SizedBox();
@@ -180,7 +182,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           separator,
           GestureDetector(
               onLongPress: () {
-                if (currentUser?.id == message.user.id) {
+                if (currentUser?.id == message.user.id && conversation.room.isActive) {
                   showAlertRemoveMessage(context, message);
                 }
               },
@@ -231,10 +233,11 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   Widget textField() {
+
     return TextField(
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(20),
-        hintText: 'Enter a message',
+        hintText: AppLocalizations.of(context)!.chatEnterMessage,
         suffixIcon: IconButton(
           onPressed: () {
             sendMessage(textController.value.text);
@@ -255,13 +258,13 @@ class _ChatWidgetState extends State<ChatWidget> {
   showAlertRemoveMessage(BuildContext context, Message message) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text('cancel'),
+      child: Text(AppLocalizations.of(context)!.generalCancel),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text('Continue'),
+      child: Text(AppLocalizations.of(context)!.generalContinue),
       onPressed: () {
         message.message = encryptAESCryptoJS(
             'This message has been deleted', message.user.id);
@@ -272,8 +275,8 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Vas a borrar un mensaje"),
-      content: Text("Estas seguro de querer borrar este mensaje?"),
+      title: Text(AppLocalizations.of(context)!.chatDeleteMessageTitle),
+      content: Text(AppLocalizations.of(context)!.chatDeleteMessageContent),
       actions: [
         cancelButton,
         continueButton,

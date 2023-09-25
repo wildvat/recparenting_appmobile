@@ -12,6 +12,7 @@ import '../../../therapist/models/therapist.model.dart';
 import '../../helpers/participans_from_room.dart';
 import '../../models/rooms.model.dart';
 import '../../providers/room.provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatScreen extends StatefulWidget {
   final Patient patient;
@@ -52,7 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget withOutShared() {
     return Scaffold(
         appBar: AppBar(
-          title: Text('chat with ${widget.patient.name}'),
+          title: Text(AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
           actions: const [AppSubmenuWidget()],
         ),
         body: BlocProvider(
@@ -64,7 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
     List<Widget> tabs = [];
     List<Widget> tabsContent = [];
 
-    tabs.add(const Tab(text: 'With me'));
+    tabs.add( Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
     tabsContent.add(BlocProvider(
         create: (_) => ConversationBloc(roomId: widget.patient.room),
         child: ChatWidget(patient: widget.patient)));
@@ -99,7 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
           bottom: TabBar(
             tabs: tabs,
           ),
-          title: Text('Chat with ${widget.patient.name}'),
+          title: Text(AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
         ),
         body: TabBarView(
           children: tabsContent,

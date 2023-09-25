@@ -28,6 +28,9 @@
   "generalFormLoginError": "Usuario o contraseña incorrectos",
   "generalNoData": "No hay datos disponibles",
   "generalFormErrorEmail": "Por favor introduzca un email",
+  "generalCancel": "Cancelar",
+  "generalAccept": "Aceptar",
+  "generalContinue": "Continuar",
   "calendarTitle": "Agenda",
   "calendarHelpMonth": "En el calendario mensual, mantener puslsado una hora, te redirige al calendario de ese día",
   "calendarHelpDayWeek": "En el calendario semanal y diario, mantener puslsado te abre la interfaz de crear una cita",
@@ -78,6 +81,14 @@
   "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
   "loading": "Cargando...",
   "patientNotHasEvents": "No tienes eventos",
-  "today": "hoy"
-
+  "today": "hoy",
+  "chatTitleWith": "Chat con {name}",
+  "@chatTitleWith": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chatTitleWithMe": "Chat conmigo",
+  "chatEnterMessage": "Escribe un mensaje...",
+  "chatDeleteMessageTitle": "Eliminar mensaje",
+  "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?"
 }

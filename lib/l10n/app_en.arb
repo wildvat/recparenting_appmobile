@@ -28,6 +28,9 @@
   "generalFormLoginError": "Incorrect username or password",
   "generalNoData": "There isn't available data",
   "generalFormErrorEmail": "Please enter an email",
+  "generalCancel": "Cancel",
+  "generalAccept": "Accept",
+  "generalContinue": "Continue",
   "calendarTitle": "Calendar",
   "calendarHelpMonth": "In the monthly calendar, holding down an hour, redirects you to that day's calendar",
   "calendarHelpDayWeek": "In the weekly and daily calendar, pressing and holding opens the interface to create an appointment",
@@ -78,5 +81,14 @@
   "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
   "loading": "Loading...",
   "patientNotHasEvents": "You don't have any scheduled appointments",
-  "today": "Today"
+  "today": "Today",
+  "chatTitleWith": "Chat whs {name}",
+  "@chatTitleWith": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chatTitleWithMe": "Chat with me",
+  "chatEnterMessage": "Write a message...",
+  "chatDeleteMessageTitle": "Delete message",
+  "chatDeleteMessageContent": "Are you sure you want to delete this message?"
 }
