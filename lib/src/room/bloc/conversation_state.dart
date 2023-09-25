@@ -20,12 +20,14 @@ final class ConversationLoaded extends ConversationState {
   final int page;
   final bool hasReachedMax;
   final int indexDate;
+  final bool loading;
 
   const ConversationLoaded({
     required this.messages,
     required this.page,
     required this.hasReachedMax,
     required this.indexDate,
+    this.loading = false,
   });
 
   ConversationLoaded copyWith({
@@ -33,12 +35,14 @@ final class ConversationLoaded extends ConversationState {
     int? page,
     bool? hasReachedMax,
     int? indexDate,
+    bool? loading,
   }) {
     return ConversationLoaded(
       messages: messages ?? this.messages,
       page: page ?? this.page,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       indexDate: indexDate ?? this.indexDate,
+      loading: loading ?? this.loading,
     );
   }
 }

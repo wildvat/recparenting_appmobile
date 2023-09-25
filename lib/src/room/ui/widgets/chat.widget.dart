@@ -47,8 +47,10 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   void _onScroll() {
+    print(scrollController.position.extentAfter);
     if (scrollController.position.extentAfter == 0.0) {
       page++;
+      print('pido p-agna $page');
       conversationBloc.add(ConversationFetch(page: page));
     }
   }
@@ -75,7 +77,13 @@ class _ChatWidgetState extends State<ChatWidget> {
 
       widgets.add(reload);*/
 
+
       if (state is ConversationLoaded) {
+        if(state.loading){
+          widgets.add( const SizedBox(
+              height: 35,
+              child: CircularProgressIndicator( color: colorRecLight,)));
+        }
         Widget listChat = Expanded(
             child: ListView.separated(
           scrollDirection: Axis.vertical,
@@ -110,7 +118,7 @@ class _ChatWidgetState extends State<ChatWidget> {
         return const Center(child: CircularProgressIndicator());
       }
 
-      return const Text('no hay datos');
+      return const Text('_');
     });
   }
 

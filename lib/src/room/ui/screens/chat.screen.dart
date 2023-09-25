@@ -15,6 +15,7 @@ import '../../providers/room.provider.dart';
 
 class ChatScreen extends StatefulWidget {
   final Patient patient;
+
   const ChatScreen({required this.patient, super.key});
 
   @override
@@ -36,8 +37,11 @@ class _ChatScreenState extends State<ChatScreen> {
     } else {
       throw Exception('no hay usuario');
     }
-    RoomApi roomApi = RoomApi();
-    roomsShared = roomApi.getConversationSharedPatientWithTherapist(widget.patient);
+    if (currentUser!.isTherapist()) {
+      RoomApi roomApi = RoomApi();
+      roomsShared =
+          roomApi.getConversationSharedPatientWithTherapist(widget.patient);
+    }
   }
 
   @override
@@ -45,25 +49,22 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  Widget withOutShared(){
+  Widget withOutShared() {
     return Scaffold(
         appBar: AppBar(
-          title: Text( 'chat with ${widget.patient.name}' ),
-          actions: const [
-            AppSubmenuWidget()
-          ],
+          title: Text('chat with ${widget.patient.name}'),
+          actions: const [AppSubmenuWidget()],
         ),
-
         body: BlocProvider(
             create: (_) => ConversationBloc(roomId: widget.patient.room),
             child: ChatWidget(patient: widget.patient)));
   }
 
-  Widget withShared(Rooms rooms){
+  Widget withShared(Rooms rooms) {
     List<Widget> tabs = [];
     List<Widget> tabsContent = [];
 
-    tabs.add(Tab(text: 'With me'));
+    tabs.add(const Tab(text: 'With me'));
     tabsContent.add(BlocProvider(
         create: (_) => ConversationBloc(roomId: widget.patient.room),
         child: ChatWidget(patient: widget.patient)));
@@ -72,28 +73,23 @@ class _ChatScreenState extends State<ChatScreen> {
       Therapist? therapist = getTherapistFromRoom(room, currentUser!);
       Patient? patient = getPatientFromRoom(room, currentUser!);
 
-      if(currentUser!.isTherapist()){
-        print('soy terapeuta');
-        if(patient != null && therapist != null) {
+      if (currentUser!.isTherapist()) {
+        if (patient != null && therapist != null) {
           tabs.add(Tab(text: therapist.name));
-          tabsContent.add( BlocProvider(
-              create: (_) => ConversationBloc(roomId:room.id),
+          tabsContent.add(BlocProvider(
+              create: (_) => ConversationBloc(roomId: room.id),
               child: ChatWidget(patient: patient)));
-        }else{
-          print(patient);
-          print(therapist);
-          print('no hay paciente');
         }
-      }else if(currentUser!.isPatient()){
-        if(therapist != null && patient != null) {
+      } else if (currentUser!.isPatient()) {
+        if (therapist != null && patient != null) {
           tabs.add(Tab(text: therapist.name));
-          tabsContent.add( BlocProvider(
-              create: (_) => ConversationBloc(roomId:room.id),
+          tabsContent.add(BlocProvider(
+              create: (_) => ConversationBloc(roomId: room.id),
               child: ChatWidget(patient: patient)));
         }
       }
     }
-    if(tabs.isEmpty){
+    if (tabs.isEmpty) {
       return withOutShared();
     }
     return DefaultTabController(
@@ -111,8 +107,12 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
+    if (currentUser!.isPatient()) {
+      return withOutShared();
+    }
 
     return FutureBuilder(
         future: roomsShared,
@@ -124,15 +124,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: CircularProgressIndicator(color: colorRec)));
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData && snapshot.data != null && snapshot.data!.rooms.isNotEmpty) {
+            if (snapshot.hasData &&
+                snapshot.data != null &&
+                snapshot.data!.rooms.isNotEmpty) {
               return withShared(snapshot.data!);
             } else {
               return withOutShared();
             }
           }
           return withOutShared();
-        }
-    );
-
+        });
   }
 }
