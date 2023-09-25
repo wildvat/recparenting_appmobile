@@ -58,7 +58,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget withOutShared() {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
+          title: Text(
+              AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
           actions: const [AppSubmenuWidget()],
         ),
         body: BlocProvider(
@@ -70,7 +71,9 @@ class _ChatScreenState extends State<ChatScreen> {
     List<Widget> tabs = [];
     List<Widget> tabsContent = [];
 
-    if(currentUser!.isTherapist()) {
+    if (currentUser!.isTherapist()) {
+      //Si es terapeuta el roomsShared solo devuelve room si esta compartido con el terapeuta
+      // por lo que tengo que añadir a los tabs la actual conversacion con el paciente
       tabs.add(Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
       tabsContent.add(BlocProvider(
           create: (_) => ConversationBloc(roomId: widget.patient.room),
@@ -81,20 +84,11 @@ class _ChatScreenState extends State<ChatScreen> {
       Therapist? therapist = getTherapistFromRoom(room, currentUser!);
       Patient? patient = getPatientFromRoom(room, currentUser!);
 
-      if (currentUser!.isTherapist()) {
-        if (patient != null && therapist != null) {
-          tabs.add(Tab(text: therapist.name));
-          tabsContent.add(BlocProvider(
-              create: (_) => ConversationBloc(roomId: room.id),
-              child: ChatWidget(patient: patient)));
-        }
-      } else if (currentUser!.isPatient()) {
-        if (therapist != null && patient != null) {
-          tabs.add(Tab(text: therapist.name));
-          tabsContent.add(BlocProvider(
-              create: (_) => ConversationBloc(roomId: room.id),
-              child: ChatWidget(patient: patient)));
-        }
+      if (patient != null && therapist != null) {
+        tabs.add(Tab(text: therapist.name));
+        tabsContent.add(BlocProvider(
+            create: (_) => ConversationBloc(roomId: room.id),
+            child: ChatWidget(patient: patient)));
       }
     }
     if (tabs.isEmpty) {
@@ -107,7 +101,8 @@ class _ChatScreenState extends State<ChatScreen> {
           bottom: TabBar(
             tabs: tabs,
           ),
-          title: Text(AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
+          title: Text(
+              AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
         ),
         body: TabBarView(
           children: tabsContent,
@@ -116,10 +111,9 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
-
-
     return FutureBuilder(
         future: roomsShared,
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
