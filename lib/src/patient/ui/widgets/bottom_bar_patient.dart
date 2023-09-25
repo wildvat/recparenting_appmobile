@@ -38,7 +38,7 @@ class BottomAppBarPatient extends StatelessWidget {
               size: 30,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, therapistBioPageRoute),
+                Navigator.pushReplacementNamed(context, therapistBioPageRoute, arguments: patient.therapist),
           ),
           const SizedBox(width: 50),
           IconButton(

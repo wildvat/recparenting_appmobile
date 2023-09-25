@@ -15,6 +15,7 @@
   "menuContact": "Contacta",
   "menuPatients": "Pacientes",
   "therapistBioTitle": "Tu terapeuta",
+  "therapistShow": "Más información",
   "workingHoursTitle": "Horario laboral",
   "logout": "Salir",
   "generalButtonDelete": "Eliminar",
@@ -29,6 +30,9 @@
   "generalNoData": "No hay datos disponibles",
   "generalFormErrorEmail": "Por favor introduzca un email",
   "generalFormErrorText": "Por favor introduzca un texto",
+  "generalCancel": "Cancelar",
+  "generalAccept": "Aceptar",
+  "generalContinue": "Continuar",
   "calendarTitle": "Agenda",
   "calendarGeneralError": "No se ha podido mostrar el calendario",
   "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",
@@ -88,6 +92,15 @@
   "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
   "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
   "loading": "Cargando...",
-  "patientNotHasEvents": "No tienes eventos"
-
+  "patientNotHasEvents": "No tienes eventos",
+  "today": "hoy",
+  "chatTitleWith": "Chat con {name}",
+  "@chatTitleWith": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chatTitleWithMe": "Chat conmigo",
+  "chatEnterMessage": "Escribe un mensaje...",
+  "chatDeleteMessageTitle": "Eliminar mensaje",
+  "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?"
 }
