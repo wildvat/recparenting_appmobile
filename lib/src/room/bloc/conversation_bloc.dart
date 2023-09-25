@@ -21,7 +21,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<AddMessageToConversation>(_onAddMessageToConversation);
     on<ReceiveMessageToConversation>(_onReceiveMessageToConversation);
     on<DeleteMessageFromConversation>(_onDeleteMessageFromConversation);
-
   }
 
   _onAddMessageToConversation(
@@ -98,9 +97,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         return;
       }
 
-      if(conversation.messages.messages.isEmpty){
-        return ;
-      }
+
 
       if (state is ConversationLoaded) {
         ConversationLoaded currentStatus = (state as ConversationLoaded);
@@ -122,7 +119,9 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         emit(ConversationLoaded(
             messages: conversation.messages,
             page: event.page ?? 1,
-            hasReachedMax: false));
+            hasReachedMax: false,
+            indexDate: 0
+        ));
       }
     } catch (_) {
       emit(ConversationError());
@@ -135,18 +134,17 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       if (state is ConversationLoaded) {
         ConversationLoaded currentStatus = (state as ConversationLoaded);
         emit(ConversationLoading());
-        int? message = currentStatus.messages.messages.indexWhere((element) => element!.id == event.message.id);
-
-        if(message != null){
-          currentStatus.messages.messages[message] = event.message;
-        }
-       emit(currentStatus.copyWith(messages: currentStatus.messages));
+        int? message = currentStatus.messages.messages.indexWhere((element) => element.id == event.message.id);
+        currentStatus.messages.messages[message] = event.message;
+             emit(currentStatus.copyWith(messages: currentStatus.messages));
       }
     } catch (_) {
       print(_.toString());
       emit(ConversationError());
     }
   }
+
+
 
   Future<Conversation?> _getConversation(int page) async {
     return await roomApi.getConversation(roomId, page);

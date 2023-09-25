@@ -8,6 +8,7 @@ import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
 import 'package:recparenting/src/room/providers/pusher.provider.dart';
 import '../../../../_shared/models/user.model.dart';
+import '../../helpers/time_from_message.dart';
 import '../../providers/encryptMessage.dart';
 
 class ChatWidget extends StatefulWidget {
@@ -135,26 +136,40 @@ class _ChatWidgetState extends State<ChatWidget> {
       alignment = Alignment.centerRight;
     }
     if (message.isDeleted) {
-       textColor = textColor.withOpacity(0.3);
+      //textColor = textColor.withOpacity(0.3);
     }
 
-    Widget currentDate = SizedBox();
+    Widget currentDate = const SizedBox();
+    Widget separator = const SizedBox();
     if (_shouldShowDateSeparator(previousMessage, message)) {
       currentDate = Center(
-          child: Text(
-        DateFormat.yMMMMd().format(message.createdAt),
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Colors.red,
-          fontSize: 10,
-        ),
-      ));
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: Colors.grey.shade300,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Text(
+                timeToStringFromMessage(message),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 10,
+                ),
+              )));
+      separator = const SizedBox(
+        height: 10,
+      );
+
     }
     return Container(
         constraints: const BoxConstraints(maxWidth: 150),
         alignment: alignment,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
           currentDate,
+          separator,
           GestureDetector(
               onLongPress: () {
                 if (currentUser?.id == message.user.id) {
@@ -162,18 +177,20 @@ class _ChatWidgetState extends State<ChatWidget> {
                 }
               },
               child: Container(
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       color: backgroundColor,
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+                          topLeft: const Radius.circular(20),
+                          topRight: const Radius.circular(20),
                           bottomLeft: (currentUser!.id == message.user.id)
-                              ? Radius.circular(20)
-                              : Radius.circular(0),
+                              ? const Radius.circular(20)
+                              : const Radius.circular(0),
                           bottomRight: (currentUser!.id != message.user.id)
-                              ? Radius.circular(20)
-                              : Radius.circular(0))),
+                              ? const Radius.circular(20)
+                              : const Radius.circular(0))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [

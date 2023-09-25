@@ -38,19 +38,24 @@ String encryptAESCryptoJS(String plainText, String passphrase) {
 
 String decryptAESCryptoJS(String encrypted, String passphrase) {
   //developer.log('decryptAESCryptoJS');
-  var json = jsonDecode(encrypted);
-  var salt = convert.hex.decode(json['s']);
+  try {
+    var json = jsonDecode(encrypted);
+    var salt = convert.hex.decode(json['s']);
 
-  // final salt = encryptedBytesWithSalt.sublist(8, 16);
-  var keyndIV = deriveKeyAndIV(passphrase, salt);
-  final key = encrypt.Key(keyndIV.item1);
-  final iv = encrypt.IV(keyndIV.item2);
+    // final salt = encryptedBytesWithSalt.sublist(8, 16);
+    var keyndIV = deriveKeyAndIV(passphrase, salt);
+    final key = encrypt.Key(keyndIV.item1);
+    final iv = encrypt.IV(keyndIV.item2);
 
-  final encrypter = encrypt.Encrypter(
-      encrypt.AES(key, mode: encrypt.AESMode.cbc, padding: "PKCS7"));
-  final decrypted = encrypter.decrypt64(json["ct"], iv: iv);
-  //FUNIONA!!!!
-  return decrypted;
+    final encrypter = encrypt.Encrypter(
+        encrypt.AES(key, mode: encrypt.AESMode.cbc, padding: "PKCS7"));
+    final decrypted = encrypter.decrypt64(json["ct"], iv: iv);
+    //FUNIONA!!!!
+    return decrypted;
+  }catch(e){
+    developer.log('error decryptAESCryptoJS: $e');
+    return "Problem to decrypt. Message not found";
+  }
 }
 
 Tuple2<Uint8List, Uint8List> deriveKeyAndIV(String passphrase, List<int> salt) {

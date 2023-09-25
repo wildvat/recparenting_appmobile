@@ -77,6 +77,7 @@
   "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
   "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
   "loading": "Cargando...",
-  "patientNotHasEvents": "No tienes eventos"
+  "patientNotHasEvents": "No tienes eventos",
+  "today": "hoy"
 
 }

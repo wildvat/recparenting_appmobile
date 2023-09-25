@@ -77,5 +77,6 @@
   "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
   "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
   "loading": "Loading...",
-  "patientNotHasEvents": "You don't have any scheduled appointments"
+  "patientNotHasEvents": "You don't have any scheduled appointments",
+  "today": "Today"
 }
