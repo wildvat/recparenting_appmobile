@@ -3,9 +3,9 @@ import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 
 class Patient extends User {
-  late final Therapist? therapist;
-  late final String conference;
-  late final String room;
+  final Therapist? therapist;
+  final String? conference;
+  final String? room;
   late final String subscription;
 
   Patient(
@@ -28,9 +28,16 @@ class Patient extends User {
       : super(id, name, lastname, nickname, email, status, verified, avatar,
             roles, permission, type, config);
 
+
+  bool isMyCurrentTherapist(Therapist therapist){
+    if(this.therapist != null){
+      return this.therapist!.id == therapist.id;
+    }
+    return false;
+  }
   factory Patient.fromJson(Map<String, dynamic> json) {
     User user = User.fromJson(json);
-    late Therapist? therapist;
+    Therapist? therapist;
     if (json['therapist'] != null) {
       therapist = Therapist.fromJson(json['therapist']);
     }

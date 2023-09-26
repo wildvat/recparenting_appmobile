@@ -95,7 +95,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
           ChangeNotifierProvider(create: (context) => MeetingProvider(context)),
         ],
         child: JoinMeetingScreen(
-          conferenceId: patient.conference,
+          conferenceId: patient.conference!,
         ),
       );
 

@@ -62,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
           actions: const [AppSubmenuWidget()],
         ),
         body: BlocProvider(
-            create: (_) => ConversationBloc(roomId: widget._patient.room),
+            create: (_) => ConversationBloc(roomId: widget._patient.room!),
             child: ChatWidget(patient: widget._patient)));
   }
 
@@ -75,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
       // por lo que tengo que añadir a los tabs la actual conversacion con el paciente
       tabs.add(Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
       tabsContent.add(BlocProvider(
-          create: (_) => ConversationBloc(roomId: widget._patient.room),
+          create: (_) => ConversationBloc(roomId: widget._patient.room!),
           child: ChatWidget(patient: widget._patient)));
     }
 

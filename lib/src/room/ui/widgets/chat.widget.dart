@@ -45,9 +45,12 @@ class _ChatWidgetState extends State<ChatWidget> {
     _conversationBloc = BlocProvider.of<ConversationBloc>(context);
     _conversationBloc.add(ConversationFetch(page: _page));
 
-    _chatApi = ChatApi(context);
-    _chatApi.connect(widget._patient.room);
+    if(widget._patient.room != null) {
+      _chatApi = ChatApi(context);
+      _chatApi.connect(widget._patient.room!);
+    }
     _scrollController.addListener(_onScroll);
+
   }
 
   void _onScroll() {
@@ -239,7 +242,7 @@ class _ChatWidgetState extends State<ChatWidget> {
         '-',
         encryptAESCryptoJS(message, _currentUser!.id),
         'text',
-        widget._patient.room,
+        widget._patient.room!,
         _currentUser!,
         false,
         DateTime.now());
