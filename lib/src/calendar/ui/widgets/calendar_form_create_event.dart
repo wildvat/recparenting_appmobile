@@ -261,7 +261,7 @@ class _CalendarFormCreateEventWidgetState
                                   SnackBar snackBar = SnackBar(
                                     content: Text(AppLocalizations.of(context)!
                                         .eventCreateMessageOk),
-                                    backgroundColor: Colors.greenAccent,
+                                    backgroundColor: Colors.green,
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
