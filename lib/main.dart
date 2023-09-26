@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
@@ -11,7 +12,8 @@ import 'package:recparenting/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((__) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
