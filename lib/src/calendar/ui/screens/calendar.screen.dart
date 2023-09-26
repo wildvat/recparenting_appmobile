@@ -136,8 +136,6 @@ class _CalendarScreenState extends State<CalendarScreen>
     bool isInWorkingHour = false;
     if (date.difference(DateTime.now()).inDays > -1) {
       final String dayName = DateFormat('EEEE').format(date).toLowerCase();
-      print(date);
-      print(dayName);
       for (var whour in _workingHours.toList()) {
         if (whour['day'] == dayName) {
           if ((whour['startEnd'] as WorkingHoursStartEndList)
