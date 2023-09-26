@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/models/rooms.model.dart';
@@ -10,6 +8,7 @@ import 'package:recparenting/src/room/models/rooms.model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../_shared/ui/widgets/scaffold_default.dart';
+import '../../../current_user/helpers/current_user_builder.dart';
 import '../../../room/providers/room.provider.dart';
 import '../widgets/patient_list_tile.widget.dart';
 
@@ -21,21 +20,17 @@ class PatientsScreen extends StatefulWidget {
 }
 
 class _PatientsScreenState extends State<PatientsScreen> {
-  late CurrentUserBloc _currentUserBloc;
-  late User currentUser;
-  late Future<Rooms?> rooms;
+  late User _currentUser;
+  late Future<Rooms?> _rooms;
 
 
 
   @override
   void initState() {
     super.initState();
-    _currentUserBloc = context.read<CurrentUserBloc>();
-    if (_currentUserBloc.state is CurrentUserLoaded) {
-      currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
-    }
+    _currentUser = CurrentUserBuilder().value();
     RoomApi roomApi = RoomApi();
-    rooms =roomApi.getAll(1, 9999);
+    _rooms =roomApi.getAll(1, 9999);
   }
 
   @override
@@ -43,7 +38,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.menuPatients,
         body: FutureBuilder<Rooms?>(
-            future: rooms,
+            future: _rooms,
             builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -76,7 +71,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
   Widget getParticipantFromRoom(Room room) {
     late Patient? participant;
     for (var element in room.participants) {
-      if (element.id != currentUser.id) {
+      if (element.id != _currentUser.id) {
         if (element.isPatient()) {
           participant = element as Patient;
         }

@@ -105,5 +105,15 @@
   "chatEnterMessage": "Escribe un mensaje...",
   "chatDeleteMessageTitle": "Eliminar mensaje",
   "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?",
-  "fieldIncomplete": "Campo obligatorio"
+  "fieldIncomplete": "Campo obligatorio",
+  "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
+  "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
+  "@patientChangeTherapistReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist "
+
 }

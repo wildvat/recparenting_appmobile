@@ -47,6 +47,34 @@ class CurrentUserApi {
     }
   }
 
+  Future<User?> reloadUser() async {
+
+    const String endpoint = 'user/me';
+    try {
+      Response response = await client.dio.get(endpoint);
+      if (response.statusCode == 200) {
+        User user = User.fromJson(response.data);
+        if (user.type == 'patient') {
+          user = Patient.fromJson(response.data);
+        } else if (user.type == 'therapist') {
+          user = Therapist.fromJson(response.data);
+        } else {
+          return null;
+        }
+        _currentUserBloc.add(FetchCurrentUser(user));
+        return user;
+      } else {
+        _tokenRepository.clearTokens();
+        return null;
+      }
+    } on DioException catch (e) {
+      developer.log('/** ERROR CurrentUserApi.getUser **/');
+      developer.log(e.response.toString());
+      _tokenRepository.clearTokens();
+      return null;
+    }
+  }
+
   Future<String?> addDevice(String token, String platform) async {
     const String url = 'users/devices';
     Map<String, dynamic> body = {

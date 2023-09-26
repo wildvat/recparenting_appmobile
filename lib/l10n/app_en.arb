@@ -105,5 +105,14 @@
   "chatEnterMessage": "Write a message...",
   "chatDeleteMessageTitle": "Delete message",
   "chatDeleteMessageContent": "Are you sure you want to delete this message?",
+  "patientChangeTherapistTitle": "Form to change therapist",
+  "patientChangeTherapistOptionsTitle": "Select a option",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Our schedules don’t match} other {Other}}",
+  "@patientChangeTherapistReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
   "fieldIncomplete": "Filed required"
 }

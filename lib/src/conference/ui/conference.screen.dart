@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
+import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/models/rooms.model.dart';
@@ -26,21 +26,19 @@ class ConferenceScreen extends StatefulWidget {
 }
 
 class _ConferenceScreenState extends State<ConferenceScreen> {
-  late CurrentUserBloc _currentUserBloc;
   late User _currentUser;
   late Future<Rooms?> _rooms;
 
   @override
   void initState() {
     super.initState();
-    _currentUserBloc = context.read<CurrentUserBloc>();
-    if (_currentUserBloc.state is CurrentUserLoaded) {
-      _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
+    _currentUser = CurrentUserBuilder().value();
+
       if(_currentUser is Therapist){
         RoomApi roomApi = RoomApi();
         _rooms =roomApi.getAll(1, 9999);
       }
-    }
+
   }
 
   @override
@@ -95,7 +93,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
           ChangeNotifierProvider(create: (context) => MeetingProvider(context)),
         ],
         child: JoinMeetingScreen(
-          conferenceId: patient.conference,
+          conferenceId: patient.conference!,
         ),
       );
 
