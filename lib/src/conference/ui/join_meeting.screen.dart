@@ -22,8 +22,8 @@ import 'meeting.screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JoinMeetingScreen extends StatefulWidget {
-  final String conferenceId;
-  const JoinMeetingScreen({Key? key, required this.conferenceId}) : super(key: key);
+  final String _conferenceId;
+  const JoinMeetingScreen({Key? key, required String conferenceId}) : _conferenceId = conferenceId, super(key: key);
 
   @override
   State<JoinMeetingScreen> createState() => _JoinMeetingScreenState();
@@ -33,8 +33,8 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
 
   late final CurrentUserBloc _currentUserBloc;
-  late User currentUser;
-  late Future<Meeting?> meeting;
+  late User _currentUser;
+  Future<Meeting?>? _meeting ;
 
   @override
   void initState() {
@@ -42,16 +42,18 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
     _currentUserBloc = context.read<CurrentUserBloc>();
     if(_currentUserBloc.state is CurrentUserLoaded){
 
-      currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
+      _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
 
-      if(currentUser is Therapist){
-        final ConferenceApi api = ConferenceApi();
-        meeting = api.get(widget.conferenceId);
-        currentUser = (currentUser as Therapist);
+
+      if(_currentUser is Therapist){
+
+        _currentUser = (_currentUser as Therapist);
       }
 
-      if(currentUser is Patient){
-        currentUser = (currentUser as Patient);
+      if(_currentUser is Patient){
+        final ConferenceApi api = ConferenceApi();
+        _meeting = api.get(widget._conferenceId);
+        _currentUser = (_currentUser as Patient);
       }
 
     }
@@ -122,7 +124,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
     if(joinMeetingProvider.loadingStatus){
       //return const SizedBox();
     }
-    if(currentUser.isTherapist()){
+    if(_currentUser.isTherapist()){
 
       return ElevatedButton(
         child:Text(AppLocalizations.of(context)!.conferenceTitle),
@@ -130,7 +132,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
           if (!joinMeetingProvider.joinButtonClicked) {
             // Prevent multiple clicks
             joinMeetingProvider.joinButtonClicked = true;
-            String meetingId = widget.conferenceId;
+            String meetingId = widget._conferenceId;
 
             if (joinMeetingProvider.verifyParameters(meetingId)) {
               // Observers should be initialized before MethodCallHandler
@@ -139,7 +141,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
               // Call api, format to JSON and send to native
               bool isMeetingJoined =
-              await joinMeetingProvider.joinMeeting(meetingProvider, methodChannelProvider, meetingId, currentUser.id);
+              await joinMeetingProvider.joinMeeting(meetingProvider, methodChannelProvider, meetingId, _currentUser.id);
               if (isMeetingJoined) {
                 // ignore: use_build_context_synchronously
                 Navigator.push(
@@ -158,8 +160,10 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
         },
       );
     }
+    if(_currentUser.isPatient() && _meeting != null ){
+
     return FutureBuilder<Meeting?>(
-        future: meeting,
+        future: _meeting,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting){
             return  const SizedBox();
@@ -171,7 +175,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                   if (!joinMeetingProvider.joinButtonClicked) {
                     // Prevent multiple clicks
                     joinMeetingProvider.joinButtonClicked = true;
-                    String meetingId = widget.conferenceId;
+                    String meetingId = widget._conferenceId;
 
                     if (joinMeetingProvider.verifyParameters(meetingId)) {
                       // Observers should be initialized before MethodCallHandler
@@ -183,7 +187,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                       bool isMeetingJoined =
                       await joinMeetingProvider.joinMeeting(
                           meetingProvider, methodChannelProvider, meetingId,
-                          currentUser.id);
+                          _currentUser.id);
                       if (isMeetingJoined) {
                         // ignore: use_build_context_synchronously
                         Navigator.push(
@@ -218,6 +222,10 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
           }
         }
     );
+    }
+
+    return SizedBox();
+
   }
 
   Widget loadingIcon(JoinMeetingProvider joinMeetingProvider) {

@@ -15,37 +15,36 @@ import '../../providers/room.provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatScreen extends StatefulWidget {
-  final Patient patient;
+  final Patient _patient;
 
-  const ChatScreen({required this.patient, super.key});
+  const ChatScreen({required Patient patient, super.key}) : _patient = patient;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  late Future<Rooms?> roomsShared;
-  late User? currentUser;
-  late ConversationBloc conversationBloc;
-  late CurrentUserBloc currentUserBloc;
+  late Future<Rooms?> _roomsShared;
+  late User? _currentUser;
+  late CurrentUserBloc _currentUserBloc;
 
   @override
   void initState() {
     super.initState();
-    currentUserBloc = context.read<CurrentUserBloc>();
-    if (currentUserBloc.state is CurrentUserLoaded) {
-      currentUser = (currentUserBloc.state as CurrentUserLoaded).user;
+    _currentUserBloc = context.read<CurrentUserBloc>();
+    if (_currentUserBloc.state is CurrentUserLoaded) {
+      _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
     } else {
       throw Exception('no hay usuario');
     }
-    if (currentUser!.isTherapist()) {
+    if (_currentUser!.isTherapist()) {
       RoomApi roomApi = RoomApi();
-      roomsShared =
-          roomApi.getConversationSharedPatientWithTherapist(widget.patient);
+      _roomsShared =
+          roomApi.getConversationSharedPatientWithTherapist(widget._patient);
     }
-    if (currentUser!.isPatient()) {
+    if (_currentUser!.isPatient()) {
       RoomApi roomApi = RoomApi();
-      roomsShared =
+      _roomsShared =
           roomApi.getAll(1, null);
     }
   }
@@ -59,30 +58,30 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-              AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
+              AppLocalizations.of(context)!.chatTitleWith(widget._patient.name)),
           actions: const [AppSubmenuWidget()],
         ),
         body: BlocProvider(
-            create: (_) => ConversationBloc(roomId: widget.patient.room),
-            child: ChatWidget(patient: widget.patient)));
+            create: (_) => ConversationBloc(roomId: widget._patient.room),
+            child: ChatWidget(patient: widget._patient)));
   }
 
   Widget withShared(Rooms rooms) {
     List<Widget> tabs = [];
     List<Widget> tabsContent = [];
 
-    if (currentUser!.isTherapist()) {
+    if (_currentUser!.isTherapist()) {
       //Si es terapeuta el roomsShared solo devuelve room si esta compartido con el terapeuta
       // por lo que tengo que añadir a los tabs la actual conversacion con el paciente
       tabs.add(Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
       tabsContent.add(BlocProvider(
-          create: (_) => ConversationBloc(roomId: widget.patient.room),
-          child: ChatWidget(patient: widget.patient)));
+          create: (_) => ConversationBloc(roomId: widget._patient.room),
+          child: ChatWidget(patient: widget._patient)));
     }
 
     for (var room in rooms.rooms) {
-      Therapist? therapist = getTherapistFromRoom(room, currentUser!);
-      Patient? patient = getPatientFromRoom(room, currentUser!);
+      Therapist? therapist = getTherapistFromRoom(room, _currentUser!);
+      Patient? patient = getPatientFromRoom(room, _currentUser!);
 
       if (patient != null && therapist != null) {
         tabs.add(Tab(text: therapist.name));
@@ -102,7 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
             tabs: tabs,
           ),
           title: Text(
-              AppLocalizations.of(context)!.chatTitleWith(widget.patient.name)),
+              AppLocalizations.of(context)!.chatTitleWith(widget._patient.name)),
         ),
         body: TabBarView(
           children: tabsContent,
@@ -115,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: roomsShared,
+        future: _roomsShared,
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
