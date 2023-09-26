@@ -27,25 +27,25 @@ class ConferenceScreen extends StatefulWidget {
 
 class _ConferenceScreenState extends State<ConferenceScreen> {
   late CurrentUserBloc _currentUserBloc;
-  late User currentUser;
-  late Future<Rooms?> rooms;
+  late User _currentUser;
+  late Future<Rooms?> _rooms;
 
   @override
   void initState() {
     super.initState();
     _currentUserBloc = context.read<CurrentUserBloc>();
     if (_currentUserBloc.state is CurrentUserLoaded) {
-      currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
-      if(currentUser is Therapist){
+      _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
+      if(_currentUser is Therapist){
         RoomApi roomApi = RoomApi();
-        rooms =roomApi.getAll(1, 9999);
+        _rooms =roomApi.getAll(1, 9999);
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (currentUser is Patient) {
+    if (_currentUser is Patient) {
       return conferenceToPatient();
     }
     return conferenceToTherapist();
@@ -56,7 +56,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.conferenceTitle,
         body: FutureBuilder<Rooms?>(
-            future: rooms,
+            future: _rooms,
             builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -87,7 +87,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
   }
 
   Widget conferenceToPatient(){
-      Patient patient = currentUser as Patient;
+      Patient patient = _currentUser as Patient;
       return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => MethodChannelCoordinator()),
@@ -104,7 +104,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
   Widget getParticipantFromRoom(Room room) {
     late Patient? participant;
     for (var element in room.participants) {
-      if (element.id != currentUser.id) {
+      if (element.id != _currentUser.id) {
         if (element.isPatient()) {
           participant = element as Patient;
         }

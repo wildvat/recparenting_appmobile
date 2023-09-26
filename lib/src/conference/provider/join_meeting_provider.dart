@@ -18,20 +18,20 @@ import 'dart:developer' as developer;
 class JoinMeetingProvider extends ChangeNotifier {
 
 
-  final ConferenceApi api = ConferenceApi();
+  final ConferenceApi _api = ConferenceApi();
   bool loadingStatus = false;
   bool joinButtonClicked = false;
   bool error = false;
   bool info = false;
   String? errorMessage;
-  late User currentUser;
+  late User _currentUser;
   final CurrentUserBloc _currentUserBloc = BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
 
 
   JoinMeetingProvider(){
     if(_currentUserBloc.state is CurrentUserLoaded){
       if(_currentUserBloc.state is CurrentUserLoaded){
-        currentUser = (_currentUserBloc.state as CurrentUserLoaded).user ;
+        _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user ;
       }
     }
   }
@@ -70,11 +70,11 @@ class JoinMeetingProvider extends ChangeNotifier {
     late AttendeeInfo? currentAttendee;
     late Meeting? meetingInfo;
 
-    Meeting? meetingResponse = await api.get(meetingId);
+    Meeting? meetingResponse = await _api.get(meetingId);
     if (meetingResponse != null) {
       //Si existe meeting creo el attendee
       meetingInfo = meetingResponse;
-      currentAttendee = await api.createAttendee(meetingId, userId);
+      currentAttendee = await _api.createAttendee(meetingId, userId);
       //Si no puedo crear el attendee salgo
       if(currentAttendee == null){
         _createError(ResponseConference.apiResponseNull);
@@ -83,7 +83,7 @@ class JoinMeetingProvider extends ChangeNotifier {
       /*
       Busco el listado de usuarios que estan en el meeting y loas añado a la conferencia
        */
-      final List<AttendeeInfo> apiListAttendeesResponse = await api.listAttendees(meetingId);
+      final List<AttendeeInfo> apiListAttendeesResponse = await _api.listAttendees(meetingId);
       if (apiListAttendeesResponse.isNotEmpty) {
         for (var attendee in apiListAttendeesResponse) {
           if (attendee.attendeeId != currentAttendee.attendeeId) {
@@ -94,12 +94,12 @@ class JoinMeetingProvider extends ChangeNotifier {
 
     } else {
       //Si no existe el meeting y soy paciente, salgo porque no lo puedo crear, tengo que esperar a que se conecte el terapeuta
-      if(currentUser != null && currentUser.isPatient()){
+      if(_currentUser != null && _currentUser.isPatient()){
         _createInfo(ResponseConference.userPatientNotPermission);
         return false;
       }
       //Si soy terapeita creo el meeting
-      final JoinInfo? apiResponse = await api.join(meetingId, userId);
+      final JoinInfo? apiResponse = await _api.join(meetingId, userId);
       if (apiResponse != null) {
         meetingInfo = apiResponse.meeting;
         currentAttendee = apiResponse.attendee;
@@ -126,7 +126,7 @@ class JoinMeetingProvider extends ChangeNotifier {
       return false;
     }
     final Map<String, dynamic> jsonArgsToSend =
-        api.joinInfoToJSON(meetingProvider.meetingData!);
+        _api.joinInfoToJSON(meetingProvider.meetingData!);
 
     // Send JSON to iOS
     MethodChannelResponse? joinResponse = await methodChannelProvider

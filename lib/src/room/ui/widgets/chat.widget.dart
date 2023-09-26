@@ -16,51 +16,50 @@ import '../../providers/encryptMessage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatWidget extends StatefulWidget {
-  final Patient patient;
+  final Patient _patient;
 
-  const ChatWidget({required this.patient, super.key});
+  const ChatWidget({required Patient patient, super.key}) : _patient = patient;
 
   @override
   State<ChatWidget> createState() => _ChatWidgetState();
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
-  late ChatApi chatApi;
-  late ConversationBloc conversationBloc;
-  late CurrentUserBloc currentUserBloc;
-  late User? currentUser;
-  final scrollController = ScrollController();
-  final scrollThreshold = 200.0;
-  final textController = TextEditingController();
-  int page = 1;
+  late ChatApi _chatApi;
+  late ConversationBloc _conversationBloc;
+  late CurrentUserBloc _currentUserBloc;
+  late User? _currentUser;
+  final _scrollController = ScrollController();
+  final _textController = TextEditingController();
+  int _page = 1;
 
   @override
   void initState() {
     super.initState();
-    currentUserBloc = context.read<CurrentUserBloc>();
-    if (currentUserBloc.state is CurrentUserLoaded) {
-      currentUser = (currentUserBloc.state as CurrentUserLoaded).user;
+    _currentUserBloc = context.read<CurrentUserBloc>();
+    if (_currentUserBloc.state is CurrentUserLoaded) {
+      _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
     } else {
       throw Exception('no hay usuario');
     }
-    conversationBloc = BlocProvider.of<ConversationBloc>(context);
-    conversationBloc.add(ConversationFetch(page: page));
+    _conversationBloc = BlocProvider.of<ConversationBloc>(context);
+    _conversationBloc.add(ConversationFetch(page: _page));
 
-    chatApi = ChatApi(context);
-    chatApi.connect(widget.patient.room);
-    scrollController.addListener(_onScroll);
+    _chatApi = ChatApi(context);
+    _chatApi.connect(widget._patient.room);
+    _scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
-    if (scrollController.position.extentAfter == 0.0) {
-      page++;
-      conversationBloc.add(ConversationFetch(page: page));
+    if (_scrollController.position.extentAfter == 0.0) {
+      _page++;
+      _conversationBloc.add(ConversationFetch(page: _page));
     }
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -82,14 +81,14 @@ class _ChatWidgetState extends State<ChatWidget> {
 
 
       if (state is ConversationLoaded) {
-        if(currentUser!.isPatient()) {
+        if(_currentUser!.isPatient()) {
           widgets.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
               shadowColor: colorRecLight,
             ),
             onPressed: () {
               Navigator.pushNamed(context, therapistBioPageRoute,
-                  arguments: getTherapistFromRoom(state.conversation.room, currentUser!));
+                  arguments: getTherapistFromRoom(state.conversation.room, _currentUser!));
             },
             child: Text(AppLocalizations.of(context)!.therapistShow),
           )
@@ -120,7 +119,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           itemCount: state.hasReachedMax
               ? state.messages.messages.length
               : state.messages.messages.length + 1,
-          controller: scrollController,
+          controller: _scrollController,
         ));
         widgets.add(listChat);
         if(state.conversation.room.isActive) {
@@ -155,7 +154,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     Color backgroundColor = Colors.grey.shade100;
     Color textColor = Colors.black;
     Alignment alignment = Alignment.centerLeft;
-    if (message.user.id != widget.patient.id) {
+    if (message.user.id != widget._patient.id) {
       backgroundColor = colorRecLight.shade300;
       textColor = Colors.black;
       alignment = Alignment.centerRight;
@@ -197,7 +196,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           separator,
           GestureDetector(
               onLongPress: () {
-                if (currentUser?.id == message.user.id && conversation.room.isActive) {
+                if (_currentUser?.id == message.user.id && conversation.room.isActive) {
                   showAlertRemoveMessage(context, message);
                 }
               },
@@ -210,10 +209,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                       borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(20),
                           topRight: const Radius.circular(20),
-                          bottomLeft: (currentUser!.id == message.user.id)
+                          bottomLeft: (_currentUser!.id == message.user.id)
                               ? const Radius.circular(20)
                               : const Radius.circular(0),
-                          bottomRight: (currentUser!.id != message.user.id)
+                          bottomRight: (_currentUser!.id != message.user.id)
                               ? const Radius.circular(20)
                               : const Radius.circular(0))),
                   child: Column(
@@ -238,13 +237,13 @@ class _ChatWidgetState extends State<ChatWidget> {
   void sendMessage(String message) {
     Message messageObj = Message(
         '-',
-        encryptAESCryptoJS(message, currentUser!.id),
+        encryptAESCryptoJS(message, _currentUser!.id),
         'text',
-        widget.patient.room,
-        currentUser!,
+        widget._patient.room,
+        _currentUser!,
         false,
         DateTime.now());
-    conversationBloc.add(AddMessageToConversation(message: messageObj));
+    _conversationBloc.add(AddMessageToConversation(message: messageObj));
   }
 
   Widget textField() {
@@ -255,17 +254,17 @@ class _ChatWidgetState extends State<ChatWidget> {
         hintText: AppLocalizations.of(context)!.chatEnterMessage,
         suffixIcon: IconButton(
           onPressed: () {
-            sendMessage(textController.value.text);
-            textController.clear();
+            sendMessage(_textController.value.text);
+            _textController.clear();
           },
           icon: const Icon(Icons.send),
         ),
       ),
-      controller: textController,
+      controller: _textController,
       onChanged: (text) {},
       onSubmitted: (text) {
         sendMessage(text);
-        textController.clear();
+        _textController.clear();
       },
     );
   }
@@ -283,7 +282,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       onPressed: () {
         message.message = encryptAESCryptoJS(
             'This message has been deleted', message.user.id);
-        conversationBloc.add(DeleteMessageFromConversation(message: message));
+        _conversationBloc.add(DeleteMessageFromConversation(message: message));
         Navigator.of(context).pop();
       },
     );

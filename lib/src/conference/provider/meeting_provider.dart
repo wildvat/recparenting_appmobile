@@ -25,7 +25,7 @@ import 'dart:developer' as developer;
 
 class MeetingProvider extends ChangeNotifier
     implements RealtimeInterface, VideoTileInterface, AudioDevicesInterface, AudioVideoInterface {
-  String? meetingId;
+  String? _meetingId;
 
   JoinInfo? meetingData;
 
@@ -57,7 +57,7 @@ class MeetingProvider extends ChangeNotifier
 
     isMeetingActive = true;
     meetingData = meetData;
-    meetingId = meetData.meeting.externalMeetingId;
+    _meetingId = meetData.meeting.externalMeetingId;
     notifyListeners();
   }
 
@@ -330,7 +330,7 @@ class MeetingProvider extends ChangeNotifier
       developer.log(ResponseConference.stopResponseNull);
       return;
     }
-    ConferenceApi().deleteMeeting(meetingId!);
+    ConferenceApi().deleteMeeting(_meetingId!);
     developer.log(stopResponse.arguments);
   }
 
@@ -340,7 +340,7 @@ class MeetingProvider extends ChangeNotifier
 
   void _resetMeetingValues() {
     developer.log('***********************RESET MEETING VALUES**********************************');
-    meetingId = null;
+    _meetingId = null;
     meetingData = null;
     localAttendeeId = null;
     remoteAttendeeId = null;

@@ -13,18 +13,18 @@ import 'dart:developer' as developer;
 
 class ConferenceApi {
   final String _baseUrl = env.apiUrl;
-  final AuthApiHttp client = AuthApiHttp();
+  final AuthApiHttp _client = AuthApiHttp();
 
   Future<void> deleteMeeting(String meetingId) async {
     String url = "${_baseUrl}conference/$meetingId/meeting";
-    await client.dio.delete(url);
+    await _client.dio.delete(url);
   }
   Future<List<AttendeeInfo>> listAttendees(String meetingId) async {
     developer.log('************************************* GET LIST ATTENDEES $meetingId');
     String url = "${_baseUrl}conference/$meetingId/attendees";
     List<AttendeeInfo> attendees = [];
     try {
-      Response response = await client.dio.get(url);
+      Response response = await _client.dio.get(url);
       if (response.statusCode! == 200) {
         if(response.data['Attendees'] != null && response.data['Attendees'].length > 0){
             for(var element in response.data['Attendees']){
@@ -45,7 +45,7 @@ class ConferenceApi {
     String url = "${_baseUrl}conference/$meetingId/meeting";
 
     try {
-      final Response response = await client.dio.get(url);
+      final Response response = await _client.dio.get(url);
       developer.log("STATUS MEETING: ${response.statusCode}");
 
       if (response.statusCode! == 200) {
@@ -66,7 +66,6 @@ class ConferenceApi {
       developer.log("get request Failed. Status: ${e.toString()}");
       return null;
     }
-    return null;
   }
 
   Future<AttendeeInfo?> createAttendee(String meetingId, String userId)
@@ -74,7 +73,7 @@ class ConferenceApi {
     String url = "${_baseUrl}conference/$meetingId/attendee";
     try {
       //final http.Response response = await http.post(Uri.parse(url));
-      Response response = await client.dio.post(url);
+      Response response = await _client.dio.post(url);
       //final http.Response responseAttendee = await http.post(Uri.parse(urlAttendee));
       developer.log("STATUS CREATE ATTENDEE: ${response.statusCode}");
       if (response.statusCode! >= 200 &&
@@ -98,9 +97,9 @@ class ConferenceApi {
     String urlAttendee = "${_baseUrl}conference/$meetingId/attendee";
     try {
       //final http.Response response = await http.post(Uri.parse(url));
-      Response response = await client.dio.post(url);
+      Response response = await _client.dio.post(url);
       //final http.Response responseAttendee = await http.post(Uri.parse(urlAttendee));
-      Response responseAttendee = await client.dio.post(urlAttendee);
+      Response responseAttendee = await _client.dio.post(urlAttendee);
       developer.log("STATUS MEETING: ${response.statusCode}");
       developer.log("STATUS ATTENDEE: ${responseAttendee.statusCode}");
       if (response.statusCode! >= 200 &&
