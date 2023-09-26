@@ -13,6 +13,7 @@ import 'package:recparenting/src/conference/provider/method_channel_coordinator.
 import 'package:recparenting/src/conference/ui/join_meeting.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
+import 'package:recparenting/src/forum/ui/screens/forums.screen.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
@@ -54,11 +55,12 @@ class RouterRec {
     contactPageRoute: (_) => const ContactScreen(),
     therapistBioPageRoute: (context) {
       final Therapist argument =
-      ModalRoute.of(context)!.settings.arguments as Therapist;
-      return  TherapistBioScreen(therapist: argument);
+          ModalRoute.of(context)!.settings.arguments as Therapist;
+      return TherapistBioScreen(therapist: argument);
     },
     calendarRoute: (_) => const CalendarScreen(),
     premiumRoute: (_) => const PremiumScreen(),
+    forumsRoute: (_) => const ForumsScreen()
 
     /*
     newsListRoute: (_) => const NewsListScreen(),

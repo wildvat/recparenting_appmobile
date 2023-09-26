@@ -10,6 +10,7 @@
     "generalButtonMoreInfo": "Más información",
   "menuHome": "Inicio",
   "menuChat": "Chat",
+  "menuForum": "Forum",
   "menuProfile": "Perfil",
   "menuLegal": "Legal",
   "menuContact": "Contacta",
@@ -103,5 +104,6 @@
   "chatTitleWithMe": "Chat conmigo",
   "chatEnterMessage": "Escribe un mensaje...",
   "chatDeleteMessageTitle": "Eliminar mensaje",
-  "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?"
+  "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?",
+  "fieldIncomplete": "Campo obligatorio"
 }

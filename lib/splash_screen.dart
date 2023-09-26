@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
         FlutterNativeSplash.remove();
         if (userApi != null) {
           if (userApi.isActive()) {
-            return Navigator.pushReplacementNamed(context, calendarRoute);
+            return Navigator.pushReplacementNamed(context, forumsRoute);
             //return Navigator.pushReplacementNamed(context, homeRoute);
           } else {
             return Navigator.pushReplacementNamed(context, loginRoute);

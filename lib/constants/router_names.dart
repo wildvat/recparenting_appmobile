@@ -12,3 +12,4 @@ const String conferenceRoute = '/conference';
 const String joinConferencePageRoute = '/conference/join';
 const String patientsRoute = '/patients';
 const String premiumRoute = '/premium';
+const String forumsRoute = '/forums';

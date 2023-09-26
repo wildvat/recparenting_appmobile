@@ -10,6 +10,7 @@
   "generalButtonMoreInfo": "More information",
   "menuHome": "Home",
   "menuChat": "Chat",
+  "menuForum": "Forum",
   "menuProfile": "Profile",
   "menuLegal": "Legal",
   "menuContact": "Contact",
@@ -103,5 +104,6 @@
   "chatTitleWithMe": "Chat with me",
   "chatEnterMessage": "Write a message...",
   "chatDeleteMessageTitle": "Delete message",
-  "chatDeleteMessageContent": "Are you sure you want to delete this message?"
+  "chatDeleteMessageContent": "Are you sure you want to delete this message?",
+  "fieldIncomplete": "Filed required"
 }

@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     madelynn97@example.com
     password
     */
-    _emailEditingController.text = 'madelynn97@example.com';
+    _emailEditingController.text = 'ryley.kilback@example.net';
     _passwordEditingController.text = 'password';
 
     return Scaffold(
