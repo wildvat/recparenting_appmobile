@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
-import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 import '../../../../_shared/helpers/avatar_image.dart';
@@ -22,16 +19,12 @@ class TherapistBioHeaderWidget extends StatefulWidget {
 
 class _TherapistBioHeaderWidgetState extends State<TherapistBioHeaderWidget> {
 
-  late CurrentUserLoaded _currentUserLoaded;
 
 
   @override
   void initState() {
     super.initState();
-    _currentUserLoaded = context.read<CurrentUserBloc>().state as CurrentUserLoaded;
-    if(_currentUserLoaded.user is !Patient){
-      throw Exception('puede un terapeuta ver esto?');
-    }
+
   }
 
   @override

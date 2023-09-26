@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/change_therapist.model.dart';
 import 'package:recparenting/src/patient/providers/patient.provider.dart';
-
-import '../../../current_user/bloc/current_user_bloc.dart';
 import '../../../current_user/providers/current_user.provider.dart';
 import '../../../patient/models/change_therapist_reasons.enum.dart';
 import '../../../patient/models/patient.model.dart';
@@ -25,8 +23,6 @@ class ChangeTherapistReasonWidget extends StatefulWidget {
 
 class _ChangeTherapistReasonWidgetState
     extends State<ChangeTherapistReasonWidget> {
-  late CurrentUserBloc _currentUserBloc;
-  late CurrentUserLoaded _currentUserLoaded;
   Patient? _currentUser;
   ChangeTherapistReasons? _changeTherapistReasons;
   final PatientApi _patientApi = PatientApi();
@@ -35,17 +31,8 @@ class _ChangeTherapistReasonWidgetState
   @override
   void initState() {
     super.initState();
-    _currentUserBloc = context.read<CurrentUserBloc>();
-    if (_currentUserBloc.state is CurrentUserLoaded) {
-      _currentUserLoaded = _currentUserBloc.state as CurrentUserLoaded;
-      if (_currentUserLoaded.user is Patient) {
-        _currentUser = _currentUserLoaded.user as Patient;
-      } else {
-        throw Exception('puede un terapeuta ver esto?');
-      }
-    } else {
-      throw Exception('No existe usuario logueado');
-    }
+
+    _currentUser = CurrentUserBuilder().patient();
     _hasRequestChangeTherapist =
         _patientApi.hasRequestChangeTherapist(widget._therapist.id);
   }

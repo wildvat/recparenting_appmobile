@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
+import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
 import 'package:recparenting/src/room/helpers/participans_from_room.dart';
@@ -27,7 +27,6 @@ class ChatWidget extends StatefulWidget {
 class _ChatWidgetState extends State<ChatWidget> {
   late ChatApi _chatApi;
   late ConversationBloc _conversationBloc;
-  late CurrentUserBloc _currentUserBloc;
   late User? _currentUser;
   final _scrollController = ScrollController();
   final _textController = TextEditingController();
@@ -36,12 +35,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   void initState() {
     super.initState();
-    _currentUserBloc = context.read<CurrentUserBloc>();
-    if (_currentUserBloc.state is CurrentUserLoaded) {
-      _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
-    } else {
-      throw Exception('no hay usuario');
-    }
+    _currentUser = CurrentUserBuilder().value();
     _conversationBloc = BlocProvider.of<ConversationBloc>(context);
     _conversationBloc.add(ConversationFetch(page: _page));
 

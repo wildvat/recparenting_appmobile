@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/ui/widgets/show_api_error.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/patient/providers/patient.provider.dart';
 
-import '../../../current_user/bloc/current_user_bloc.dart';
+import '../../../current_user/helpers/current_user_builder.dart';
 import '../../../patient/models/patient.model.dart';
 import '../../models/therapist.model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +23,6 @@ class SharedChatWithTherapistWidget extends StatefulWidget {
 
 class _SharedChatWithTherapistWidgetState
     extends State<SharedChatWithTherapistWidget> {
-  late CurrentUserLoaded _currentUserLoaded;
   Patient? _currentUser;
   final PatientApi _patientApi = PatientApi();
   bool _sharedValue = false;
@@ -42,14 +40,7 @@ class _SharedChatWithTherapistWidgetState
   @override
   void initState() {
     super.initState();
-    _currentUserLoaded = context
-        .read<CurrentUserBloc>()
-        .state as CurrentUserLoaded;
-    if (_currentUserLoaded.user is Patient) {
-      _currentUser = _currentUserLoaded.user as Patient;
-    } else {
-      throw Exception('puede un terapeuta ver esto?');
-    }
+    _currentUser = CurrentUserBuilder().patient();
     getValueShared();
   }
 
