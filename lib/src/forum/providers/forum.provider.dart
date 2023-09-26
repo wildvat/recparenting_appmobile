@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/src/forum/models/forum.list.model.dart';
+import 'package:recparenting/src/forum/models/forum_status.enum.dart';
 
 class ForumApi {
   AuthApiHttp client = AuthApiHttp();
@@ -9,7 +10,8 @@ class ForumApi {
     int? page = 1,
     String? search = '',
   }) async {
-    final String endpoint = 'forum?page=$page&search=$search';
+    final String endpoint =
+        'forum?page=$page&search=$search&status=${ForunMessageStatus.active.name} ';
     try {
       final response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {

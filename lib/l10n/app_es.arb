@@ -114,6 +114,7 @@
       "reason": {}
     }
   },
-  "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist "
-
+  "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
+  "forumThreadTitle": "Forum | Hilo",
+  "forumThreadSeeMessagesBtn": "Ver mensajes"
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
 
 class SearchInputForm extends StatefulWidget {
   const SearchInputForm(
@@ -42,10 +42,9 @@ class SearchInputFormState extends State<SearchInputForm> {
               }
               return null;
             },
-
+            style: TextStyle(color: TextColors.white.color),
             decoration: InputDecoration(
                 isDense: true,
-                hintStyle: const TextStyle(color: Colors.white),
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                 ),
@@ -53,8 +52,9 @@ class SearchInputFormState extends State<SearchInputForm> {
                   borderSide: BorderSide(color: Colors.white),
                 ),
                 contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                hintStyle: const TextStyle(color: Colors.white),
                 hintText: AppLocalizations.of(context)!.generalSearch,
-                icon: const Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: Colors.white,
                   size: 20,

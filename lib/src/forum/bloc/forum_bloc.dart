@@ -22,13 +22,16 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
   Future<bool> _onForumThreadsFetch(
       ForumThreadsFetch event, Emitter<ForumState> emit) async {
     emit((state as ForumLoaded).copyWith(
-        threads: event.search != '' ? [] : state.threads,
+        threads: event.page > 1 ? state.threads : [],
         blocStatus: BlocStatus.loading));
     final ForumList forumListApi = await ForumApi()
         .getThreads(page: event.page, search: event.search ?? '');
+
     emit((state as ForumLoaded).copyWith(
       blocStatus: BlocStatus.loaded,
+      page: event.page,
       threads: [...state.threads, ...forumListApi.threads],
+      hasReachedMax: forumListApi.threads.length < 10,
       total: forumListApi.total,
     ));
     return true;

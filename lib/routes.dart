@@ -13,7 +13,9 @@ import 'package:recparenting/src/conference/provider/method_channel_coordinator.
 import 'package:recparenting/src/conference/ui/join_meeting.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
+import 'package:recparenting/src/forum/models/thread.model.dart';
 import 'package:recparenting/src/forum/ui/screens/forums.screen.dart';
+import 'package:recparenting/src/forum/ui/screens/thread.screen.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
@@ -60,8 +62,12 @@ class RouterRec {
     },
     calendarRoute: (_) => const CalendarScreen(),
     premiumRoute: (_) => const PremiumScreen(),
-    forumsRoute: (_) => const ForumsScreen()
-
+    forumsRoute: (_) => const ForumsScreen(),
+    threadRoute: (context) {
+      final ThreadForum argument =
+          ModalRoute.of(context)!.settings.arguments as ThreadForum;
+      return ThreadScreen(thread: argument);
+    },
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

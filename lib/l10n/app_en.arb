@@ -114,5 +114,8 @@
     }
   },
   "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
-  "fieldIncomplete": "Filed required"
+  "fieldIncomplete": "Filed required",
+  "forumThreadTitle": "Forum | Thread",
+  "forumThreadSeeMessagesBtn": "See messages"
+
 }

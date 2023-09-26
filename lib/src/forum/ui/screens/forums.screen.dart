@@ -9,6 +9,7 @@ import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/_shared/ui/widgets/search_input.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 
 class ForumsScreen extends StatefulWidget {
@@ -22,11 +23,35 @@ class _ForumsScreenState extends State<ForumsScreen>
     with TickerProviderStateMixin {
   late final ForumBloc _forumBloc;
   final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
+  final int maxCharacters = 75;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _forumBloc = ForumBloc()..add(const ForumThreadsFetch(page: 1));
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onListener);
+  }
+
+  void _onListener() {
+    //print(_scrollController.position.extentAfter);
+    if (_scrollController.position.extentAfter < 200 &&
+        !_forumBloc.state.hasReachedMax &&
+        _forumBloc.state.blocStatus == BlocStatus.loaded) {
+      print('fecth!!');
+      _forumBloc.add(ForumThreadsFetch(page: _forumBloc.state.page + 1));
+    }
+  }
+
+  void _onFieldSubmitted(value) {
+    _forumBloc.add(ForumThreadsFetch(page: 1, search: '$value'));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -38,12 +63,35 @@ class _ForumsScreenState extends State<ForumsScreen>
           indicator: const BoxDecoration(),
           padding: const EdgeInsets.only(bottom: 10),
           controller: TabController(length: 1, vsync: this),
-          tabs: const [
+          tabs: [
             Tab(
-              child: SearchInputForm(),
+              child: SearchInputForm(
+                onFieldSubmitted: _onFieldSubmitted,
+              ),
             )
           ],
         ),
+        actionButton: IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return DraggableScrollableSheet(
+                        expand: false,
+                        initialChildSize: 0.7,
+                        minChildSize: 0.2,
+                        maxChildSize: 0.7,
+                        builder: (context, scrollController) =>
+                            ListView.builder(
+                                controller: scrollController,
+                                itemCount: 200,
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        Text('$index')));
+                  });
+            },
+            icon: const Icon(Icons.add_circle_outline)),
         title: AppLocalizations.of(context)!.menuForum,
         body: BlocProvider(
           create: (context) => _forumBloc,
@@ -52,9 +100,19 @@ class _ForumsScreenState extends State<ForumsScreen>
               return Stack(
                 children: [
                   ListView.builder(
+                    controller: _scrollController,
                     itemCount: state.threads.length,
                     itemBuilder: (context, index) {
+                      String? prevMessage;
+                      if (state.threads[index]!.lastMessage != null) {
+                        prevMessage = Bidi.stripHtmlIfNeeded(
+                            state.threads[index]!.lastMessage!.message);
+                        prevMessage =
+                            '${prevMessage.substring(0, prevMessage.length > maxCharacters ? maxCharacters : prevMessage.length)}...';
+                      }
                       return ListTile(
+                        onTap: () => Navigator.pushNamed(context, threadRoute,
+                            arguments: state.threads[index]!),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 15),
                         tileColor: index % 2 == 0
@@ -67,6 +125,14 @@ class _ForumsScreenState extends State<ForumsScreen>
                               state.threads[index]!.title,
                               color: TextColors.rec,
                             ),
+                            const SizedBox(height: 10),
+                            prevMessage != null
+                                ? TextDefault(
+                                    prevMessage,
+                                    color: TextColors.dark,
+                                    size: TextSizes.small,
+                                  )
+                                : const SizedBox.shrink(),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +159,7 @@ class _ForumsScreenState extends State<ForumsScreen>
                                     TextDefault(
                                         state.threads[index]!.totalMessages
                                             .toString(),
-                                        color: TextColors.muted,
+                                        color: TextColors.rec,
                                         size: TextSizes.small)
                                   ],
                                 ),

@@ -9,7 +9,7 @@ class TextDefault extends Text {
   TextDefault(super.text, {super.key, this.color, this.fontWeight, this.size})
       : super(
             style: TextStyle(
-                fontSize: size?.size,
+                fontSize: size?.size ?? TextSizes.medium.size,
                 fontWeight: fontWeight,
                 color: color?.color));
 }
