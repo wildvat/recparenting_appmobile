@@ -4,9 +4,11 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart';
@@ -36,6 +38,7 @@ class _CalendarScreenState extends State<CalendarScreen>
   late final TabController _tabController;
   late CalendarTypes _calendarType;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _dayViewdKey = GlobalKey<DayViewState>();
   late final User _currentUser;
   final DateTime _now = DateTime.now();
   late DateTime _start;
@@ -49,6 +52,30 @@ class _CalendarScreenState extends State<CalendarScreen>
       DateTime(DateTime.now().year, DateTime.now().month, 1);
   Therapist? _therapist;
   WorkingHours _workingHours = WorkingHours.mock();
+/*
+  Widget _dayDetectorBuilder(
+    DateTime date,
+    List<CalendarEventData> events,
+    Rect boundary,
+    DateTime startDuration,
+    DateTime endDuration,
+  ) {
+    */
+  Widget _dayDetectorBuilder(DateTime date) {
+    final DateTime dateView = _dayViewdKey.currentState!.currentDate;
+    final DateTime dateFusionDateView = DateTime(
+        dateView.year, dateView.month, dateView.day, date.hour, date.minute);
+    bool isInWorkingHour = _checkIfInWHours(dateFusionDateView);
+
+    return Container(
+      color: isInWorkingHour ? Colors.white : Colors.grey.shade200,
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+            '${date.hour < 10 ? '0${date.hour}' : '${date.hour}'}:${date.minute < 10 ? '0${date.minute}' : '${date.minute}'}'),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -58,14 +85,15 @@ class _CalendarScreenState extends State<CalendarScreen>
     _end = DateTime(_now.year, _now.month + 1, 0);
 
     _monthsLoaded = [_start];
-    _tabController = TabController(length: 3, vsync: this)
+    _tabController = TabController(length: 2, vsync: this)
       ..addListener(() {
         if (!_tabController.indexIsChanging) {
           setState(() {
             if (_tabController.index == 0) {
               _calendarType = CalendarTypes.month;
             } else if (_tabController.index == 1) {
-              _calendarType = CalendarTypes.week;
+              _calendarType = CalendarTypes.day;
+              //_calendarType = CalendarTypes.week;
             } else {
               _calendarType = CalendarTypes.day;
             }
@@ -104,9 +132,43 @@ class _CalendarScreenState extends State<CalendarScreen>
     }
   }
 
-  _onDateLongPressWeekDay(DateTime date) =>
-      // todo show modal with create event
+  bool _checkIfInWHours(DateTime date) {
+    bool isInWorkingHour = false;
+    if (date.difference(DateTime.now()).inDays > -1) {
+      final String dayName = DateFormat('EEEE').format(date).toLowerCase();
+      print(date);
+      print(dayName);
+      for (var whour in _workingHours.toList()) {
+        if (whour['day'] == dayName) {
+          if ((whour['startEnd'] as WorkingHoursStartEndList)
+              .hours
+              .isNotEmpty) {
+            for (final endStart
+                in (whour['startEnd'] as WorkingHoursStartEndList).hours) {
+              if (date.hour >= int.parse(endStart!.start.substring(0, 2)) &&
+                  date.hour <= int.parse(endStart.end.substring(0, 2))) {
+                /*
+                print('******');
+                print(date.hour);
+                print(int.parse(endStart.start.substring(0, 2)));
+                print(int.parse(endStart.end.substring(0, 2)));
+                print('*** / ***');
+                */
+                isInWorkingHour = true;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    return isInWorkingHour;
+  }
 
+  _onDateLongPressWeekDay(DateTime date) {
+    bool isInWorkingHour = _checkIfInWHours(date);
+
+    if (isInWorkingHour) {
       showModalBottomSheet(
           isScrollControlled: true,
           context: context,
@@ -115,6 +177,15 @@ class _CalendarScreenState extends State<CalendarScreen>
             return CalendarFormCreateEventWidget(
                 start: date, eventController: _eventController);
           });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 2),
+        content: Text(
+          'Este horario no está disponible',
+        ),
+      ));
+    }
+  }
 
   _onEventsTap(List<CalendarEventData> events, DateTime date) =>
       _onEventTap(events[0], date);
@@ -209,9 +280,11 @@ class _CalendarScreenState extends State<CalendarScreen>
                         Tab(
                           icon: Icon(Icons.calendar_month),
                         ),
+                        /*
                         Tab(
                           icon: Icon(Icons.calendar_view_week),
                         ),
+                        */
                         Tab(
                           icon: Icon(Icons.calendar_view_day),
                         ),
@@ -237,10 +310,26 @@ class _CalendarScreenState extends State<CalendarScreen>
                                   onPageChange: _onPageChange,
                                   onEventTap: _onEventTap,
                                   onCellTap: (events, date) {
-                                    setState(() {
-                                      _initialDay = date;
-                                      _tabController.index = 2;
-                                    });
+                                    if (date.difference(DateTime.now()).inDays >
+                                        -1) {
+                                      String dayName = DateFormat('EEEE')
+                                          .format(date)
+                                          .toLowerCase();
+                                      bool isInWorkingHour = false;
+                                      for (var whour
+                                          in _workingHours.toList()) {
+                                        if (whour['day'] == dayName) {
+                                          isInWorkingHour = true;
+                                          break;
+                                        }
+                                      }
+                                      if (isInWorkingHour) {
+                                        setState(() {
+                                          _initialDay = date;
+                                          _tabController.index = 1;
+                                        });
+                                      }
+                                    }
                                   },
                                   eventController: _eventController,
                                   therapist: snapshotAvailable.data!,
@@ -254,6 +343,12 @@ class _CalendarScreenState extends State<CalendarScreen>
                                     headerStyle: const HeaderCalendarStyle());
                               }
                               return DayView(
+                                  key: _dayViewdKey,
+                                  showLiveTimeLineInAllDays: true,
+                                  hourIndicatorSettings:
+                                      const HourIndicatorSettings(
+                                          color: colorRecLight),
+                                  timeLineBuilder: _dayDetectorBuilder,
                                   minDay: _minMonth,
                                   onPageChange: _onPageChange,
                                   onEventTap: _onEventsTap,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:calendar_view/calendar_view.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
@@ -96,8 +98,7 @@ class CalendarApi {
         'start': start.toUtc().toString(),
         'end': end.toUtc().toString(),
       });
-      if (response.statusCode == 204) {
-        print(response.data);
+      if ([201, 204].contains(response.statusCode)) {
         Color color;
         if (currentUser.isPatient() &&
             currentUser.id != response.data['user']['uuid']) {
@@ -117,12 +118,16 @@ class CalendarApi {
                 event: EventCalendarApiModel.fromJson(response.data),
                 color: color));
       }
-      return CreateEventApiResponse(
-          error: response.data['message'] ?? R.string.generalError);
+
+      return CreateEventApiResponse(error: R.string.generalError);
     } on dio.DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
-      developer.log(e.response.toString());
-      return CreateEventApiResponse(error: R.string.generalError);
+      developer.log(e.response?.data.toString() ?? 'No message');
+      String responseError = R.string.generalError;
+      if (e.response?.data != null) {
+        responseError = e.response!.data['message'];
+      }
+      return CreateEventApiResponse(error: responseError);
     }
   }
 }

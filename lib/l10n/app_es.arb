@@ -60,6 +60,7 @@
   "eventCreateEnd": "Hasta",
   "eventCreateBtnSend": "Guardar",
   "eventCreateMessageOk": "Cita creada correctamente",
+  "eventCreateMessageRequired": "Faltan campos por cubrir",
   "eventCreateMessageError": "No se ha podido crear la cita",
   "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {día}}",
   "@getDay": {
