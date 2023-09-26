@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/_shared/ui/widgets/search_input.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 
@@ -60,15 +63,15 @@ class _ForumsScreenState extends State<ForumsScreen>
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            TextDefault(
                               state.threads[index]!.title,
-                              style: const TextStyle(color: colorRecDark),
+                              color: TextColors.rec,
                             ),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                TextDefault(
                                   state.threads[index]!.lastMessage != null
                                       ? formatter.format(state.threads[index]!
                                           .lastMessage!.createdAt
@@ -76,23 +79,22 @@ class _ForumsScreenState extends State<ForumsScreen>
                                       : formatter.format(state
                                           .threads[index]!.createdAt
                                           .toLocal()),
-                                  style: const TextStyle(
-                                      color: Colors.black54, fontSize: 15),
+                                  color: TextColors.muted,
+                                  size: TextSizes.small,
                                 ),
                                 Row(
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.forum_outlined,
-                                      color: colorRec,
+                                      color: TextColors.rec.color,
                                       size: 20,
                                     ),
                                     const SizedBox(width: 5),
-                                    Text(
-                                      state.threads[index]!.totalMessages
-                                          .toString(),
-                                      style: const TextStyle(
-                                          color: Colors.black54, fontSize: 15),
-                                    )
+                                    TextDefault(
+                                        state.threads[index]!.totalMessages
+                                            .toString(),
+                                        color: TextColors.muted,
+                                        size: TextSizes.small)
                                   ],
                                 ),
                               ],
