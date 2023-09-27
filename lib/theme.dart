@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/notransition_builder.dart';
 import 'package:recparenting/constants/colors.dart';
 
@@ -20,16 +21,21 @@ class RecThemeData {
                   TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               bodyLarge: TextStyle(fontSize: 18, color: Colors.black87),
             ),
-            inputDecorationTheme: const InputDecorationTheme(
+            inputDecorationTheme: InputDecorationTheme(
+                enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        style: BorderStyle.solid, color: colorRecLight)),
                 focusColor: colorRecLight,
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      style: BorderStyle.solid, color: colorRecLight),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(style: BorderStyle.solid, color: colorRecDark),
                 ),
-                activeIndicatorBorder: BorderSide(color: colorRecLight),
-                labelStyle: TextStyle(color: colorRecDark),
-                border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorRecLight))),
+                activeIndicatorBorder: const BorderSide(color: colorRecLight),
+                hintStyle: TextStyle(color: TextColors.muted.color),
+                labelStyle: const TextStyle(color: colorRecDark),
+                border: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        style: BorderStyle.solid, color: colorRecLight))),
             elevatedButtonTheme: const ElevatedButtonThemeData(
                 style: ButtonStyle(
                     foregroundColor: MaterialStatePropertyAll(Colors.white),
