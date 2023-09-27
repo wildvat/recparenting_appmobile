@@ -35,6 +35,9 @@
   "generalCancel": "Cancelar",
   "generalAccept": "Aceptar",
   "generalContinue": "Continuar",
+  "generalFormRequired": "Campo requerido",
+  "generalFormFieldTitle": "Título",
+  "generalFormFieldDescription": "Descripción",
   "calendarTitle": "Agenda",
   "calendarGeneralError": "No se ha podido mostrar el calendario",
   "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",
@@ -129,6 +132,7 @@
   "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
   "forumThreadTitle": "Forum | Hilo",
   "forumThreadSeeMessagesBtn": "Ver mensajes",
+  "forumThreadCreated": "Hilo creado correctamente"
   "generalGender": "{gender, select, male {Hombre}  female {Mujer} transGender {Trans genero} nonBinay {No binaro} preferNotToAnswer {Prefiero no responder} other {Otros}}",
   "@generalGender": {
     "placeholders": {

@@ -13,8 +13,7 @@ class ForumThreadsFetch extends ForumEvent {
   const ForumThreadsFetch({required this.page, this.search});
 }
 
-class ForumThreadCreate extends ForumEvent {
-  final String title;
-  final String description;
-  const ForumThreadCreate({required this.title, required this.description});
+class ForumThreadCreated extends ForumEvent {
+  final ThreadForum thread;
+  const ForumThreadCreated({required this.thread});
 }

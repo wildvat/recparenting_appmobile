@@ -22,7 +22,7 @@ class MessageForum {
   MessageForum.fromJson(Map<String, dynamic> json)
       : id = json['uuid'],
         forumId = json['forum_id'],
-        createdAt = DateTime.parse(json['created_at']),
+        createdAt = DateTime.parse(json['created_at']).toLocal(),
         user = User.fromJson(json['user']),
         message = json['message'],
         files = json['files'] != null
