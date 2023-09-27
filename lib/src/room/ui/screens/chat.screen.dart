@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
+import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/ui/widgets/chat.widget.dart';
 
 import '../../../../_shared/models/user.model.dart';
 import '../../../../_shared/ui/widgets/app_submenu.widget.dart';
 import '../../../../constants/colors.dart';
+import '../../../../constants/router_names.dart';
 import '../../../therapist/models/therapist.model.dart';
 import '../../helpers/participans_from_room.dart';
 import '../../models/rooms.model.dart';
@@ -23,20 +26,20 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   late Future<Rooms?> _roomsShared;
-  late User? _currentUser;
+  late User _currentUser;
 
   @override
   void initState() {
     super.initState();
     _currentUser = CurrentUserBuilder().value();
-    if (_currentUser!.isTherapist()) {
+    if (_currentUser.isTherapist()) {
       RoomApi roomApi = RoomApi();
       _roomsShared =
           roomApi.getConversationSharedPatientWithTherapist(widget._patient);
     }
-    if (_currentUser!.isPatient()) {
+    if (_currentUser.isPatient()) {
       RoomApi roomApi = RoomApi();
       _roomsShared =
           roomApi.getAll(1, null);
@@ -60,11 +63,12 @@ class _ChatScreenState extends State<ChatScreen> {
             child: ChatWidget(patient: widget._patient)));
   }
 
+
   Widget withShared(Rooms rooms) {
     List<Widget> tabs = [];
     List<Widget> tabsContent = [];
 
-    if (_currentUser!.isTherapist()) {
+    if (_currentUser.isTherapist()) {
       //Si es terapeuta el roomsShared solo devuelve room si esta compartido con el terapeuta
       // por lo que tengo que añadir a los tabs la actual conversacion con el paciente
       tabs.add(Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
@@ -74,8 +78,8 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     for (var room in rooms.rooms) {
-      Therapist? therapist = getTherapistFromRoom(room, _currentUser!);
-      Patient? patient = getPatientFromRoom(room, _currentUser!);
+      Therapist? therapist = getTherapistFromRoom(room, _currentUser);
+      Patient? patient = getPatientFromRoom(room, _currentUser);
 
       if (patient != null && therapist != null) {
         tabs.add(Tab(text: therapist.name));
@@ -87,17 +91,37 @@ class _ChatScreenState extends State<ChatScreen> {
     if (tabs.isEmpty) {
       return withOutShared();
     }
+    final tabController = TabController(length: tabs.length, vsync: this);
+    String title = '';
+    if(_currentUser.isTherapist()){
+       title = AppLocalizations.of(context)!.chatTitleWith(getTherapistFromRoom(rooms.rooms[tabController.index], _currentUser)!.name);
+
+    }
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
+          title: Text(title),
+          actions:  [
+            (_currentUser.isPatient())?IconButton(
+                onPressed: (){
+                    Room room = rooms.rooms[tabController.index];
+                    Navigator.pushNamed(context, therapistBioPageRoute, arguments: getTherapistFromRoom(room, _currentUser));
+                },
+                icon: const Icon(Icons.badge_outlined)):const SizedBox(),
+                const AppSubmenuWidget()
+          ]
+              ,
           bottom: TabBar(
+            controller: tabController,
+            indicatorColor: colorRecDark,
+            dividerColor: Colors.transparent,
+            indicator: const BoxDecoration(),
             tabs: tabs,
           ),
-          title: Text(
-              AppLocalizations.of(context)!.chatTitleWith(widget._patient.name)),
         ),
         body: TabBarView(
+          controller: tabController,
           children: tabsContent,
         ),
       ),
@@ -111,10 +135,10 @@ class _ChatScreenState extends State<ChatScreen> {
         future: _roomsShared,
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return  ScaffoldDefault(body: const Center(
                 child: SizedBox(
                     height: 40,
-                    child: CircularProgressIndicator(color: colorRec)));
+                    child: CircularProgressIndicator(color: colorRec))));
           }
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData &&
@@ -128,4 +152,5 @@ class _ChatScreenState extends State<ChatScreen> {
           return withOutShared();
         });
   }
+
 }

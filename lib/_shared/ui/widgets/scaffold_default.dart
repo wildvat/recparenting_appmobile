@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/app_submenu.widget.dart';
+import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/src/patient/ui/widgets/bottom_bar_patient.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
@@ -30,12 +31,13 @@ class ScaffoldDefault extends StatefulWidget {
 
 class _ScaffoldDefaultState extends State<ScaffoldDefault> {
   late User _currentUser;
-
+  late NotificationBloc _notificationBloc;
   @override
   void initState() {
     super.initState();
     _currentUser =
         (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
+    _notificationBloc = context.read<NotificationBloc>();
   }
 
   @override
@@ -45,6 +47,47 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
         title: Text((widget.title != null) ? widget.title! : 'REC Parenting'),
         actions: [
           widget.actionButton ?? const SizedBox.shrink(),
+          BlocBuilder<NotificationBloc, NotificationState>(
+              builder: (context, state) {
+                if (state is NotificationsLoaded && state.notifications.total > 0) {
+                  return Stack(
+                    children: <Widget>[
+                      IconButton(
+                        padding: const EdgeInsets.all(0),
+                        icon: const Icon(Icons.notifications),
+                        onPressed: () {
+                          Navigator.pushNamed(context, notificationsRoute,
+                              arguments: state.notifications);
+                        },
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child:  Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration:  BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 12,
+                            minHeight: 12,
+                          ),
+                          child:  Text(
+                            state.notifications.notifications.length.toString(),
+                            style:  const TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }
+                return const SizedBox();
+              }),
           const AppSubmenuWidget()
         ],
         bottom: widget.tabBar,
@@ -54,7 +97,7 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
           ? FloatingActionButton(
               child: const Icon(Icons.message),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, chatPageRoute,
+                Navigator.pushNamed(context, chatRoute,
                     arguments: _currentUser);
               },
             )

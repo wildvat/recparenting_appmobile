@@ -15,6 +15,7 @@
   "menuLegal": "Legal",
   "menuContact": "Contacta",
   "menuPatients": "Pacientes",
+  "menuNotifications": "Notifications",
   "therapistBioTitle": "Tu terapeuta",
   "therapistShow": "Más información",
   "workingHoursTitle": "Horario laboral",
@@ -111,25 +112,49 @@
   "fieldIncomplete": "Campo obligatorio",
   "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
   "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
-  "patientChangeTherapistReason": "{reason, select, pregnancy {Pregnancy} adoption {Adoption}  other {Otros}}",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
   "@patientChangeTherapistReason": {
     "placeholders": {
       "reason": {}
     }
   },
   "therapistAreasExpertiseTitle": "Areas of expertise",
-  "therapistAreasExpertise": "{area, select, pregnancy {Embarazo}  other {Otros}}",
+  "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy} adoption {Adoption} difficultiesConceiving {Difficulties conceiving} issuesDuringInfancy {Issues during infancy} issuesDuringToddlerhood {Issues during toddlerhood} issuesDuringChildhood {Issues during childhood} issuesDuringAdolescence {Issues during adolescence}  educationIssues {Education issues} learningDifficulties {Learning difficulties} technologyUse {Technology use} discipline {Discipline} anxiety {Anxiety} depressionAndMoodDisorders {Depression and mood disorders} eatingDisorders {Eating disorders} bullyingCyberbullyingAndSexting {Bullying, cyberbullying and sexting} atypicalDevelopment {Atypical development (e.g., autism)} substanceUse {Substance use} siblingRilvalry {Sibling rilvalry} parentChildConflict {Parent-child conflict} childrensMentalHealth {Children's mental health} adultMentalHealth {Adult mental health} coParentingIssues {Co-parenting issues} parentingAlone {Parenting alone} divorce {Divorce} relationships {Relationships} bereavement {Bereavement} trauma {Trauma} other {Otros}}",
   "@therapistAreasExpertise": {
     "placeholders": {
       "area": {}
     }
   },
   "therapistOtherDataTitle": "Other data",
-  "generalLanguage": "Idioma",
-  "generalGender": "Género",
-  "generalReligion" : "Religión",
+  "generalLanguageTitle": "Idioma",
+  "generalGenderTitle": "Género",
+  "generalReligionTitle" : "Religión",
   "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
   "forumThreadTitle": "Forum | Hilo",
   "forumThreadSeeMessagesBtn": "Ver mensajes",
   "forumThreadCreated": "Hilo creado correctamente"
+  "generalGender": "{gender, select, male {Hombre}  female {Mujer} transGender {Trans genero} nonBinay {No binaro} preferNotToAnswer {Prefiero no responder} other {Otros}}",
+  "@generalGender": {
+    "placeholders": {
+      "gender": {}
+    }
+  },
+  "generalReligion": "{religion, select, catholic {Católico}  christian {Cristiano} jewish {Judio} muslim {Musulman} nonReligious {No soy religioso} other {Otros}}",
+  "@generalReligion": {
+    "placeholders": {
+      "religion": {}
+    }
+  },
+  "generalLanguage": "{language, select, en {Ingles}  es {Español} fr {Francés} ar {Árabe}  other {Otro}}",
+  "@generalLanguage": {
+    "placeholders": {
+      "language": {}
+    }
+  },
+  "notificationsType": "{type, select, therapistDisabledAtNotificationTherapist {Your account will be disabled at} therapistDisabledAtNotificationPatient {Your therapist, , will be deactivated at }  toPatientWhenTherapistWasAssigned {Your new therapist is [therapist], click here for more info} userDisabledAtNotification {Your account will be disabled on } patientDisabledAtNotification {Your patient, , will be deactivated at } toTherapistWhenPatientWasAssigned {You have a new patient, } toTherapistDisabledWhenPatientWasAssigned {Your patient, , has changed his/her therapist} toPatientWhenRequestedChange {Your request to change your therapist is in progress} toTherapistWhenPatientRequestedChange {Your patient,  has requested to change his/her therapist} toParticipantsWhenEventAppointmentWasCreated { Appointemt was created on [date_appointment] } toParticipantsWhenEventAppointmentWasDeleted { Appoint was deleted on [date_appointment]} toParticipantsWhenForumMessageWasCreated {Forum was created}   conversationUnreadNotification {Conversation unread} other {Other} }",
+  "@notificationsType": {
+    "placeholders": {
+      "type": {}
+    }
+  }
 }

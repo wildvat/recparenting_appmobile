@@ -15,6 +15,7 @@
   "menuLegal": "Legal",
   "menuContact": "Contact",
   "menuPatients": "Patients",
+  "menuNotifications": "Notifications",
   "therapistBioTitle": "Your therapist",
   "therapistShow": "More information",
   "workingHoursTitle": "Working hours",
@@ -110,7 +111,7 @@
   "chatDeleteMessageContent": "Are you sure you want to delete this message?",
   "patientChangeTherapistTitle": "Form to change therapist",
   "patientChangeTherapistOptionsTitle": "Select a option",
-  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Our schedules don’t match} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
   "@patientChangeTherapistReason": {
     "placeholders": {
       "reason": {}
@@ -122,14 +123,40 @@
   "forumThreadSeeMessagesBtn": "See messages",
   "forumThreadCreated": "Thread created correctly",
   "therapistAreasExpertiseTitle": "Areas of expertise",
-  "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy}  other {Otros}}",
+  "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy} adoption {Adoption} difficultiesConceiving {Difficulties conceiving} issuesDuringInfancy {Issues during infancy} issuesDuringToddlerhood {Issues during toddlerhood} issuesDuringChildhood {Issues during childhood} issuesDuringAdolescence {Issues during adolescence}  educationIssues {Education issues} learningDifficulties {Learning difficulties} technologyUse {Technology use} discipline {Discipline} anxiety {Anxiety} depressionAndMoodDisorders {Depression and mood disorders} eatingDisorders {Eating disorders} bullyingCyberbullyingAndSexting {Bullying, cyberbullying and sexting} atypicalDevelopment {Atypical development (e.g., autism)} substanceUse {Substance use} siblingRilvalry {Sibling rilvalry} parentChildConflict {Parent-child conflict} childrensMentalHealth {Children's mental health} adultMentalHealth {Adult mental health} coParentingIssues {Co-parenting issues} parentingAlone {Parenting alone} divorce {Divorce} relationships {Relationships} bereavement {Bereavement} trauma {Trauma} other {Otros}}",
   "@therapistAreasExpertise": {
     "placeholders": {
       "area": {}
     }
   },
   "therapistOtherDataTitle": "Other data",
-  "generalLanguage": "Language",
-  "generalGender": "Gender",
-  "generalReligion" : "Religion"
+  "generalLanguageTitle": "Language",
+  "generalGenderTitle": "Gender",
+  "generalReligionTitle" : "Religion",
+
+  "generalGender": "{gender, select, male {Male}  female {Female} transGender {Trans gender} nonBinay {Non binary} preferNotToAnswer {Prefer not to answer} other {Other}}",
+  "@generalGender": {
+    "placeholders": {
+      "gender": {}
+    }
+  },
+  "generalReligion": "{religion, select, catholic {Catholic}  christian {Christian} jewish {Jewish} muslim {Muslim} nonReligious {Non religious} other {Other}}",
+  "@generalReligion": {
+    "placeholders": {
+      "religion": {}
+    }
+  },
+  "generalLanguage": "{language, select, en {English}  es {Spanish} fr {French} ar {Arabic}  other {Other}}",
+  "@generalLanguage": {
+    "placeholders": {
+      "language": {}
+    }
+  },
+
+  "notificationsType": "{type, select, therapistDisabledAtNotificationTherapist {Your account will be disabled at} therapistDisabledAtNotificationPatient {Your therapist, , will be deactivated at }  toPatientWhenTherapistWasAssigned {Your new therapist is [therapist], click here for more info} userDisabledAtNotification {Your account will be disabled on } patientDisabledAtNotification {Your patient, , will be deactivated at } toTherapistWhenPatientWasAssigned {You have a new patient, } toTherapistDisabledWhenPatientWasAssigned {Your patient, , has changed his/her therapist} toPatientWhenRequestedChange {Your request to change your therapist is in progress} toTherapistWhenPatientRequestedChange {Your patient,  has requested to change his/her therapist} toParticipantsWhenEventAppointmentWasCreated { Appointemt was created on [date_appointment] } toParticipantsWhenEventAppointmentWasDeleted { Appoint was deleted on [date_appointment]} toParticipantsWhenForumMessageWasCreated {Forum was created}   conversationUnreadNotification {Conversation unread} other {Other} }",
+  "@notificationsType": {
+    "placeholders": {
+      "type": {}
+    }
+  }
 }

@@ -90,11 +90,11 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                       patient = _eventApi.user as Patient;
                     }
                     if (_eventApi.type.contains('appointment_chat')) {
-                      Navigator.pushNamed(context, chatPageRoute,
+                      Navigator.pushNamed(context, chatRoute,
                           arguments: patient);
                     } else if (_eventApi.type.contains('appointment_video')) {
                       //todo enviar room o paciente....
-                      Navigator.pushNamed(context, joinConferencePageRoute,
+                      Navigator.pushNamed(context, joinConferenceRoute,
                           arguments: patient.conference);
                     }
                   },

@@ -75,6 +75,13 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
               _menuController.close();
             },
             titleUrl: AppLocalizations.of(context)!.menuContact),
+        AppSubmenuItemWidget(
+            onPress: () async {
+              await Navigator.pushNamed(context, notificationsRoute);
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: AppLocalizations.of(context)!.menuNotifications),
       ],
       child: const Icon(Icons.more_vert, color: Colors.white),
     );

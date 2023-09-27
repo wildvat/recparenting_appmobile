@@ -53,29 +53,35 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
         size: TextSizes.large,
         fontWeight: FontWeight.bold
     ));
-    widgets.add(TextDefault(AppLocalizations.of(context)!.generalGender,
-        size: TextSizes.large,
-        fontWeight: FontWeight.bold
-    ));
-    widgets.add(TextDefault(widget.therapist.data.gender,
-        size: TextSizes.large,
-        fontWeight: FontWeight.bold
-    ));
-    widgets.add(TextDefault(AppLocalizations.of(context)!.generalLanguage,
-        size: TextSizes.large,
-        fontWeight: FontWeight.bold
-    ));
-    for(var language in widget.therapist.data.language){
-      widgets.add(TextDefault(language));
-    }
 
-    if(widget.therapist.data.religion.isNotEmpty){
-      widgets.add(TextDefault(AppLocalizations.of(context)!.generalReligion,
-          size: TextSizes.large,
+    widgets.add(ListTile(
+      title: TextDefault(AppLocalizations.of(context)!.generalReligionTitle,
           fontWeight: FontWeight.bold
-      ));
-      widgets.add(TextDefault(widget.therapist.data.religion));
+      ),
+      trailing:TextDefault(AppLocalizations.of(context)!.generalReligion(widget.therapist.data.religion.name)) ,
+    ));
+
+    widgets.add(ListTile(
+      title: TextDefault(AppLocalizations.of(context)!.generalGenderTitle,
+          fontWeight: FontWeight.bold
+      ),
+      trailing:TextDefault(AppLocalizations.of(context)!.generalGender(widget.therapist.data.gender.name)) ,
+    ));
+
+
+    List<Widget> languages= [];
+    for (var value in widget.therapist.data.language) {
+      languages.add(TextDefault(AppLocalizations.of(context)!.generalLanguage(value.name)));
     }
+    widgets.add(ListTile(
+      title: TextDefault(AppLocalizations.of(context)!.generalLanguageTitle,
+          fontWeight: FontWeight.bold
+      ),
+      trailing:Wrap(children: languages) ,
+    ));
+
+
+
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

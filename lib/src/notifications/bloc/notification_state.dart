@@ -9,6 +9,7 @@ abstract class NotificationState extends Equatable {
 }
 
 class NotificationsUninitialized extends NotificationState{}
+class NotificationsLoading extends NotificationState{}
 
 class NotificationsLoaded extends NotificationState {
   final Notifications notifications;

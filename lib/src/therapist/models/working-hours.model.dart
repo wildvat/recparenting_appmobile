@@ -124,92 +124,77 @@ class WorkingHours {
       saturday = WorkingHoursStartEndList([]);
       sunday = WorkingHoursStartEndList([]);
       if (json['monday'] != null) {
-        dev.log('------ monday -------');
         _workingHoursToLocal(
             json: json['monday'],
             timeOffset: timeZoneOffset,
             current: monday,
             prev: sunday,
             next: tuesday);
-        dev.log('------ / monday -------');
       } else {
         monday = WorkingHoursStartEndList([]);
       }
 
       if (json['tuesday'] != null) {
-        dev.log('------ tuesday --------');
         _workingHoursToLocal(
             json: json['tuesday'],
             timeOffset: timeZoneOffset,
             current: tuesday,
             prev: monday,
             next: wednesday);
-        dev.log('------ / tuesday --------');
       } else {
         tuesday = WorkingHoursStartEndList([]);
       }
       if (json['wednesday'] != null) {
-        dev.log('------ wednesday --------');
         _workingHoursToLocal(
             json: json['tuesday'],
             timeOffset: timeZoneOffset,
             current: wednesday,
             prev: tuesday,
             next: thursday);
-        dev.log('------ / wednesday --------');
       } else {
         wednesday = WorkingHoursStartEndList([]);
       }
       if (json['thursday'] != null) {
-        dev.log('------ thursday --------');
         _workingHoursToLocal(
             json: json['tuesday'],
             timeOffset: timeZoneOffset,
             current: thursday,
             prev: wednesday,
             next: friday);
-        dev.log('------ / thursday --------');
       } else {
         thursday = WorkingHoursStartEndList([]);
       }
       if (json['friday'] != null) {
-        dev.log('------ friday --------');
         _workingHoursToLocal(
             json: json['tuesday'],
             timeOffset: timeZoneOffset,
             current: friday,
             prev: thursday,
             next: saturday);
-        dev.log('------ / friday --------');
       } else {
         friday = WorkingHoursStartEndList([]);
       }
       if (json['saturday'] != null) {
-        dev.log('------ saturday --------');
         _workingHoursToLocal(
             json: json['saturday'],
             timeOffset: timeZoneOffset,
             current: saturday,
             prev: friday,
             next: sunday);
-        dev.log('------ / saturday --------');
       } else {
         saturday = WorkingHoursStartEndList([]);
       }
       if (json['sunday'] != null) {
-        dev.log('------ sunday --------');
         _workingHoursToLocal(
             json: json['sunday'],
             timeOffset: timeZoneOffset,
             current: sunday,
             prev: saturday,
             next: monday);
-        dev.log('------ / sunday --------');
       } else {
         sunday = WorkingHoursStartEndList([]);
       }
     } catch (error) {
-      dev.log('aqui');
       dev.log(error.toString());
     }
   }
