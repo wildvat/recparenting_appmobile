@@ -16,7 +16,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
           total: 0,
         )) {
     on<ForumThreadsFetch>(_onForumThreadsFetch);
-    on<ForumThreadCreate>(_onForumThreadsCreate);
+    on<ForumThreadCreated>(_onForumThreadsCreated);
   }
 
   Future<bool> _onForumThreadsFetch(
@@ -37,8 +37,12 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
     return true;
   }
 
-  Future<bool> _onForumThreadsCreate(
-      ForumThreadCreate event, Emitter<ForumState> emit) async {
+  Future<bool> _onForumThreadsCreated(
+      ForumThreadCreated event, Emitter<ForumState> emit) async {
+    emit((state as ForumLoaded).copyWith(threads: [
+      ...[event.thread],
+      ...state.threads
+    ], total: state.total + 1));
     return true;
   }
 }

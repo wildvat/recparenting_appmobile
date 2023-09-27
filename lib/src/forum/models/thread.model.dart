@@ -22,7 +22,7 @@ class ThreadForum {
 
   ThreadForum.fromJson(Map<String, dynamic> json)
       : id = json['uuid'],
-        createdAt = DateTime.parse(json['created_at']),
+        createdAt = DateTime.parse(json['created_at']).toLocal(),
         description = json['description'],
         title = json['title'],
         totalMessages = json['total_messages'],

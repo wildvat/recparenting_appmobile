@@ -34,6 +34,9 @@
   "generalCancel": "Cancel",
   "generalAccept": "Accept",
   "generalContinue": "Continue",
+  "generalFormRequired": "Required field",
+  "generalFormFieldTitle": "Title",
+  "generalFormFieldDescription": "Description",
   "calendarTitle": "Calendar",
   "calendarGeneralError": "Calendar could not be displayed",
   "calendarTherapistError": "You don't have a therapist, contact administration.",
@@ -117,7 +120,7 @@
   "fieldIncomplete": "Filed required",
   "forumThreadTitle": "Forum | Thread",
   "forumThreadSeeMessagesBtn": "See messages",
-
+  "forumThreadCreated": "Thread created correctly",
   "therapistAreasExpertiseTitle": "Areas of expertise",
   "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy}  other {Otros}}",
   "@therapistAreasExpertise": {

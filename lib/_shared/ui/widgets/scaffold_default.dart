@@ -14,7 +14,7 @@ class ScaffoldDefault extends StatefulWidget {
   final String? title;
   final FloatingActionButton? floatingActionButton;
   final Widget? actionButton;
-  final TabBar? tabBar;
+  final PreferredSizeWidget? tabBar;
 
   ScaffoldDefault(
       {required this.body,
