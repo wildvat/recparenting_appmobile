@@ -34,7 +34,7 @@ class _ThreadScreenState extends State<ThreadScreen> {
                           controller: scrollController,
                           itemCount: 200,
                           itemBuilder: (BuildContext context, int index) =>
-                              Text('$index')));
+                              TextDefault('$index')));
                 });
           },
           icon: const Icon(Icons.add_circle_outline)),
@@ -68,10 +68,10 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                     itemCount: 200,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            Text('$index')));
+                                            TextDefault('$index')));
                       });
                 },
-                child: Text(
+                child: TextDefault(
                     AppLocalizations.of(context)!.forumThreadSeeMessagesBtn)),
           )
         ],
