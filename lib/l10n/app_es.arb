@@ -132,7 +132,7 @@
   "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
   "forumThreadTitle": "Forum | Hilo",
   "forumThreadSeeMessagesBtn": "Ver mensajes",
-  "forumThreadCreated": "Hilo creado correctamente"
+  "forumThreadCreated": "Hilo creado correctamente",
   "generalGender": "{gender, select, male {Hombre}  female {Mujer} transGender {Trans genero} nonBinay {No binaro} preferNotToAnswer {Prefiero no responder} other {Otros}}",
   "@generalGender": {
     "placeholders": {

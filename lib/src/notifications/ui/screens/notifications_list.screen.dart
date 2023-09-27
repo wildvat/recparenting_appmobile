@@ -67,11 +67,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldDefault(body:
+    return ScaffoldDefault(
+      title: AppLocalizations.of(context)!.menuNotifications,
+        body:
         BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
       if (state is NotificationsLoaded) {
         if (state.notifications.total == 0) {
+          //TODO translate
           return Center(
             child: Text('No tienes notificaciones'),
           );
