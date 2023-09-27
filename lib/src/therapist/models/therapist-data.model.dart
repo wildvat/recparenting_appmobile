@@ -1,3 +1,6 @@
+import 'package:recparenting/_shared/models/gender.enum.dart';
+import 'package:recparenting/_shared/models/language.enum.dart';
+import 'package:recparenting/_shared/models/religion.enum.dart';
 import 'package:recparenting/src/therapist/models/therapist_areas_expertise.enum.dart';
 import 'package:recparenting/src/therapist/models/working-hours.model.dart';
 
@@ -6,9 +9,9 @@ class TherapistData {
   late int years_practice;
   late List<AreasExpertise> areas_expertise;
   late WorkingHours working_hours;
-  late String religion;
-  late String gender;
-  late List<String> language;
+  late Religion religion;
+  late Gender gender;
+  late List<Language> language;
 
   TherapistData(this.bio, this.years_practice, this.areas_expertise,
       this.working_hours, this.religion, this.gender, this.language);
@@ -19,9 +22,9 @@ class TherapistData {
 
     bio = json['bio'];
     years_practice = json['years_practice'];
-    religion = json['religion'];
-    gender = json['gender'];
-    language = apiLanguages.map((i) => i.toString()).toList();
+    religion = convertStringToReligion(json['religion']);
+    gender = convertStringToGender(json['gender']);
+    language = apiLanguages.map((i) => convertStringToLanguage(i.toString())).toList();
     areas_expertise = apiAreasExpertise.map((i) {
       return convertStringFromAreaExpertise(i.toString());
     }
