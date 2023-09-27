@@ -18,6 +18,7 @@ class NotificationApi{
       if (response.statusCode == 200) {
           return Notifications.fromJson(response.data);
         }
+      developer.log('/** STATUS CODE ${response.statusCode} NotificationApi.getAll **/');
         return null;
     } on DioException catch (e) {
       developer.log('/** ERROR NotificationApi.getAll **/');
@@ -25,13 +26,19 @@ class NotificationApi{
       return null;
     }
   }
-  Future<void> markAsRead() async {
+  Future<void> markAsRead(String? notificationId) async {
     String endpoint = '${_baseUrl}notifications';
+    Map<String, dynamic> body = {
+
+    };
     try {
 
+      if(notificationId != null){
+          body['notification'] = notificationId;
+      }
       await client.dio.post(
         endpoint,
-        data: null,
+        data: FormData.fromMap(body),
       );
 
     } on DioException catch (e) {

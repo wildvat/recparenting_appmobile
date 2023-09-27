@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/bloc/conversation_bloc.dart';
@@ -134,10 +135,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         future: _roomsShared,
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return  ScaffoldDefault(body: const Center(
                 child: SizedBox(
                     height: 40,
-                    child: CircularProgressIndicator(color: colorRec)));
+                    child: CircularProgressIndicator(color: colorRec))));
           }
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData &&

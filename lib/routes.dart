@@ -18,6 +18,7 @@ import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/models/thread.model.dart';
 import 'package:recparenting/src/forum/ui/screens/forums.screen.dart';
 import 'package:recparenting/src/forum/ui/screens/thread.screen.dart';
+import 'package:recparenting/src/notifications/ui/screens/notifications_list.screen.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
@@ -37,12 +38,12 @@ class RouterRec {
           ModalRoute.of(context)!.settings.arguments as WebpageArguments;
       return WebPageScreen(arguments: argument);
     },
-    chatPageRoute: (context) {
+    chatRoute: (context) {
       final Patient patient =
           ModalRoute.of(context)!.settings.arguments as Patient;
       return ChatScreen(patient: patient);
     },
-    joinConferencePageRoute: (context) {
+    joinConferenceRoute: (context) {
       final String argument =
           ModalRoute.of(context)!.settings.arguments as String;
       return MultiProvider(
@@ -65,6 +66,8 @@ class RouterRec {
     calendarRoute: (_) => const CalendarScreen(),
     premiumRoute: (_) => const PremiumScreen(),
     forumsRoute: (_) => const ForumsScreen(),
+    notificationsRoute: (_) => const NotificationsScreen(),
+
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

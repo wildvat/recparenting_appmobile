@@ -64,7 +64,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.pushNamed(context, joinConferencePageRoute, arguments: widget.patient.conference);
+                          Navigator.pushNamed(context, joinConferenceRoute, arguments: widget.patient.conference);
                         },
                         icon: const Icon(Icons.video_camera_front_outlined),
 
@@ -81,7 +81,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.pushNamed(context, chatPageRoute, arguments: widget.patient);
+                          Navigator.pushNamed(context, chatRoute, arguments: widget.patient);
                         },
                         icon: const Icon(Icons.message),
 
@@ -144,7 +144,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
 
       onTap: () {
         if(event.type == AppointmentTypes.appointment_video){
-          Navigator.pushNamed(context, joinConferencePageRoute,
+          Navigator.pushNamed(context, joinConferenceRoute,
               arguments: event.patient.conference);
         }
         /*
