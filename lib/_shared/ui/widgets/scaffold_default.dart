@@ -49,7 +49,7 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
           widget.actionButton ?? const SizedBox.shrink(),
           BlocBuilder<NotificationBloc, NotificationState>(
               builder: (context, state) {
-                if (state is NotificationsLoaded) {
+                if (state is NotificationsLoaded && state.notifications.total > 0) {
                   return Stack(
                     children: <Widget>[
                       IconButton(

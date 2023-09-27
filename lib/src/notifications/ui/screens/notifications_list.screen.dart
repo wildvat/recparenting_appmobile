@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/src/notifications/models/notification.model.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -23,52 +26,85 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     _notificationBloc.add(const NotificationsFetch(page: 1));
   }
 
-  Widget getNotification(NotificationRec notification){
+  Widget getNotification(NotificationRec notification) {
+    String title = AppLocalizations.of(context)!
+        .notificationsType(notification.type.name);
+    Therapist? therapist = notification.data.therapist;
+    if(therapist != null){
+      title = title.replaceAll('[therapist]', therapist.getFullName());
+    }
+    DateTime? dateAppointment = notification.data.event?.start;
+    if(dateAppointment != null){
+      title = title.replaceAll('[date_appointment]', DateFormat.yMMMMEEEEd().format(dateAppointment).toString());
+    }
+    //
     return Dismissible(
-      key: Key(notification.id),
+        direction: DismissDirection.startToEnd,
+        dismissThresholds: const {DismissDirection.startToEnd: 0.8},
+        key: Key(notification.id),
         onDismissed: (direction) {
           _notificationBloc.add(NotificationDelete(notification: notification));
         },
         background: Container(
+          color: Colors.red.shade100,
           padding: const EdgeInsets.only(left: 20.0),
           alignment: Alignment.centerLeft,
-          child: const Icon(Icons.delete, color: Colors.red,),
+          child: const Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
         ),
         child: ListTile(
-      title: Text(notification.id),
-      subtitle: Text(notification.type),
-    ));
-
+          onTap: () {
+            print(notification.notifiableId);
+            print(notification.notifiableType);
+            print('voy');
+            print(notification.getAction()[0]);
+            print(notification.getAction()[1]);
+            Navigator.pushNamed(context, notification.getAction()[0],
+                arguments: notification.getAction()[1]);
+          },
+        //  trailing: Text(notification.type.name),
+          leading: Icon(notification.getIcon()),
+          title: TextDefault(title),
+          subtitle:
+              Text(DateFormat.yMMMMEEEEd().format(notification.createdAt)),
+        ));
   }
+
   @override
   Widget build(BuildContext context) {
-    return ScaffoldDefault(
-        body:  BlocBuilder<NotificationBloc, NotificationState>(
-        builder: (context, state) {
-          if(state is NotificationsLoaded){
-
-            return ListView.separated(
-              scrollDirection: Axis.vertical,
-              reverse: true,
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-              padding: const EdgeInsets.all(8.0),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.notifications.notifications.length
-                    ? Container()
-                    : getNotification(state.notifications.notifications[index]);
-              },
-              itemCount: state.hasReachedMax
-                  ? state.notifications.notifications.length
-                  : state.notifications.notifications.length + 1,
-              controller: _scrollController,
+    return ScaffoldDefault(body:
+        BlocBuilder<NotificationBloc, NotificationState>(
+            builder: (context, state) {
+      if (state is NotificationsLoaded) {
+        if (state.notifications.total == 0) {
+          return Center(
+            child: Text('No tienes notificaciones'),
+          );
+        }
+        return ListView.separated(
+          scrollDirection: Axis.vertical,
+          reverse: true,
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(
+              height: 10,
             );
-          }
-          return SizedBox();
+          },
+          padding: const EdgeInsets.all(8.0),
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return index >= state.notifications.notifications.length
+                ? Container()
+                : getNotification(state.notifications.notifications[index]);
+          },
+          itemCount: state.hasReachedMax
+              ? state.notifications.notifications.length
+              : state.notifications.notifications.length + 1,
+          controller: _scrollController,
+        );
+      }
+      return SizedBox();
     }));
   }
 }
