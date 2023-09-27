@@ -89,7 +89,7 @@ class _ForumsScreenState extends State<ForumsScreen>
                                 itemCount: 200,
                                 itemBuilder:
                                     (BuildContext context, int index) =>
-                                        Text('$index')));
+                                        TextDefault('$index')));
                   });
             },
             icon: const Icon(Icons.add_circle_outline)),
