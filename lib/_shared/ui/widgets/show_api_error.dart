@@ -13,8 +13,11 @@ class ShowApiErrorWidget{
   execute(){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          elevation: 5,
+          behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.red,
           content: Text(apiResponse.error.toString()),
+          showCloseIcon: true,
         ));
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
@@ -87,7 +90,7 @@ class _ChatWidgetState extends State<ChatWidget> {
               Navigator.pushNamed(context, therapistBioPageRoute,
                   arguments: getTherapistFromRoom(state.conversation.room, _currentUser!));
             },
-            child: Text(AppLocalizations.of(context)!.therapistShow),
+            child: TextDefault(AppLocalizations.of(context)!.therapistShow),
           )
           );
         }
@@ -149,15 +152,15 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   Widget messageWidget(Conversation conversation, Message message, Message? previousMessage) {
     Color backgroundColor = Colors.grey.shade100;
-    Color textColor = Colors.black;
+    TextColors textColor = TextColors.dark;
     Alignment alignment = Alignment.centerLeft;
     if (message.user.id != widget._patient.id) {
       backgroundColor = colorRecLight.shade300;
-      textColor = Colors.black;
+      textColor = TextColors.dark;
       alignment = Alignment.centerRight;
     }
     if (message.isDeleted) {
-      textColor = textColor.withOpacity(0.3);
+      textColor.color.withOpacity(0.3);
     }
 
     Widget currentDate = const SizedBox();
@@ -170,13 +173,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                 color: Colors.grey.shade300,
               ),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Text(
+              child: TextDefault(
                 timeToStringFromMessage(message),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 10,
-                ),
+                color: TextColors.dark,
+                size: TextSizes.small,
               )));
       separator = const SizedBox(
         height: 10,
@@ -215,17 +215,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(decryptAESCryptoJS(message.message, message.user.id),
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
-                          )),
-                      Text(DateFormat.Hm().format(message.createdAt),
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          )),
+                      TextDefault(decryptAESCryptoJS(message.message, message.user.id), color:textColor),
+                      TextDefault(DateFormat.Hm().format(message.createdAt), size: TextSizes.small, color: TextColors.recDark),
                     ],
                   )))
         ]));
@@ -269,13 +260,13 @@ class _ChatWidgetState extends State<ChatWidget> {
   showAlertRemoveMessage(BuildContext context, Message message) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text(AppLocalizations.of(context)!.generalCancel),
+      child: TextDefault(AppLocalizations.of(context)!.generalCancel),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text(AppLocalizations.of(context)!.generalContinue),
+      child: TextDefault(AppLocalizations.of(context)!.generalContinue),
       onPressed: () {
         message.message = encryptAESCryptoJS(
             'This message has been deleted', message.user.id);
@@ -286,8 +277,8 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context)!.chatDeleteMessageTitle),
-      content: Text(AppLocalizations.of(context)!.chatDeleteMessageContent),
+      title: TextDefault(AppLocalizations.of(context)!.chatDeleteMessageTitle),
+      content: TextDefault(AppLocalizations.of(context)!.chatDeleteMessageContent),
       actions: [
         cancelButton,
         continueButton,

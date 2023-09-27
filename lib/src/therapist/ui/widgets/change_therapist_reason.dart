@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/change_therapist.model.dart';
 import 'package:recparenting/src/patient/providers/patient.provider.dart';
@@ -39,14 +40,13 @@ class _ChangeTherapistReasonWidgetState
 
   List<Widget> getWidgetsChangeTherapistReasons() {
     List<Widget> widgets = [];
-    widgets.add(Text(
+    widgets.add(TextDefault(
       AppLocalizations.of(context)!.patientChangeTherapistTitle,
-      style: const TextStyle(fontSize: 18),
     ));
 
     for (var value in ChangeTherapistReasons.values) {
       widgets.add(ListTile(
-        title: Text(AppLocalizations.of(context)!.patientChangeTherapistReason(
+        title: TextDefault(AppLocalizations.of(context)!.patientChangeTherapistReason(
             value.name)),
         leading: Radio<ChangeTherapistReasons>(
           value: value,
@@ -62,8 +62,8 @@ class _ChangeTherapistReasonWidgetState
       ),);
     }
     widgets.add(ElevatedButton(
-        child: _changeTherapistReasons != null ? Text(
-            AppLocalizations.of(context)!.generalSend) : Text(
+        child: _changeTherapistReasons != null ? TextDefault(
+            AppLocalizations.of(context)!.generalSend) : TextDefault(
             AppLocalizations.of(context)!.patientChangeTherapistTitle),
         onPressed: () {
           _patientApi.requestChangeTherapist(
@@ -119,7 +119,7 @@ class _ChangeTherapistReasonWidgetState
                       });
                 },
                 icon: const Icon(Icons.sync_problem),
-                label: Text(AppLocalizations.of(context)!.terapistChangeButton),
+                label: TextDefault(AppLocalizations.of(context)!.terapistChangeButton),
               );
             }
           }

@@ -1,15 +1,12 @@
-/*
- * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
- * SPDX-License-Identifier: MIT-0
- */
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/conference/models/meeting.model.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
+import '../../../_shared/models/text_colors.enum.dart';
 import '../../../_shared/models/user.model.dart';
 import '../../../_shared/ui/widgets/scaffold_default.dart';
 import '../../current_user/helpers/current_user_builder.dart';
@@ -135,7 +132,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
     }
     if (_currentUser.isTherapist()) {
       return ElevatedButton(
-        child: Text(AppLocalizations.of(context)!.conferenceTitle),
+        child: TextDefault(AppLocalizations.of(context)!.conferenceTitle),
         onPressed: () async {
           if (!joinMeetingProvider.joinButtonClicked) {
             // Prevent multiple clicks
@@ -180,7 +177,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
             } else {
               if (snapshot.hasData) {
                 return ElevatedButton(
-                  child: Text(AppLocalizations.of(context)!.conferenceJoin),
+                  child: TextDefault(AppLocalizations.of(context)!.conferenceJoin),
                   onPressed: () async {
                     if (!joinMeetingProvider.joinButtonClicked) {
                       // Prevent multiple clicks
@@ -220,14 +217,13 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
               return Column(
                 children: [
-                  Text(
+                  TextDefault(
                       AppLocalizations.of(context)!.conferenceWaitingTherapist),
-                  const Text(
+                  TextDefault(
                       "Podemos añadir algun texto para decirle que espere a que el terapeuta inicie la conferencia"),
-                  const Text(
+                  TextDefault(
                       "Ya que el solo puede entrar si la ha inciado el terapeuta"),
-                  const Text("recordar que hay que traducrilo a ingles tambien",
-                    style: TextStyle(color: Colors.red, fontSize: 25),)
+                  TextDefault("recordar que hay que traducrilo a ingles tambien",)
                 ],
               );
             }
@@ -254,9 +250,9 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Text(
+            child: TextDefault(
               "${joinMeetingProvider.errorMessage}",
-              style: const TextStyle(color: Colors.red),
+              color: TextColors.danger,
             ),
           ),
         ),
@@ -267,10 +263,10 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Text(
+            child: TextDefault(
               "${joinMeetingProvider.errorMessage}",
-              style: const TextStyle(color: Colors.blue),
-            ),
+              color: TextColors.success,
+              ),
           ),
         ),
       );

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
@@ -28,8 +31,10 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(AppLocalizations.of(context)!.workingHoursTitle,
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        TextDefault(AppLocalizations.of(context)!.workingHoursTitle,
+            fontWeight: FontWeight.bold,
+          size: TextSizes.large,
+        ),
         const SizedBox(height: 10),
         _workingHours.isEmpty
             ? const SizedBox.shrink()
@@ -42,11 +47,11 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      TextDefault(
                         AppLocalizations.of(context)!
                             .getDay(_workingHours[index]['day'])
                             .toUpperCase(),
-                        style: const TextStyle(color: colorRec),
+                        color: TextColors.recLight,
                       ),
                       ListView.builder(
                           shrinkWrap: true,
@@ -55,7 +60,7 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
                               .hours
                               .length,
                           itemBuilder: (BuildContext context, int indexWh) {
-                            return Text(
+                            return TextDefault(
                                 '${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.start} - ${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.end}');
                           }),
                     ],

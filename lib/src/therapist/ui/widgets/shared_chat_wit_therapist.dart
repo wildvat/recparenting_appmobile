@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/ui/widgets/show_api_error.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/patient/providers/patient.provider.dart';
 
@@ -49,18 +50,16 @@ class _SharedChatWithTherapistWidgetState
       setState(() {
         _sharedValue = value.data;
       });
-
     });
   }
 
-  _onSubmit(valueShared){
-    _patientApi.sharedRoomWith(widget._therapist.id, valueShared).then((
-        value) {
+  _onSubmit(valueShared) {
+    _patientApi.sharedRoomWith(widget._therapist.id, valueShared).then((value) {
       if (value.error != null) {
         ShowApiErrorWidget(context: context, apiResponse: value)
             .execute();
         setState(() {
-          _sharedValue = valueShared?false:true;
+          _sharedValue = valueShared ? false : true;
         });
       } else {
         setState(() {
@@ -72,14 +71,13 @@ class _SharedChatWithTherapistWidgetState
 
   @override
   Widget build(BuildContext context) {
-    if(!_currentUser!.isMyCurrentTherapist(widget._therapist)) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Text(AppLocalizations.of(context)!.patientSharedRoomWithTherapist),
-          Switch(
+    if (!_currentUser!.isMyCurrentTherapist(widget._therapist)) {
+      return ListTile(
+        contentPadding: const EdgeInsets.all(0),
+          title: TextDefault(
+              AppLocalizations.of(context)!.patientSharedRoomWithTherapist,
+          ),
+          trailing: Switch(
             thumbIcon: thumbIcon,
             activeColor: colorRec,
             activeTrackColor: colorRecLight,
@@ -95,9 +93,8 @@ class _SharedChatWithTherapistWidgetState
               _onSubmit(value);
             },
           )
-        ],
       );
-    }else{
+    } else {
       return const SizedBox();
     }
   }

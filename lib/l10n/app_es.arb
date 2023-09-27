@@ -108,12 +108,23 @@
   "fieldIncomplete": "Campo obligatorio",
   "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
   "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
-  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
+  "patientChangeTherapistReason": "{reason, select, pregnancy {Pregnancy} adoption {Adoption}  other {Otros}}",
   "@patientChangeTherapistReason": {
     "placeholders": {
       "reason": {}
     }
   },
+  "therapistAreasExpertiseTitle": "Areas of expertise",
+  "therapistAreasExpertise": "{area, select, pregnancy {Embarazo}  other {Otros}}",
+  "@therapistAreasExpertise": {
+    "placeholders": {
+      "area": {}
+    }
+  },
+  "therapistOtherDataTitle": "Other data",
+  "generalLanguage": "Idioma",
+  "generalGender": "Género",
+  "generalReligion" : "Religión",
   "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
   "forumThreadTitle": "Forum | Hilo",
   "forumThreadSeeMessagesBtn": "Ver mensajes"
