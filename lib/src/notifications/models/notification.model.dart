@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
@@ -31,9 +32,23 @@ class NotificationRec {
     notifiableId = json['notifiable_id'];
     notifiableType = json['notifiable_type'];
     data = NotificationData.fromJson(json['data']);
-    createdAt = DateTime.parse(json['created_at']);
+    createdAt = DateTime.parse(json['created_at']).toLocal();
   }
 
+  String getTitle(String title){
+
+    Therapist? therapist = data.therapist;
+    if(therapist != null){
+      title = title.replaceAll('[therapist]', therapist.getFullName());
+    }
+
+    DateTime? dateAppointment = data.event?.start;
+    if(dateAppointment != null){
+      title = title.replaceAll('[date_appointment]', DateFormat.yMMMMEEEEd().format(dateAppointment).toString());
+    }
+
+    return title;
+  }
   List<dynamic> getAction() {
     String action = calendarRoute;
     dynamic argument = '';
@@ -98,7 +113,7 @@ class NotificationData {
 
   NotificationData.fromJson(Map<String, dynamic> json)
       : disabledAt = json['disabled_at'] != null
-            ? DateTime.parse(json['disabled_at'])
+            ? DateTime.parse(json['disabled_at']).toLocal()
             : null,
         patient =
             json['patient'] != null ? Patient.fromJson(json['patient']) : null,
