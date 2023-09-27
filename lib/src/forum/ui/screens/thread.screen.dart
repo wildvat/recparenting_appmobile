@@ -18,7 +18,7 @@ class _ThreadScreenState extends State<ThreadScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldDefault(
-      title: AppLocalizations.of(context)!.forumThreadTitle,
+      title: 'Messages: ${widget.thread.totalMessages}',
       actionButton: IconButton(
           onPressed: () {
             showModalBottomSheet(

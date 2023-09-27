@@ -10,6 +10,7 @@ import 'package:recparenting/_shared/ui/widgets/search_input.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/routes.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 
 class ForumsScreen extends StatefulWidget {
@@ -111,8 +112,8 @@ class _ForumsScreenState extends State<ForumsScreen>
                             '${prevMessage.substring(0, prevMessage.length > maxCharacters ? maxCharacters : prevMessage.length)}...';
                       }
                       return ListTile(
-                        onTap: () => Navigator.pushNamed(context, threadRoute,
-                            arguments: state.threads[index]!),
+                        onTap: () => RouterRec.goToThread(
+                            context, state.threads[index]!),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 15),
                         tileColor: index % 2 == 0

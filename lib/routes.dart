@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/premium.screen.dart';
@@ -13,6 +14,7 @@ import 'package:recparenting/src/conference/provider/method_channel_coordinator.
 import 'package:recparenting/src/conference/ui/join_meeting.screen.dart';
 import 'package:recparenting/src/contact/ui/contact.screen.dart';
 import 'package:recparenting/src/conference/ui/conference.screen.dart';
+import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/models/thread.model.dart';
 import 'package:recparenting/src/forum/ui/screens/forums.screen.dart';
 import 'package:recparenting/src/forum/ui/screens/thread.screen.dart';
@@ -63,11 +65,6 @@ class RouterRec {
     calendarRoute: (_) => const CalendarScreen(),
     premiumRoute: (_) => const PremiumScreen(),
     forumsRoute: (_) => const ForumsScreen(),
-    threadRoute: (context) {
-      final ThreadForum argument =
-          ModalRoute.of(context)!.settings.arguments as ThreadForum;
-      return ThreadScreen(thread: argument);
-    },
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {
@@ -114,6 +111,16 @@ class RouterRec {
     splashRoute: (_) => const SplashScreen(),
     */
   };
+
+  static goToThread(BuildContext context, ThreadForum threadForum) =>
+      Navigator.push(context, MaterialPageRoute<ForumBloc>(builder: (_) {
+        return BlocProvider.value(
+          value: BlocProvider.of<ForumBloc>(context),
+          child: ThreadScreen(
+            thread: threadForum,
+          ),
+        );
+      }));
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     return MaterialPageRoute(
