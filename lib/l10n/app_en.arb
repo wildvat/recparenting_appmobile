@@ -107,7 +107,7 @@
   "chatDeleteMessageContent": "Are you sure you want to delete this message?",
   "patientChangeTherapistTitle": "Form to change therapist",
   "patientChangeTherapistOptionsTitle": "Select a option",
-  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Our schedules don’t match} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
   "@patientChangeTherapistReason": {
     "placeholders": {
       "reason": {}

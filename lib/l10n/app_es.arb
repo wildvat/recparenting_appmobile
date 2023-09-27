@@ -108,7 +108,7 @@
   "fieldIncomplete": "Campo obligatorio",
   "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
   "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
-  "patientChangeTherapistReason": "{reason, select, pregnancy {Pregnancy} adoption {Adoption}  other {Otros}}",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
   "@patientChangeTherapistReason": {
     "placeholders": {
       "reason": {}
@@ -128,19 +128,19 @@
   "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
   "forumThreadTitle": "Forum | Hilo",
   "forumThreadSeeMessagesBtn": "Ver mensajes",
-  "generalGender": "{gender, select, male {Male}  female {Female} transGender {Trans gender} nonBinay {Non binary} preferNotToAnswer {Prefer not to answer} other {Other}}",
+  "generalGender": "{gender, select, male {Hombre}  female {Mujer} transGender {Trans genero} nonBinay {No binaro} preferNotToAnswer {Prefiero no responder} other {Otros}}",
   "@generalGender": {
     "placeholders": {
       "gender": {}
     }
   },
-  "generalReligion": "{religion, select, catholic {Catholic}  christian {Christian} jewish {Jewish} muslim {Muslim} nonReligious {Non religious} other {Other}}",
+  "generalReligion": "{religion, select, catholic {Católico}  christian {Cristiano} jewish {Judio} muslim {Musulman} nonReligious {No soy religioso} other {Otros}}",
   "@generalReligion": {
     "placeholders": {
       "religion": {}
     }
   },
-  "generalLanguage": "{language, select, en {English}  es {Spanish} fr {French} ar {Arabic}  other {Other}}",
+  "generalLanguage": "{language, select, en {Ingles}  es {Español} fr {Francés} ar {Árabe}  other {Otro}}",
   "@generalLanguage": {
     "placeholders": {
       "language": {}
