@@ -56,8 +56,7 @@ class _SharedChatWithTherapistWidgetState
   _onSubmit(valueShared) {
     _patientApi.sharedRoomWith(widget._therapist.id, valueShared).then((value) {
       if (value.error != null) {
-        ShowApiErrorWidget(context: context, apiResponse: value)
-            .execute();
+        ShowApiErrorWidget(context: context, apiResponse: value);
         setState(() {
           _sharedValue = valueShared ? false : true;
         });

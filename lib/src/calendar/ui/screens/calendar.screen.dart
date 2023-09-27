@@ -23,6 +23,7 @@ import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'package:recparenting/src/therapist/models/working-hours.model.dart';
+import '../../../../_shared/ui/widgets/snack_bar.widget.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -176,12 +177,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                 start: date, eventController: _eventController);
           });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 2),
-        content: Text(
-          'Este horario no está disponible',
-        ),
-      ));
+      //TODO traducir
+      SnackBarRec(context: context, message: 'Este horario no está disponible');
     }
   }
 
@@ -200,19 +197,9 @@ class _CalendarScreenState extends State<CalendarScreen>
     if (eventDeleted != null && mounted) {
       if (eventDeleted) {
         _eventController.remove(event);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            AppLocalizations.of(context)!.eventDeleteOk,
-            style: const TextStyle(color: Colors.greenAccent),
-          ),
-        ));
+        SnackBarRec(context: context, message: AppLocalizations.of(context)!.eventDeleteOk, backgroundColor: Colors.greenAccent);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            AppLocalizations.of(context)!.eventDeleteError,
-            style: const TextStyle(color: Colors.redAccent),
-          ),
-        ));
+        SnackBarRec(context: context, message: AppLocalizations.of(context)!.eventDeleteError);
       }
     }
   }
@@ -224,12 +211,8 @@ class _CalendarScreenState extends State<CalendarScreen>
           (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
       if (_currentUser is Patient) {
         if ((_currentUser as Patient).therapist == null) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.calendarTherapistError,
-              style: const TextStyle(color: Colors.redAccent),
-            ),
-          ));
+          //TODO traducir
+          SnackBarRec(context: context, message: 'No tienes terapeuta asignado');
           return completer.complete(null);
         }
         if ((_currentUser as Patient).subscription != 'premium') {
