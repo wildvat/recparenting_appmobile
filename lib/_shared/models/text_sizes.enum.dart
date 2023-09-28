@@ -1,10 +1,13 @@
 enum TextSizes {
+  xsmall,
   small,
   medium,
   large;
 
   double get size {
     switch (this) {
+      case TextSizes.xsmall:
+        return 8;
       case TextSizes.small:
         return 13;
       case TextSizes.medium:
