@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
+import 'package:recparenting/_shared/ui/widgets/files_form.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/show_files.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/snackbar_modal.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/forum/bloc/forum_thread_bloc.dart';
@@ -22,8 +25,11 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _commentEditingController =
       TextEditingController();
+  FilePickerResult _files = FilePickerResult([]);
 
   bool _isLoading = false;
+  String? _snackbarErrorMessage;
+
   late ForumThreadBloc _forumThreadBloc;
 
   @override
@@ -68,6 +74,18 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                 const SizedBox(height: 10),
                 Align(
                     alignment: Alignment.topRight,
+                    child: FilesFormWidget(
+                      files: _files,
+                      onFileDelete: (String fileName) {
+                        setState(() {
+                          _files.files.removeWhere(
+                              (PlatformFile file) => file.name == fileName);
+                        });
+                      },
+                    )),
+                const SizedBox(height: 10),
+                Align(
+                    alignment: Alignment.topRight,
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
@@ -95,30 +113,50 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                                 'odt'
                               ]);
                           if (result != null) {
-                            //todo: upload files
+                            setState(() {
+                              _files = result;
+                            });
                           }
                         },
-                        child: Text('Add files'))),
+                        child: Text(AppLocalizations.of(context)!
+                            .forumThreadMessageCreateFiles))),
                 const SizedBox(height: 40),
+                _snackbarErrorMessage == null
+                    ? const SizedBox.shrink()
+                    : Column(
+                        children: [
+                          SnackbarModal(
+                            title: _snackbarErrorMessage!,
+                            backgroundColor: Colors.red,
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
                 Stack(
                   children: [
                     ElevatedButton(
                         onPressed: () async {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
                           setState(() {
                             _isLoading = true;
                           });
                           ForumMessageCreateResponse response = await ForumApi()
                               .createMessage(
+                                  files: _files.files,
                                   comment: _commentEditingController.text,
                                   threadId: widget.threadId);
                           if (response.error != null && mounted) {
-                            SnackBar snackBar = SnackBar(
-                              content: Text(response.error!),
-                              backgroundColor: Colors.redAccent,
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
+                            setState(() {
+                              _isLoading = false;
+                              _snackbarErrorMessage = response.error;
+                            });
                           } else if (response.message != null && mounted) {
+                            setState(() {
+                              _isLoading = false;
+                              _snackbarErrorMessage = null;
+                            });
                             _forumThreadBloc.add(ForumMessageCreated(
                                 message: response.message!));
                             SnackBar snackBar = SnackBar(
@@ -130,6 +168,9 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                                 .showSnackBar(snackBar);
                             Navigator.pop(context);
                           }
+                          setState(() {
+                            _isLoading = false;
+                          });
                         },
                         child: SizedBox(
                           width: double.infinity,

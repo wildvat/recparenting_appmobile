@@ -16,6 +16,7 @@ class _ForumsActionButtonState extends State<ForumsActionButton> {
       onPressed: () => showModalBottomSheet(
           isScrollControlled: true,
           context: context,
+          useSafeArea: true,
           builder: (BuildContext ctx) => BlocProvider.value(
               value: BlocProvider.of<ForumBloc>(context),
               child: const ForumCreateThreadFrom())),

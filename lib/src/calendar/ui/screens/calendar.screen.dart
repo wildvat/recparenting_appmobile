@@ -178,7 +178,7 @@ class _CalendarScreenState extends State<CalendarScreen>
           });
     } else {
       //TODO traducir
-      SnackBarRec(context: context, message: 'Este horario no está disponible');
+      SnackBarRec(message: 'Este horario no está disponible');
     }
   }
 
@@ -197,9 +197,11 @@ class _CalendarScreenState extends State<CalendarScreen>
     if (eventDeleted != null && mounted) {
       if (eventDeleted) {
         _eventController.remove(event);
-        SnackBarRec(context: context, message: AppLocalizations.of(context)!.eventDeleteOk, backgroundColor: Colors.greenAccent);
+        SnackBarRec(
+            message: AppLocalizations.of(context)!.eventDeleteOk,
+            backgroundColor: Colors.greenAccent);
       } else {
-        SnackBarRec(context: context, message: AppLocalizations.of(context)!.eventDeleteError);
+        SnackBarRec(message: AppLocalizations.of(context)!.eventDeleteError);
       }
     }
   }
@@ -212,7 +214,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       if (_currentUser is Patient) {
         if ((_currentUser as Patient).therapist == null) {
           //TODO traducir
-          SnackBarRec(context: context, message: 'No tienes terapeuta asignado');
+          SnackBarRec(message: 'No tienes terapeuta asignado');
           return completer.complete(null);
         }
         if ((_currentUser as Patient).subscription != 'premium') {

@@ -13,6 +13,7 @@ class ThreadActionButton extends StatelessWidget {
       onPressed: () => showModalBottomSheet(
           isScrollControlled: true,
           context: context,
+          useSafeArea: true,
           builder: (BuildContext ctx) => BlocProvider.value(
               value: BlocProvider.of<ForumThreadBloc>(context),
               child: ThreadCreateMessageForm(threadId: thread.id))),

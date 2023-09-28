@@ -4,13 +4,11 @@ import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 
 import '../../models/api_response.dart';
 
-class ShowApiErrorWidget{
+class ShowApiErrorWidget {
   final BuildContext context;
   final ApiResponse apiResponse;
 
-  ShowApiErrorWidget({required this.context, required this.apiResponse}){
-    SnackBarRec(context: context, message: apiResponse.error.toString());
-
+  ShowApiErrorWidget({required this.context, required this.apiResponse}) {
+    SnackBarRec(message: apiResponse.error.toString());
   }
-
 }

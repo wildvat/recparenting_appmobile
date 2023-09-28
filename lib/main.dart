@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => _currentUserBloc,
           ),
           BlocProvider<NotificationBloc>(
-            create: (BuildContext context) => _notificationsBloc..add(const NotificationsFetch(page: 1)),
+            create: (BuildContext context) =>
+                _notificationsBloc..add(const NotificationsFetch(page: 1)),
           )
         ],
         child: BlocBuilder<LanguageBloc, LanguageState>(
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
               routes: RouterRec.routes,
               onGenerateRoute: RouterRec.generateRoute,
               initialRoute: splashRoute,
+              scaffoldMessengerKey: scaffoldKey,
               //home: const HomePage(),
               navigatorKey: navigatorKey,
               locale: Locale(state.language),

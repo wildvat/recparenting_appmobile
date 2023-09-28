@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart' as dio;
+import 'dart:developer' as dev;
+import 'package:file_picker/file_picker.dart';
 import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/_shared/providers/r_language.dart';
 import 'package:recparenting/src/forum/models/forum.list.model.dart';
@@ -24,7 +26,7 @@ class ForumApi {
       }
       return ForumList.mock();
     } on dio.DioException catch (e) {
-      print(e);
+      dev.log(e.toString());
       return ForumList.mock();
     }
   }
@@ -46,7 +48,7 @@ class ForumApi {
       }
       return const ForumCreateResponse(error: 'Error');
     } on dio.DioException catch (e) {
-      print(e);
+      dev.log(e.toString());
       String responseError = R.string.generalError;
       if (e.response?.data != null) {
         responseError = e.response!.data['message'];
@@ -58,15 +60,18 @@ class ForumApi {
   Future<ForumMessageCreateResponse> createMessage(
       {required String threadId,
       required String comment,
-      List<String>? files}) async {
+      List<PlatformFile> files = const []}) async {
     final String endpoint = 'forum/$threadId';
     try {
-      Map<String, dynamic> data = {'comment': comment};
-      if (files != null) {
+      Map<String, dynamic> data = {'message': comment};
+      if (files.isNotEmpty) {
         List<dio.MultipartFile> filesToApi = [];
         for (final attach in files) {
-          final dio.MultipartFile file =
-              await dio.MultipartFile.fromFile(attach);
+          if (attach.path == null) continue;
+          final dio.MultipartFile file = await dio.MultipartFile.fromFile(
+            attach.path!,
+            filename: attach.name,
+          );
           filesToApi.add(file);
         }
         data['files[]'] = files;
@@ -81,9 +86,13 @@ class ForumApi {
           message: MessageForum.fromJson(response.data),
         );
       }
-      return const ForumMessageCreateResponse(error: 'Error');
+      String responseError = R.string.generalError;
+      if (response.data != null) {
+        responseError = response.data['message'];
+      }
+      return ForumMessageCreateResponse(error: responseError.toString());
     } on dio.DioException catch (e) {
-      print(e);
+      dev.log(e.toString());
       String responseError = R.string.generalError;
       if (e.response?.data != null) {
         responseError = e.response!.data['message'];
