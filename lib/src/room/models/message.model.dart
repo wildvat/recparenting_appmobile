@@ -19,6 +19,6 @@ class Message {
     room = json['conversation'];
     user = User.fromJson(json['user']);
     isDeleted = json['is_deleted'];
-    createdAt = DateTime.parse(json['created_at']);
+    createdAt = DateTime.parse(json['created_at']).toLocal();
   }
 }

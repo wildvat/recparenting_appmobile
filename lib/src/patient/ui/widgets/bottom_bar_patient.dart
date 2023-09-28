@@ -27,7 +27,7 @@ class BottomAppBarPatient extends StatelessWidget {
           IconButton(
               icon: Icon(
                 Icons.video_camera_front_outlined,
-                color: (patient.therapist != null) ? Colors.white : Colors.grey,
+                color: (patient.therapist != null) ? Colors.white : Colors.white54,
                 size: 30,
               ),
               onPressed: () {
@@ -41,7 +41,7 @@ class BottomAppBarPatient extends StatelessWidget {
           IconButton(
               icon: Icon(
                 Icons.badge_outlined,
-                color: (patient.therapist != null) ? Colors.white : Colors.grey,
+                color: (patient.therapist != null) ? Colors.white : Colors.white54,
                 size: 30,
               ),
               onPressed: () {
@@ -58,13 +58,16 @@ class BottomAppBarPatient extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.calendar_month_outlined,
-              color: patient.subscription == 'premium'
+              color: patient.subscription == 'premium' && patient.therapist != null
                   ? Colors.white
                   : Colors.white54,
               size: 30,
             ),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, calendarRoute),
+            onPressed: () {
+              if(patient.subscription =='premium' && patient.therapist != null) {
+                Navigator.pushReplacementNamed(context, calendarRoute);
+              }
+            }
           ),
           IconButton(
             icon: const Icon(

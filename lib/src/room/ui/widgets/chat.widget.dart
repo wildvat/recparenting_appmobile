@@ -112,6 +112,8 @@ class _ChatWidgetState extends State<ChatWidget> {
             widgets.add(listChat);
             if (state.conversation.room.isActive) {
               widgets.add(textField());
+            }else{
+              widgets.add(const SizedBox(height: 10));
             }
             return Column(
               children: widgets,
@@ -128,7 +130,6 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   bool _shouldShowDateSeparator(Message? previousMessage, Message message) {
     if (previousMessage == null) {
-      // Means this is the first message
       return true;
     }
     return previousMessage.createdAt
@@ -143,7 +144,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     Color backgroundColor = Colors.grey.shade100;
     TextColors textColor = TextColors.dark;
     Alignment alignment = Alignment.centerLeft;
-    if (message.user.id != widget._patient.id) {
+    if (message.user.id == widget._patient.id) {
       backgroundColor = colorRecLight.shade300;
       textColor = TextColors.dark;
       alignment = Alignment.centerRight;
@@ -155,6 +156,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     Widget currentDate = const SizedBox();
     Widget separator = const SizedBox();
     if (_shouldShowDateSeparator(previousMessage, message)) {
+      print('si qer');
       currentDate = Center(
           child: Container(
               decoration: BoxDecoration(
@@ -177,7 +179,7 @@ class _ChatWidgetState extends State<ChatWidget> {
         constraints: const BoxConstraints(maxWidth: 150),
         alignment: alignment,
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: (message.user.id != widget._patient.id)?CrossAxisAlignment.start:CrossAxisAlignment.end,
             children: [
               currentDate,
               separator,
@@ -200,10 +202,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                           borderRadius: BorderRadius.only(
                               topLeft: const Radius.circular(20),
                               topRight: const Radius.circular(20),
-                              bottomLeft: (_currentUser!.id != message.user.id)
+                              bottomLeft: (widget._patient.id == message.user.id)
                                   ? const Radius.circular(20)
                                   : const Radius.circular(0),
-                              bottomRight: (_currentUser!.id == message.user.id)
+                              bottomRight: (widget._patient.id != message.user.id)
                                   ? const Radius.circular(20)
                                   : const Radius.circular(0))),
                       child: Column(

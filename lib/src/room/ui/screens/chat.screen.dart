@@ -135,7 +135,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         future: _roomsShared,
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return  ScaffoldDefault(body: const Center(
+            return  ScaffoldDefault(
+              title: AppLocalizations.of(context)!.menuChat,
+                body: const Center(
                 child: SizedBox(
                     height: 40,
                     child: CircularProgressIndicator(color: colorRec))));

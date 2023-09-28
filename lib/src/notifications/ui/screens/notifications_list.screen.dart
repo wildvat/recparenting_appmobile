@@ -6,7 +6,6 @@ import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/src/notifications/models/notification.model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -27,16 +26,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Widget getNotification(NotificationRec notification) {
-    String title = AppLocalizations.of(context)!
-        .notificationsType(notification.type.name);
-    Therapist? therapist = notification.data.therapist;
-    if(therapist != null){
-      title = title.replaceAll('[therapist]', therapist.getFullName());
-    }
-    DateTime? dateAppointment = notification.data.event?.start;
-    if(dateAppointment != null){
-      title = title.replaceAll('[date_appointment]', DateFormat.yMMMMEEEEd().format(dateAppointment).toString());
-    }
+    String title = notification.getTitle(AppLocalizations.of(context)!
+        .notificationsType(notification.type.name));
+
+
     //
     return Dismissible(
         direction: DismissDirection.startToEnd,
@@ -74,18 +67,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldDefault(body:
+    return ScaffoldDefault(
+      title: AppLocalizations.of(context)!.menuNotifications,
+        body:
         BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
       if (state is NotificationsLoaded) {
         if (state.notifications.total == 0) {
+          //TODO translate
           return Center(
             child: Text('No tienes notificaciones'),
           );
         }
         return ListView.separated(
           scrollDirection: Axis.vertical,
-          reverse: true,
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(
               height: 10,
