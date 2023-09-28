@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/models/days_week.enum.dart';
-import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/constants/colors.dart';
 
 import 'package:recparenting/src/calendar/ui/widgets/calendar_header.widget.dart';
-import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'package:recparenting/src/therapist/models/working-hours.model.dart';
 
@@ -38,13 +35,9 @@ class MonthViewRec extends StatefulWidget {
 class _MonthViewRecState extends State<MonthViewRec> {
   final monthKey = GlobalKey<ScaffoldState>();
 
-  late final User _currentUser;
-
   @override
   void initState() {
     super.initState();
-    _currentUser =
-        (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
   }
 
   @override

@@ -1,0 +1,1 @@
+enum ForumTabbarType { forum, thread }

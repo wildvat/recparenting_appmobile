@@ -7,10 +7,10 @@ sealed class ForumThreadEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ForumThreadFetch extends ForumThreadEvent {
+class ForumThreadMessagesFetch extends ForumThreadEvent {
   final int page;
   final String? search;
-  const ForumThreadFetch({required this.page, this.search});
+  const ForumThreadMessagesFetch({required this.page, this.search});
 }
 
 class ForumMessageCreated extends ForumThreadEvent {
@@ -18,7 +18,7 @@ class ForumMessageCreated extends ForumThreadEvent {
   const ForumMessageCreated({required this.message});
 }
 
-class ForumMessageRemove extends ForumThreadEvent {
+class ForumMessageRemoved extends ForumThreadEvent {
   final String id;
-  const ForumMessageRemove({required this.id});
+  const ForumMessageRemoved({required this.id});
 }

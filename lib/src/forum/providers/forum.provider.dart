@@ -9,6 +9,7 @@ import 'package:recparenting/src/forum/models/forum_message_create_response.mode
 import 'package:recparenting/src/forum/models/forum_status.enum.dart';
 import 'package:recparenting/src/forum/models/message.forum.dart';
 import 'package:recparenting/src/forum/models/thread.model.dart';
+import 'package:recparenting/src/forum/models/thread_forum_list.model.dart';
 
 class ForumApi {
   AuthApiHttp client = AuthApiHttp();
@@ -60,10 +61,14 @@ class ForumApi {
   Future<ForumMessageCreateResponse> createMessage(
       {required String threadId,
       required String comment,
+      String? parentId,
       List<PlatformFile> files = const []}) async {
     final String endpoint = 'forum/$threadId';
     try {
       Map<String, dynamic> data = {'message': comment};
+      if (parentId != null) {
+        data['parent'] = parentId;
+      }
       if (files.isNotEmpty) {
         List<dio.MultipartFile> filesToApi = [];
         for (final attach in files) {
@@ -98,6 +103,28 @@ class ForumApi {
         responseError = e.response!.data['message'];
       }
       return ForumMessageCreateResponse(error: responseError);
+    }
+  }
+
+  Future<ThreadForumList> getMessagesFromThread({
+    required String threadId,
+    int? page = 1,
+    String? search = '',
+  }) async {
+    print('page: $page');
+    final String endpoint =
+        'forum/$threadId/messages?page=$page&search=$search&status=${ForunMessageStatus.active.name} ';
+    try {
+      final response = await client.dio.get(endpoint);
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        return ThreadForumList.fromJson(response.data);
+      }
+      return ThreadForumList.mock();
+    } on dio.DioException catch (e) {
+      dev.log(e.toString());
+      return ThreadForumList.mock();
     }
   }
 }

@@ -38,6 +38,7 @@
   "generalFormRequired": "Campo requerido",
   "generalFormFieldTitle": "Título",
   "generalFormFieldDescription": "Descripción",
+  "generalReplyBtn": "Responder",
   "calendarTitle": "Agenda",
   "calendarGeneralError": "No se ha podido mostrar el calendario",
   "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",
@@ -135,8 +136,21 @@
   "forumThreadSeeMessagesBtn": "Ver mensajes",
   "forumThreadCreated": "Hilo creado correctamente",
   "forumThreadMessageCreateTitle": "Añade un mensaje",
+  "forumThreadMessageCreateReplyTitle": "Añade una respuesta",
+  "forumThreadMessageCreateReplyLink": "En respuesta a un comentario de {user}",
+  "@forumThreadMessageCreateReplyLink": {
+    "placeholder": {
+      "user": {}
+    }
+  },
   "forumThreadMessageCreateComment": "Mensaje",
   "forumThreadMessageCreateFiles": "Añade archivos",
+  "forumThreadTitle": "Mensajes: {number}",
+  "@forumThreadTitle": {
+    "placeholder": {
+      "number": {}
+    }
+  },
   "generalGender": "{gender, select, male {Hombre}  female {Mujer} transGender {Trans genero} nonBinay {No binaro} preferNotToAnswer {Prefiero no responder} other {Otros}}",
   "@generalGender": {
     "placeholders": {

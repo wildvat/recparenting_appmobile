@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
-import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/ui/widgets/forums_action_button.widget.dart';
 import 'package:recparenting/src/forum/ui/widgets/forums_tabbar.widget.dart';
@@ -19,7 +18,6 @@ class ForumsScreen extends StatefulWidget {
 class _ForumsScreenState extends State<ForumsScreen> {
   late final ForumBloc _forumBloc;
   late final ScrollController _scrollController;
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -48,7 +46,6 @@ class _ForumsScreenState extends State<ForumsScreen> {
     return BlocProvider(
         create: (context) => _forumBloc,
         child: ScaffoldDefault(
-          key: _scaffoldkey,
           tabBar: const ForumsTabbar(),
           actionButton: const ForumsActionButton(),
           title: AppLocalizations.of(context)!.menuForum,

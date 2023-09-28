@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/files_form.widget.dart';
-import 'package:recparenting/_shared/ui/widgets/show_files.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/snackbar_modal.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
@@ -14,7 +13,9 @@ import 'package:recparenting/src/forum/providers/forum.provider.dart';
 
 class ThreadCreateMessageForm extends StatefulWidget {
   final String threadId;
-  const ThreadCreateMessageForm({required this.threadId, super.key});
+  final String? parentId;
+  const ThreadCreateMessageForm(
+      {required this.threadId, this.parentId, super.key});
 
   @override
   State<ThreadCreateMessageForm> createState() =>
@@ -53,7 +54,11 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                       : MediaQuery.of(context).viewInsets.bottom),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 TextDefault(
-                    AppLocalizations.of(context)!.forumThreadMessageCreateTitle,
+                    widget.parentId != null
+                        ? AppLocalizations.of(context)!
+                            .forumThreadMessageCreateReplyTitle
+                        : AppLocalizations.of(context)!
+                            .forumThreadMessageCreateTitle,
                     size: TextSizes.large),
                 TextFormField(
                   controller: _commentEditingController,
@@ -144,6 +149,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                           });
                           ForumMessageCreateResponse response = await ForumApi()
                               .createMessage(
+                                  parentId: widget.parentId,
                                   files: _files.files,
                                   comment: _commentEditingController.text,
                                   threadId: widget.threadId);

@@ -59,9 +59,8 @@ class _ThreadCardState extends State<ThreadCard> {
             children: [
               TextDefault(
                 widget.thread.lastMessage != null
-                    ? formatter
-                        .format(widget.thread.lastMessage!.createdAt.toLocal())
-                    : formatter.format(widget.thread.createdAt.toLocal()),
+                    ? formatter.format(widget.thread.lastMessage!.createdAt)
+                    : formatter.format(widget.thread.createdAt),
                 color: TextColors.muted,
                 size: TextSizes.small,
               ),

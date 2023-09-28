@@ -38,6 +38,7 @@
   "generalFormRequired": "Required field",
   "generalFormFieldTitle": "Title",
   "generalFormFieldDescription": "Description",
+  "generalReplyBtn": "Reply",
   "calendarTitle": "Calendar",
   "calendarGeneralError": "Calendar could not be displayed",
   "calendarTherapistError": "You don't have a therapist, contact administration.",
@@ -123,9 +124,22 @@
   "forumThreadCreateTitle": "Add thread",
   "forumThreadSeeMessagesBtn": "See messages",
   "forumThreadCreated": "Thread created correctly",
-  "forumThreadMessageCreateTitle": "Add a mensagge",
+  "forumThreadMessageCreateTitle": "Add a menssage",
+  "forumThreadMessageCreateReplyTitle": "Reply to message",
+  "forumThreadMessageCreateReplyLink": "In response to {user} to a comment",
+  "@forumThreadMessageCreateReplyLink": {
+    "placeholder": {
+      "user": {}
+    }
+  },
   "forumThreadMessageCreateComment": "Menssage",
   "forumThreadMessageCreateFiles": "Add Files",
+  "forumThreadTitle": "Comments: {number}",
+  "@forumThreadTitle": {
+    "placeholder": {
+      "number": {}
+    }
+  },
   "therapistAreasExpertiseTitle": "Areas of expertise",
   "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy} adoption {Adoption} difficultiesConceiving {Difficulties conceiving} issuesDuringInfancy {Issues during infancy} issuesDuringToddlerhood {Issues during toddlerhood} issuesDuringChildhood {Issues during childhood} issuesDuringAdolescence {Issues during adolescence}  educationIssues {Education issues} learningDifficulties {Learning difficulties} technologyUse {Technology use} discipline {Discipline} anxiety {Anxiety} depressionAndMoodDisorders {Depression and mood disorders} eatingDisorders {Eating disorders} bullyingCyberbullyingAndSexting {Bullying, cyberbullying and sexting} atypicalDevelopment {Atypical development (e.g., autism)} substanceUse {Substance use} siblingRilvalry {Sibling rilvalry} parentChildConflict {Parent-child conflict} childrensMentalHealth {Children's mental health} adultMentalHealth {Adult mental health} coParentingIssues {Co-parenting issues} parentingAlone {Parenting alone} divorce {Divorce} relationships {Relationships} bereavement {Bereavement} trauma {Trauma} other {Otros}}",
   "@therapistAreasExpertise": {
