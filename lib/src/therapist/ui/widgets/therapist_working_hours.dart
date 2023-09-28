@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
-import 'package:recparenting/constants/colors.dart';
 
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'package:recparenting/src/therapist/models/working-hours.model.dart';
@@ -31,8 +30,9 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        TextDefault(AppLocalizations.of(context)!.workingHoursTitle,
-            fontWeight: FontWeight.bold,
+        TextDefault(
+          AppLocalizations.of(context)!.workingHoursTitle,
+          fontWeight: FontWeight.bold,
           size: TextSizes.large,
         ),
         const SizedBox(height: 10),
