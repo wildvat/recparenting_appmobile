@@ -81,7 +81,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         }
         return ListView.separated(
           scrollDirection: Axis.vertical,
-          reverse: true,
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(
               height: 10,
