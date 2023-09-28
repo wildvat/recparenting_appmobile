@@ -19,7 +19,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
     on<ForumThreadCreated>(_onForumThreadsCreated);
   }
 
-  Future<bool> _onForumThreadsFetch(
+  void _onForumThreadsFetch(
       ForumThreadsFetch event, Emitter<ForumState> emit) async {
     emit((state as ForumLoaded).copyWith(
         threads: event.page > 1 ? state.threads : [],
@@ -34,15 +34,13 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
       hasReachedMax: forumListApi.threads.length < 10,
       total: forumListApi.total,
     ));
-    return true;
   }
 
-  Future<bool> _onForumThreadsCreated(
+  void _onForumThreadsCreated(
       ForumThreadCreated event, Emitter<ForumState> emit) async {
     emit((state as ForumLoaded).copyWith(threads: [
       ...[event.thread],
       ...state.threads
     ], total: state.total + 1));
-    return true;
   }
 }

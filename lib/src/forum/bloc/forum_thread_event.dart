@@ -13,10 +13,9 @@ class ForumThreadFetch extends ForumThreadEvent {
   const ForumThreadFetch({required this.page, this.search});
 }
 
-class ForumMessageCreate extends ForumThreadEvent {
-  final String message;
-  final List<String>? files;
-  const ForumMessageCreate({required this.message, this.files});
+class ForumMessageCreated extends ForumThreadEvent {
+  final MessageForum message;
+  const ForumMessageCreated({required this.message});
 }
 
 class ForumMessageRemove extends ForumThreadEvent {
