@@ -10,6 +10,7 @@ enum TextColors {
   recLight,
   recDark,
   danger,
+  warning,
   success;
 
   Color get color {
@@ -32,8 +33,11 @@ enum TextColors {
         return Colors.red;
       case TextColors.success:
         return Colors.green;
+      case TextColors.warning:
+        return Colors.orange;
       default:
         return Colors.black87;
     }
   }
+
 }

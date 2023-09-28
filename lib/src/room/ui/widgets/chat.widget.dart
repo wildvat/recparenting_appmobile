@@ -64,8 +64,8 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<ConversationBloc, ConversationState>(
         builder: (context, state) {
-          List<Widget> widgets = [];
-          /*
+      List<Widget> widgets = [];
+      /*
       Widget reload = IconButton(
           onPressed: () {
             context
@@ -76,56 +76,55 @@ class _ChatWidgetState extends State<ChatWidget> {
 
       widgets.add(reload);*/
 
-
-          if (state is ConversationLoaded) {
-
-            if (state.loading) {
-              widgets.add(const SizedBox(
-                  height: 35,
-                  child: CircularProgressIndicator(color: colorRecLight,)));
-            }
-            Widget listChat = Expanded(
-                child: ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  reverse: true,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 10,
-                    );
-                  },
-                  padding: const EdgeInsets.all(8.0),
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return index >= state.messages.messages.length
-                        ? Container()
-                        : messageWidget(
-                        state.conversation, state.messages.messages[index],
-                        (index > 0)
-                            ? state.messages.messages[index - 1]
-                            : null);
-                  },
-                  itemCount: state.hasReachedMax
-                      ? state.messages.messages.length
-                      : state.messages.messages.length + 1,
-                  controller: _scrollController,
-                ));
-            widgets.add(listChat);
-            if (state.conversation.room.isActive) {
-              widgets.add(textField());
-            }else{
-              widgets.add(const SizedBox(height: 10));
-            }
-            return Column(
-              children: widgets,
+      if (state is ConversationLoaded) {
+        if (state.loading) {
+          widgets.add(const SizedBox(
+              height: 35,
+              child: CircularProgressIndicator(
+                color: colorRecLight,
+              )));
+        }
+        Widget listChat = Expanded(
+            child: ListView.separated(
+          scrollDirection: Axis.vertical,
+          reverse: true,
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(
+              height: 10,
             );
-          }
+          },
+          padding: const EdgeInsets.all(8.0),
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return index >= state.messages.messages.length
+                ? Container()
+                : messageWidget(
+                    state.conversation,
+                    state.messages.messages[index],
+                    (index > 0) ? state.messages.messages[index - 1] : null);
+          },
+          itemCount: state.hasReachedMax
+              ? state.messages.messages.length
+              : state.messages.messages.length + 1,
+          controller: _scrollController,
+        ));
+        widgets.add(listChat);
+        if (state.conversation.room.isActive) {
+          widgets.add(textField());
+        } else {
+          widgets.add(const SizedBox(height: 10));
+        }
+        return Column(
+          children: widgets,
+        );
+      }
 
-          if (state is ConversationUninitialized) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      if (state is ConversationUninitialized) {
+        return const Center(child: CircularProgressIndicator());
+      }
 
-          return const Text('_');
-        });
+      return const Text('_');
+    });
   }
 
   bool _shouldShowDateSeparator(Message? previousMessage, Message message) {
@@ -133,14 +132,14 @@ class _ChatWidgetState extends State<ChatWidget> {
       return true;
     }
     return previousMessage.createdAt
-        .difference(message.createdAt)
-        .inDays
-        .abs() >
+            .difference(message.createdAt)
+            .inDays
+            .abs() >
         0;
   }
 
-  Widget messageWidget(Conversation conversation, Message message,
-      Message? previousMessage) {
+  Widget messageWidget(
+      Conversation conversation, Message message, Message? previousMessage) {
     Color backgroundColor = Colors.grey.shade100;
     TextColors textColor = TextColors.dark;
     Alignment alignment = Alignment.centerLeft;
@@ -150,13 +149,12 @@ class _ChatWidgetState extends State<ChatWidget> {
       alignment = Alignment.centerRight;
     }
     if (message.isDeleted) {
-      textColor.color.withOpacity(0.3);
+      textColor = TextColors.muted;
     }
 
     Widget currentDate = const SizedBox();
     Widget separator = const SizedBox();
     if (_shouldShowDateSeparator(previousMessage, message)) {
-      print('si qer');
       currentDate = Center(
           child: Container(
               decoration: BoxDecoration(
@@ -174,12 +172,13 @@ class _ChatWidgetState extends State<ChatWidget> {
       );
     }
 
-
     return Container(
         constraints: const BoxConstraints(maxWidth: 150),
         alignment: alignment,
         child: Column(
-            crossAxisAlignment: (message.user.id != widget._patient.id)?CrossAxisAlignment.start:CrossAxisAlignment.end,
+            crossAxisAlignment: (message.user.id != widget._patient.id)
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.end,
             children: [
               currentDate,
               separator,
@@ -191,31 +190,31 @@ class _ChatWidgetState extends State<ChatWidget> {
                     }
                   },
                   child: Container(
-                      constraints: BoxConstraints(maxWidth: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.7),
-
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7),
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                           color: backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: const Radius.circular(20),
                               topRight: const Radius.circular(20),
-                              bottomLeft: (widget._patient.id == message.user.id)
-                                  ? const Radius.circular(20)
-                                  : const Radius.circular(0),
-                              bottomRight: (widget._patient.id != message.user.id)
-                                  ? const Radius.circular(20)
-                                  : const Radius.circular(0))),
+                              bottomLeft:
+                                  (widget._patient.id == message.user.id)
+                                      ? const Radius.circular(20)
+                                      : const Radius.circular(0),
+                              bottomRight:
+                                  (widget._patient.id != message.user.id)
+                                      ? const Radius.circular(20)
+                                      : const Radius.circular(0))),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          TextDefault(decryptAESCryptoJS(
-                              message.message, message.user.id),
+                          TextDefault(
+                              decryptAESCryptoJS(
+                                  message.message, message.user.id),
                               color: textColor),
                           TextDefault(DateFormat.Hm().format(message.createdAt),
-                              size: TextSizes.small, color: TextColors.recDark),
+                              size: TextSizes.xsmall, color: TextColors.recDark),
                         ],
                       )))
             ]));
@@ -256,28 +255,50 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   showAlertRemoveMessage(BuildContext context, Message message) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: TextDefault(AppLocalizations.of(context)!.generalCancel),
+    Widget cancelButton = ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold)),
+      child: TextDefault(
+        AppLocalizations.of(context)!.generalCancel,
+        color: TextColors.warning,
+      ),
       onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget continueButton = TextButton(
-      child: TextDefault(AppLocalizations.of(context)!.generalContinue),
-      onPressed: () {
-        message.message = encryptAESCryptoJS(
-            'This message has been deleted', message.user.id);
-        _conversationBloc.add(DeleteMessageFromConversation(message: message));
         Navigator.of(context).pop();
       },
     );
 
+    Widget continueButton = ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold)),
+      child: TextDefault(
+        AppLocalizations.of(context)!.generalContinue,
+        color: TextColors.success,
+      ),
+      onPressed: () {
+        message.message = encryptAESCryptoJS(
+            'This message has been deleted', message.user.id);
+        _conversationBloc.add(DeleteMessageFromConversation(message: message));
+        message.isDeleted = true;
+        Navigator.of(context).pop();
+      },
+    );
+
+
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: TextDefault(AppLocalizations.of(context)!.chatDeleteMessageTitle),
-      content: TextDefault(
-          AppLocalizations.of(context)!.chatDeleteMessageContent),
+      surfaceTintColor: Colors.white,
+      icon: const Icon(Icons.warning, color: Colors.orange),
+      backgroundColor: Colors.white,
+      title: TextDefault(AppLocalizations.of(context)!.chatDeleteMessageTitle,
+          size: TextSizes.medium, fontWeight: FontWeight.bold),
+      content:
+          TextDefault(AppLocalizations.of(context)!.chatDeleteMessageContent),
       actions: [
         cancelButton,
         continueButton,
@@ -286,6 +307,7 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     // show the dialog
     showDialog(
+      barrierColor: colorRecLight.withOpacity(0.2),
       context: context,
       builder: (BuildContext context) {
         return alert;

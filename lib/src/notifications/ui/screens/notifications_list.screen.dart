@@ -49,13 +49,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         ),
         child: ListTile(
           onTap: () {
-            print(notification.notifiableId);
-            print(notification.notifiableType);
-            print('voy');
-            print(notification.getAction()[0]);
-            print(notification.getAction()[1]);
-            Navigator.pushNamed(context, notification.getAction()[0],
-                arguments: notification.getAction()[1]);
+            NotificationAction? notificationAction = notification.getAction();
+            if(notificationAction != null){
+              Navigator.pushNamed(context, notificationAction.route,
+                  arguments: notificationAction.argument);
+              _notificationBloc.add(NotificationDelete(notification: notification ));
+            }
           },
         //  trailing: Text(notification.type.name),
           leading: Icon(notification.getIcon()),
