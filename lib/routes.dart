@@ -20,6 +20,7 @@ import 'package:recparenting/src/forum/ui/screens/forums.screen.dart';
 import 'package:recparenting/src/forum/ui/screens/thread.screen.dart';
 import 'package:recparenting/src/notifications/ui/screens/notifications_list.screen.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
+import 'package:recparenting/src/patient/ui/screens/patient_show.screen.dart';
 import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
@@ -33,6 +34,11 @@ class RouterRec {
     loginRoute: (_) => const LoginScreen(),
     conferenceRoute: (_) => const ConferenceScreen(),
     patientsRoute: (_) => const PatientsScreen(),
+    patientShowRoute: (context) {
+      final Patient patient =
+          ModalRoute.of(context)!.settings.arguments as Patient;
+      return PatientShowScreen(patient: patient);
+    },
     webPageRoute: (context) {
       final WebpageArguments argument =
           ModalRoute.of(context)!.settings.arguments as WebpageArguments;

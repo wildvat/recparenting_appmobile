@@ -35,39 +35,69 @@ class NotificationRec {
     createdAt = DateTime.parse(json['created_at']).toLocal();
   }
 
-  String getTitle(String title){
-
+  String getTitle(String title) {
     Therapist? therapist = data.therapist;
-    if(therapist != null){
+    if (therapist != null) {
       title = title.replaceAll('[therapist]', therapist.getFullName());
+    } else {
+      title = title.replaceAll('[therapist]', '');
     }
 
     DateTime? dateAppointment = data.event?.start;
-    if(dateAppointment != null){
-      title = title.replaceAll('[date_appointment]', DateFormat.yMMMMEEEEd().format(dateAppointment).toString());
+    if (dateAppointment != null) {
+      title = title.replaceAll('[date_appointment]',
+          DateFormat.yMMMMEEEEd().format(dateAppointment).toString());
+    } else {
+      title = title.replaceAll('[date_appointment]', '');
+    }
+
+    DateTime? dateDisabled = data.disabledAt;
+    if (dateDisabled != null) {
+      title = title.replaceAll('[date_disabled]',
+          DateFormat.yMMMMEEEEd().format(dateDisabled).toString());
+    } else {
+      title = title.replaceAll('[date_disabled]', '');
+    }
+
+    Patient? patient = data.patient;
+    if (patient != null) {
+      title = title.replaceAll('[patient]', patient.name);
+    } else {
+      title = title.replaceAll('[patient]', '');
     }
 
     return title;
   }
-  List<dynamic> getAction() {
-    String action = calendarRoute;
-    dynamic argument = '';
+
+  NotificationAction? getAction() {
+    NotificationAction? notificationAction;
     switch (type) {
       case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
-        action = calendarRoute;
+        notificationAction =
+            NotificationAction(route: calendarRoute, argument: null);
         break;
       case NotificationType.toPatientWhenRequestedChange:
-        action = calendarRoute;
         break;
       case NotificationType.toPatientWhenTherapistWasAssigned:
-        action = therapistBioPageRoute;
-        argument = data.therapist!;
+        notificationAction = NotificationAction(
+            route: therapistBioPageRoute, argument: data.therapist);
         break;
-
+      case NotificationType.toTherapistWhenPatientWasAssigned:
+        notificationAction =
+            NotificationAction(route: patientShowRoute, argument: data.patient);
+        break;
+        case NotificationType.toParticipantsWhenForumMessageWasCreated:
+        notificationAction =
+            NotificationAction(route: forumsRoute, argument: null);
+        break;
+        case NotificationType.conversationUnreadNotification:
+        notificationAction =
+            NotificationAction(route: chatRoute, argument: data.room);
+        break;
       default:
-      action = calendarRoute;
+        notificationAction = null;
     }
-    return [action, argument];
+    return notificationAction;
   }
 
   IconData getIcon() {
@@ -126,4 +156,11 @@ class NotificationData {
         message =
             json['message'] != null ? Message.fromJson(json['message']) : null,
         room = json['room'] != null ? Room.fromJson(json['room']) : null;
+}
+
+class NotificationAction {
+  final String route;
+  final dynamic argument;
+
+  NotificationAction({required this.route, required this.argument});
 }
