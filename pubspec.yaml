@@ -33,6 +33,7 @@ dependencies:
   firebase_core: ^2.15.1
   provider: ^6.0.5
   calendar_view: ^1.0.4
+  file_picker: ^5.5.0
 
 dev_dependencies:
   flutter_test:

@@ -122,6 +122,8 @@
   "forumThreadTitle": "Forum | Thread",
   "forumThreadSeeMessagesBtn": "See messages",
   "forumThreadCreated": "Thread created correctly",
+  "forumThreadMessageCreateTitle": "Add a mensagge",
+  "forumThreadMessageCreateComment": "Menssage",
   "therapistAreasExpertiseTitle": "Areas of expertise",
   "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy} adoption {Adoption} difficultiesConceiving {Difficulties conceiving} issuesDuringInfancy {Issues during infancy} issuesDuringToddlerhood {Issues during toddlerhood} issuesDuringChildhood {Issues during childhood} issuesDuringAdolescence {Issues during adolescence}  educationIssues {Education issues} learningDifficulties {Learning difficulties} technologyUse {Technology use} discipline {Discipline} anxiety {Anxiety} depressionAndMoodDisorders {Depression and mood disorders} eatingDisorders {Eating disorders} bullyingCyberbullyingAndSexting {Bullying, cyberbullying and sexting} atypicalDevelopment {Atypical development (e.g., autism)} substanceUse {Substance use} siblingRilvalry {Sibling rilvalry} parentChildConflict {Parent-child conflict} childrensMentalHealth {Children's mental health} adultMentalHealth {Adult mental health} coParentingIssues {Co-parenting issues} parentingAlone {Parenting alone} divorce {Divorce} relationships {Relationships} bereavement {Bereavement} trauma {Trauma} other {Otros}}",
   "@therapistAreasExpertise": {
