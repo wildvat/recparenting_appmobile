@@ -124,13 +124,13 @@ class NotificationRec {
 }
 
 class NotificationData {
-  final DateTime? disabledAt;
-  final Patient? patient;
-  final Therapist? therapist;
-  final EventModel? event;
-  final String? reason;
-  final Message? message;
-  final Room? room;
+  late final DateTime? disabledAt;
+  late final Patient? patient;
+  late final Therapist? therapist;
+  late final EventModel? event;
+  late final String? reason;
+  late final Message? message;
+  late final Room? room;
 
   NotificationData(
       {this.disabledAt,
@@ -141,21 +141,15 @@ class NotificationData {
       this.message,
       this.room});
 
-  NotificationData.fromJson(Map<String, dynamic> json)
-      : disabledAt = json['disabled_at'] != null
-            ? DateTime.parse(json['disabled_at']).toLocal()
-            : null,
-        patient =
-            json['patient'] != null ? Patient.fromJson(json['patient']) : null,
-        therapist = json['therapist'] != null
-            ? Therapist.fromJson(json['therapist'])
-            : null,
-        event =
-            json['event'] != null ? EventModel.fromJson(json['event']) : null,
-        reason = json['reason'],
-        message =
-            json['message'] != null ? Message.fromJson(json['message']) : null,
-        room = json['room'] != null ? Room.fromJson(json['room']) : null;
+  NotificationData.fromJson(Map<String, dynamic> json){
+    disabledAt = json['disabled_at'] != null ? DateTime.parse(json['disabled_at']).toLocal(): null;
+    patient = json['patient'] != null ? Patient.fromJson(json['patient']) : null;
+    therapist = json['therapist'] != null ? Therapist.fromJson(json['therapist']) : null;
+    event = json['event'] != null ? EventModel.fromJson(json['event']) : null;
+    reason = json['reason'];
+    message = json['message'] != null ? Message.fromJson(json['message']) : null;
+    room = json['room'] != null ? Room.fromJson(json['room']) : null;
+  }
 }
 
 class NotificationAction {

@@ -55,17 +55,17 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
     ));
 
     widgets.add(ListTile(
-      title: TextDefault(AppLocalizations.of(context)!.generalReligionTitle,
+      leading: TextDefault(AppLocalizations.of(context)!.generalReligionTitle,
           fontWeight: FontWeight.bold
       ),
-      trailing:TextDefault(AppLocalizations.of(context)!.generalReligion(widget.therapist.data.religion.name)) ,
+      title:TextDefault(AppLocalizations.of(context)!.generalReligion(widget.therapist.data.religion.name)) ,
     ));
 
     widgets.add(ListTile(
-      title: TextDefault(AppLocalizations.of(context)!.generalGenderTitle,
+      leading: TextDefault(AppLocalizations.of(context)!.generalGenderTitle,
           fontWeight: FontWeight.bold
       ),
-      trailing:TextDefault(AppLocalizations.of(context)!.generalGender(widget.therapist.data.gender.name)) ,
+      title:TextDefault(AppLocalizations.of(context)!.generalGender(widget.therapist.data.gender.name)) ,
     ));
 
 
@@ -74,10 +74,10 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
       languages.add(TextDefault(AppLocalizations.of(context)!.generalLanguage(value.name)));
     }
     widgets.add(ListTile(
-      title: TextDefault(AppLocalizations.of(context)!.generalLanguageTitle,
+      leading: TextDefault(AppLocalizations.of(context)!.generalLanguageTitle,
           fontWeight: FontWeight.bold
       ),
-      trailing:Wrap(children: languages) ,
+      title:Wrap(children: languages) ,
     ));
 
 

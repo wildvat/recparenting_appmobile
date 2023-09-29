@@ -17,6 +17,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       : super(NotificationsUninitialized()) {
     on<NotificationsFetch>(_onFetchNotifications);
     on<NotificationDelete>(_onDeleteNotification);
+    on<NotificationAdd>(_onAddNotification);
   }
   _onDeleteNotification(
       NotificationDelete event,
@@ -35,7 +36,23 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       print(_.toString());
     }
   }
-
+  _onAddNotification(
+      NotificationAdd event,
+      Emitter<NotificationState> emit,
+      ) async {
+    try {
+      if (state is NotificationsLoaded) {
+        NotificationsLoaded currentStatus = (state as NotificationsLoaded);
+        Notifications notifications = currentStatus.notifications;
+        notifications.notifications.add(event.notification);
+        notifications.total = notifications.total + 1;
+        emit(NotificationsLoading());
+        emit(currentStatus.copyWith(notifications: notifications, loading: false));
+      }
+    } catch (_) {
+      print(_.toString());
+    }
+  }
   _onFetchNotifications(
       NotificationsFetch event,
       Emitter<NotificationState> emit,
