@@ -49,58 +49,60 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
           widget.actionButton ?? const SizedBox.shrink(),
           BlocBuilder<NotificationBloc, NotificationState>(
               builder: (context, state) {
-                if (state is NotificationsLoaded && state.notifications.total > 0) {
-                  return Stack(
-                    children: <Widget>[
-                      IconButton(
-                        padding: const EdgeInsets.all(0),
-                        icon: const Icon(Icons.notifications),
-                        onPressed: () {
-                          Navigator.pushNamed(context, notificationsRoute,
-                              arguments: state.notifications);
-                        },
+            if (state is NotificationsLoaded && state.notifications.total > 0) {
+              return Stack(
+                children: <Widget>[
+                  IconButton(
+                    padding: const EdgeInsets.all(0),
+                    icon: const Icon(Icons.notifications),
+                    onPressed: () {
+                      Navigator.pushNamed(context, notificationsRoute,
+                          arguments: state.notifications);
+                    },
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child:  Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration:  BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          constraints: const BoxConstraints(
-                            minWidth: 12,
-                            minHeight: 12,
-                          ),
-                          child:  Text(
-                            state.notifications.notifications.length.toString(),
-                            style:  const TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                      constraints: const BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: Text(
+                        state.notifications.notifications.length.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
                         ),
-                      )
-                    ],
-                  );
-                }
-                return const SizedBox();
-              }),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }
+            return const SizedBox();
+          }),
           const AppSubmenuWidget()
         ],
         bottom: widget.tabBar,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _currentUser is Patient
-          ? FloatingActionButton(
-              child: const Icon(Icons.message),
-              onPressed: () {
-                Navigator.pushNamed(context, chatRoute,
-                    arguments: _currentUser);
-              },
-            )
+          ? ModalRoute.of(context)!.settings.name != '/chat'
+              ? FloatingActionButton(
+                  child: const Icon(Icons.message),
+                  onPressed: () {
+                    Navigator.pushNamed(context, chatRoute,
+                        arguments: _currentUser);
+                  },
+                )
+              : const SizedBox.shrink()
           : FloatingActionButton(
               child: const Icon(Icons.person_search),
               onPressed: () {

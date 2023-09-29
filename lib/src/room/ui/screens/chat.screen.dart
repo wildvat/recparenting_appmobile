@@ -41,8 +41,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     }
     if (_currentUser.isPatient()) {
       RoomApi roomApi = RoomApi();
-      _roomsShared =
-          roomApi.getAll(1, null);
+      _roomsShared = roomApi.getAll(1, null);
     }
   }
 
@@ -52,17 +51,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   Widget withOutShared() {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-              AppLocalizations.of(context)!.chatTitleWith(widget._patient.name)),
-          actions: const [AppSubmenuWidget()],
-        ),
+    return ScaffoldDefault(
+        title:
+            AppLocalizations.of(context)!.chatTitleWith(widget._patient.name),
+        actionButton: const AppSubmenuWidget(),
         body: BlocProvider(
             create: (_) => ConversationBloc(roomId: widget._patient.room!),
             child: ChatWidget(patient: widget._patient)));
   }
-
 
   Widget withShared(Rooms rooms) {
     List<Widget> tabs = [];
@@ -93,32 +89,35 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     }
     final tabController = TabController(length: tabs.length, vsync: this);
     String title = '';
-    if(_currentUser.isTherapist()){
-       title = AppLocalizations.of(context)!.chatTitleWith(getTherapistFromRoom(rooms.rooms[tabController.index], _currentUser)!.name);
-
+    if (_currentUser.isTherapist()) {
+      title = AppLocalizations.of(context)!.chatTitleWith(
+          getTherapistFromRoom(rooms.rooms[tabController.index], _currentUser)!
+              .name);
     }
     return DefaultTabController(
       length: tabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          actions:  [
-            (_currentUser.isPatient())?IconButton(
-                onPressed: (){
-                    Room room = rooms.rooms[tabController.index];
-                    Navigator.pushNamed(context, therapistBioPageRoute, arguments: getTherapistFromRoom(room, _currentUser));
-                },
-                icon: const Icon(Icons.badge_outlined)):const SizedBox(),
-                const AppSubmenuWidget()
-          ]
-              ,
-          bottom: TabBar(
-            controller: tabController,
-            indicatorColor: colorRecDark,
-            dividerColor: Colors.transparent,
-            indicator: const BoxDecoration(),
-            tabs: tabs,
-          ),
+      child: ScaffoldDefault(
+        title: title,
+        actionButton: Row(
+          children: [
+            (_currentUser.isPatient())
+                ? IconButton(
+                    onPressed: () {
+                      Room room = rooms.rooms[tabController.index];
+                      Navigator.pushNamed(context, therapistBioPageRoute,
+                          arguments: getTherapistFromRoom(room, _currentUser));
+                    },
+                    icon: const Icon(Icons.badge_outlined))
+                : const SizedBox(),
+            const AppSubmenuWidget()
+          ],
+        ),
+        tabBar: TabBar(
+          controller: tabController,
+          indicatorColor: colorRecDark,
+          dividerColor: Colors.transparent,
+          indicator: const BoxDecoration(),
+          tabs: tabs,
         ),
         body: TabBarView(
           controller: tabController,
@@ -128,19 +127,18 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: _roomsShared,
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return  ScaffoldDefault(
-              title: AppLocalizations.of(context)!.menuChat,
+            return ScaffoldDefault(
+                title: AppLocalizations.of(context)!.menuChat,
                 body: const Center(
-                child: SizedBox(
-                    height: 40,
-                    child: CircularProgressIndicator(color: colorRec))));
+                    child: SizedBox(
+                        height: 40,
+                        child: CircularProgressIndicator(color: colorRec))));
           }
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData &&
@@ -154,5 +152,4 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           return withOutShared();
         });
   }
-
 }
