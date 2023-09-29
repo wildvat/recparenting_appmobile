@@ -8,6 +8,11 @@ sealed class NotificationEvent extends Equatable {
 }
 
 
+
+class NotificationAdd extends NotificationEvent {
+  final NotificationRec notification;
+  const NotificationAdd({required this.notification});
+}
 class NotificationDelete extends NotificationEvent {
   final NotificationRec notification;
   const NotificationDelete({required this.notification});

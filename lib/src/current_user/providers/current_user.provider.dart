@@ -85,7 +85,7 @@ class CurrentUserApi {
     try {
       Response response =
           await client.dio.post(url, data: FormData.fromMap(body));
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return token;
       } else {
         return null;
