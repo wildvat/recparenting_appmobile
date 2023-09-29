@@ -31,65 +31,58 @@ class _ChangeTherapistReasonWidgetState
   @override
   void initState() {
     super.initState();
-
     _currentUser = CurrentUserBuilder().patient();
     _hasRequestChangeTherapist =
         _patientApi.hasRequestChangeTherapist(widget._therapist.id);
   }
 
-  List<Widget> getWidgetsChangeTherapistReasons() {
-
+  List<Widget> getWidgetsChangeTherapistReasons(StateSetter currentState) {
     List<Widget> widgets = [];
     widgets.add(Padding(
         padding: const EdgeInsets.all(20),
-        child:TextDefault(
-      AppLocalizations.of(context)!.patientChangeTherapistTitle,
-      fontWeight: FontWeight.bold,
-    )));
+        child: TextDefault(
+          AppLocalizations.of(context)!.patientChangeTherapistTitle,
+          fontWeight: FontWeight.bold,
+        )));
 
     for (var value in ChangeTherapistReasons.values) {
-
-      widgets.add(ListTile(
-        title: TextDefault(AppLocalizations.of(context)!.patientChangeTherapistReason(
-            value.name)),
-        leading: Radio<ChangeTherapistReasons>(
-          value: value,
-          onChanged: (ChangeTherapistReasons? value) {
-            if (value != null) {
-              setState(() {
-                _changeTherapistReasons = value;
-              });
-            }
-          },
-          groupValue: _changeTherapistReasons,
-        ),
-      ),);
+      widgets.add(RadioListTile(
+        title: TextDefault(AppLocalizations.of(context)!
+            .patientChangeTherapistReason(value.name)),
+        value: value,
+        groupValue: _changeTherapistReasons,
+        onChanged: (ChangeTherapistReasons? value) {
+          if (value != null) {
+            currentState(() {
+              _changeTherapistReasons = value;
+            });
+          }
+        },
+      ));
     }
     widgets.add(ElevatedButton(
-        child: _changeTherapistReasons != null ? TextDefault(
-            AppLocalizations.of(context)!.generalSend) : TextDefault(
-            AppLocalizations.of(context)!.patientChangeTherapistTitle),
+        child: _changeTherapistReasons != null
+            ? TextDefault(AppLocalizations.of(context)!.generalSend)
+            : TextDefault(
+                AppLocalizations.of(context)!.patientChangeTherapistTitle),
         onPressed: () {
-          _patientApi.requestChangeTherapist(
-              widget._therapist.id, _changeTherapistReasons!).then((value) => Navigator.pop(context ));
+          _patientApi
+              .requestChangeTherapist(
+                  widget._therapist.id, _changeTherapistReasons!)
+              .then((value) => Navigator.pop(context));
           //CurrentUserApi().reloadUser().then((value) {});
-        }
-    ));
+        }));
     return widgets;
   }
 
-  Widget _getAction() {
-
+  Widget _getAction(StateSetter currentState) {
     return Container(
       padding: const EdgeInsets.all(20),
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
-        children: getWidgetsChangeTherapistReasons(),
+        children: getWidgetsChangeTherapistReasons(currentState),
       ),
     );
   }
@@ -107,9 +100,9 @@ class _ChangeTherapistReasonWidgetState
             return const CircularProgressIndicator();
           }
           if (snapshotAvailable.connectionState == ConnectionState.done) {
-            if(snapshotAvailable.error != null){
+            if (snapshotAvailable.error != null) {
               return const SizedBox();
-             // return SizedBox(child: Text(snapshotAvailable.error.toString(), style: TextStyle(color: Colors.red)));
+              // return SizedBox(child: Text(snapshotAvailable.error.toString(), style: TextStyle(color: Colors.red)));
             }
             if (!snapshotAvailable.hasData) {
               return ElevatedButton.icon(
@@ -119,27 +112,30 @@ class _ChangeTherapistReasonWidgetState
                       backgroundColor: Colors.white,
                       context: context,
                       builder: (BuildContext context) {
-                        return DraggableScrollableSheet(
-                            expand: false,
-                            initialChildSize: 0.7,
-                            minChildSize: 0.2,
-                            maxChildSize: 0.75,
-                        builder: (BuildContext context, ScrollController scrollController) {
-                          return SingleChildScrollView(
-                            controller: scrollController,
-                            child: _getAction(),
-                          );
+                        return StatefulBuilder(builder:
+                            (BuildContext context, StateSetter myState) {
+                          return DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.7,
+                              minChildSize: 0.2,
+                              maxChildSize: 0.75,
+                              builder: (BuildContext context,
+                                  ScrollController scrollController) {
+                                return SingleChildScrollView(
+                                  controller: scrollController,
+                                  child: _getAction(myState),
+                                );
+                              });
                         });
-
                       });
                 },
                 icon: const Icon(Icons.sync_problem),
-                label: TextDefault(AppLocalizations.of(context)!.terapistChangeButton),
+                label: TextDefault(
+                    AppLocalizations.of(context)!.terapistChangeButton),
               );
             }
           }
           return const SizedBox();
         });
   }
-
 }
