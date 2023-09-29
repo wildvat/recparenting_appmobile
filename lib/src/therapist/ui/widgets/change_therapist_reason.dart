@@ -3,7 +3,6 @@ import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/change_therapist.model.dart';
 import 'package:recparenting/src/patient/providers/patient.provider.dart';
-import '../../../current_user/providers/current_user.provider.dart';
 import '../../../patient/models/change_therapist_reasons.enum.dart';
 import '../../../patient/models/patient.model.dart';
 import '../../models/therapist.model.dart';
@@ -39,12 +38,17 @@ class _ChangeTherapistReasonWidgetState
   }
 
   List<Widget> getWidgetsChangeTherapistReasons() {
+
     List<Widget> widgets = [];
-    widgets.add(TextDefault(
+    widgets.add(Padding(
+        padding: const EdgeInsets.all(20),
+        child:TextDefault(
       AppLocalizations.of(context)!.patientChangeTherapistTitle,
-    ));
+      fontWeight: FontWeight.bold,
+    )));
 
     for (var value in ChangeTherapistReasons.values) {
+
       widgets.add(ListTile(
         title: TextDefault(AppLocalizations.of(context)!.patientChangeTherapistReason(
             value.name)),
@@ -67,15 +71,15 @@ class _ChangeTherapistReasonWidgetState
             AppLocalizations.of(context)!.patientChangeTherapistTitle),
         onPressed: () {
           _patientApi.requestChangeTherapist(
-              widget._therapist.id, _changeTherapistReasons!);
-          CurrentUserApi().reloadUser().then((value) {});
-          Navigator.pop(context);
+              widget._therapist.id, _changeTherapistReasons!).then((value) => Navigator.pop(context ));
+          //CurrentUserApi().reloadUser().then((value) {});
         }
     ));
     return widgets;
   }
 
   Widget _getAction() {
+
     return Container(
       padding: const EdgeInsets.all(20),
       width: MediaQuery
@@ -115,7 +119,18 @@ class _ChangeTherapistReasonWidgetState
                       backgroundColor: Colors.white,
                       context: context,
                       builder: (BuildContext context) {
-                        return _getAction();
+                        return DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.7,
+                            minChildSize: 0.2,
+                            maxChildSize: 0.75,
+                        builder: (BuildContext context, ScrollController scrollController) {
+                          return SingleChildScrollView(
+                            controller: scrollController,
+                            child: _getAction(),
+                          );
+                        });
+
                       });
                 },
                 icon: const Icon(Icons.sync_problem),
