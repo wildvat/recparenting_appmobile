@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -86,6 +87,10 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
 
   Widget conferenceToPatient(){
       Patient patient = _currentUser as Patient;
+      if(patient.conference == null){
+        SnackBarRec(message: AppLocalizations.of(context)!.conferenceNotAvailable);
+        return const SizedBox();
+      }
       return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => MethodChannelCoordinator()),
