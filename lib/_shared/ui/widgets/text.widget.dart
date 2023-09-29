@@ -6,10 +6,13 @@ class TextDefault extends Text {
   final TextSizes? size;
   final FontWeight? fontWeight;
   final TextColors? color;
-  TextDefault(super.text, {super.key, this.color, this.fontWeight, this.size})
+  final TextAlign? textAlign;
+  TextDefault(super.text,
+      {super.key, this.color, this.fontWeight, this.textAlign, this.size})
       : super(
+            textAlign: textAlign,
             style: TextStyle(
-                fontSize: size?.size??TextSizes.medium.size,
+                fontSize: size?.size ?? TextSizes.medium.size,
                 fontWeight: fontWeight,
                 color: color?.color));
 }

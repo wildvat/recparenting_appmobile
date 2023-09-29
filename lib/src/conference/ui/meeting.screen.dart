@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 
 import '../provider/meeting_provider.dart';
@@ -40,25 +41,29 @@ class _MeetingScreenState extends State<MeetingScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-        child:Stack(
-          alignment: Alignment.center,
-          children: [
-            displayVideoTileRemote(meetingProvider, orientation, context),
-            showLocalVideoTile(meetingProvider, context),
-            Positioned(
-              bottom: 10,
-              child: localListInfo(meetingProvider, context),
-            ),
-            WillPopScope(
-              onWillPop: () async {
-                meetingProvider.stopMeeting();
-                return true;
-              },
-              child: const Spacer(),
-            ),
-          ],
-        )));
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                displayVideoTileRemote(meetingProvider, orientation, context),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: showLocalVideoTile(meetingProvider, context),
+                ),
+                Positioned(
+                  bottom: 10,
+                  child: localListInfo(meetingProvider, context),
+                ),
+                WillPopScope(
+                  onWillPop: () async {
+                    meetingProvider.stopMeeting();
+                    return true;
+                  },
+                  child: const Spacer(),
+                ),
+              ],
+            )));
   }
 
   Widget showRemoteVideoTile(
@@ -249,8 +254,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
       }
     }
 
-    const Widget emptyVideos = Text("No video detected");
-    return const Center(
+    Widget emptyVideos = TextDefault(
+      "Turn on your camera",
+      fontWeight: FontWeight.bold,
+    );
+    return Center(
       widthFactor: 2.5,
       child: emptyVideos,
     );

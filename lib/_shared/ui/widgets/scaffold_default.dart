@@ -16,6 +16,7 @@ class ScaffoldDefault extends StatefulWidget {
   final FloatingActionButton? floatingActionButton;
   final Widget? actionButton;
   final PreferredSizeWidget? tabBar;
+  final Color backgroundColor;
 
   ScaffoldDefault(
       {required this.body,
@@ -23,6 +24,7 @@ class ScaffoldDefault extends StatefulWidget {
       this.floatingActionButton,
       this.actionButton,
       this.tabBar,
+      this.backgroundColor = Colors.white,
       super.key});
 
   @override
@@ -42,7 +44,10 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
 
   @override
   Widget build(BuildContext context) {
+    bool _keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+
     return Scaffold(
+      backgroundColor: widget.backgroundColor,
       appBar: AppBar(
         title: Text((widget.title != null) ? widget.title! : 'REC Parenting'),
         actions: [
@@ -93,22 +98,24 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
         bottom: widget.tabBar,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _currentUser is Patient
-          ? ModalRoute.of(context)!.settings.name != '/chat'
-              ? FloatingActionButton(
-                  child: const Icon(Icons.message),
+      floatingActionButton: _keyboardIsOpened
+          ? null
+          : _currentUser is Patient
+              ? ModalRoute.of(context)!.settings.name != '/chat'
+                  ? FloatingActionButton(
+                      child: const Icon(Icons.message),
+                      onPressed: () {
+                        Navigator.pushNamed(context, chatRoute,
+                            arguments: _currentUser);
+                      },
+                    )
+                  : const SizedBox.shrink()
+              : FloatingActionButton(
+                  child: const Icon(Icons.person_search),
                   onPressed: () {
-                    Navigator.pushNamed(context, chatRoute,
-                        arguments: _currentUser);
+                    Navigator.pushReplacementNamed(context, patientsRoute);
                   },
-                )
-              : const SizedBox.shrink()
-          : FloatingActionButton(
-              child: const Icon(Icons.person_search),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, patientsRoute);
-              },
-            ),
+                ),
       bottomNavigationBar: _currentUser is Patient
           ? BottomAppBarPatient(patient: _currentUser as Patient)
           : BottomAppBarTherapist(therapist: _currentUser as Therapist),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
@@ -31,7 +30,8 @@ class PatientShowScreenState extends State<PatientShowScreen> {
     CalendarApi calendarApi = CalendarApi();
     DateTime start = DateTime(now.year, now.month, 1);
     DateTime end = DateTime(now.year, now.month + 1, 0);
-    calendar = calendarApi.getPatientEvents(patientId: widget.patient.id,
+    calendar = calendarApi.getPatientEvents(
+        patientId: widget.patient.id,
         start: start,
         end: end,
         currentUser: widget.patient);
@@ -39,8 +39,6 @@ class PatientShowScreenState extends State<PatientShowScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return ScaffoldDefault(
       title: widget.patient.name,
       body: Column(
@@ -57,17 +55,16 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-
                     CircleAvatar(
                       backgroundColor: colorRecLight,
                       minRadius: 35.0,
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.pushNamed(context, joinConferenceRoute, arguments: widget.patient.conference);
+                          Navigator.pushNamed(context, joinConferenceRoute,
+                              arguments: widget.patient.conference);
                         },
                         icon: const Icon(Icons.video_camera_front_outlined),
-
                       ),
                     ),
                     CircleAvatar(
@@ -81,10 +78,10 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.pushNamed(context, chatRoute, arguments: widget.patient);
+                          Navigator.pushNamed(context, chatRoute,
+                              arguments: widget.patient);
                         },
                         icon: const Icon(Icons.message),
-
                       ),
                     ),
                   ],
@@ -104,29 +101,32 @@ class PatientShowScreenState extends State<PatientShowScreen> {
             ),
           ),
           FutureBuilder<EventsModel?>(
-          future: calendar,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center( child: CircularProgressIndicator(color: colorRec));
-            } else {
-              if (snapshot.hasData && snapshot.data.events.isNotEmpty) {
-                return Expanded(child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    itemCount: snapshot.data!.total,
-                    itemBuilder: (BuildContext context, int index) {
-                      EventModel event = snapshot.data?.events[index];
-                        return getEventListTile(event);
-
-                    }));
-              }else{
-                return Text(AppLocalizations.of(context)!.patientNotHasEvents);
-              }
-            }
-          })
+              future: calendar,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                      child: CircularProgressIndicator(color: colorRec));
+                } else {
+                  if (snapshot.hasData && snapshot.data.events.isNotEmpty) {
+                    return Expanded(
+                        child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider(),
+                            padding: const EdgeInsets.symmetric(vertical: 30),
+                            itemCount: snapshot.data!.total,
+                            itemBuilder: (BuildContext context, int index) {
+                              EventModel event = snapshot.data?.events[index];
+                              return getEventListTile(event);
+                            }));
+                  } else {
+                    return Text(
+                        AppLocalizations.of(context)!.patientNotHasEvents);
+                  }
+                }
+              })
         ],
       ),
     );
@@ -135,15 +135,18 @@ class PatientShowScreenState extends State<PatientShowScreen> {
   Widget getEventListTile(EventModel event) {
     return ListTile(
       leading: CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.transparent,
-        child: Icon(event.getIcon())
-      ),
+          radius: 30,
+          backgroundColor: Colors.transparent,
+          child: Icon(
+            event.getIcon(),
+            color: colorRec,
+            size: 30,
+          )),
       title: Text(DateFormat.yMMMMEEEEd().format(event.start)),
-      subtitle: Text('${DateFormat.Hm().format(event.start)} - ${DateFormat.Hm().format(event.end)}'),
-
+      subtitle: Text(
+          '${DateFormat.Hm().format(event.start)} - ${DateFormat.Hm().format(event.end)}'),
       onTap: () {
-        if(event.type == AppointmentTypes.appointment_video){
+        if (event.type == AppointmentTypes.appointment_video) {
           Navigator.pushNamed(context, joinConferenceRoute,
               arguments: event.patient.conference);
         }
@@ -153,5 +156,4 @@ class PatientShowScreenState extends State<PatientShowScreen> {
       },
     );
   }
-
 }

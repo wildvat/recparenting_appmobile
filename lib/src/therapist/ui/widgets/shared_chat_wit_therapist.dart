@@ -29,8 +29,8 @@ class _SharedChatWithTherapistWidgetState
   bool _sharedValue = false;
 
   final MaterialStateProperty<Icon?> thumbIcon =
-  MaterialStateProperty.resolveWith<Icon?>(
-        (Set<MaterialState> states) {
+      MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
       if (states.contains(MaterialState.selected)) {
         return const Icon(Icons.check);
       }
@@ -71,31 +71,34 @@ class _SharedChatWithTherapistWidgetState
   @override
   Widget build(BuildContext context) {
     if (!_currentUser!.isMyCurrentTherapist(widget._therapist)) {
-      return ListTile(
-        contentPadding: const EdgeInsets.all(0),
-          title: TextDefault(
-              AppLocalizations.of(context)!.patientSharedRoomWithTherapist,
-          ),
-          trailing: Switch(
-            thumbIcon: thumbIcon,
-            activeColor: colorRec,
-            activeTrackColor: colorRecLight,
-            inactiveThumbColor: Colors.blueGrey.shade600,
-            inactiveTrackColor: Colors.grey.shade400,
-            splashRadius: 50.0,
-            value: _sharedValue,
-            onChanged: (value) {
-              print('value $value');
-              setState(() {
-                _sharedValue = value;
-              });
-              _onSubmit(value);
-            },
-          )
+      return Column(
+        children: [
+          ListTile(
+              contentPadding: const EdgeInsets.all(0),
+              title: TextDefault(
+                AppLocalizations.of(context)!.patientSharedRoomWithTherapist,
+              ),
+              trailing: Switch(
+                thumbIcon: thumbIcon,
+                activeColor: colorRec,
+                activeTrackColor: colorRecLight,
+                inactiveThumbColor: Colors.blueGrey.shade600,
+                inactiveTrackColor: Colors.grey.shade400,
+                splashRadius: 50.0,
+                value: _sharedValue,
+                onChanged: (value) {
+                  print('value $value');
+                  setState(() {
+                    _sharedValue = value;
+                  });
+                  _onSubmit(value);
+                },
+              )),
+          const Divider(height: 50),
+        ],
       );
     } else {
       return const SizedBox();
     }
   }
-
 }

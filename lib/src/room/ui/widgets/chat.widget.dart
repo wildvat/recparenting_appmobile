@@ -214,7 +214,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                                   message.message, message.user.id),
                               color: textColor),
                           TextDefault(DateFormat.Hm().format(message.createdAt),
-                              size: TextSizes.xsmall, color: TextColors.recDark),
+                              size: TextSizes.xsmall,
+                              color: TextColors.recDark),
                         ],
                       )))
             ]));
@@ -233,25 +234,31 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   Widget textField() {
-    return TextField(
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(20),
-        hintText: AppLocalizations.of(context)!.chatEnterMessage,
-        suffixIcon: IconButton(
-          onPressed: () {
-            sendMessage(_textController.value.text);
+    return Container(
+        color: Colors.grey.shade200,
+        child: TextField(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(20),
+            hintStyle: const TextStyle(color: colorRecLight),
+            hintText: AppLocalizations.of(context)!.chatEnterMessage,
+            suffixIcon: IconButton(
+              onPressed: () {
+                sendMessage(_textController.value.text);
+                _textController.clear();
+              },
+              icon: const Icon(
+                Icons.send,
+                color: colorRecLight,
+              ),
+            ),
+          ),
+          controller: _textController,
+          onChanged: (text) {},
+          onSubmitted: (text) {
+            sendMessage(text);
             _textController.clear();
           },
-          icon: const Icon(Icons.send),
-        ),
-      ),
-      controller: _textController,
-      onChanged: (text) {},
-      onSubmitted: (text) {
-        sendMessage(text);
-        _textController.clear();
-      },
-    );
+        ));
   }
 
   showAlertRemoveMessage(BuildContext context, Message message) {
@@ -288,7 +295,6 @@ class _ChatWidgetState extends State<ChatWidget> {
         Navigator.of(context).pop();
       },
     );
-
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

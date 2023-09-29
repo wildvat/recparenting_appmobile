@@ -54,7 +54,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     return ScaffoldDefault(
         title:
             AppLocalizations.of(context)!.chatTitleWith(widget._patient.name),
-        actionButton: const AppSubmenuWidget(),
         body: BlocProvider(
             create: (_) => ConversationBloc(roomId: widget._patient.room!),
             child: ChatWidget(patient: widget._patient)));
@@ -102,20 +101,15 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       length: tabs.length,
       child: ScaffoldDefault(
         title: title,
-        actionButton: Row(
-          children: [
-            (_currentUser.isPatient())
-                ? IconButton(
-                    onPressed: () {
-                      Room room = rooms.rooms[tabController.index];
-                      Navigator.pushNamed(context, therapistBioPageRoute,
-                          arguments: getTherapistFromRoom(room, _currentUser));
-                    },
-                    icon: const Icon(Icons.badge_outlined))
-                : const SizedBox(),
-            const AppSubmenuWidget()
-          ],
-        ),
+        actionButton: (_currentUser.isPatient())
+            ? IconButton(
+                onPressed: () {
+                  Room room = rooms.rooms[tabController.index];
+                  Navigator.pushNamed(context, therapistBioPageRoute,
+                      arguments: getTherapistFromRoom(room, _currentUser));
+                },
+                icon: const Icon(Icons.badge_outlined))
+            : const SizedBox(),
         tabBar: TabBar(
           controller: tabController,
           indicatorColor: colorRecDark,

@@ -29,44 +29,50 @@ class EventModel {
       this.patient,
       this.therapist);
 
-  IconData getIcon(){
+  IconData getIcon() {
     late IconData icon;
-    switch(type) {
-      case AppointmentTypes.appointment_video: {
-        icon = Icons.video_camera_front_outlined;
-        break;
-      }
-      case AppointmentTypes.appointment_chat: {
-        icon = Icons.message;
-         break;
-      }
-      case AppointmentTypes.availability: {
-        icon = Icons.event_available;
-         break;
-      }
-      case AppointmentTypes.basic: {
-        icon = Icons.api;
-        break;
-      }
-      case AppointmentTypes.not_available: {
-        icon = Icons.ac_unit;
-        break;
-      }
-      default: {
-        icon = Icons.ac_unit;
-        break;
-      }
+    switch (type) {
+      case AppointmentTypes.appointment_video:
+        {
+          icon = Icons.video_camera_front_outlined;
+          break;
+        }
+      case AppointmentTypes.appointment_chat:
+        {
+          icon = Icons.message;
+          break;
+        }
+      case AppointmentTypes.availability:
+        {
+          icon = Icons.event_available;
+          break;
+        }
+      case AppointmentTypes.basic:
+        {
+          icon = Icons.api;
+          break;
+        }
+      case AppointmentTypes.not_available:
+        {
+          icon = Icons.ac_unit;
+          break;
+        }
+      default:
+        {
+          icon = Icons.ac_unit;
+          break;
+        }
     }
     return icon;
   }
 
-  Color getColor(){
+  Color getColor() {
     return calendarEventsColors[type.toString()] ?? Colors.grey;
   }
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     AppointmentTypes appointmentType = AppointmentTypes.basic;
-    switch(json['type']){
+    switch (json['type']) {
       case 'appointment_chat':
         appointmentType = AppointmentTypes.appointment_chat;
         break;
@@ -83,7 +89,7 @@ class EventModel {
         appointmentType = AppointmentTypes.basic;
         break;
     }
-    EventModel event= EventModel(
+    EventModel event = EventModel(
         json["uuid"],
         json["model_type"],
         json["model_id"],

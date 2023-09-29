@@ -26,11 +26,10 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
   }
 
   Widget getAreasExpertise() {
-    Widget title =
-        TextDefault(AppLocalizations.of(context)!.therapistAreasExpertiseTitle,
-          size: TextSizes.large,
-          fontWeight: FontWeight.bold
-        );
+    Widget title = TextDefault(
+        AppLocalizations.of(context)!.therapistAreasExpertiseTitle,
+        size: TextSizes.large,
+        fontWeight: FontWeight.bold);
     List<Widget> widgets = [];
     for (var value in widget.therapist.data.areas_expertise) {
       widgets.add(Chip(
@@ -40,52 +39,46 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          title,
-          const SizedBox(height: 10),
-          Wrap(children: widgets)
-        ]);
+        children: [title, const SizedBox(height: 10), Wrap(children: widgets)]);
   }
 
-  Widget getOtherData(){
+  Widget getOtherData() {
     List<Widget> widgets = [];
-    widgets.add(TextDefault(AppLocalizations.of(context)!.therapistOtherDataTitle,
+    widgets.add(TextDefault(
+        AppLocalizations.of(context)!.therapistOtherDataTitle,
         size: TextSizes.large,
-        fontWeight: FontWeight.bold
-    ));
+        fontWeight: FontWeight.bold));
 
     widgets.add(ListTile(
+      contentPadding: const EdgeInsets.all(0),
       leading: TextDefault(AppLocalizations.of(context)!.generalReligionTitle,
-          fontWeight: FontWeight.bold
-      ),
-      title:TextDefault(AppLocalizations.of(context)!.generalReligion(widget.therapist.data.religion.name)) ,
+          fontWeight: FontWeight.bold),
+      title: TextDefault(AppLocalizations.of(context)!
+          .generalReligion(widget.therapist.data.religion.name)),
     ));
 
     widgets.add(ListTile(
+      contentPadding: const EdgeInsets.all(0),
       leading: TextDefault(AppLocalizations.of(context)!.generalGenderTitle,
-          fontWeight: FontWeight.bold
-      ),
-      title:TextDefault(AppLocalizations.of(context)!.generalGender(widget.therapist.data.gender.name)) ,
+          fontWeight: FontWeight.bold),
+      title: TextDefault(AppLocalizations.of(context)!
+          .generalGender(widget.therapist.data.gender.name)),
     ));
 
-
-    List<Widget> languages= [];
+    List<Widget> languages = [];
     for (var value in widget.therapist.data.language) {
-      languages.add(TextDefault(AppLocalizations.of(context)!.generalLanguage(value.name)));
+      languages.add(TextDefault(
+          AppLocalizations.of(context)!.generalLanguage(value.name)));
     }
     widgets.add(ListTile(
+      contentPadding: const EdgeInsets.all(0),
       leading: TextDefault(AppLocalizations.of(context)!.generalLanguageTitle,
-          fontWeight: FontWeight.bold
-      ),
-      title:Wrap(children: languages) ,
+          fontWeight: FontWeight.bold),
+      title: Wrap(children: languages),
     ));
 
-
-
-
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: widgets);
+        crossAxisAlignment: CrossAxisAlignment.start, children: widgets);
   }
 
   @override
@@ -102,13 +95,12 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextDefault(widget.therapist.data.bio),
-                    const Divider(height: 50),
+                    const Divider(height: 30),
                     SharedChatWithTherapistWidget(therapist: widget.therapist),
-                    const Divider(height: 50),
                     getAreasExpertise(),
-                    const Divider(height: 50),
+                    const Divider(height: 30),
                     getOtherData(),
-                    const Divider(height: 50),
+                    const Divider(height: 30),
                     TherapistWorkingHours(widget.therapist),
                   ],
                 ),

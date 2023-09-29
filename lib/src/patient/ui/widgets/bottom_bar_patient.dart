@@ -3,7 +3,6 @@ import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 
-
 class BottomAppBarPatient extends StatelessWidget {
   final Patient patient;
 
@@ -27,55 +26,57 @@ class BottomAppBarPatient extends StatelessWidget {
           IconButton(
               icon: Icon(
                 Icons.video_camera_front_outlined,
-                color: (patient.therapist != null) ? Colors.white : Colors.white54,
+                color:
+                    (patient.therapist != null) ? Colors.white : Colors.white54,
                 size: 30,
               ),
               onPressed: () {
                 if (patient.therapist != null) {
                   Navigator.pushReplacementNamed(context, conferenceRoute);
-                }else{
-                //ShowApiErrorWidget(context: context, apiResponse: ApiResponse(code: 500, error: "no tienes terapueta", data:null)).execute();
+                } else {
+                  //ShowApiErrorWidget(context: context, apiResponse: ApiResponse(code: 500, error: "no tienes terapueta", data:null)).execute();
                 }
-              }
-          ),
+              }),
           IconButton(
               icon: Icon(
                 Icons.badge_outlined,
-                color: (patient.therapist != null) ? Colors.white : Colors.white54,
+                color:
+                    (patient.therapist != null) ? Colors.white : Colors.white54,
                 size: 30,
               ),
               onPressed: () {
                 if (patient.therapist != null) {
-                  Navigator.pushReplacementNamed(
-                      context, therapistBioPageRoute,
+                  Navigator.pushReplacementNamed(context, therapistBioPageRoute,
                       arguments: patient.therapist);
                 } else {
                   //ShowApiErrorWidget(context: context, apiResponse: ApiResponse(code: 500, error: "no tienes terapueta", data: null)).execute();
                 }
-              }
-          ),
+              }),
           const SizedBox(width: 50),
           IconButton(
-            icon: Icon(
-              Icons.calendar_month_outlined,
-              color: patient.subscription == 'premium' && patient.therapist != null
-                  ? Colors.white
-                  : Colors.white54,
-              size: 30,
-            ),
-            onPressed: () {
-              if(patient.subscription =='premium' && patient.therapist != null) {
-                Navigator.pushReplacementNamed(context, calendarRoute);
-              }
-            }
-          ),
+              icon: Icon(
+                Icons.calendar_month_outlined,
+                color: patient.subscription == 'premium' &&
+                        patient.therapist != null
+                    ? Colors.white
+                    : Colors.white54,
+                size: 30,
+              ),
+              onPressed: () {
+                if (patient.subscription == 'premium' &&
+                    patient.therapist != null) {
+                  Navigator.pushReplacementNamed(context, calendarRoute);
+                }
+              }),
           IconButton(
             icon: const Icon(
               Icons.add_task_outlined,
               color: Colors.white,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.pushReplacementNamed(
+                context, patientShowRoute,
+                arguments: patient),
           ),
         ],
       ),
