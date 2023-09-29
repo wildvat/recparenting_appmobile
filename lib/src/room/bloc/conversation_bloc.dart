@@ -100,9 +100,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         return;
       }
 
-      if(conversation.messages.messages.isEmpty){
-        return ;
-      }
 
       if (state is ConversationLoaded) {
         ConversationLoaded currentStatus = (state as ConversationLoaded);
