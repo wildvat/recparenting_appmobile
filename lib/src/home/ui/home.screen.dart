@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:recparenting/_shared/models/text_colors.enum.dart';
-import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
-import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
