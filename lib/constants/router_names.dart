@@ -19,3 +19,4 @@ const String threadRoute = '/forums/thread';
 const String notificationsRoute = '/notifications';
 const String masterclassRoute = '/masterclasses';
 const String podcastsRoute = '/podcasts';
+const String roomRoute = '/room';
