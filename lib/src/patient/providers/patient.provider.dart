@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/src/patient/models/change_therapist.model.dart';
 import 'package:recparenting/src/patient/models/change_therapist_reasons.enum.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -61,6 +62,7 @@ class PatientApi {
         return null;
       }
     } on DioException catch (e) {
+      SnackBarRec( message: e.response?.data['message']);
       developer.log('/** ERROR RoomApi.sendMessage **/');
       developer.log(e.response.toString());
       return null;
