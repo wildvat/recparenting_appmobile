@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 
 import '../provider/meeting_provider.dart';
 import 'dart:developer' as developer;
@@ -19,6 +22,8 @@ class MeetingScreen extends StatefulWidget {
 }
 
 class _MeetingScreenState extends State<MeetingScreen> {
+  final User _currentUser = CurrentUserBuilder().value();
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +44,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
     }
 
     return Scaffold(
+        backgroundColor: TextColors.light.color,
         resizeToAvoidBottomInset: false,
         body: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -47,8 +53,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
               children: [
                 displayVideoTileRemote(meetingProvider, orientation, context),
                 Positioned(
-                  top: 0,
-                  left: 0,
+                  top: const Size.fromHeight(kToolbarHeight).height,
+                  left: 10,
                   child: showLocalVideoTile(meetingProvider, context),
                 ),
                 Positioned(
@@ -231,8 +237,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width / 2,
-        height: MediaQuery.of(context).size.height / 3,
+        width: MediaQuery.of(context).size.width / 4,
+        height: MediaQuery.of(context).size.height / 6,
         child: videoTile,
       ),
     );
@@ -255,7 +261,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
     }
 
     Widget emptyVideos = TextDefault(
-      "Turn on your camera",
+      "Waiting to camera ${_currentUser.isPatient() ? 'therapist' : 'patient'}...",
       fontWeight: FontWeight.bold,
     );
     return Center(
