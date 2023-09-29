@@ -5,9 +5,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
+import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/show_files.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/forum/bloc/forum_thread_bloc.dart';
 import 'package:recparenting/src/forum/models/message.forum.dart';
 import 'package:recparenting/src/forum/ui/widgets/thread_create_message_form.widget.dart';
@@ -25,8 +27,18 @@ class ForumThreadMessageCardWidget extends StatefulWidget {
 
 class _ForumThreadMessageCardWidgetState
     extends State<ForumThreadMessageCardWidget> {
+  late final User _currentUser;
   final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
   bool _expandReplyMessage = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _currentUser =
+        (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,21 +49,34 @@ class _ForumThreadMessageCardWidgetState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 40,
-                width: 40,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  child: AvatarImage(user: widget.message.user),
-                ),
+              Row(
+                children: [
+                  SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      child: AvatarImage(user: widget.message.user),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  TextDefault(
+                    widget.message.user.name,
+                    color: TextColors.rec,
+                    fontWeight: FontWeight.bold,
+                  )
+                ],
               ),
-              const SizedBox(width: 10),
-              TextDefault(
-                widget.message.user.name,
-                color: TextColors.rec,
-                fontWeight: FontWeight.bold,
-              ),
+              _currentUser.id == widget.message.user.id
+                  ? IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.delete_forever,
+                        color: colorRec,
+                      ))
+                  : const SizedBox.shrink(),
             ],
           ),
           widget.message.parent != null

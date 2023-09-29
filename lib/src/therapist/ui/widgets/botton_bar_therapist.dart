@@ -22,17 +22,6 @@ class BottomAppBarTherapist extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          /*
-          IconButton(
-            icon: const Icon(
-              Icons.video_camera_front_outlined,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, conferenceRoute),
-          ),
-          */
           IconButton(
               icon: const Icon(
                 Icons.post_add,
@@ -41,7 +30,6 @@ class BottomAppBarTherapist extends StatelessWidget {
               ),
               onPressed: () =>
                   Navigator.pushReplacementNamed(context, forumsRoute)),
-          const SizedBox(width: 50),
           IconButton(
             icon: const Icon(
               Icons.calendar_month_outlined,
@@ -51,16 +39,25 @@ class BottomAppBarTherapist extends StatelessWidget {
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, calendarRoute),
           ),
-          /*
+          const SizedBox(width: 50),
           IconButton(
             icon: const Icon(
-              Icons.add_task_outlined,
+              Icons.subscriptions,
               color: Colors.white,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, masterclassRoute),
           ),
-          */
+          IconButton(
+            icon: const Icon(
+              Icons.podcasts,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, podcastsRoute),
+          ),
         ],
       ),
     );

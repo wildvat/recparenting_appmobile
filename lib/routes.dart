@@ -7,6 +7,7 @@ import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
+import 'package:recparenting/src/auth/ui/pasword_recovery.dart';
 import 'package:recparenting/src/calendar/ui/screens/calendar.screen.dart';
 import 'package:recparenting/src/conference/provider/join_meeting_provider.dart';
 import 'package:recparenting/src/conference/provider/meeting_provider.dart';
@@ -18,10 +19,12 @@ import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/models/thread.model.dart';
 import 'package:recparenting/src/forum/ui/screens/forums.screen.dart';
 import 'package:recparenting/src/forum/ui/screens/thread.screen.dart';
+import 'package:recparenting/src/masterclass/ui/masterclass.screen.dart';
 import 'package:recparenting/src/notifications/ui/screens/notifications_list.screen.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/patient/ui/screens/patient_show.screen.dart';
 import 'package:recparenting/src/patient/ui/screens/patients_list.screen.dart';
+import 'package:recparenting/src/podcast/ui/podcast.screen.dart';
 import 'package:recparenting/src/room/ui/screens/chat.screen.dart';
 import 'package:recparenting/src/home/ui/home.screen.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
@@ -32,6 +35,7 @@ class RouterRec {
     homeRoute: (_) => const HomePage(),
     splashRoute: (_) => const SplashScreen(),
     loginRoute: (_) => const LoginScreen(),
+    passwordRecoveryRoute: (_) => const PasswordRecoveryScreen(),
     conferenceRoute: (_) => const ConferenceScreen(),
     patientsRoute: (_) => const PatientsScreen(),
     patientShowRoute: (context) {
@@ -73,6 +77,8 @@ class RouterRec {
     premiumRoute: (_) => const PremiumScreen(),
     forumsRoute: (_) => const ForumsScreen(),
     notificationsRoute: (_) => const NotificationsScreen(),
+    podcastsRoute: (_) => const PodcastScreen(),
+    masterclassRoute: (_) => const MasterclassScreen(),
 
     /*
     newsListRoute: (_) => const NewsListScreen(),
