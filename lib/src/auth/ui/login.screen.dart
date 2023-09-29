@@ -140,10 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 10),
                       TextButton(
                           onPressed: () => Navigator.pushNamed(
-                              context, webPageRoute,
-                              arguments: WebpageArguments(
-                                  url:
-                                      'https://app.recparenting.com/password/reset')),
+                              context, passwordRecoveryRoute),
                           child: Text(
                               AppLocalizations.of(context)!.recoveryPassLinnk))
                     ],
