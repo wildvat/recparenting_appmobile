@@ -38,7 +38,7 @@ class AuthApi {
       }
     } on DioException catch (e) {
       developer.log('error 2');
-      developer.log(e.message.toString());
+      developer.log(e.toString());
       return null;
     }
   }

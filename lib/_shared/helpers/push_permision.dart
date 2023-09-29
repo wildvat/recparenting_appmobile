@@ -28,6 +28,5 @@ getPermissionPushApp() async {
   }
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   String? token = await firebaseMessaging.getToken();
-
   CurrentUserApi().addDevice(token!, platform);
 }

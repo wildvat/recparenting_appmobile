@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
+import 'package:recparenting/_shared/helpers/action_notification_push.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
@@ -10,26 +13,81 @@ import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/theme.dart';
 
-void main() {
+import '_shared/helpers/push_permision.dart';
+import 'firebase_options.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((__) => runApp(MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
-  final _languageBloc = LanguageBloc();
-  final _currentUserBloc = CurrentUserBloc();
-  final _notificationsBloc = NotificationBloc();
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  NotificationBloc _notificationsBloc = NotificationBloc();
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+    await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print('push redirect message ${message.data['type']}');
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getPermissionPushApp();
+    setupInteractedMessage();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      print('onMessage | app opened ${message.notification!.title}');
+      print('push redirect message ${message.data}');
+      ActionNotificationPush(message: message, context: context)
+          .execute(_notificationsBloc);
+      print('he lanzado el pusg');
+
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      print('onMessageOpenedApp | app semiOpened ${message.data}');
+      print('push redirect message ${message.data}');
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return MultiBlocProvider(
         providers: [
           BlocProvider<LanguageBloc>(
-            create: (context) => _languageBloc,
+            create: (context) => LanguageBloc(),
           ),
           BlocProvider<CurrentUserBloc>(
-            create: (BuildContext context) => _currentUserBloc,
+            create: (BuildContext context) => CurrentUserBloc(),
           ),
           BlocProvider<NotificationBloc>(
             create: (BuildContext context) =>

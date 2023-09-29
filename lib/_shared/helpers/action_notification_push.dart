@@ -1,5 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
+import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import '../models/user.model.dart';
 
 class ActionNotificationPush {
@@ -23,13 +25,30 @@ class ActionNotificationPush {
     return;
     }*/
   }
-/*
-  execute(NotificationTotalBloc notificationsBloc) async {
 
-    String _snackText = '';
-    notificationsBloc.add(ReloadNotificationsTotal());
-    User? _user = await _userApi.getUser(message.data['user']);
-    if (_user != null) {
+  execute(NotificationBloc notificationsBloc) async {
+    try{
+      print(message.data);
+      /*NotificationRec notification = NotificationRec(
+          id: message.data['id'],
+          type: convertNotificationTypeFromString(message.data['type']),
+          notifiableId: int.parse(message.data['notifiable_id']),
+          notifiableType: message.data['notifiable_type'],
+          data: NotificationData.fromJson(jsonDecode(message.data['data'])),
+          createdAt: DateTime.parse(message.data['created_at']).toLocal()
+      );
+      notificationsBloc.add(NotificationAdd(notification: notification));*/
+      notificationsBloc.add(NotificationsFetch(page: 1));
+
+    } catch (e) {
+      print(e.toString());
+      print('error parse notification');
+    }
+
+    SnackBarRec( message: 'new Notificaion' );
+/*
+    User? user = await UserApi().getUserById(message.data['user']);
+    if (user != null) {
       if (message.data['type'] == 'App\\Domain\\Chat\\Model\\Conversation') {
 
         _snackText = R.string.notificationNewChatMessage(_user.userName);
@@ -68,5 +87,7 @@ class ActionNotificationPush {
 
       return;
     }
-  }*/
+    */
+
+  }
 }

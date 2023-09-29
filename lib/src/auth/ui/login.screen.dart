@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
 
+import '../../../_shared/helpers/push_permision.dart';
 import '../../../_shared/models/user.model.dart';
+import '../../../_shared/ui/widgets/snack_bar.widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,11 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
     madelynn97@example.com
     password
     */
-
+/*
     _emailEditingController.text = 'ryley.kilback@example.net';
-    //_emailEditingController.text = 'madelynn97@example.com';
     _passwordEditingController.text = 'password';
-
+*/
     return Scaffold(
         backgroundColor: colorRec,
         body: Center(
@@ -118,20 +118,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _isLoading = false;
                                 });
                                 if (!mounted) return;
-                                late final SnackBar snackBar;
                                 if (response != null) {
+                                  getPermissionPushApp();
                                   Navigator.pushReplacementNamed(
                                       context, homeRoute);
                                   return;
                                 } else {
-                                  snackBar = SnackBar(
-                                    content: Text(AppLocalizations.of(context)!
-                                        .generalFormLoginError),
-                                    backgroundColor: Colors.red,
-                                  );
+                                  SnackBarRec(message: AppLocalizations.of(context)!.generalFormLoginError);
                                 }
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                               },
                               child: SizedBox(
                                   width: double.infinity,
