@@ -245,6 +245,10 @@ class _ChatWidgetState extends State<ChatWidget> {
               onPressed: () {
                 sendMessage(_textController.value.text);
                 _textController.clear();
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
               },
               icon: const Icon(
                 Icons.send,
