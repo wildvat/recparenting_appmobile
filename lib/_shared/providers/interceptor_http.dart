@@ -85,42 +85,41 @@ class AuthInterceptors extends QueuedInterceptor {
 
   Future<Response?> _getRefreshFromApi(
       RequestOptions options, ErrorInterceptorHandler handler) async {
-    developer.log('Try to refresh token');
     final String accessToken = await _tokenRepository.getToken();
     if (accessToken == '') {
-      _authApi.logout();
+     _onErrorRefreshingToken();
       return null;
     }
-    String refreshToken = await _tokenRepository.getRefreshToken();
-    final Map<String, String> data = {
-      "grant_type": "refresh_token",
-      "client_id": env.clientId,
-      "client_secret": env.clientSecret,
-      "refresh_token": refreshToken
-    };
-    Response responseRefresh = await _refreshDio.dio.post(
-      "oauth/token",
-      data: data,
-    );
-    if (responseRefresh.statusCode == 401) {
-      developer.log('entra refreshToken errr 401');
-      _authApi.logout();
-      return null;
-    }
-    /*options._setXControlOrigin();*/
-    options._setAuthenticationHeader(accessToken);
-    await _tokenRepository.setToken(responseRefresh.data['access_token']);
-    await _tokenRepository
-        .setRefreshToken(responseRefresh.data['refresh_token']);
     try {
-      final Response response = await dio.fetch(options);
-      handler.resolve(response);
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 401) {
-        await _onErrorRefreshingToken();
+      String refreshToken = await _tokenRepository.getRefreshToken();
+      final Map<String, String> data = {
+        "grant_type": "refresh_token",
+        "client_id": env.clientId,
+        "client_secret": env.clientSecret,
+        "refresh_token": refreshToken
+      };
+      Response responseRefresh = await _refreshDio.dio.post(
+        "oauth/token",
+        data: data,
+      );
+
+      if (responseRefresh.statusCode == 401) {
+        _onErrorRefreshingToken();
+        return null;
       }
-      super.onError(e, handler);
+      /*options._setXControlOrigin();*/
+      options._setAuthenticationHeader(accessToken);
+      await _tokenRepository.setToken(responseRefresh.data['access_token']);
+      await _tokenRepository
+          .setRefreshToken(responseRefresh.data['refresh_token']);
+        final Response response = await dio.fetch(options);
+        handler.resolve(response);
+    } on DioException catch (e) {
+      developer.log(e.toString());
+      _authApi.logout();
+      return null;
     }
+
     return null;
   }
 }
@@ -128,6 +127,7 @@ class AuthInterceptors extends QueuedInterceptor {
 extension AuthRequestOptionsX on RequestOptions {
   void _setAuthenticationHeader(final String token) =>
       headers['Authorization'] = 'Bearer $token';
+
   /*
   void _setXControlOrigin() =>
       headers['x-control-origin'] = env.authorizationRecMobile;
