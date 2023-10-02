@@ -110,6 +110,16 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
                 },
                 titleUrl: 'Podcasts')
             : const SizedBox.shrink(),
+        AppSubmenuItemWidget(
+            onPress: () async {
+              await Navigator.pushNamed(context, webPageRoute,
+                  arguments: WebpageArguments(
+                      title: 'FAQs',
+                      url: 'https://www.recparenting.com/faq-users/'));
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: 'FAQs')
       ],
       child: const Icon(Icons.more_vert, color: Colors.white),
     );

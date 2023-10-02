@@ -3,6 +3,8 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/providers/http.dart';
+import 'package:recparenting/_shared/providers/r_language.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/environments/env.dart';
 import 'package:recparenting/navigator_key.dart';
@@ -43,6 +45,39 @@ class AuthApi {
     }
   }
 
+  Future<bool> passwordRecovery({required String email}) async {
+    try {
+      final Response response = await _client.dio.post('password/email', data: {
+        'email': email,
+      });
+      if (response.statusCode == 200) {
+        SnackBarRec(
+          message: 'Se ha enviado un correo con las instrucciones',
+          backgroundColor: Colors.green,
+        );
+        return true;
+      } else {
+        SnackBarRec(
+          message: 'Se ha producido un error',
+          backgroundColor: Colors.redAccent,
+        );
+      }
+      return false;
+    } on DioException catch (e) {
+      developer.log('passwordRecovery');
+      developer.log(e.toString());
+      String responseError = R.string.generalError;
+      if (e.response?.data != null) {
+        responseError = e.response!.data['message'];
+      }
+      SnackBarRec(
+        message: responseError,
+        backgroundColor: Colors.redAccent,
+      );
+      return false;
+    }
+  }
+
   void logout() async {
     _tokenRepository.clearTokens();
     CurrentUserApi().removeUser();
@@ -50,4 +85,6 @@ class AuthApi {
         ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false);
     return;
   }
+
+  //password/email {request=<email}
 }

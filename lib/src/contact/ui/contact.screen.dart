@@ -9,6 +9,32 @@ class ContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldDefault(
         title: AppLocalizations.of(context)!.menuContact,
-        body: const Text('contact'));
+        body: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    minLines: 6,
+                    maxLines: 6,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.chatEnterMessage,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: () {
+                      //todo add functionality
+                    },
+                    child: Text(AppLocalizations.of(context)!.generalSend),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )));
   }
 }

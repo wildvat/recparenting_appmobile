@@ -35,6 +35,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     //
     return Dismissible(
         direction: DismissDirection.startToEnd,
+        crossAxisEndOffset: 50,
         dismissThresholds: const {DismissDirection.startToEnd: 0.8},
         key: Key(notification.id),
         onDismissed: (direction) {

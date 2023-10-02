@@ -37,17 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
     //TODO para ahorrame meter la contraseña en el login
     /*
     Therapist:
-    ryley.kilback@example.net
+    melyna.kreiger@example.com
     password
     ----
     Patient
     madelynn97@example.com
     password
     */
-/*
-    _emailEditingController.text = 'ryley.kilback@example.net';
+    _emailEditingController.text = 'melyna.kreiger@example.com';
+    //_emailEditingController.text = 'madelynn97@example.com';
     _passwordEditingController.text = 'password';
-*/
     return Scaffold(
         backgroundColor: colorRec,
         body: Center(
@@ -124,7 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context, homeRoute);
                                   return;
                                 } else {
-                                  SnackBarRec(message: AppLocalizations.of(context)!.generalFormLoginError);
+                                  SnackBarRec(
+                                      message: AppLocalizations.of(context)!
+                                          .generalFormLoginError);
                                 }
                               },
                               child: SizedBox(

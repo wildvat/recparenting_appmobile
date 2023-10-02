@@ -35,6 +35,10 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
         backgroundColor: colorRec,
         body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -81,6 +85,14 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                           : ElevatedButton(
                               onPressed: () async {
                                 //todo send
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                await AuthApi().passwordRecovery(
+                                    email: _emailEditingController.text);
+                                setState(() {
+                                  _isLoading = false;
+                                });
                               },
                               child: SizedBox(
                                   width: double.infinity,
