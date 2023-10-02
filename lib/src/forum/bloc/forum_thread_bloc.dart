@@ -45,7 +45,17 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
         blocStatus: BlocStatus.loaded));
   }
 
-  void _onMesasgeRemoved(ForumMessageRemoved event, Emitter emit) {
-    emit(state);
+  void _onMesasgeRemoved(ForumMessageRemoved event, Emitter emit) async {
+    bool response = await ForumApi().deleteMessage(threadId, event.id);
+    if (response) {
+      emit((state as ForumThreadLoaded).copyWith(
+          messages: state.messages.isNotEmpty
+              ? state.messages
+                  .where((element) => element!.id != event.id)
+                  .toList(growable: false)
+              : state.messages,
+          total: state.total - 1,
+          blocStatus: BlocStatus.loaded));
+    }
   }
 }

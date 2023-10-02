@@ -30,7 +30,7 @@ class _ForumThreadMessageCardWidgetState
   late final User _currentUser;
   final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
   bool _expandReplyMessage = false;
-
+  bool _loadingDelete = false;
   @override
   void initState() {
     super.initState();
@@ -71,11 +71,18 @@ class _ForumThreadMessageCardWidgetState
               ),
               _currentUser.id == widget.message.user.id
                   ? IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.delete_forever,
-                        color: colorRec,
-                      ))
+                      onPressed: _loadingDelete
+                          ? null
+                          : () {
+                              setState(() => _loadingDelete = true);
+                              context.read<ForumThreadBloc>().add(
+                                  ForumMessageRemoved(id: widget.message.id));
+                              setState(() => _loadingDelete = false);
+                            },
+                      icon: Icon(Icons.delete_forever,
+                          color: _loadingDelete
+                              ? Colors.red.shade100
+                              : Colors.red))
                   : const SizedBox.shrink(),
             ],
           ),

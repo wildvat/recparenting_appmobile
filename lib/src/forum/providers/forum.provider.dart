@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart' as dio;
 import 'dart:developer' as dev;
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/_shared/providers/r_language.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/src/forum/models/forum.list.model.dart';
 import 'package:recparenting/src/forum/models/forum_create_response.model.dart';
 import 'package:recparenting/src/forum/models/forum_message_create_response.model.dart';
@@ -125,6 +127,38 @@ class ForumApi {
     } on dio.DioException catch (e) {
       dev.log(e.toString());
       return ThreadForumList.mock();
+    }
+  }
+
+  Future<bool> deleteMessage(String threadId, String messageID) async {
+    final String endpoint = 'forum/$threadId/message/$messageID';
+    try {
+      final response = await client.dio.delete(endpoint);
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        SnackBarRec(
+          message: 'Mensaje eliminado correctamente',
+          backgroundColor: Colors.green,
+        );
+        return true;
+      }
+      SnackBarRec(
+        message: R.string.generalError,
+        backgroundColor: Colors.red,
+      );
+      return false;
+    } on dio.DioException catch (e) {
+      dev.log(e.toString());
+      String responseError = R.string.generalError;
+      if (e.response?.data != null) {
+        responseError = e.response!.data['message'];
+      }
+      SnackBarRec(
+        message: responseError,
+        backgroundColor: Colors.red,
+      );
+      return false;
     }
   }
 }

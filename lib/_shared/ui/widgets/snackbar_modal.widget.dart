@@ -39,6 +39,7 @@ class _SnackbarModalState extends State<SnackbarModal> {
                     child: const Icon(
                       Icons.close,
                       size: 15,
+                      color: Colors.white70,
                     ))
               ],
             ));
