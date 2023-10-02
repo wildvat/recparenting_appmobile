@@ -8,6 +8,7 @@ import 'package:recparenting/src/therapist/ui/widgets/shared_chat_wit_therapist.
 import 'package:recparenting/src/therapist/ui/widgets/therapist_bio_header.dart';
 import 'package:recparenting/src/therapist/ui/widgets/therapist_working_hours.dart';
 
+import '../../../../_shared/models/text_colors.enum.dart';
 import '../../../../_shared/ui/widgets/text.widget.dart';
 
 class TherapistBioScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
       widgets.add(Chip(
           backgroundColor: colorRecLight,
           label: TextDefault(AppLocalizations.of(context)!
-              .therapistAreasExpertise(value.name))));
+              .therapistAreasExpertise(value.name), size: TextSizes.medium, color: TextColors.white,)));
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
