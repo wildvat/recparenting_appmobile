@@ -87,7 +87,6 @@ class _SharedChatWithTherapistWidgetState
                 splashRadius: 50.0,
                 value: _sharedValue,
                 onChanged: (value) {
-                  print('value $value');
                   setState(() {
                     _sharedValue = value;
                   });

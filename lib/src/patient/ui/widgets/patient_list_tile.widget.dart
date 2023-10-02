@@ -9,7 +9,6 @@ import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 
 import '../../../../_shared/helpers/avatar_image.dart';
-import '../screens/patient_show.screen.dart';
 
 class PatientListTile extends StatelessWidget {
   final Patient patient;

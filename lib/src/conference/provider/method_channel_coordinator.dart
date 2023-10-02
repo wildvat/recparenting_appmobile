@@ -15,10 +15,9 @@ import '../interfaces/video_tile_interface.dart';
 import '../provider/meeting_provider.dart';
 import 'dart:developer' as developer;
 
-
-
 class MethodChannelCoordinator extends ChangeNotifier {
-  final MethodChannel methodChannel = const MethodChannel("appmobile.recparenting.methodChannel");
+  final MethodChannel methodChannel =
+      const MethodChannel("appmobile.recparenting.methodChannel");
 
   RealtimeInterface? realtimeObserver;
   VideoTileInterface? videoTileObserver;
@@ -42,19 +41,32 @@ class MethodChannelCoordinator extends ChangeNotifier {
   }
 
   void initializeObservers(MeetingProvider meetingProvider) {
-    developer.log('***********************INITIALIZE OBSERVERS**********************************');
+    developer.log(
+        '***********************INITIALIZE OBSERVERS**********************************');
     initializeRealtimeObserver(meetingProvider);
     initializeAudioVideoObserver(meetingProvider);
     initializeVideoTileObserver(meetingProvider);
   }
 
-  Future<MethodChannelResponse?> callMethod(String methodName, [dynamic args]) async {
-    developer.log("Calling $methodName through method channel with args: $args");
+  Future<MethodChannelResponse?> callMethod(String methodName,
+      [dynamic args]) async {
+    developer
+        .log("Calling $methodName through method channel with args: $args");
     try {
       dynamic response = await methodChannel.invokeMethod(methodName, args);
       developer.log('**************************************************');
       developer.log('response callMethod $methodName');
-      print(response);
+
+/*
+  Widget _dayDetectorBuilder(
+    DateTime date,
+    List<CalendarEventData> events,
+    Rect boundary,
+    DateTime startDuration,
+    DateTime endDuration,
+  ) {
+    */
+      (response);
       developer.log('**************************************************');
 
       return MethodChannelResponse.fromJson(response);
@@ -69,7 +81,8 @@ class MethodChannelCoordinator extends ChangeNotifier {
   }
 
   Future<void> methodCallHandler(MethodCall call) async {
-    developer.log("Recieved method call ${call.method} with arguments: ${call.arguments}");
+    developer.log(
+        "Recieved method call ${call.method} with arguments: ${call.arguments}");
 
     switch (call.method) {
       case MethodCallOption.join:
@@ -111,7 +124,6 @@ class MethodChannelCoordinator extends ChangeNotifier {
         developer.log('lo pongo con sonido');
         developer.log('**************************************************');
 
-
         break;
       case MethodCallOption.videoTileAdd:
         final String attendeeId = call.arguments["attendeeId"];
@@ -138,9 +150,9 @@ class MethodChannelCoordinator extends ChangeNotifier {
         break;
       default:
         developer.log('**************************************************');
-        developer.log("Method ${call.method} with args ${call.arguments} does not exist");
+        developer.log(
+            "Method ${call.method} with args ${call.arguments} does not exist");
         developer.log('**************************************************');
-
     }
   }
 }

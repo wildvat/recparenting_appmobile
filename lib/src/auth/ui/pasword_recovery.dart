@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
-import 'package:recparenting/_shared/models/text_sizes.enum.dart';
-import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
-
-import '../../../_shared/models/user.model.dart';
 
 class PasswordRecoveryScreen extends StatefulWidget {
   const PasswordRecoveryScreen({super.key});

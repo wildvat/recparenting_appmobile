@@ -13,9 +13,8 @@ class RoomApi {
   AuthApiHttp client = AuthApiHttp();
   final String _baseUrl = env.apiUrl;
 
-
   Future<Rooms?> getAll(int? page, int? limit) async {
-     String endpoint = '${_baseUrl}conversation';
+    String endpoint = '${_baseUrl}conversation';
     bool queryAdded = false;
     if (page != null) {
       endpoint = '$endpoint?page=$page';
@@ -28,8 +27,6 @@ class RoomApi {
     try {
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
-        print('**************************************');
-        print('RESPONSE ${response.statusCode}');
         return Rooms.fromJson(response.data);
       } else {
         return null;
@@ -40,6 +37,7 @@ class RoomApi {
       return null;
     }
   }
+
   Future<Conversation?> getConversation(String id, int? page) async {
     String endpoint = '${_baseUrl}conversation/$id';
     if (page != null) {
@@ -114,6 +112,7 @@ class RoomApi {
       return null;
     }
   }
+
   /*
   Future<Room?> createConversation(User user, Patient patient, Message message) async {
     String endpoint = 'conversation';
@@ -140,7 +139,8 @@ class RoomApi {
 
    */
   Future<void> deleteMessage(String idConversation, String idMessage) async {
-    String endpoint = '${_baseUrl}conversation/$idConversation/message/$idMessage';
+    String endpoint =
+        '${_baseUrl}conversation/$idConversation/message/$idMessage';
     try {
       Response response = await client.dio.delete(endpoint);
       if (response.statusCode == 200) {
@@ -154,6 +154,7 @@ class RoomApi {
       return;
     }
   }
+
   Future<void> deleteConversation(String id) async {
     String endpoint = '${_baseUrl}conversation/$id';
     try {

@@ -52,7 +52,7 @@ String decryptAESCryptoJS(String encrypted, String passphrase) {
     final decrypted = encrypter.decrypt64(json["ct"], iv: iv);
     //FUNIONA!!!!
     return decrypted;
-  }catch(e){
+  } catch (e) {
     developer.log('error decryptAESCryptoJS: $e');
     return "Problem to decrypt. Message not found";
   }

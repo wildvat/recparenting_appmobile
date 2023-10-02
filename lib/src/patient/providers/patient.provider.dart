@@ -46,7 +46,8 @@ class PatientApi {
     }
   }
 
-  Future<ChangeTherapist?> requestChangeTherapist(String therapistId, ChangeTherapistReasons reason) async {
+  Future<ChangeTherapist?> requestChangeTherapist(
+      String therapistId, ChangeTherapistReasons reason) async {
     String endpoint = '${_baseUrl}therapist/$therapistId/change';
     try {
       Map<String, dynamic> body = {
@@ -62,7 +63,7 @@ class PatientApi {
         return null;
       }
     } on DioException catch (e) {
-      SnackBarRec( message: e.response?.data['message']);
+      SnackBarRec(message: e.response?.data['message']);
       developer.log('/** ERROR RoomApi.sendMessage **/');
       developer.log(e.response.toString());
       return null;
@@ -72,13 +73,11 @@ class PatientApi {
   Future<ChangeTherapist?> hasRequestChangeTherapist(String therapistId) async {
     String endpoint = '${_baseUrl}therapist/$therapistId/change';
     try {
-
       Response response = await client.dio.get(endpoint);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ChangeTherapist.fromJson(response.data);
       }
-        return null;
-
+      return null;
     } on DioException catch (e) {
       developer.log('/** ERROR PatientApi.hasRequestChangeTherapist **/');
       developer.log(e.toString());
@@ -89,46 +88,44 @@ class PatientApi {
     }
   }
 
-
-  Future<ApiResponseBool> sharedRoomWith(String therapistId, bool shared) async {
-
+  Future<ApiResponseBool> sharedRoomWith(
+      String therapistId, bool shared) async {
     String endpoint = '${_baseUrl}conversation/user/$therapistId/shared';
     try {
       Map<String, dynamic> body = {
-        'shared': shared?'shared':'remove',
+        'shared': shared ? 'shared' : 'remove',
       };
       Response response = await client.dio.post(
         endpoint,
         data: FormData.fromMap(body),
       );
       if (response.statusCode == 200) {
-        return ApiResponseBool(response.statusCode??200, null, false);
-      }else if(response.statusCode == 201) {
-        return ApiResponseBool(response.statusCode??201, null, true);
+        return ApiResponseBool(response.statusCode ?? 200, null, false);
+      } else if (response.statusCode == 201) {
+        return ApiResponseBool(response.statusCode ?? 201, null, true);
       } else {
-        return ApiResponseBool(response.statusCode??500, response.data.toString(), false);
+        return ApiResponseBool(
+            response.statusCode ?? 500, response.data.toString(), false);
       }
     } on DioException catch (e) {
       developer.log(jsonDecode(e.response.toString())['message']);
-      return ApiResponseBool(500, jsonDecode(e.response.toString())['message'], false);
+      return ApiResponseBool(
+          500, jsonDecode(e.response.toString())['message'], false);
     }
   }
 
-
-  Future<ApiResponseBool> isSharedRoomWith(String therapistId)
-  async {
-
+  Future<ApiResponseBool> isSharedRoomWith(String therapistId) async {
     String endpoint = '${_baseUrl}conversation/user/$therapistId/shared';
     try {
       Response response = await client.dio.get(endpoint);
-      print(response.statusCode);
+      developer.log(response.statusCode.toString());
       if (response.statusCode == 201) {
-        return ApiResponseBool(response.statusCode??201, null, response.data['is_shared']);
+        return ApiResponseBool(
+            response.statusCode ?? 201, null, response.data['is_shared']);
       }
       return ApiResponseBool(500, '', false);
     } on DioException catch (e) {
       return ApiResponseBool(500, e.message.toString(), false);
     }
-
   }
 }

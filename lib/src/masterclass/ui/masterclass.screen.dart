@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
-import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
 
 class MasterclassScreen extends StatefulWidget {

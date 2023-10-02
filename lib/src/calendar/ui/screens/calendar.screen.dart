@@ -53,15 +53,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       DateTime(DateTime.now().year, DateTime.now().month, 1);
   Therapist? _therapist;
   WorkingHours _workingHours = WorkingHours.mock();
-/*
-  Widget _dayDetectorBuilder(
-    DateTime date,
-    List<CalendarEventData> events,
-    Rect boundary,
-    DateTime startDuration,
-    DateTime endDuration,
-  ) {
-    */
+
   Widget _dayDetectorBuilder(DateTime date) {
     final DateTime dateView = _dayViewdKey.currentState!.currentDate;
     final DateTime dateFusionDateView = DateTime(

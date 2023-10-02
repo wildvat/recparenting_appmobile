@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/file_rec.model.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
-import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/constants/router_names.dart';
 
 class ShowFilesWidget extends StatefulWidget {
   List<FileRec> files;

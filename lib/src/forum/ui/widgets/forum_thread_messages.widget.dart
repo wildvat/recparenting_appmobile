@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
 import 'package:recparenting/constants/colors.dart';
-import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/bloc/forum_thread_bloc.dart';
 import 'package:recparenting/src/forum/models/forum_tabbar_type.enum.dart';
 import 'package:recparenting/src/forum/ui/widgets/forum_thread_message_card.widget.dart';

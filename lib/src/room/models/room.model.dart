@@ -15,8 +15,7 @@ class Room {
   Room(this.id, this.hasPermissionToWrite, this.lastMessage, this.participants,
       this.isActive, this.isRead);
 
-  Room.fromJson(Map<String, dynamic> json){
-
+  Room.fromJson(Map<String, dynamic> json) {
     id = json['uuid'];
     hasPermissionToWrite = json['has_permission_to_write'];
     lastMessage = json['last_message'] != null
@@ -24,25 +23,20 @@ class Room {
         : null;
 
     participants = List<User>.from(json['participants'].map((user) {
-
       User userf = User.fromJson(user);
-      if(userf.isPatient()){
+      if (userf.isPatient()) {
         return Patient.fromJson(user);
-      }else if(userf.isTherapist()){
+      } else if (userf.isTherapist()) {
         return Therapist.fromJson(user);
       }
-      print('MAP USER $userf  ${userf.name}');
       return userf;
-
     }));
 
-    if(json['status'] == 'open'){
+    if (json['status'] == 'open') {
       isActive = true;
-    }else{
+    } else {
       isActive = false;
     }
     isRead = json['is_read'];
   }
-
-
 }

@@ -113,7 +113,6 @@ class ForumApi {
     int? page = 1,
     String? search = '',
   }) async {
-    print('page: $page');
     final String endpoint =
         'forum/$threadId/messages?page=$page&search=$search&status=${ForunMessageStatus.active.name} ';
     try {

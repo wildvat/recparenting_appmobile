@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'dart:developer' as developer;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,12 +34,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  NotificationBloc _notificationsBloc = NotificationBloc();
+  final NotificationBloc _notificationsBloc = NotificationBloc();
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage =
-    await FirebaseMessaging.instance.getInitialMessage();
+        await FirebaseMessaging.instance.getInitialMessage();
 
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
@@ -52,8 +53,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _handleMessage(RemoteMessage message) {
-    print('push redirect message ${message.data['type']}');
-
+    developer.log('push redirect message ${message.data['type']}');
   }
 
   @override
@@ -64,23 +64,20 @@ class _MyAppState extends State<MyApp> {
     setupInteractedMessage();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print('onMessage | app opened ${message.notification!.title}');
-      print('push redirect message ${message.data}');
+      developer.log('onMessage | app opened ${message.notification!.title}');
+      developer.log('push redirect message ${message.data}');
       ActionNotificationPush(message: message, context: context)
           .execute(_notificationsBloc);
-      print('he lanzado el pusg');
-
+      developer.log('he lanzado el pusg');
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      print('onMessageOpenedApp | app semiOpened ${message.data}');
-      print('push redirect message ${message.data}');
-
+      developer.log('onMessageOpenedApp | app semiOpened ${message.data}');
+      developer.log('push redirect message ${message.data}');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
         providers: [
           BlocProvider<LanguageBloc>(

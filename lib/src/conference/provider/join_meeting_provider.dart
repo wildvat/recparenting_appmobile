@@ -16,8 +16,6 @@ import 'method_channel_coordinator.dart';
 import 'dart:developer' as developer;
 
 class JoinMeetingProvider extends ChangeNotifier {
-
-
   final ConferenceApi _api = ConferenceApi();
   bool loadingStatus = false;
   bool joinButtonClicked = false;
@@ -25,35 +23,39 @@ class JoinMeetingProvider extends ChangeNotifier {
   bool info = false;
   String? errorMessage;
   late User _currentUser;
-  final CurrentUserBloc _currentUserBloc = BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
+  final CurrentUserBloc _currentUserBloc =
+      BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
 
-
-  JoinMeetingProvider(){
-    if(_currentUserBloc.state is CurrentUserLoaded){
-      if(_currentUserBloc.state is CurrentUserLoaded){
-        _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user ;
+  JoinMeetingProvider() {
+    if (_currentUserBloc.state is CurrentUserLoaded) {
+      if (_currentUserBloc.state is CurrentUserLoaded) {
+        _currentUser = (_currentUserBloc.state as CurrentUserLoaded).user;
       }
     }
   }
 
   bool verifyParameters(String meetingId) {
-
-    if (meetingId.isEmpty ) {
+    if (meetingId.isEmpty) {
       _createError(ResponseConference.emptyParameter);
       return false;
-    } else if (meetingId.length < 2 ||
-        meetingId.length > 64) {
+    } else if (meetingId.length < 2 || meetingId.length > 64) {
       _createError(ResponseConference.invalidAttendeeOrMeeting);
       return false;
     }
     return true;
   }
 
-  Future<bool> joinMeeting(MeetingProvider meetingProvider, MethodChannelCoordinator methodChannelProvider,String meetingId, String userId) async {
+  Future<bool> joinMeeting(
+      MeetingProvider meetingProvider,
+      MethodChannelCoordinator methodChannelProvider,
+      String meetingId,
+      String userId) async {
     _resetError();
 
-    bool audioPermissions = await _requestAudioPermissions(methodChannelProvider);
-    bool videoPermissions =         await _requestVideoPermissions(methodChannelProvider);
+    bool audioPermissions =
+        await _requestAudioPermissions(methodChannelProvider);
+    bool videoPermissions =
+        await _requestVideoPermissions(methodChannelProvider);
 
     // Create error messages for incorrect permissions
     if (!_checkPermissions(audioPermissions, videoPermissions)) {
@@ -76,25 +78,26 @@ class JoinMeetingProvider extends ChangeNotifier {
       meetingInfo = meetingResponse;
       currentAttendee = await _api.createAttendee(meetingId, userId);
       //Si no puedo crear el attendee salgo
-      if(currentAttendee == null){
+      if (currentAttendee == null) {
         _createError(ResponseConference.apiResponseNull);
         return false;
       }
       /*
       Busco el listado de usuarios que estan en el meeting y loas añado a la conferencia
        */
-      final List<AttendeeInfo> apiListAttendeesResponse = await _api.listAttendees(meetingId);
+      final List<AttendeeInfo> apiListAttendeesResponse =
+          await _api.listAttendees(meetingId);
       if (apiListAttendeesResponse.isNotEmpty) {
         for (var attendee in apiListAttendeesResponse) {
           if (attendee.attendeeId != currentAttendee.attendeeId) {
-            meetingProvider.attendeeDidJoin(Attendee(attendee.attendeeId, attendee.externalUserId));
+            meetingProvider.attendeeDidJoin(
+                Attendee(attendee.attendeeId, attendee.externalUserId));
           }
         }
       }
-
     } else {
       //Si no existe el meeting y soy paciente, salgo porque no lo puedo crear, tengo que esperar a que se conecte el terapeuta
-      if(_currentUser != null && _currentUser.isPatient()){
+      if (_currentUser.isPatient()) {
         _createInfo(ResponseConference.userPatientNotPermission);
         return false;
       }
@@ -108,7 +111,6 @@ class JoinMeetingProvider extends ChangeNotifier {
         return false;
       }
     }
-
 
     //Si no existe el meeting o el attendee salgo
     if (meetingInfo == null || currentAttendee == null) {
@@ -159,9 +161,9 @@ class JoinMeetingProvider extends ChangeNotifier {
       return false;
     }
     if (audioPermission.result) {
-      print(audioPermission.arguments);
+      developer.log(audioPermission.arguments);
     } else {
-      print(audioPermission.arguments);
+      developer.log(audioPermission.arguments);
     }
     return audioPermission.result;
   }
@@ -172,9 +174,9 @@ class JoinMeetingProvider extends ChangeNotifier {
         .callMethod(MethodCallOption.manageVideoPermissions);
     if (videoPermission != null) {
       if (videoPermission.result) {
-        print(videoPermission.arguments);
+        developer.log(videoPermission.arguments);
       } else {
-        print(videoPermission.arguments);
+        developer.log(videoPermission.arguments);
       }
       return videoPermission.result;
     }
@@ -202,6 +204,7 @@ class JoinMeetingProvider extends ChangeNotifier {
     _toggleLoadingStatus(startLoading: false);
     notifyListeners();
   }
+
   void _createInfo(String infoMessage) {
     info = true;
     errorMessage = infoMessage;
@@ -209,6 +212,7 @@ class JoinMeetingProvider extends ChangeNotifier {
     _toggleLoadingStatus(startLoading: false);
     notifyListeners();
   }
+
   void _resetError() {
     _toggleLoadingStatus(startLoading: true);
     error = false;

@@ -8,7 +8,6 @@ import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/room/ui/widgets/chat.widget.dart';
 
 import '../../../../_shared/models/user.model.dart';
-import '../../../../_shared/ui/widgets/app_submenu.widget.dart';
 import '../../../../constants/colors.dart';
 import '../../../../constants/router_names.dart';
 import '../../../therapist/models/therapist.model.dart';
@@ -43,11 +42,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       RoomApi roomApi = RoomApi();
       _roomsShared = roomApi.getAll(1, null);
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Widget withOutShared() {

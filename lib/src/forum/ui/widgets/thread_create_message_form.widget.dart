@@ -26,6 +26,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _commentEditingController =
       TextEditingController();
+  //todo check if const enable
   FilePickerResult _files = FilePickerResult([]);
 
   bool _isLoading = false;

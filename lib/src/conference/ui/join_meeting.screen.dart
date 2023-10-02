@@ -29,7 +29,6 @@ class JoinMeetingScreen extends StatefulWidget {
 }
 
 class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
-
   late User _currentUser;
   Future<Meeting?>? _meeting;
 
@@ -52,23 +51,22 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
   @override
   Widget build(BuildContext context) {
     final joinMeetingProvider = Provider.of<JoinMeetingProvider>(context);
-    final methodChannelProvider = Provider.of<MethodChannelCoordinator>(
-        context);
+    final methodChannelProvider =
+        Provider.of<MethodChannelCoordinator>(context);
     final meetingProvider = Provider.of<MeetingProvider>(context);
 
-    final orientation = MediaQuery
-        .of(context)
-        .orientation;
+    final orientation = MediaQuery.of(context).orientation;
 
-    return joinMeetingBody(
-        joinMeetingProvider, methodChannelProvider, meetingProvider, context,
-        orientation);
+    return joinMeetingBody(joinMeetingProvider, methodChannelProvider,
+        meetingProvider, context, orientation);
   }
 
 //
-  Widget joinMeetingBody(JoinMeetingProvider joinMeetingProvider,
+  Widget joinMeetingBody(
+      JoinMeetingProvider joinMeetingProvider,
       MethodChannelCoordinator methodChannelProvider,
-      MeetingProvider meetingProvider, BuildContext context,
+      MeetingProvider meetingProvider,
+      BuildContext context,
       Orientation orientation) {
     if (orientation == Orientation.portrait) {
       return joinMeetingBodyPortrait(
@@ -80,18 +78,19 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
   }
 
 //
-  Widget joinMeetingBodyPortrait(JoinMeetingProvider joinMeetingProvider,
+  Widget joinMeetingBodyPortrait(
+      JoinMeetingProvider joinMeetingProvider,
       MethodChannelCoordinator methodChannelProvider,
-      MeetingProvider meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider,
+      BuildContext context) {
     return ScaffoldDefault(
       title: AppLocalizations.of(context)!.conferenceTitle,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            joinButton(
-                joinMeetingProvider, methodChannelProvider, meetingProvider,
-                context),
+            joinButton(joinMeetingProvider, methodChannelProvider,
+                meetingProvider, context),
             loadingIcon(joinMeetingProvider),
             errorMessage(joinMeetingProvider),
           ],
@@ -101,9 +100,11 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
   }
 
 //
-  Widget joinMeetingBodyLandscape(JoinMeetingProvider joinMeetingProvider,
+  Widget joinMeetingBodyLandscape(
+      JoinMeetingProvider joinMeetingProvider,
       MethodChannelCoordinator methodChannelProvider,
-      MeetingProvider meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider,
+      BuildContext context) {
     return SingleChildScrollView(
       child: Center(
         child: Column(
@@ -112,9 +113,8 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
             const SizedBox(
               height: 60,
             ),
-            joinButton(
-                joinMeetingProvider, methodChannelProvider, meetingProvider,
-                context),
+            joinButton(joinMeetingProvider, methodChannelProvider,
+                meetingProvider, context),
             loadingIcon(joinMeetingProvider),
             errorMessage(joinMeetingProvider),
           ],
@@ -124,9 +124,11 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
   }
 
 //
-  Widget joinButton(JoinMeetingProvider joinMeetingProvider,
+  Widget joinButton(
+      JoinMeetingProvider joinMeetingProvider,
       MethodChannelCoordinator methodChannelProvider,
-      MeetingProvider meetingProvider, BuildContext context) {
+      MeetingProvider meetingProvider,
+      BuildContext context) {
     if (joinMeetingProvider.loadingStatus) {
       //return const SizedBox();
     }
@@ -145,21 +147,19 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
               methodChannelProvider.initializeMethodCallHandler();
 
               // Call api, format to JSON and send to native
-              bool isMeetingJoined =
-              await joinMeetingProvider.joinMeeting(
-                  meetingProvider, methodChannelProvider, meetingId,
+              bool isMeetingJoined = await joinMeetingProvider.joinMeeting(
+                  meetingProvider,
+                  methodChannelProvider,
+                  meetingId,
                   _currentUser.id);
               if (isMeetingJoined) {
                 // ignore: use_build_context_synchronously
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          ChangeNotifierProvider.value(
-                              value: meetingProvider,
-                              child: const MeetingScreen()
-                          )
-                  ),
+                      builder: (context) => ChangeNotifierProvider.value(
+                          value: meetingProvider,
+                          child: const MeetingScreen())),
                 );
               }
             }
@@ -177,7 +177,8 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
             } else {
               if (snapshot.hasData) {
                 return ElevatedButton(
-                  child: TextDefault(AppLocalizations.of(context)!.conferenceJoin),
+                  child:
+                      TextDefault(AppLocalizations.of(context)!.conferenceJoin),
                   onPressed: () async {
                     if (!joinMeetingProvider.joinButtonClicked) {
                       // Prevent multiple clicks
@@ -186,15 +187,17 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
                       if (joinMeetingProvider.verifyParameters(meetingId)) {
                         // Observers should be initialized before MethodCallHandler
-                        methodChannelProvider.initializeObservers(
-                            meetingProvider);
+                        methodChannelProvider
+                            .initializeObservers(meetingProvider);
                         methodChannelProvider.initializeMethodCallHandler();
 
                         // Call api, format to JSON and send to native
                         bool isMeetingJoined =
-                        await joinMeetingProvider.joinMeeting(
-                            meetingProvider, methodChannelProvider, meetingId,
-                            _currentUser.id);
+                            await joinMeetingProvider.joinMeeting(
+                                meetingProvider,
+                                methodChannelProvider,
+                                meetingId,
+                                _currentUser.id);
                         if (isMeetingJoined) {
                           // ignore: use_build_context_synchronously
                           Navigator.push(
@@ -203,9 +206,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                                 builder: (context) =>
                                     ChangeNotifierProvider.value(
                                         value: meetingProvider,
-                                        child: const MeetingScreen()
-                                    )
-                            ),
+                                        child: const MeetingScreen())),
                           );
                         }
                       }
@@ -223,20 +224,22 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                       "Podemos añadir algun texto para decirle que espere a que el terapeuta inicie la conferencia"),
                   TextDefault(
                       "Ya que el solo puede entrar si la ha inciado el terapeuta"),
-                  TextDefault("recordar que hay que traducrilo a ingles tambien",)
+                  TextDefault(
+                    "recordar que hay que traducrilo a ingles tambien",
+                  )
                 ],
               );
             }
-          }
-      );
+          });
     }
 
-    return SizedBox();
+    return const SizedBox();
   }
 
   Widget loadingIcon(JoinMeetingProvider joinMeetingProvider) {
     if (joinMeetingProvider.loadingStatus) {
-      return const Padding(padding: EdgeInsets.symmetric(vertical: 10),
+      return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
           child: CircularProgressIndicator(color: colorRec));
     } else {
       return const SizedBox.shrink();
@@ -266,7 +269,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
             child: TextDefault(
               "${joinMeetingProvider.errorMessage}",
               color: TextColors.success,
-              ),
+            ),
           ),
         ),
       );
