@@ -101,7 +101,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                 : messageWidget(
                     state.conversation,
                     state.messages.messages[index],
-                    (index > 0) ? state.messages.messages[index - 1] : null);
+                    (index < state.messages.messages.length - 1 ) ? state.messages.messages[index + 1] : null);
           },
           itemCount: state.hasReachedMax
               ? state.messages.messages.length
