@@ -73,8 +73,16 @@ class NotificationRec {
     NotificationAction? notificationAction;
     switch (type) {
       case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
-        notificationAction =
-            NotificationAction(route: calendarRoute, argument: null);
+        if (data.event != null) {
+          if (data.event!.type == AppointmentTypes.appointment_chat) {
+            notificationAction = NotificationAction(
+                route: chatRoute, argument: data.event!.patient);
+          } else if (data.event!.type == AppointmentTypes.appointment_video) {
+            notificationAction = NotificationAction(
+                route: joinConferenceRoute,
+                argument: data.event!.patient.conference);
+          }
+        }
         break;
       case NotificationType.toPatientWhenRequestedChange:
         break;
@@ -86,13 +94,15 @@ class NotificationRec {
         notificationAction =
             NotificationAction(route: patientShowRoute, argument: data.patient);
         break;
-        case NotificationType.toParticipantsWhenForumMessageWasCreated:
+      // todo revisar si esta lleva el hilo
+      case NotificationType.toParticipantsWhenForumMessageWasCreated:
         notificationAction =
-            NotificationAction(route: forumsRoute, argument: null);
+            NotificationAction(route: threadRoute, argument: null);
         break;
-        case NotificationType.conversationUnreadNotification:
+      // todo revisar si esta lleva el patient
+      case NotificationType.conversationUnreadNotification:
         notificationAction =
-            NotificationAction(route: chatRoute, argument: data.room);
+            NotificationAction(route: chatRoute, argument: null);
         break;
       default:
         notificationAction = null;
@@ -111,7 +121,6 @@ class NotificationRec {
           icon = Icons.chat;
         }
       case NotificationType.toPatientWhenRequestedChange:
-        icon = Icons.badge_outlined;
         break;
       case NotificationType.toPatientWhenTherapistWasAssigned:
         icon = Icons.badge;
@@ -141,13 +150,19 @@ class NotificationData {
       this.message,
       this.room});
 
-  NotificationData.fromJson(Map<String, dynamic> json){
-    disabledAt = json['disabled_at'] != null ? DateTime.parse(json['disabled_at']).toLocal(): null;
-    patient = json['patient'] != null ? Patient.fromJson(json['patient']) : null;
-    therapist = json['therapist'] != null ? Therapist.fromJson(json['therapist']) : null;
+  NotificationData.fromJson(Map<String, dynamic> json) {
+    disabledAt = json['disabled_at'] != null
+        ? DateTime.parse(json['disabled_at']).toLocal()
+        : null;
+    patient =
+        json['patient'] != null ? Patient.fromJson(json['patient']) : null;
+    therapist = json['therapist'] != null
+        ? Therapist.fromJson(json['therapist'])
+        : null;
     event = json['event'] != null ? EventModel.fromJson(json['event']) : null;
     reason = json['reason'];
-    message = json['message'] != null ? Message.fromJson(json['message']) : null;
+    message =
+        json['message'] != null ? Message.fromJson(json['message']) : null;
     room = json['room'] != null ? Room.fromJson(json['room']) : null;
   }
 }
