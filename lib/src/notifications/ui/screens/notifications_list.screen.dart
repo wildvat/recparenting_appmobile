@@ -54,9 +54,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           onTap: () async {
             NotificationAction? notificationAction = await notification.getAction();
             if (notificationAction != null) {
+
               Navigator.pushNamed(context, notificationAction.route,
                   arguments: notificationAction.argument);
-              //_notificationBloc.add(NotificationDelete(notification: notification));
+
+              _notificationBloc.add(NotificationDelete(notification: notification));
             }
           },
           isThreeLine: true,
