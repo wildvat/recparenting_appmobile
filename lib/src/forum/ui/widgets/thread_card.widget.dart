@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/routes.dart';
 import 'package:recparenting/src/forum/models/thread.model.dart';
 
@@ -35,7 +36,8 @@ class _ThreadCardState extends State<ThreadCard> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => RouterRec.goToThread(context, widget.thread),
+      onTap: () =>
+          Navigator.pushNamed(context, threadRoute, arguments: widget.thread),
       contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       tileColor: widget.index % 2 == 0 ? Colors.white : Colors.grey.shade200,
       title: Column(

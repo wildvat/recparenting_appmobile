@@ -136,16 +136,6 @@ class RouterRec {
     */
   };
 
-  static goToThread(BuildContext context, ThreadForum threadForum) =>
-      Navigator.push(context, MaterialPageRoute<ForumBloc>(builder: (_) {
-        return BlocProvider.value(
-          value: BlocProvider.of<ForumBloc>(context),
-          child: ThreadScreen(
-            thread: threadForum,
-          ),
-        );
-      }));
-
   static Route<dynamic> generateRoute(RouteSettings settings) {
     return MaterialPageRoute(
         builder: (context) => const Scaffold(
