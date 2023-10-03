@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
@@ -40,7 +42,7 @@ class AuthApi {
       }
     } on DioException catch (e) {
       developer.log('error 2');
-      developer.log(e.toString());
+      developer.log(e.message.toString());
       return null;
     }
   }
@@ -85,6 +87,4 @@ class AuthApi {
         ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false);
     return;
   }
-
-  //password/email {request=<email}
 }
