@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
@@ -42,7 +40,7 @@ class AuthApi {
       }
     } on DioException catch (e) {
       developer.log('error 2');
-      developer.log(e.message.toString());
+      developer.log(e.toString());
       return null;
     }
   }
