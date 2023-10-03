@@ -204,13 +204,14 @@ class _CalendarScreenState extends State<CalendarScreen>
       _currentUser =
           (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
       if (_currentUser is Patient) {
+        if ((_currentUser as Patient).subscription != 'premium') {
+          Navigator.pushReplacementNamed(context, premiumRoute);
+          return completer.complete(null);
+        }
         if ((_currentUser as Patient).therapist == null) {
           //TODO traducir
           SnackBarRec(message: 'No tienes terapeuta asignado');
           return completer.complete(null);
-        }
-        if ((_currentUser as Patient).subscription != 'premium') {
-          Navigator.pushReplacementNamed(context, premiumRoute);
         }
       }
       Therapist? therapist;
