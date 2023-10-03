@@ -5,7 +5,8 @@ class EventCalendarApiModel {
   late String id;
   late String type;
   late User user;
-  EventCalendarApiModel({required this.id, required this.type, required this.user});
+  EventCalendarApiModel(
+      {required this.id, required this.type, required this.user});
 
   EventCalendarApiModel.fromJson(Map<String, dynamic> json) {
     id = json['uuid'];
