@@ -24,59 +24,50 @@ class BottomAppBarPatient extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-              icon: Icon(
+              color: Colors.white,
+              disabledColor: Colors.white54,
+              icon: const Icon(
                 Icons.video_camera_front_outlined,
-                color:
-                    (patient.therapist != null) ? Colors.white : Colors.white54,
                 size: 30,
               ),
-              onPressed: () {
-                if (patient.therapist != null) {
-                  Navigator.pushReplacementNamed(context, conferenceRoute);
-                } else {
-                  //ShowApiErrorWidget(context: context, apiResponse: ApiResponse(code: 500, error: "no tienes terapueta", data:null)).execute();
-                }
-              }),
+              onPressed: patient.therapist == null
+                  ? null
+                  : () =>
+                      Navigator.pushReplacementNamed(context, conferenceRoute)),
           IconButton(
-              icon: Icon(
+              color: Colors.white,
+              disabledColor: Colors.white54,
+              icon: const Icon(
                 Icons.badge_outlined,
-                color:
-                    (patient.therapist != null) ? Colors.white : Colors.white54,
                 size: 30,
               ),
-              onPressed: () {
-                if (patient.therapist != null) {
-                  Navigator.pushReplacementNamed(context, therapistBioPageRoute,
-                      arguments: patient.therapist);
-                } else {
-                  //ShowApiErrorWidget(context: context, apiResponse: ApiResponse(code: 500, error: "no tienes terapueta", data: null)).execute();
-                }
-              }),
+              onPressed: patient.therapist == null
+                  ? null
+                  : () => Navigator.pushReplacementNamed(
+                      context, therapistBioPageRoute,
+                      arguments: patient.therapist)),
           const SizedBox(width: 50),
           IconButton(
-              icon: Icon(
+              color: Colors.white,
+              icon: const Icon(
                 Icons.calendar_month_outlined,
-                color: patient.subscription == 'premium' &&
-                        patient.therapist != null
-                    ? Colors.white
-                    : Colors.white54,
                 size: 30,
               ),
-              onPressed: () {
-                if (patient.subscription == 'premium' &&
-                    patient.therapist != null) {
-                  Navigator.pushReplacementNamed(context, calendarRoute);
-                }
-              }),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, calendarRoute)),
           IconButton(
+            color: Colors.white,
+            disabledColor: Colors.white54,
             icon: const Icon(
               Icons.add_task_outlined,
-              color: Colors.white,
               size: 30,
             ),
-            onPressed: () => Navigator.pushReplacementNamed(
-                context, patientShowRoute,
-                arguments: patient),
+            onPressed:
+                patient.therapist == null || patient.subscription != 'premium'
+                    ? null
+                    : () => Navigator.pushReplacementNamed(
+                        context, patientShowRoute,
+                        arguments: patient),
           ),
         ],
       ),
