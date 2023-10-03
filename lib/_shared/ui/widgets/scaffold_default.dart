@@ -10,7 +10,7 @@ import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'package:recparenting/src/therapist/ui/widgets/botton_bar_therapist.dart';
 
-class ScaffoldDefault extends StatefulWidget {
+class ScaffoldDefault extends StatelessWidget {
   late Widget body;
   final String? title;
   final FloatingActionButton? floatingActionButton;
@@ -27,34 +27,24 @@ class ScaffoldDefault extends StatefulWidget {
       this.backgroundColor = Colors.white,
       super.key});
 
-  @override
-  State<ScaffoldDefault> createState() => _ScaffoldDefaultState();
-}
-
-class _ScaffoldDefaultState extends State<ScaffoldDefault> {
   late User _currentUser;
-  late NotificationBloc _notificationBloc;
-  @override
-  void initState() {
-    super.initState();
-    _currentUser =
-        (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
-    _notificationBloc = context.read<NotificationBloc>();
-  }
 
   @override
   Widget build(BuildContext context) {
     bool _keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+    _currentUser =
+        (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
 
     return Scaffold(
-      backgroundColor: widget.backgroundColor,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text((widget.title != null) ? widget.title! : 'REC Parenting'),
+        title: Text(title ?? 'REC Parenting'),
         actions: [
-          widget.actionButton ?? const SizedBox.shrink(),
+          actionButton ?? const SizedBox.shrink(),
           BlocBuilder<NotificationBloc, NotificationState>(
               builder: (context, state) {
-            if (state is NotificationsLoaded && state.notifications.notifications.isNotEmpty) {
+            if (state is NotificationsLoaded &&
+                state.notifications.notifications.isNotEmpty) {
               return Stack(
                 children: <Widget>[
                   IconButton(
@@ -95,7 +85,7 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
           }),
           const AppSubmenuWidget()
         ],
-        bottom: widget.tabBar,
+        bottom: tabBar,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _keyboardIsOpened
@@ -119,7 +109,7 @@ class _ScaffoldDefaultState extends State<ScaffoldDefault> {
       bottomNavigationBar: _currentUser is Patient
           ? BottomAppBarPatient(patient: _currentUser as Patient)
           : BottomAppBarTherapist(therapist: _currentUser as Therapist),
-      body: SafeArea(child: widget.body),
+      body: SafeArea(child: body),
       //floatingActionButton: widget.floatingActionButton
     );
   }
