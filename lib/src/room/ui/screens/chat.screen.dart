@@ -26,23 +26,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
-  late Future<Rooms?> _roomsShared;
   late User _currentUser;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentUser = CurrentUserBuilder().value();
-    if (_currentUser.isTherapist()) {
-      RoomApi roomApi = RoomApi();
-      _roomsShared =
-          roomApi.getConversationSharedPatientWithTherapist(widget._patient);
-    }
-    if (_currentUser.isPatient()) {
-      RoomApi roomApi = RoomApi();
-      _roomsShared = roomApi.getAll(1, null);
-    }
-  }
+  final RoomApi _roomApi = RoomApi();
 
   Widget withOutShared() {
     return ScaffoldDefault(
@@ -121,8 +106,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    _currentUser = CurrentUserBuilder().value();
     return FutureBuilder(
-        future: _roomsShared,
+        //future: _roomsShared,
+        future: _currentUser.isTherapist()
+            ? _roomApi
+                .getConversationSharedPatientWithTherapist(widget._patient)
+            : _roomApi.getAll(1, null),
         builder: (BuildContext context, AsyncSnapshot<Rooms?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return ScaffoldDefault(
