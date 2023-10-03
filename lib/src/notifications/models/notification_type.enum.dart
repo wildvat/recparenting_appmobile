@@ -16,6 +16,7 @@ enum NotificationType {
   toTherapistWhenPatientDisabledAtNotification,
   conversationUnreadNotification,
 }
+
 NotificationType convertNotificationTypeFromString(String type) {
   late NotificationType value;
   switch (type) {
@@ -74,3 +75,61 @@ NotificationType convertNotificationTypeFromString(String type) {
   return value;
 }
 
+String convertStringFromNotificationType(NotificationType type) {
+  late String value;
+  switch (type) {
+    case  NotificationType.therapistDisabledAtNotificationPatient:
+      value = 'TherapistDisabledAtNotificationPatient';
+      break;
+    case  NotificationType.therapistDisabledAtNotificationTherapist:
+      value = 'TherapistDisabledAtNotificationTherapist';
+      break;
+    case  NotificationType.toPatientWhenTherapistWasAssigned:
+      value = 'ToPatientWhenTherapistWasAssigned';
+      break;
+    case  NotificationType.userDisabledAtNotification:
+      value = 'UserDisabledAtNotification';
+      break;
+    case  NotificationType.patientDisabledAtNotification:
+      value = 'PatientDisabledAtNotification';
+      break;
+    case  NotificationType.toTherapistWhenPatientWasAssigned:
+
+      value = 'ToTherapistWhenPatientWasAssigned';
+      break;
+    case  NotificationType.toTherapistDisabledWhenPatientWasAssigned:
+      value = 'ToTherapistDisabledWhenPatientWasAssigned';
+      break;
+    case  NotificationType.toPatientWhenRequestedChange:
+      value = 'ToPatientWhenRequestedChange';
+      break;
+    case  NotificationType.toTherapistWhenPatientRequestedChange:
+      value = 'ToTherapistWhenPatientRequestedChange';
+      break;
+    case  NotificationType.toParticipantsWhenEventAppointmentWasCreated:
+      value = 'ToParticipantsWhenEventAppointmentWasCreated';
+      break;
+    case  NotificationType.toParticipantsWhenEventAppointmentWasDeleted:
+      value = 'ToParticipantsWhenEventAppointmentWasDeleted';
+      break;
+    case  NotificationType.toEmployeeWhenPatientRequestedChange:
+      value = 'ToEmployeeWhenPatientRequestedChange';
+      break;
+    case  NotificationType.toParticipantsWhenForumMessageWasCreated:
+      value = 'ToParticipantsWhenForumMessageWasCreated';
+      break;
+    case  NotificationType.patientDisabledAtReminderNotification:
+      value = 'PatientDisabledAtReminderNotification';
+      break;
+    case  NotificationType.toTherapistWhenPatientDisabledAtNotification:
+      value = 'ToTherapistWhenPatientDisabledAtNotification';
+      break;
+    case  NotificationType.conversationUnreadNotification:
+      value = 'ConversationUnreadNotification';
+      break;
+    default:
+      value = 'ConversationUnreadNotification';
+      break;
+  }
+  return value;
+}

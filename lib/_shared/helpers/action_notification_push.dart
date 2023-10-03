@@ -1,16 +1,20 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
-
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
+import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
+import 'package:recparenting/src/notifications/models/notification_type.enum.dart';
 import '../models/user.model.dart';
+import '../providers/r_language.dart';
 
 class ActionNotificationPush {
   RemoteMessage message;
   BuildContext context;
+  late User currentUser;
 
   ActionNotificationPush({required this.message, required this.context}) {
+    currentUser = CurrentUserBuilder().value();
     //  dev.log(this.message.data);
   }
 
@@ -29,24 +33,75 @@ class ActionNotificationPush {
   }
 
   execute(NotificationBloc notificationsBloc) async {
-    try {
-      developer.log(message.data.toString());
-      /*NotificationRec notification = NotificationRec(
-          id: message.data['id'],
-          type: convertNotificationTypeFromString(message.data['type']),
-          notifiableId: int.parse(message.data['notifiable_id']),
-          notifiableType: message.data['notifiable_type'],
-          data: NotificationData.fromJson(jsonDecode(message.data['data'])),
-          createdAt: DateTime.parse(message.data['created_at']).toLocal()
-      );
-      notificationsBloc.add(NotificationAdd(notification: notification));*/
-      notificationsBloc.add(const NotificationsFetch(page: 1));
-    } catch (e) {
-      developer.log(e.toString());
-      developer.log('error parse notification');
+
+    notificationsBloc.add(const NotificationsFetch(page: 1));
+
+    NotificationType notificationType =
+        convertNotificationTypeFromString(message.data['type']);
+    String? notifiableId =
+        message.data['notifiable_id']; //Patient id or Therapist id
+    String? notifiableType =
+        message.data['notifiable_type']; //Patient or Therapist
+  bool showSnackBar = false;
+  String? title = message.notification?.title;
+
+    switch (notificationType) {
+      case NotificationType.therapistDisabledAtNotificationPatient:
+        print('therapistDisabledAtNotificationPatient');
+        break;
+      case NotificationType.therapistDisabledAtNotificationTherapist:
+        print('therapistDisabledAtNotificationTherapist');
+        break;
+      case NotificationType.toPatientWhenTherapistWasAssigned:
+        print('toPatientWhenTherapistWasAssigned');
+        break;
+      case NotificationType.userDisabledAtNotification:
+        print('userDisabledAtNotification');
+        break;
+      case NotificationType.patientDisabledAtNotification:
+        print('patientDisabledAtNotification');
+        break;
+      case NotificationType.toTherapistWhenPatientWasAssigned:
+        print('toTherapistWhenPatientWasAssigned');
+        break;
+      case NotificationType.toTherapistDisabledWhenPatientWasAssigned:
+        print('toTherapistDisabledWhenPatientWasAssigned');
+        break;
+      case NotificationType.toPatientWhenRequestedChange:
+        print('toPatientWhenRequestedChange');
+        break;
+      case NotificationType.toTherapistWhenPatientRequestedChange:
+        print('toTherapistWhenPatientRequestedChange');
+        break;
+      case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
+        print('toParticipantsWhenEventAppointmentWasCreated');
+        showSnackBar = true;
+        break;
+      case NotificationType.toParticipantsWhenEventAppointmentWasDeleted:
+        print('toParticipantsWhenEventAppointmentWasDeleted');
+        break;
+      case NotificationType.toEmployeeWhenPatientRequestedChange:
+        print('toEmployeeWhenPatientRequestedChange');
+        break;
+      case NotificationType.toParticipantsWhenForumMessageWasCreated:
+        print('toParticipantsWhenForumMessageWasCreated');
+        break;
+      case NotificationType.patientDisabledAtReminderNotification:
+        print('patientDisabledAtReminderNotification');
+        break;
+      case NotificationType.toTherapistWhenPatientDisabledAtNotification:
+        print('toTherapistWhenPatientDisabledAtNotification');
+        break;
+      case NotificationType.conversationUnreadNotification:
+        print('conversationUnreadNotification');
+        break;
+      default:
+        print('default');
     }
 
-    SnackBarRec(message: 'new Notificaion');
+    if(showSnackBar && title != null){
+      SnackBarRec(message: title, backgroundColor: Colors.blueAccent.shade400);
+    }
 /*
     User? user = await UserApi().getUserById(message.data['user']);
     if (user != null) {

@@ -52,8 +52,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     }
 
     for (var room in rooms.rooms) {
-      Therapist? therapist = getTherapistFromRoom(room, _currentUser);
-      Patient? patient = getPatientFromRoom(room, _currentUser);
+      Therapist? therapist = getTherapistFromRoom(room);
+      Patient? patient = getPatientFromRoom(room);
 
       if (patient != null && therapist != null) {
         tabs.add(Tab(text: therapist.name));
@@ -70,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     String title = 'Chat';
     if (_currentUser.isTherapist()) {
       Therapist? therapistOfRoom =
-          getTherapistFromRoom(rooms.rooms[tabController.index], _currentUser);
+          getTherapistFromRoom(rooms.rooms[tabController.index]);
       if (therapistOfRoom != null) {
         title =
             AppLocalizations.of(context)!.chatTitleWith(therapistOfRoom.name);
@@ -85,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 onPressed: () {
                   Room room = rooms.rooms[tabController.index];
                   Navigator.pushNamed(context, therapistBioPageRoute,
-                      arguments: getTherapistFromRoom(room, _currentUser));
+                      arguments: getTherapistFromRoom(room));
                 },
                 icon: const Icon(Icons.badge_outlined))
             : const SizedBox(),

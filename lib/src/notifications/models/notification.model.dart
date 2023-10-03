@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/src/forum/models/thread.model.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
-import 'package:recparenting/src/room/models/message.model.dart';
+import 'package:recparenting/src/room/helpers/participans_from_room.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
 import '../../calendar/models/event.model.dart';
 import '../../calendar/models/type_appointments.dart';
+import '../../forum/models/message.forum.dart';
+import '../../forum/providers/forum.provider.dart';
 import 'notification_type.enum.dart';
 
 class NotificationRec {
@@ -69,7 +72,7 @@ class NotificationRec {
     return title;
   }
 
-  NotificationAction? getAction() {
+  Future<NotificationAction?> getAction() async {
     NotificationAction? notificationAction;
     switch (type) {
       case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
@@ -94,15 +97,19 @@ class NotificationRec {
         notificationAction =
             NotificationAction(route: patientShowRoute, argument: data.patient);
         break;
-      // todo revisar si esta lleva el hilo
       case NotificationType.toParticipantsWhenForumMessageWasCreated:
-        notificationAction =
-            NotificationAction(route: threadRoute, argument: null);
+        ThreadForum? threadForum =
+            await ForumApi().getById(threadId: data.messageForum!.forumId);
+        if (threadForum != null) {
+          notificationAction =
+              NotificationAction(route: threadRoute, argument: threadForum);
+        }
         break;
-      // todo revisar si esta lleva el patient
       case NotificationType.conversationUnreadNotification:
-        notificationAction =
-            NotificationAction(route: chatRoute, argument: null);
+        if (data.room != null) {
+          notificationAction = NotificationAction(
+              route: chatRoute, argument: getPatientFromRoom(data.room!));
+        }
         break;
       default:
         notificationAction = null;
@@ -125,6 +132,10 @@ class NotificationRec {
       case NotificationType.toPatientWhenTherapistWasAssigned:
         icon = Icons.badge;
         break;
+
+      case NotificationType.toParticipantsWhenForumMessageWasCreated:
+        icon = Icons.post_add;
+        break;
       default:
         icon = Icons.notifications;
     }
@@ -138,7 +149,7 @@ class NotificationData {
   late final Therapist? therapist;
   late final EventModel? event;
   late final String? reason;
-  late final Message? message;
+  late final MessageForum? messageForum;
   late final Room? room;
 
   NotificationData(
@@ -147,7 +158,7 @@ class NotificationData {
       this.therapist,
       this.event,
       this.reason,
-      this.message,
+      this.messageForum,
       this.room});
 
   NotificationData.fromJson(Map<String, dynamic> json) {
@@ -161,9 +172,9 @@ class NotificationData {
         : null;
     event = json['event'] != null ? EventModel.fromJson(json['event']) : null;
     reason = json['reason'];
-    message =
-        json['message'] != null ? Message.fromJson(json['message']) : null;
-    room = json['room'] != null ? Room.fromJson(json['room']) : null;
+    messageForum =
+        json['message'] != null ? MessageForum.fromJson(json['message']) : null;
+    room = json['conversation'] != null ? Room.fromJson(json['room']) : null;
   }
 }
 

@@ -79,7 +79,16 @@ class RouterRec {
     notificationsRoute: (_) => const NotificationsScreen(),
     podcastsRoute: (_) => const PodcastScreen(),
     masterclassRoute: (_) => const MasterclassScreen(),
-
+    threadRoute: (context) {
+      final ThreadForum argument =
+          ModalRoute.of(context)!.settings.arguments as ThreadForum;
+      return BlocProvider.value(
+        value: ForumBloc(),
+        child: ThreadScreen(
+          thread: argument,
+        ),
+      );
+    },
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

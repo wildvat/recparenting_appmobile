@@ -21,7 +21,8 @@ class ForumApi {
     String? search = '',
   }) async {
     final String endpoint =
-        'forum?page=$page&search=$search&status=${ForunMessageStatus.active.name} ';
+        'forum?page=$page&search=$search&status=${ForunMessageStatus.active
+        .name} ';
     try {
       final response = await client.dio.get(endpoint);
       if (response.statusCode == 200) {
@@ -34,8 +35,8 @@ class ForumApi {
     }
   }
 
-  Future<ForumCreateResponse> createThread(
-      String title, String description) async {
+  Future<ForumCreateResponse> createThread(String title,
+      String description) async {
     const String endpoint = 'forum';
     try {
       final response = await client.dio.post(endpoint, data: {
@@ -60,11 +61,10 @@ class ForumApi {
     }
   }
 
-  Future<ForumMessageCreateResponse> createMessage(
-      {required String threadId,
-      required String comment,
-      String? parentId,
-      List<PlatformFile> files = const []}) async {
+  Future<ForumMessageCreateResponse> createMessage({required String threadId,
+    required String comment,
+    String? parentId,
+    List<PlatformFile> files = const []}) async {
     final String endpoint = 'forum/$threadId';
     try {
       Map<String, dynamic> data = {'message': comment};
@@ -108,13 +108,34 @@ class ForumApi {
     }
   }
 
+  Future<ThreadForum?> getById({
+    required String threadId,
+    int? page = 1,
+    String? search = '',
+  }) async {
+    final String endpoint =
+        'forum/$threadId/';
+    try {
+      final response = await client.dio.get(endpoint);
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        return ThreadForum.fromJson(response.data);
+      }
+      return null;
+    } on dio.DioException catch (_) {
+      return null;
+    }
+  }
+
   Future<ThreadForumList> getMessagesFromThread({
     required String threadId,
     int? page = 1,
     String? search = '',
   }) async {
     final String endpoint =
-        'forum/$threadId/messages?page=$page&search=$search&status=${ForunMessageStatus.active.name} ';
+        'forum/$threadId/messages?page=$page&search=$search&status=${ForunMessageStatus
+        .active.name} ';
     try {
       final response = await client.dio.get(endpoint);
       if (response.statusCode != null &&
