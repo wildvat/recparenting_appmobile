@@ -35,8 +35,11 @@ class _TherapistBioScreenState extends State<TherapistBioScreen> {
     for (var value in widget.therapist.data.areas_expertise) {
       widgets.add(Chip(
           backgroundColor: colorRecLight,
-          label: TextDefault(AppLocalizations.of(context)!
-              .therapistAreasExpertise(value.name), size: TextSizes.medium, color: TextColors.white,)));
+          label: TextDefault(
+            AppLocalizations.of(context)!.therapistAreasExpertise(value.name),
+            size: TextSizes.medium,
+            color: TextColors.white,
+          )));
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:developer' as developer;
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
 import 'package:recparenting/_shared/helpers/action_notification_push.dart';
+import 'package:recparenting/_shared/ui/widgets/bloc_builder3.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
@@ -23,11 +26,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((__) => runApp(MyApp()));
+      .then((__) => runApp(const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -91,8 +94,10 @@ class _MyAppState extends State<MyApp> {
                 _notificationsBloc..add(const NotificationsFetch(page: 1)),
           )
         ],
-        child: BlocBuilder<LanguageBloc, LanguageState>(
-            builder: (BuildContext context, LanguageState state) {
+        child: BlocBuilder2<LanguageBloc, LanguageState, CurrentUserBloc,
+                CurrentUserState>(
+            builder: (BuildContext context, LanguageState state,
+                CurrentUserState stateCurrentUser) {
           if (state is LanguageLoaded) {
             return MaterialApp(
               title: 'REC Parenting',
