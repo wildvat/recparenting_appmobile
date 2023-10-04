@@ -52,13 +52,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         ),
         child: ListTile(
           onTap: () async {
-            NotificationAction? notificationAction = await notification.getAction();
-            if (notificationAction != null) {
-
+            NotificationAction? notificationAction =
+                await notification.getAction();
+            if (notificationAction != null && mounted) {
               Navigator.pushNamed(context, notificationAction.route,
                   arguments: notificationAction.argument);
 
-              _notificationBloc.add(NotificationDelete(notification: notification));
+              _notificationBloc
+                  .add(NotificationDelete(notification: notification));
             }
           },
           isThreeLine: true,
@@ -71,7 +72,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               size: 30,
             ),
           ),
-          title: TextDefault(title),
+          title: TextDefault(title, size: TextSizes.large),
           subtitle: TextDefault(
             DateFormat.yMMMMEEEEd().format(notification.createdAt),
             size: TextSizes.small,
@@ -88,9 +89,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             builder: (context, state) {
           if (state is NotificationsLoaded) {
             if (state.notifications.total == 0) {
-              //TODO translate
               return Center(
-                child: Text('No tienes notificaciones'),
+                child: Text(AppLocalizations.of(context)!.notificationsEmpty),
               );
             }
             return ListView.separated(

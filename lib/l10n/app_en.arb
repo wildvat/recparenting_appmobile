@@ -185,5 +185,6 @@
     "placeholders": {
       "type": {}
     }
-  }
+  },
+  "notificationsEmpty": "You don't have notifications"
 }

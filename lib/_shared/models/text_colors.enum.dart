@@ -24,7 +24,7 @@ enum TextColors {
       case TextColors.white:
         return Colors.white;
       case TextColors.light:
-        return Colors.grey.shade300;
+        return Colors.grey.shade200;
       case TextColors.muted:
         return Colors.grey.shade500;
       case TextColors.rec:

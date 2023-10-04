@@ -17,11 +17,11 @@ class _AvatarImageState extends State<AvatarImage> {
   Widget build(BuildContext context) {
     return ClipRRect(
         borderRadius: BorderRadius.circular(50.0),
-        child: Image.network(widget.user.avatar, fit: BoxFit.cover, width: 70,
+        child: Image.network(widget.user.avatar, fit: BoxFit.cover, width: 48,
             //extensions like .jpg, .png etc
             errorBuilder: (context, error, stackTrace) {
           return SvgPicture.network(
-            width: 70,
+            width: 48,
             fit: BoxFit.cover,
             widget.user.avatar, // for .svg extension
           );
