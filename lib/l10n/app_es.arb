@@ -52,7 +52,15 @@
   "calendarHelpMonth": "En el calendario mensual, mantener puslsado una hora, te redirige al calendario de ese día",
   "calendarHelpDayWeek": "En el calendario semanal y diario, mantener puslsado te abre la interfaz de crear una cita",
   "calendarHelpColors": "Colores de los eventos:",
+  "calendarNotAvailableHour": "Este horario no está disponible",
   "terapistChangeButton": "Cambio de terapeuta",
+  "therapistNotasigned": "No tienes terapeuta asignado",
+  "therapistYears": "{years} años de experiencia",
+  "@therapistYears": {
+    "placeholder": {
+      "years": {}
+    }
+  },
   "recoveryPassLinnk": "Recuperar contraseña",
   "webPageTitle": "WEB externa",
   "eventType": "{type, select, basic {cita} appointment_chat {chat} appointment_video {videoconferencia} availability {disponible} not_available {no disponible}  other {cita}}",

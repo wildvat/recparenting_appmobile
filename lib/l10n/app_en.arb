@@ -54,7 +54,15 @@
   "calendarHelpMonth": "In the monthly calendar, holding down an hour, redirects you to that day's calendar",
   "calendarHelpDayWeek": "In the weekly and daily calendar, pressing and holding opens the interface to create an appointment",
   "calendarHelpColors": "Event colors:",
+  "calendarNotAvailableHour": "This schedule is not available",
   "terapistChangeButton": "Therapist change",
+  "therapistNotasigned": "You do not have an assigned therapist",
+  "therapistYears": "{years} years of practice",
+  "@therapistYears": {
+    "placeholder": {
+      "years": {}
+    }
+  },
   "recoveryPassLinnk": "Recovery password",
   "webPageTitle": "External WEB",
   "eventType": "{type, select, basic {appointment} appointment_chat {chat} appointment_video {videoconference} availability {available} not_available {not available}  other {appointment}}",

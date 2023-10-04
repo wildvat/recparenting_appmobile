@@ -170,8 +170,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                 start: date, eventController: _eventController);
           });
     } else {
-      //TODO traducir
-      SnackBarRec(message: 'Este horario no está disponible');
+      SnackBarRec(
+          message: AppLocalizations.of(context)!.calendarNotAvailableHour);
     }
   }
 
@@ -210,8 +210,8 @@ class _CalendarScreenState extends State<CalendarScreen>
           return completer.complete(null);
         }
         if ((_currentUser as Patient).therapist == null) {
-          //TODO traducir
-          SnackBarRec(message: 'No tienes terapeuta asignado');
+          SnackBarRec(
+              message: AppLocalizations.of(context)!.therapistNotasigned);
           return completer.complete(null);
         }
       }

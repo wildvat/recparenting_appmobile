@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
-import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 
 import '../../../_shared/helpers/push_permision.dart';
 import '../../../_shared/models/user.model.dart';
@@ -48,9 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
     patient@example.com
     password
     */
-    _emailEditingController.text = 'melyna.kreiger@example.com';
+    //_emailEditingController.text = 'melyna.kreiger@example.com';
     //_emailEditingController.text = 'patient@example.com';
-    //_emailEditingController.text = 'madelynn97@example.com';
+    _emailEditingController.text = 'madelynn97@example.com';
     _passwordEditingController.text = 'password';
     return Scaffold(
         backgroundColor: colorRec,
