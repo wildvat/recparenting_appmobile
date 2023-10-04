@@ -48,7 +48,6 @@ class CurrentUserApi {
   }
 
   Future<User?> reloadUser() async {
-
     const String endpoint = 'user/me';
     try {
       Response response = await client.dio.get(endpoint);

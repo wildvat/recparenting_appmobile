@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
-import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
 
@@ -47,16 +47,12 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      TextDefault(
-                        'Recuperar contraseña',
-                        color: TextColors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      TitleDefault(
+                          AppLocalizations.of(context)!.passwordRecoveryTitle,
+                          color: TextColors.white),
                       TextFormField(
                         controller: _emailEditingController,
                         keyboardType: TextInputType.emailAddress,
-
-                        // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return AppLocalizations.of(context)!

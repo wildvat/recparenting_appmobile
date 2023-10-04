@@ -31,7 +31,7 @@ class ScaffoldDefault extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     _currentUser =
         (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
 
@@ -88,7 +88,7 @@ class ScaffoldDefault extends StatelessWidget {
         bottom: tabBar,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _keyboardIsOpened
+      floatingActionButton: keyboardIsOpened
           ? null
           : _currentUser is Patient
               ? ModalRoute.of(context)!.settings.name != '/chat'

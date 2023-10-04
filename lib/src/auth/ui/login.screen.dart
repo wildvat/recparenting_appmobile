@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
+import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 
 import '../../../_shared/helpers/push_permision.dart';
 import '../../../_shared/models/user.model.dart';
@@ -121,8 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (!mounted) return;
                                 if (response != null) {
                                   getPermissionPushApp();
-                                  Navigator.pushReplacementNamed(
-                                      context, homeRoute);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      homeRoute,
+                                      (Route<dynamic> route) => false);
                                   return;
                                 } else {
                                   SnackBarRec(

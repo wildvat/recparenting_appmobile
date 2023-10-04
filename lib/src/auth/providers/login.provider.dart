@@ -28,13 +28,14 @@ class AuthApi {
       });
       if (response.statusCode == 200) {
         _tokenRepository.initializeTokens(TokenModel.fromJson(response.data));
-        return await CurrentUserApi().getUser().then((User? userApi) async {
-          if (userApi != null) {
-            return userApi;
-          } else {
-            return null;
-          }
-        });
+        print('entra');
+        User? userApi = await CurrentUserApi().getUser();
+        print('entra2');
+        if (userApi != null) {
+          return userApi;
+        } else {
+          return null;
+        }
       } else {
         return null;
       }
@@ -78,11 +79,11 @@ class AuthApi {
     }
   }
 
-  void logout() async {
+  void logout() {
     _tokenRepository.clearTokens();
-    CurrentUserApi().removeUser();
     navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false);
+        ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false)
+        .then((_) => CurrentUserApi().removeUser());
     return;
   }
 }
