@@ -2,11 +2,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
+import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/src/notifications/models/notification_type.enum.dart';
 import '../models/user.model.dart';
-import '../providers/r_language.dart';
 
 class ActionNotificationPush {
   RemoteMessage message;
@@ -15,10 +16,11 @@ class ActionNotificationPush {
 
   ActionNotificationPush({required this.message, required this.context}) {
     currentUser = CurrentUserBuilder().value();
+    print('entro en action notification push');
     //  dev.log(this.message.data);
   }
 
-  redirectFromPush([User? user]) async {
+  redirectFromPush(String route, dynamic arguments) async {
     //dev.log('redirectFromPush');
     /*
     user ??= await CurrentUserApi().getUser(message.data['user']);
@@ -30,19 +32,22 @@ class ActionNotificationPush {
         .pushNamed(homeRoute);
     return;
     }*/
+    navigatorKey.currentState!.pushNamed(route, arguments: arguments);
   }
 
   execute(NotificationBloc notificationsBloc) async {
-
+    print('message entrado');
     notificationsBloc.add(const NotificationsFetch(page: 1));
 
-    NotificationType notificationType =
-        convertNotificationTypeFromString(message.data['type']);
+    NotificationType notificationType = convertNotificationTypeFromString(message.data['type']);
     String? notifiableId =
-        message.data['notifiable_id']; //Patient id or Therapist id
+        message.data['notifiable_uuid']; //Patient id or Therapist id
     String? notifiableType =
         message.data['notifiable_type']; //Patient or Therapist
+    String? actionId = message.data['action_id'];
+
   bool showSnackBar = false;
+  Function()? onPress;
   String? title = message.notification?.title;
 
     switch (notificationType) {
@@ -95,12 +100,17 @@ class ActionNotificationPush {
       case NotificationType.conversationUnreadNotification:
         print('conversationUnreadNotification');
         break;
+        case NotificationType.receiveMessageNotification:
+          //el action id aqui se corresponde con un conversation id
+        onPress = redirectFromPush(chatRoute, actionId);
+        print('receiveMessageNotification');
+        break;
       default:
         print('default');
     }
 
     if(showSnackBar && title != null){
-      SnackBarRec(message: title, backgroundColor: Colors.blueAccent.shade400);
+      SnackBarRec(message: title, backgroundColor: Colors.blueAccent.shade400, onPress: onPress);
     }
 /*
     User? user = await UserApi().getUserById(message.data['user']);

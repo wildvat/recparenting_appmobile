@@ -47,6 +47,7 @@
   "generalFormFieldTitle": "Title",
   "generalFormFieldDescription": "Description",
   "generalReplyBtn": "Reply",
+  "generalShow": "Show",
   "calendarTitle": "Calendar",
   "calendarGeneralError": "Calendar could not be displayed",
   "calendarTherapistError": "You don't have a therapist, contact administration.",

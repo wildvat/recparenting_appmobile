@@ -172,9 +172,8 @@ class NotificationData {
         : null;
     event = json['event'] != null ? EventModel.fromJson(json['event']) : null;
     reason = json['reason'];
-    messageForum =
-        json['message'] != null ? MessageForum.fromJson(json['message']) : null;
-    room = json['conversation'] != null ? Room.fromJson(json['room']) : null;
+    messageForum = json['message'] != null ? MessageForum.fromJson(json['message']) : null;
+    room = json['conversation'] != null ? Room.fromJson(json['conversation']) : null;
   }
 }
 
