@@ -1,8 +1,10 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/src/calendar/models/create_event_api_response.dart';
 import 'package:recparenting/src/calendar/models/type_appointments.dart';
 import 'package:recparenting/src/calendar/models/type_datepicker.enum.dart';
@@ -115,13 +117,17 @@ class _CalendarFormCreateEventWidgetState
                           return null;
                         },
                         decoration: InputDecoration(
+                          hintStyle: TextStyle(fontSize: TextSizes.large.size),
                           hintText:
                               AppLocalizations.of(context)!.eventCreateTitle,
                         ),
                       )
                     : const SizedBox.shrink(),
+                const SizedBox(height: 30),
+                TitleDefault(
+                    AppLocalizations.of(context)!.eventCreateAppointmentType,
+                    size: TitleSize.large),
                 const SizedBox(height: 10),
-                Text(AppLocalizations.of(context)!.eventCreateAppointmentType),
                 DropdownButton<String>(
                   isExpanded: true,
                   value: _appointmentType,
@@ -270,7 +276,7 @@ class _CalendarFormCreateEventWidgetState
                         child: SizedBox(
                             width: double.infinity,
                             child: Text(
-                              AppLocalizations.of(context)!.generalAccess,
+                              AppLocalizations.of(context)!.generalSend,
                               textAlign: TextAlign.center,
                             ))),
                     _isLoading
