@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/conference/models/meeting.model.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -218,15 +220,19 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
 
               return Column(
                 children: [
-                  TextDefault(
-                      AppLocalizations.of(context)!.conferenceWaitingTherapist),
-                  TextDefault(
-                      "Podemos añadir algun texto para decirle que espere a que el terapeuta inicie la conferencia"),
-                  TextDefault(
-                      "Ya que el solo puede entrar si la ha inciado el terapeuta"),
-                  TextDefault(
-                    "recordar que hay que traducrilo a ingles tambien",
-                  )
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 20),
+                    child: TextDefault(
+                      'The videoconference must be initiated by the therapist.',
+                      size: TextSizes.large,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  TitleDefault(
+                    AppLocalizations.of(context)!.conferenceWaitingTherapist,
+                    size: TitleSize.large,
+                  ),
                 ],
               );
             }

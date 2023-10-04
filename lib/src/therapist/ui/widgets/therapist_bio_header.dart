@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
@@ -35,14 +36,13 @@ class TherapistBioHeaderWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          TextDefault(
+          TitleDefault(
             _therapist.getFullName(),
-            size: TextSizes.large,
-            color: TextColors.light,
+            size: TitleSize.large,
+            color: TextColors.white,
           ),
           TextDefault(
             '${_therapist.data.years_practice} yearsPractice',
-            size: TextSizes.small,
             color: TextColors.muted,
           ),
           const SizedBox(height: 15),
