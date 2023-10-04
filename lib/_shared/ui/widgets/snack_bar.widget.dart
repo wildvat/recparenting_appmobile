@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/navigator_key.dart';
 
 import '../../providers/r_language.dart';
@@ -15,7 +16,7 @@ class SnackBarRec {
       {required this.message,
       this.backgroundColor,
       this.showCloseIcon = true,
-      this.duration = const Duration(seconds: 20),
+      this.duration = const Duration(seconds: 5),
       this.onPress}) {
     scaffoldKey.currentState?.showSnackBar(
       SnackBar(
@@ -27,7 +28,7 @@ class SnackBarRec {
         elevation: 5,
         behavior: SnackBarBehavior.floating,
         backgroundColor: backgroundColor ?? TextColors.danger.color,
-        content: Text(message.toString()),
+        content: TextDefault(message.toString()),
         showCloseIcon: showCloseIcon,
         action: onPress != null
             ? SnackBarAction(
