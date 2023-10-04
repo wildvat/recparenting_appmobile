@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -115,7 +116,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
         },
       );
     } else {
-      videoTile = const Text("Unrecognized Platform.");
+      videoTile =
+          TextDefault(AppLocalizations.of(context)!.mettingErrorPlatform);
     }
 
     return videoTile;
@@ -232,7 +234,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
         },
       );
     } else {
-      videoTile = const Text("Unrecognized Platform.");
+      videoTile =
+          TextDefault(AppLocalizations.of(context)!.mettingErrorPlatform);
     }
 
     return Padding(
@@ -277,7 +280,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
         context: context,
         builder: (context) {
           return SimpleDialog(
-            title: const Text("Choose Audio Device"),
+            title:
+                TextDefault(AppLocalizations.of(context)!.mettingChooseAudio),
             elevation: 40,
             titleTextStyle: const TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
@@ -307,9 +311,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
       }
       dialogOptions.add(
         SimpleDialogOption(
-          child: Text(
+          child: TextDefault(
             meetingProvider.deviceList[i] as String,
-            style: TextStyle(color: Colors.black, fontWeight: weight),
+            color: TextColors.dark,
+            fontWeight: weight,
           ),
           onPressed: () {
             developer.log("${meetingProvider.deviceList[i]} was chosen.");
@@ -328,7 +333,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         meetingProvider.stopMeeting();
         Navigator.pop(context);
       },
-      child: const Text("Leave Meeting"),
+      child: TextDefault(AppLocalizations.of(context)!.mettingLeave),
     );
   }
 

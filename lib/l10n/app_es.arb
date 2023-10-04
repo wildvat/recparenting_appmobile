@@ -33,6 +33,7 @@
   "generalMoreInfo": "+ Info",
   "generalSearch": "Buscar...",
   "generalError": "Hubo un error al intentar esta acción",
+  "generalOk": "Acción realizada correctamente",
   "generalFormLoginError": "Usuario o contraseña incorrectos",
   "generalNoData": "No hay datos disponibles",
   "generalFormErrorEmail": "Por favor introduzca un email",
@@ -181,6 +182,11 @@
     "placeholders": {
       "type": {}
     }
-  },
-  "notificationsEmpty": "No tienes notificaciones"
+  },  
+  "notificationsEmpty": "No tienes notificaciones",
+  "pageNotFound": "Página no encontrada",
+  "mettingErrorPlatform": "Platforma no reconocida",
+  "mettingChooseAudio": "Choose Audio Device",
+  "mettingLeave": "Abandonar la reunión",
+  "userNotLogged": "No estás autenticado"
 }

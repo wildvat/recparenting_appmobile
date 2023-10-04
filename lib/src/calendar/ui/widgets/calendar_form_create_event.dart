@@ -1,9 +1,11 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/src/calendar/models/create_event_api_response.dart';
 import 'package:recparenting/src/calendar/models/type_appointments.dart';
@@ -145,7 +147,7 @@ class _CalendarFormCreateEventWidgetState
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(AppLocalizations.of(context)!
+                      child: TextDefault(AppLocalizations.of(context)!
                           .eventType(value)
                           .toUpperCase()),
                     );
@@ -172,9 +174,10 @@ class _CalendarFormCreateEventWidgetState
                       ),
                       onTap: () => _onTap(TypeDatePicker.start),
                     ),
-                    Text(
+                    const SizedBox(height: 10),
+                    TextDefault(
                       AppLocalizations.of(context)!.eventCreateStartHelp,
-                      style: const TextStyle(color: Colors.black54),
+                      color: TextColors.muted,
                     )
                   ],
                 ),
@@ -275,7 +278,7 @@ class _CalendarFormCreateEventWidgetState
                               },
                         child: SizedBox(
                             width: double.infinity,
-                            child: Text(
+                            child: TextDefault(
                               AppLocalizations.of(context)!.generalSend,
                               textAlign: TextAlign.center,
                             ))),

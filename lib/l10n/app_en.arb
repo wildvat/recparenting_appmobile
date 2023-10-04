@@ -35,6 +35,7 @@
   "generalMoreInfo": "+ Info",
   "generalSearch": "Search...",
   "generalError": "There was an error attempting this action",
+  "generalOk": "Action processed correctly",
   "generalFormLoginError": "Incorrect username or password",
   "generalNoData": "There isn't available data",
   "generalFormErrorEmail": "Please enter an email",
@@ -186,5 +187,10 @@
       "type": {}
     }
   },
-  "notificationsEmpty": "You don't have notifications"
+  "notificationsEmpty": "You don't have notifications",
+  "pageNotFound" : "Page not found",
+  "mettingErrorPlatform": "Unrecognized Platform",
+  "mettingChooseAudio": "Seleccionar el tipo de audio",
+  "mettingLeave": "Leave meeting",
+  "userNotLogged": "You are not logged in"
 }

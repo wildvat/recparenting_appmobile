@@ -2,8 +2,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/files_form.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/snackbar_modal.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
@@ -170,13 +172,11 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                                 });
                                 _forumThreadBloc.add(ForumMessageCreated(
                                     message: response.message!));
-                                SnackBar snackBar = SnackBar(
-                                  content: Text(AppLocalizations.of(context)!
-                                      .forumThreadCreated),
-                                  backgroundColor: Colors.green,
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+
+                                SnackBarRec(
+                                    message: AppLocalizations.of(context)!
+                                        .forumThreadCreated,
+                                    backgroundColor: TextColors.success.color);
                                 Navigator.pop(context);
                               }
                               setState(() {
@@ -185,7 +185,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                             },
                             child: SizedBox(
                               width: double.infinity,
-                              child: Text(
+                              child: TextDefault(
                                 AppLocalizations.of(context)!.generalSend,
                                 textAlign: TextAlign.center,
                               ),

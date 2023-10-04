@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/app_submenu.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/src/patient/ui/widgets/bottom_bar_patient.dart';
 import 'package:recparenting/constants/router_names.dart';
@@ -39,7 +41,7 @@ class ScaffoldDefault extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text(title ?? 'REC Parenting'),
+        title: TextDefault(title ?? 'REC Parenting', size: TextSizes.large),
         actions: [
           actionButton ?? const SizedBox.shrink(),
           BlocBuilder<NotificationBloc, NotificationState>(
@@ -69,12 +71,10 @@ class ScaffoldDefault extends StatelessWidget {
                         minWidth: 12,
                         minHeight: 12,
                       ),
-                      child: Text(
+                      child: TextDefault(
                         state.notifications.notifications.length.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
+                        color: TextColors.white,
+                        size: TextSizes.xsmall,
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -118,7 +118,6 @@ class _ChangeTherapistReasonWidgetState
           if (snapshotAvailable.connectionState == ConnectionState.done) {
             if (snapshotAvailable.error != null) {
               return const SizedBox();
-              // return SizedBox(child: Text(snapshotAvailable.error.toString(), style: TextStyle(color: Colors.red)));
             }
             if (!snapshotAvailable.hasData) {
               return ElevatedButton.icon(

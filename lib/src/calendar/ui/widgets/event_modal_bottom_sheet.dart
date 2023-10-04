@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
@@ -38,8 +39,7 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(widget.event.title,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
+            TextDefault(widget.event.title, fontWeight: FontWeight.bold),
             Container(
                 decoration: BoxDecoration(
                   color: widget.event.color,
@@ -48,8 +48,9 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                 margin: const EdgeInsets.only(top: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                child: Text(AppLocalizations.of(context)!
-                    .eventType((widget.event.event! as EventCalendarApiModel).type)
+                child: TextDefault(AppLocalizations.of(context)!
+                    .eventType(
+                        (widget.event.event! as EventCalendarApiModel).type)
                     .toUpperCase())),
             const SizedBox(height: 20),
             Row(
@@ -57,21 +58,21 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
               children: [
                 Row(
                   children: [
-                    Text(AppLocalizations.of(context)!.eventFrom,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    TextDefault(AppLocalizations.of(context)!.eventFrom,
+                        fontWeight: FontWeight.bold),
                     const SizedBox(width: 5),
-                    Text(widget.event.startTime.toString().substring(
+                    TextDefault(widget.event.startTime.toString().substring(
                         0, widget.event.startTime.toString().length - 7)),
                   ],
                 ),
                 Row(
                   children: [
-                    Text(
+                    TextDefault(
                       AppLocalizations.of(context)!.eventTo,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold,
                     ),
                     const SizedBox(width: 5),
-                    Text(widget.event.endTime.toString().substring(
+                    TextDefault(widget.event.endTime.toString().substring(
                         0, widget.event.endTime.toString().length - 7))
                   ],
                 )
@@ -98,7 +99,8 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                           arguments: patient.conference);
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.eventGoSessionBtn),
+                  child: TextDefault(
+                      AppLocalizations.of(context)!.eventGoSessionBtn),
                 ),
 
                 /// only tehrapist or my owns events can be visible in modal
@@ -119,9 +121,9 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                         ? const CircularProgressIndicator(
                             color: Colors.white,
                           )
-                        : Text(
+                        : TextDefault(
                             AppLocalizations.of(context)!.generalButtonDelete,
-                            style: const TextStyle(color: Colors.white)))
+                          ))
               ],
             )
           ],

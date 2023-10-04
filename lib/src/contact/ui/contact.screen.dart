@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/src/contact/providers/contact.provider.dart';
 
-class ContactScreen extends StatelessWidget {
+class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
+
+  @override
+  State<ContactScreen> createState() => _ContactScreenState();
+}
+
+class _ContactScreenState extends State<ContactScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _textEditingController = TextEditingController();
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +27,7 @@ class ContactScreen extends StatelessWidget {
             child: Padding(
           padding: const EdgeInsets.all(20),
           child: Form(
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -42,6 +54,14 @@ class ContactScreen extends StatelessWidget {
                   child: TextFormField(
                     minLines: 8,
                     maxLines: 8,
+                    controller: _textEditingController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return AppLocalizations.of(context)!
+                            .generalFormRequired;
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: TextColors.muted.color),
                       border: InputBorder.none,
@@ -51,10 +71,18 @@ class ContactScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: () {
-                    //todo add functionality
+                  onPressed: () async {
+                    if (!_formKey.currentState!.validate()) {
+                      print('esta??');
+                      return;
+                    }
+                    setState(() => _loading = true);
+                    await ContactApi().sendMessage(_textEditingController.text);
+                    setState(() => _loading = false);
                   },
-                  child: Text(AppLocalizations.of(context)!.generalSend),
+                  child: _loading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : TextDefault(AppLocalizations.of(context)!.generalSend),
                 ),
               ],
             ),

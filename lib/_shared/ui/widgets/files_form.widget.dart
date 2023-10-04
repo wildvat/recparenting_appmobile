@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 
 class FilesFormWidget extends StatefulWidget {
   FilePickerResult? files;
@@ -20,7 +21,7 @@ class _FilesFormWidgetState extends State<FilesFormWidget> {
               .map((PlatformFile file) => Padding(
                     padding: const EdgeInsets.only(right: 5),
                     child: Chip(
-                        label: Text(file.name),
+                        label: TextDefault(file.name),
                         onDeleted: () => widget.onFileDelete(file.name)),
                   ))
               .toList(),

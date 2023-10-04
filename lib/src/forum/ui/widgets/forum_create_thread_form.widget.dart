@@ -140,7 +140,7 @@ class _ForumCreateThreadFromState extends State<ForumCreateThreadFrom> {
                           },
                           child: SizedBox(
                             width: double.infinity,
-                            child: Text(
+                            child: TextDefault(
                               AppLocalizations.of(context)!.generalSend,
                               textAlign: TextAlign.center,
                             ),

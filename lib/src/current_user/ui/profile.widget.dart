@@ -77,7 +77,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   AuthApi().logout();
                 },
                 icon: const Icon(Icons.logout),
-                label: Text(AppLocalizations.of(context)!.logout),
+                label: TextDefault(AppLocalizations.of(context)!.logout),
               ),
               SelectLanguageWidget()
             ],

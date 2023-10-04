@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
@@ -64,7 +65,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       color: isInWorkingHour ? Colors.white : Colors.grey.shade200,
       child: Align(
         alignment: Alignment.center,
-        child: Text(
+        child: TextDefault(
             '${date.hour < 10 ? '0${date.hour}' : '${date.hour}'}:${date.minute < 10 ? '0${date.minute}' : '${date.minute}'}'),
       ),
     );
@@ -342,7 +343,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             }
             return ScaffoldDefault(
                 body: Center(
-                    child: Text(
+                    child: TextDefault(
                         AppLocalizations.of(context)!.calendarGeneralError)));
           }
           return const Center(child: CircularProgressIndicator());

@@ -6,6 +6,7 @@ import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/calendar/models/event.model.dart';
 import 'package:recparenting/src/calendar/models/events.model.dart';
@@ -100,14 +101,8 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        widget.patient.name,
-                        style: const TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                      TitleDefault(widget.patient.name,
+                          size: TitleSize.large, color: TextColors.white),
                     ],
                   ),
                 )

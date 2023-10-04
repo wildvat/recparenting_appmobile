@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/premium.screen.dart';
 import 'package:recparenting/_shared/ui/webpage_screen.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
@@ -138,9 +140,9 @@ class RouterRec {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     return MaterialPageRoute(
-        builder: (context) => const Scaffold(
+        builder: (context) => Scaffold(
                 body: Center(
-              child: Text('Página no encontrada'),
+              child: TitleDefault(AppLocalizations.of(context)!.pageNotFound),
             )));
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 
 class SelectLanguageWidget extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -18,12 +20,11 @@ class SelectLanguageWidget extends StatelessWidget {
                     .read<LanguageBloc>()
                     .add(const LanguageEventUpdate('en'))
                 : null,
-            child: Text(
+            child: TextDefault(
               'EN',
-              style: TextStyle(
-                  color: (context.read<LanguageBloc>().state.language == 'en')
-                      ? Colors.white
-                      : Colors.white54),
+              color: (context.read<LanguageBloc>().state.language == 'en')
+                  ? TextColors.white
+                  : TextColors.muted,
             )),
         TextButton(
             onPressed: (context.read<LanguageBloc>().state.language == 'en')
@@ -31,12 +32,12 @@ class SelectLanguageWidget extends StatelessWidget {
                     .read<LanguageBloc>()
                     .add(const LanguageEventUpdate('es'))
                 : null,
-            child: Text('ES',
-                style: TextStyle(
-                  color: (context.read<LanguageBloc>().state.language == 'es')
-                      ? Colors.white
-                      : Colors.white54,
-                )))
+            child: TextDefault(
+              'ES',
+              color: (context.read<LanguageBloc>().state.language == 'es')
+                  ? TextColors.white
+                  : TextColors.muted,
+            ))
       ],
     );
   }

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
@@ -96,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               );
             });
           }
-          return const Text('No login user, no deberia estar aqui');
+          return TitleDefault(AppLocalizations.of(context)!.userNotLogged);
         }));
   }
 }

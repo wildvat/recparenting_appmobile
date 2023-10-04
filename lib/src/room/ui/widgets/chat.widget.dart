@@ -125,7 +125,7 @@ class _ChatWidgetState extends State<ChatWidget> {
         return const Center(child: CircularProgressIndicator());
       }
 
-      return const Text('_');
+      return TextDefault('_');
     });
   }
 

@@ -141,7 +141,8 @@ class _ForumThreadMessageCardWidgetState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton.icon(
-                label: Text(AppLocalizations.of(context)!.generalReplyBtn),
+                label:
+                    TextDefault(AppLocalizations.of(context)!.generalReplyBtn),
                 onPressed: () => showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,

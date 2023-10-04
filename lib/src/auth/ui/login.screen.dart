@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: SizedBox(
                                   width: double.infinity,
-                                  child: Text(
+                                  child: TextDefault(
                                     AppLocalizations.of(context)!.generalAccess,
                                     textAlign: TextAlign.center,
                                   ))),
@@ -144,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextButton(
                           onPressed: () => Navigator.pushNamed(
                               context, passwordRecoveryRoute),
-                          child: Text(
+                          child: TextDefault(
                               AppLocalizations.of(context)!.recoveryPassLinnk))
                     ],
                   ),

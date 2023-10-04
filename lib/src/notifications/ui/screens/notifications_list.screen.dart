@@ -63,7 +63,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             }
           },
           isThreeLine: true,
-          //  trailing: Text(notification.type.name),
           leading: Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Icon(
@@ -90,7 +89,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           if (state is NotificationsLoaded) {
             if (state.notifications.total == 0) {
               return Center(
-                child: Text(AppLocalizations.of(context)!.notificationsEmpty),
+                child: TextDefault(
+                    AppLocalizations.of(context)!.notificationsEmpty),
               );
             }
             return ListView.separated(

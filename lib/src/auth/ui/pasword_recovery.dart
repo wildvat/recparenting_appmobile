@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/auth/providers/login.provider.dart';
@@ -87,7 +88,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                               },
                               child: SizedBox(
                                   width: double.infinity,
-                                  child: Text(
+                                  child: TextDefault(
                                     AppLocalizations.of(context)!.generalAccess,
                                     textAlign: TextAlign.center,
                                   ))),
