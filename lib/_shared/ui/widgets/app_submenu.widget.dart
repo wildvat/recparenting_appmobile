@@ -10,6 +10,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/current_user/ui/profile.widget.dart';
 
+import '../../../environments/env.dart';
+import '../../../src/auth/repository/token_respository.dart';
+
 class AppSubmenuWidget extends StatefulWidget {
   const AppSubmenuWidget({
     super.key,
@@ -24,12 +27,21 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
 
   late final LanguageBloc _languageBloc;
   late final User _currentUser;
+  String? _accessToken;
+
   @override
-  void initState() {
+  void initState(){
     super.initState();
     _languageBloc = context.read<LanguageBloc>();
     _currentUser =
         (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
+    accessToken();
+  }
+
+  accessToken() async {
+    TokenRepository().getToken().then((value){
+      _accessToken = value;
+    });
   }
 
   String getLang() {
@@ -64,20 +76,24 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
         AppSubmenuItemWidget(
             isExternalLink: true,
             onPress: () async {
-              String url = 'https://www.recparenting.com/privacy-policy/';
+              String url = '${env.web}privacy-policy/';
               if (getLang() == 'es') {
-                url = 'https://www.recparenting.com/es/privacy-policy/';
+                url = '${env.web}es/privacy-policy/';
               }
+              url = '${env.url}login-token?redirect_to=$url';
+
               await Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
                       title: AppLocalizations.of(context)!.menuLegal,
-                      url: url));
+                      url: url,
+                      token: _accessToken ?? ''));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
             titleUrl: AppLocalizations.of(context)!.menuLegal),
         AppSubmenuItemWidget(
             onPress: () async {
+
               await Navigator.pushNamed(context, contactPageRoute);
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
@@ -86,10 +102,18 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
         AppSubmenuItemWidget(
             isExternalLink: true,
             onPress: () async {
+              String url = '${env.web}blog/';
+              if (getLang() == 'es') {
+                url = '${env.web}es/blog/';
+              }
+              url = '${env.url}login-token?redirect_to=$url';
+
               await Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
                       title: AppLocalizations.of(context)!.menuBlog,
-                      url: 'https://www.recparenting.com/blog/'));
+                      url: url,
+                      token: _accessToken ?? ''
+                  ));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
@@ -98,7 +122,17 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
             ? AppSubmenuItemWidget(
                 isExternalLink: true,
                 onPress: () async {
-                  await Navigator.pushNamed(context, masterclassRoute);
+                  String url = '${env.web}masterclasses/';
+                  if (getLang() == 'es') {
+                    url = '${env.web}es/masterclasses/';
+                  }
+                  url = '${env.url}login-token?redirect_to=$url';
+                  await Navigator.pushNamed(context, webPageRoute,
+                      arguments: WebpageArguments(
+                          title: AppLocalizations.of(context)!.menuMasterclasses,
+                          url: url,
+                          token: _accessToken ?? ''
+                      ));
                   await Future.delayed(const Duration(milliseconds: 10));
                   _menuController.close();
                 },
@@ -108,7 +142,17 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
             ? AppSubmenuItemWidget(
                 isExternalLink: true,
                 onPress: () async {
-                  await Navigator.pushNamed(context, masterclassRoute);
+                  String url = '${env.web}podcast/';
+                  if (getLang() == 'es') {
+                    url = '${env.web}es/podcast/';
+                  }
+                  url = '${env.url}login-token?redirect_to=$url';
+                  await Navigator.pushNamed(context, webPageRoute,
+                      arguments: WebpageArguments(
+                          title: AppLocalizations.of(context)!.menuPodcast,
+                          url: url,
+                          token: _accessToken ?? ''
+                      ));
                   await Future.delayed(const Duration(milliseconds: 10));
                   _menuController.close();
                 },
@@ -117,10 +161,17 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
         AppSubmenuItemWidget(
             isExternalLink: true,
             onPress: () async {
+              String url = '${env.web}faqs/';
+              if (getLang() == 'es') {
+                url = '${env.web}es/faqs/';
+              }
+              url = '${env.url}login-token?redirect_to=$url';
               await Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
                       title: AppLocalizations.of(context)!.menuFaqs,
-                      url: 'https://www.recparenting.com/faq-users/'));
+                      url: url,
+                      token: _accessToken ?? ''
+                  ));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
