@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
@@ -57,7 +56,7 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
                         child: TextDefault(
                           AppLocalizations.of(context)!
                               .getDay(_workingHours[index]['day'])
-                              .capitalize(),
+                              .toUpperCase(),
                           color: TextColors.recLight,
                           fontWeight: FontWeight.bold,
                           size: TextSizes.large,

@@ -34,7 +34,7 @@ class CalendarLegendWidget extends StatelessWidget {
                           .eventType(AppointmentTypes.values[index]
                               .toString()
                               .replaceAll('AppointmentTypes.', ''))
-                          .capitalize(),
+                          .toUpperCase(),
                       fontWeight: FontWeight.bold,
                       size: TextSizes.large,
                       textAlign: TextAlign.center,
