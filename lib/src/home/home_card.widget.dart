@@ -36,15 +36,31 @@ class HomeCardWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                     image: AssetImage('assets/images/$pathImage.jpg'))),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               width: double.infinity,
               color: colorBack,
-              child: TextDefault(
-                text,
-                size: TextSizes.large,
-                color: colorText,
-                fontWeight: FontWeight.bold,
-                textAlign: TextAlign.center,
+              child: Stack(
+                children: [
+                  Container(
+                      padding: const EdgeInsets.all(5),
+                      width: double.infinity,
+                      child: TextDefault(
+                        text,
+                        size: TextSizes.large,
+                        color: colorText,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center,
+                      )),
+                  Positioned(
+                    top: -3,
+                    right: -3,
+                    child: Icon(
+                      Icons.arrow_outward_outlined,
+                      size: 15,
+                      color: colorText.color,
+                    ),
+                  )
+                ],
               ),
             ),
           ),

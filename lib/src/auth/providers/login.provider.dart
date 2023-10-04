@@ -28,9 +28,7 @@ class AuthApi {
       });
       if (response.statusCode == 200) {
         _tokenRepository.initializeTokens(TokenModel.fromJson(response.data));
-        print('entra');
         User? userApi = await CurrentUserApi().getUser();
-        print('entra2');
         if (userApi != null) {
           return userApi;
         } else {
@@ -79,11 +77,12 @@ class AuthApi {
     }
   }
 
-  void logout() {
+  void logout() async {
     _tokenRepository.clearTokens();
     navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false)
-        .then((_) => CurrentUserApi().removeUser());
+        ?.pushNamedAndRemoveUntil(loginRoute, (Route<dynamic> route) => false);
+    await Future.delayed(const Duration(milliseconds: 1000));
+    CurrentUserApi().removeUser();
     return;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/app_submenu.widget.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
@@ -93,6 +94,7 @@ class ScaffoldDefault extends StatelessWidget {
           : _currentUser is Patient
               ? ModalRoute.of(context)!.settings.name != '/chat'
                   ? FloatingActionButton(
+                      backgroundColor: TextColors.chat.color,
                       child: const Icon(Icons.message),
                       onPressed: () {
                         Navigator.pushNamed(context, chatRoute,
