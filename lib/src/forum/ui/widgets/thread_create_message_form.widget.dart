@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
-import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/files_form.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/snackbar_modal.widget.dart';
@@ -71,7 +70,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                                     .forumThreadMessageCreateTitle,
                             size: TitleSize.large),
                         IconButton(
-                            icon: Icon(Icons.attach_file_outlined),
+                            icon: const Icon(Icons.attach_file_outlined),
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(colorRec)),
@@ -120,7 +119,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                       decoration: InputDecoration(
                           hintText: AppLocalizations.of(context)!
                               .forumThreadMessageCreateComment,
-                          hintStyle: const TextStyle(color: Colors.grey)),
+                          hintStyle: TextStyle(color: TextColors.muted.color)),
                     ),
                     const SizedBox(height: 10),
                     FilesFormWidget(
@@ -139,7 +138,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                             children: [
                               SnackbarModal(
                                 title: _snackbarErrorMessage!,
-                                backgroundColor: Colors.red,
+                                backgroundColor: TextColors.danger.color,
                               ),
                               const SizedBox(height: 10),
                             ],

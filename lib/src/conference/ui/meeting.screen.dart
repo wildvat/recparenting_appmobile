@@ -178,8 +178,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
               padding: const EdgeInsets.all(20),
-              backgroundColor: Colors.red, // <-- Button color
-              foregroundColor: Colors.red, // <-- Splash color
+              backgroundColor: TextColors.danger.color, // <-- Button color
+              foregroundColor: TextColors.danger.color, // <-- Splash color
             ),
             child: const Icon(Icons.power_settings_new_outlined,
                 color: Colors.white),
@@ -265,7 +265,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
     }
 
     Widget emptyVideos = TitleDefault(
-      "Waiting to camera ${_currentUser.isPatient() ? 'therapist' : 'patient'}...",
+      AppLocalizations.of(context)!.meetingWaitingToCamera(
+          _currentUser.isPatient() ? 'therapist' : 'patient'),
       size: TitleSize.large,
     );
     return Center(

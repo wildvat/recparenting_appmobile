@@ -295,7 +295,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       ),
       onPressed: () {
         message.message = encryptAESCryptoJS(
-            'This message has been deleted', message.user.id);
+            AppLocalizations.of(context)!.chatDeleted, message.user.id);
         _conversationBloc.add(DeleteMessageFromConversation(message: message));
         message.isDeleted = true;
         Navigator.of(context).pop();

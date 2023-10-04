@@ -38,7 +38,7 @@ class _ThreadCardState extends State<ThreadCard> {
       onTap: () =>
           Navigator.pushNamed(context, threadRoute, arguments: widget.thread),
       contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-      tileColor: widget.index % 2 == 0 ? Colors.white : Colors.grey.shade200,
+      tileColor: widget.index % 2 == 0 ? Colors.white : TextColors.light.color,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

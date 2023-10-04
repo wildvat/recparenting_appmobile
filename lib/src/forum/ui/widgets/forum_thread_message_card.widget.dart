@@ -42,7 +42,9 @@ class _ForumThreadMessageCardWidgetState
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.index % 2 == 0 ? Colors.white : Colors.grey.shade200,
+      color: widget.index % 2 == 0
+          ? TextColors.white.color
+          : TextColors.light.color,
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -82,7 +84,7 @@ class _ForumThreadMessageCardWidgetState
                       icon: Icon(Icons.delete_forever,
                           color: _loadingDelete
                               ? Colors.red.shade100
-                              : Colors.red))
+                              : TextColors.danger.color))
                   : const SizedBox.shrink(),
             ],
           ),

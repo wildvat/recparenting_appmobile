@@ -128,6 +128,7 @@
   "chatEnterMessage": "Write a message...",
   "chatDeleteMessageTitle": "Delete message",
   "chatDeleteMessageContent": "Are you sure you want to delete this message?",
+  "chatDeleted": "This message has been deleted",
   "patientChangeTherapistTitle": "Form to change therapist",
   "patientChangeTherapistOptionsTitle": "Select a option",
   "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Our schedules don’t match} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
@@ -200,5 +201,12 @@
   "mettingErrorPlatform": "Unrecognized Platform",
   "mettingChooseAudio": "Seleccionar el tipo de audio",
   "mettingLeave": "Leave meeting",
+  "meetingTherapistMustInit": "The videoconference must be initiated by the therapist.",
+  "meetingWaitingToCamera": "Waiting to {userType}'s camera...",
+  "@meetingWaitingToCamera": {
+    "placeholder": {
+      "userType": {}
+    }
+  },
   "userNotLogged": "You are not logged in"
 }

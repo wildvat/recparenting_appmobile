@@ -2,6 +2,7 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
@@ -116,7 +117,7 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red.shade900),
+                        backgroundColor: TextColors.danger.color),
                     child: _loading
                         ? const CircularProgressIndicator(
                             color: Colors.white,

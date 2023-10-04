@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MasterclassScreen extends StatefulWidget {
   const MasterclassScreen({super.key});
@@ -19,7 +20,7 @@ class _MasterclassScreenState extends State<MasterclassScreen> {
       Navigator.pushReplacementNamed(context, webPageRoute,
           arguments: WebpageArguments(
             url: 'https://www.recparenting.com/masterclasses/',
-            title: 'Masterclass',
+            title: AppLocalizations.of(context)!.menuMasterclasses,
           ));
     });
   }

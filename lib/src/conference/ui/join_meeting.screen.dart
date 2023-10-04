@@ -224,7 +224,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 20),
                     child: TextDefault(
-                      'The videoconference must be initiated by the therapist.',
+                      AppLocalizations.of(context)!.meetingTherapistMustInit,
                       size: TextSizes.large,
                       textAlign: TextAlign.center,
                     ),

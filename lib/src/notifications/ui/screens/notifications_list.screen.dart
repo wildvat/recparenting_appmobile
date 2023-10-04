@@ -45,9 +45,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           color: Colors.red.shade100,
           padding: const EdgeInsets.only(left: 20.0),
           alignment: Alignment.centerLeft,
-          child: const Icon(
+          child: Icon(
             Icons.delete,
-            color: Colors.red,
+            color: TextColors.danger.color,
           ),
         ),
         child: ListTile(

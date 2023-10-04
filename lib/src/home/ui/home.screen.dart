@@ -9,7 +9,7 @@ import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
-import 'package:recparenting/src/home/home_card.widget.dart';
+import 'package:recparenting/src/home/ui/home_card.widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

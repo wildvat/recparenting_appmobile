@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/calendar/models/events_color.enum.dart';
@@ -31,18 +30,14 @@ class CalendarLegendWidget extends StatelessWidget {
                   return ListTile(
                     title: TextDefault(
                       AppLocalizations.of(context)!
-                          .eventType(AppointmentTypes.values[index]
-                              .toString()
-                              .replaceAll('AppointmentTypes.', ''))
+                          .eventType(AppointmentTypes.values[index].name)
                           .toUpperCase(),
                       fontWeight: FontWeight.bold,
                       size: TextSizes.large,
                       textAlign: TextAlign.center,
                     ),
-                    tileColor: calendarEventsColors[AppointmentTypes
-                        .values[index]
-                        .toString()
-                        .replaceAll('AppointmentTypes.', '')],
+                    tileColor: calendarEventsColors[
+                        AppointmentTypes.values[index].name],
                   );
                 }))
           ],

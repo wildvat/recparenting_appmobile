@@ -67,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     }
     final tabController = TabController(length: tabs.length, vsync: this);
 
-    String title = 'Chat';
+    String title = AppLocalizations.of(context)!.menuChat;
     if (_currentUser.isTherapist()) {
       Therapist? therapistOfRoom =
           getTherapistFromRoom(rooms.rooms[tabController.index]);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
-import 'package:recparenting/constants/colors.dart';
 
 class HomeCardWidget extends StatelessWidget {
   final String text;

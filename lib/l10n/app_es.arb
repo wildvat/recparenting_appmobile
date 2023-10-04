@@ -126,6 +126,7 @@
   "chatEnterMessage": "Escribe un mensaje...",
   "chatDeleteMessageTitle": "Eliminar mensaje",
   "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?",
+  "chatDeleted": "Este mensaje ha sido eliminado",
   "fieldIncomplete": "Campo obligatorio",
   "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
   "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
@@ -196,5 +197,12 @@
   "mettingErrorPlatform": "Platforma no reconocida",
   "mettingChooseAudio": "Choose Audio Device",
   "mettingLeave": "Abandonar la reunión",
+  "meetingTherapistMustInit": "La videoconferencia debe ser iniciada por la terapeuta.",
+  "meetingWaitingToCamera": "Esperando a la cámara del {userType}...",
+  "@meetingWaitingToCamera": {
+    "placeholder": {
+      "userType": {}
+    }
+  },
   "userNotLogged": "No estás autenticado"
 }
