@@ -2,11 +2,16 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/src/notifications/models/notification_type.enum.dart';
+import 'package:recparenting/src/patient/models/patient.model.dart';
+import 'package:recparenting/src/room/helpers/participans_from_room.dart';
+import 'package:recparenting/src/room/models/conversation.model.dart';
+import 'package:recparenting/src/room/providers/room.provider.dart';
 import '../models/user.model.dart';
 
 class ActionNotificationPush {
@@ -48,6 +53,7 @@ class ActionNotificationPush {
 
   bool showSnackBar = false;
   Function()? onPress;
+
   String? title = message.notification?.title;
 
     switch (notificationType) {
@@ -102,15 +108,25 @@ class ActionNotificationPush {
         break;
         case NotificationType.receiveMessageNotification:
           //el action id aqui se corresponde con un conversation id
-        onPress = redirectFromPush(chatRoute, actionId);
-        print('receiveMessageNotification');
+        if(actionId != null) {
+          Conversation? conversation = await RoomApi().getConversation(actionId, 1);
+          if(conversation != null){
+            Patient? patient = getPatientFromRoom(conversation.room);
+            if(patient != null){
+              onPress = () {
+                navigatorKey.currentState!.pushNamed( chatRoute, arguments: patient);
+              };
+            }
+          }
+        }
+        showSnackBar = true;
         break;
       default:
         print('default');
     }
 
     if(showSnackBar && title != null){
-      SnackBarRec(message: title, backgroundColor: Colors.blueAccent.shade400, onPress: onPress);
+      SnackBarRec(message: title, backgroundColor: colorRecLight, showCloseIcon: false, onPress: onPress);
     }
 /*
     User? user = await UserApi().getUserById(message.data['user']);
