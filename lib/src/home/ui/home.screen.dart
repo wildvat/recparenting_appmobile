@@ -56,36 +56,39 @@ class _HomePageState extends State<HomePage> {
                         colorText: TextColors.chatDark,
                         pathImage: 'dashboard_one-min',
                         text: state.user.isPatient()
-                            ? 'Chat'
-                            : 'Listado de pacientes',
+                            ? AppLocalizations.of(context)!.menuChat
+                            : AppLocalizations.of(context)!.menuPatients,
                       ),
                       HomeCardWidget(
                         onPress: () =>
                             Navigator.pushNamed(context, masterclassRoute),
                         colorBack: TextColors.masterclass.color,
                         colorText: TextColors.masterclassDark,
+                        isExternalLink: true,
                         pathImage: 'dashboard_masterclass-min',
-                        text: 'Masterclasses',
+                        text: AppLocalizations.of(context)!.menuMasterclasses,
                       ),
                       HomeCardWidget(
                         onPress: () =>
                             Navigator.pushNamed(context, podcastsRoute),
                         colorBack: TextColors.recLight.color,
                         colorText: TextColors.rec,
+                        isExternalLink: true,
                         pathImage: 'dashboard_podcast-min',
-                        text: 'Podcast',
+                        text: AppLocalizations.of(context)!.menuPodcast,
                       ),
                       HomeCardWidget(
                         onPress: () => Navigator.pushNamed(
                             context, webPageRoute,
                             arguments: WebpageArguments(
-                                title: 'FAQs',
+                                title: AppLocalizations.of(context)!.menuFaqs,
                                 url:
                                     'https://www.recparenting.com/faq-users/')),
                         colorBack: TextColors.rec.color,
                         colorText: TextColors.recLight,
+                        isExternalLink: true,
                         pathImage: 'dashboard_faqs-min',
-                        text: 'FAQs',
+                        text: AppLocalizations.of(context)!.menuFaqs,
                       )
                     ],
                   )

@@ -51,15 +51,17 @@ class HomeCardWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center,
                       )),
-                  Positioned(
-                    top: -3,
-                    right: -3,
-                    child: Icon(
-                      Icons.arrow_outward_outlined,
-                      size: 15,
-                      color: colorText.color,
-                    ),
-                  )
+                  isExternalLink
+                      ? Positioned(
+                          top: -3,
+                          right: -3,
+                          child: Icon(
+                            Icons.arrow_outward_outlined,
+                            size: 15,
+                            color: colorText.color,
+                          ),
+                        )
+                      : const SizedBox.shrink()
                 ],
               ),
             ),

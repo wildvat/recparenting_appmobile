@@ -62,6 +62,7 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
             },
             titleUrl: AppLocalizations.of(context)!.menuProfile),
         AppSubmenuItemWidget(
+            isExternalLink: true,
             onPress: () async {
               String url = 'https://www.recparenting.com/privacy-policy/';
               if (getLang() == 'es') {
@@ -83,43 +84,47 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
             },
             titleUrl: AppLocalizations.of(context)!.menuContact),
         AppSubmenuItemWidget(
+            isExternalLink: true,
             onPress: () async {
               await Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
-                      title: 'Blog',
+                      title: AppLocalizations.of(context)!.menuBlog,
                       url: 'https://www.recparenting.com/blog/'));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
-            titleUrl: 'Blog'),
+            titleUrl: AppLocalizations.of(context)!.menuBlog),
         _currentUser.isPatient()
             ? AppSubmenuItemWidget(
+                isExternalLink: true,
                 onPress: () async {
                   await Navigator.pushNamed(context, masterclassRoute);
                   await Future.delayed(const Duration(milliseconds: 10));
                   _menuController.close();
                 },
-                titleUrl: 'Masterclasses')
+                titleUrl: AppLocalizations.of(context)!.menuMasterclasses)
             : const SizedBox.shrink(),
         _currentUser.isPatient()
             ? AppSubmenuItemWidget(
+                isExternalLink: true,
                 onPress: () async {
                   await Navigator.pushNamed(context, masterclassRoute);
                   await Future.delayed(const Duration(milliseconds: 10));
                   _menuController.close();
                 },
-                titleUrl: 'Podcasts')
+                titleUrl: AppLocalizations.of(context)!.menuPodcast)
             : const SizedBox.shrink(),
         AppSubmenuItemWidget(
+            isExternalLink: true,
             onPress: () async {
               await Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
-                      title: 'FAQs',
+                      title: AppLocalizations.of(context)!.menuFaqs,
                       url: 'https://www.recparenting.com/faq-users/'));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
-            titleUrl: 'FAQs')
+            titleUrl: AppLocalizations.of(context)!.menuFaqs)
       ],
       child: const Icon(Icons.more_vert, color: Colors.white),
     );

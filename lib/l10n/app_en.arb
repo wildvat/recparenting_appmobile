@@ -16,6 +16,13 @@
   "menuContact": "Contact",
   "menuPatients": "Patients",
   "menuNotifications": "Notifications",
+
+  "menuFaqs": "FAQs",
+  "menuPodcast": "Podcast",
+  "menuMasterclasses": "Masterclasses",
+  "menuBlog": "Blog",
+  "menuPatients": "Patients list",
+
   "therapistBioTitle": "Your therapist",
   "therapistShow": "More information",
   "workingHoursTitle": "Working hours",
