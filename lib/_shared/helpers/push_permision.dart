@@ -9,13 +9,12 @@ import 'dart:developer' as dev;
 getPermissionPushApp() async {
   var permission = RequestPermissions();
   NotificationSettings settings = await permission.push();
-
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    dev.log('User granted permission');
+    dev.log('User granted push permission');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    dev.log('User granted provisional permission');
+    dev.log('User granted provisional push permission');
   } else {
-    dev.log('User declined or has not accepted permission');
+    dev.log('User declined or has not accepted  push permission');
   }
 
   String platform = '';
@@ -28,5 +27,11 @@ getPermissionPushApp() async {
   }
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   String? token = await firebaseMessaging.getToken();
-  CurrentUserApi().addDevice(token!, platform);
+  if(token != null){
+    dev.log('token device: $token');
+    CurrentUserApi().addDevice(token, platform);
+  }else{
+    dev.log('token device: null');
+  }
+
 }

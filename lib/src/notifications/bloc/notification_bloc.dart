@@ -62,33 +62,22 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     Emitter<NotificationState> emit,
   ) async {
     try {
-      print('entor en fetch notifications');
       if (state is NotificationsLoaded) {
-        print('el estado ya es loaded');
         if ((state as NotificationsLoaded).hasReachedMax) {
-          print('no uqiero consultar mas');
           return;
         }
 
         NotificationsLoaded currentStatus = (state as NotificationsLoaded);
-        print('hago loading');
         emit(NotificationsLoading());
         emit(currentStatus.copyWith(loading: true));
       }
-      print('consulto api');
       final Notifications? notifications =
           await _getNotifications(event.page ?? 1);
       if (notifications == null) {
-        print('nnno hay notificaciones');
         return;
       }
-
-      print('cambi el estado a loading');
       emit(NotificationsLoading());
-
       if (state is NotificationsLoaded) {
-        print('si ya esta  en loadaded');
-
         NotificationsLoaded currentStatus = (state as NotificationsLoaded);
         bool hasReachedMax = false;
         emit(currentStatus.copyWith(
@@ -96,7 +85,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             hasReachedMax: hasReachedMax,
             loading: false));
       } else {
-        print('sno va nuevo');
         emit(NotificationsLoaded(
             notifications: notifications,
             hasReachedMax: false,
