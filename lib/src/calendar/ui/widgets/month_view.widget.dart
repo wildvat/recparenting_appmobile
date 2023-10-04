@@ -56,7 +56,6 @@ class _MonthViewRecState extends State<MonthViewRec> {
           .substring(0, 3),
       onCellTap: widget.onCellTap,
       cellBuilder: (date, events, isToday, isInMonth) {
-        // todo check wHours check if date.day is inside wHour
         final String dayName = DateFormat('EEEE').format(date).toLowerCase();
         Color color = Colors.grey.shade200;
         for (var whour in widget.workingHours.toList()) {

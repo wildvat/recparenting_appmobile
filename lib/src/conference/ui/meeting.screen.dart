@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 
@@ -260,9 +261,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
       }
     }
 
-    Widget emptyVideos = TextDefault(
+    Widget emptyVideos = TitleDefault(
       "Waiting to camera ${_currentUser.isPatient() ? 'therapist' : 'patient'}...",
-      fontWeight: FontWeight.bold,
+      size: TitleSize.large,
     );
     return Center(
       widthFactor: 2.5,

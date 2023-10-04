@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recparenting/_shared/helpers/avatar_image.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
@@ -119,18 +121,19 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                 } else {
                   if (snapshot.hasData && snapshot.data.events.isNotEmpty) {
                     return Expanded(
-                        child: ListView.separated(
+                        child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const Divider(),
-                            padding: const EdgeInsets.symmetric(vertical: 30),
                             itemCount: snapshot.data!.total,
                             itemBuilder: (BuildContext context, int index) {
                               EventModel event = snapshot.data?.events[index];
                               return getEventListTile(event);
-                            }));
+                            })
+                      ],
+                    ));
                   } else {
                     return Center(
                         child: TextDefault(
@@ -153,9 +156,13 @@ class PatientShowScreenState extends State<PatientShowScreen> {
             color: colorRec,
             size: 30,
           )),
-      title: Text(DateFormat.yMMMMEEEEd().format(event.start)),
-      subtitle: Text(
-          '${DateFormat.Hm().format(event.start)} - ${DateFormat.Hm().format(event.end)}'),
+      title: TextDefault(
+        DateFormat.yMMMMEEEEd().format(event.start),
+        size: TextSizes.large,
+      ),
+      subtitle: TextDefault(
+          '${DateFormat.Hm().format(event.start)} - ${DateFormat.Hm().format(event.end)}',
+          color: TextColors.muted),
       onTap: () {
         if (event.type == AppointmentTypes.appointment_video) {
           Navigator.pushNamed(context, joinConferenceRoute,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/current_user/providers/current_user.provider.dart';
 import 'package:recparenting/src/patient/models/change_therapist.model.dart';
@@ -40,15 +43,19 @@ class _ChangeTherapistReasonWidgetState
     List<Widget> widgets = [];
     widgets.add(Padding(
         padding: const EdgeInsets.all(20),
-        child: TextDefault(
+        child: TitleDefault(
           AppLocalizations.of(context)!.patientChangeTherapistTitle,
-          fontWeight: FontWeight.bold,
+          size: TitleSize.large,
         )));
 
     for (var value in ChangeTherapistReasons.values) {
       widgets.add(RadioListTile(
-        title: TextDefault(AppLocalizations.of(context)!
-            .patientChangeTherapistReason(value.name)),
+        fillColor: const MaterialStatePropertyAll(colorRecLight),
+        title: TextDefault(
+          AppLocalizations.of(context)!
+              .patientChangeTherapistReason(value.name),
+          size: TextSizes.large,
+        ),
         value: value,
         groupValue: _changeTherapistReasons,
         onChanged: (ChangeTherapistReasons? value) {
@@ -60,6 +67,7 @@ class _ChangeTherapistReasonWidgetState
         },
       ));
     }
+    widgets.add(const SizedBox(height: 20));
     widgets.add(_loadingSendChange
         ? const CircularProgressIndicator()
         : ElevatedButton(
@@ -89,6 +97,7 @@ class _ChangeTherapistReasonWidgetState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: getWidgetsChangeTherapistReasons(currentState),
       ),
     );

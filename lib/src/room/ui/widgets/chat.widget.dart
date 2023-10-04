@@ -101,7 +101,9 @@ class _ChatWidgetState extends State<ChatWidget> {
                 : messageWidget(
                     state.conversation,
                     state.messages.messages[index],
-                    (index < state.messages.messages.length - 1 ) ? state.messages.messages[index + 1] : null);
+                    (index < state.messages.messages.length - 1)
+                        ? state.messages.messages[index + 1]
+                        : null);
           },
           itemCount: state.hasReachedMax
               ? state.messages.messages.length
@@ -215,8 +217,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                                   message.message, message.user.id),
                               color: textColor),
                           TextDefault(DateFormat.Hm().format(message.createdAt),
-                              size: TextSizes.xsmall,
-                              color: TextColors.recDark),
+                              size: TextSizes.small, color: TextColors.muted),
                         ],
                       )))
             ]));
