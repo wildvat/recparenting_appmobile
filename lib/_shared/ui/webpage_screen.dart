@@ -9,11 +9,12 @@ class WebPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
               arguments.title ?? AppLocalizations.of(context)!.webPageTitle),
         ),
-        body: WebViewerWidget(url: arguments.url));
+        body: WebViewerWidget(url: arguments.url, token: arguments.token));
   }
 }

@@ -2,6 +2,8 @@ import 'package:recparenting/environments/env_model.dart';
 
 class ProdConfig implements EnvConfig {
   @override
+  String get web => 'https://www.recparenting.com/';
+  @override
   String get url => 'https://www.recparenting.net/';
   @override
   String get apiUrl => 'https://www.recparenting.net/apiMobile/';

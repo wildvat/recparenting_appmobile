@@ -1,4 +1,5 @@
 abstract class EnvConfig {
+  String get web;
   String get url;
   String get apiUrl;
   String get clientId;
