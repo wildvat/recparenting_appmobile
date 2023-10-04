@@ -55,11 +55,12 @@ class RecThemeData {
                 shape: CircleBorder(),
                 backgroundColor: colorRecLight,
                 foregroundColor: Colors.white),
-            appBarTheme: const AppBarTheme(
+            appBarTheme: AppBarTheme(
               color: colorRecDark,
               foregroundColor: Colors.white,
-              titleTextStyle: TextStyle(fontSize: 18),
-              iconTheme: IconThemeData(color: Colors.white),
+              titleTextStyle: TextStyle(
+                  fontSize: TextSizes.large.size, fontWeight: FontWeight.bold),
+              iconTheme: const IconThemeData(color: Colors.white),
             ),
             tabBarTheme: const TabBarTheme(
                 labelColor: Colors.white,
@@ -100,11 +101,14 @@ class RecThemeData {
         textButtonTheme: const TextButtonThemeData(
             style: ButtonStyle(
                 foregroundColor: MaterialStatePropertyAll(colorRecLight))),
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           color: colorRecDark,
           foregroundColor: Colors.white,
-          titleTextStyle: TextStyle(fontSize: 18),
-          iconTheme: IconThemeData(color: Colors.white),
+          titleTextStyle: TextStyle(
+              color: Colors.red,
+              fontSize: TextSizes.large.size,
+              fontWeight: FontWeight.bold),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         tabBarTheme: const TabBarTheme(
           labelColor: Colors.white,
