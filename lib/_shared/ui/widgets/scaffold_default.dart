@@ -103,6 +103,7 @@ class ScaffoldDefault extends StatelessWidget {
                     )
                   : const SizedBox.shrink()
               : FloatingActionButton(
+                  backgroundColor: TextColors.chat.color,
                   child: const Icon(Icons.person_search),
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, patientsRoute);

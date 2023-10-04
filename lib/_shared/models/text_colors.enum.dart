@@ -42,7 +42,7 @@ enum TextColors {
       case TextColors.masterclassDark:
         return const Color(0xff006269);
       case TextColors.danger:
-        return Colors.red;
+        return const Color(0xffD75447);
       case TextColors.success:
         return Colors.green;
       case TextColors.warning:

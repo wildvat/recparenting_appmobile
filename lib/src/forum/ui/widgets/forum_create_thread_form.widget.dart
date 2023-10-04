@@ -5,6 +5,7 @@ import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/snackbar_modal.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/models/forum_create_response.model.dart';
 import 'package:recparenting/src/forum/providers/forum.provider.dart';
@@ -48,10 +49,11 @@ class _ForumCreateThreadFromState extends State<ForumCreateThreadFrom> {
                       : MediaQuery.of(context).viewInsets.bottom),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextDefault(
+                  TitleDefault(
                       AppLocalizations.of(context)!.forumThreadCreateTitle,
-                      size: TextSizes.large),
+                      size: TitleSize.large),
                   TextFormField(
                     controller: _titleEditingController,
                     keyboardType: TextInputType.text,

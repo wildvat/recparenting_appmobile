@@ -23,7 +23,7 @@ class EventsCalendarModel {
           //TODO: El modelo EventModel lleva incorporado los iconos y los colores ver si se puede recoger el color desde el eventModel y borrar este
           if (currentUser.isPatient() &&
               currentUser.id != event['user']['uuid']) {
-            color = Colors.red;
+            color = TextColors.danger.color;
           } else {
             color = calendarEventsColors[event['type']] ?? Colors.grey;
           }

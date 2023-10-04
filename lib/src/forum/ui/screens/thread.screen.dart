@@ -77,8 +77,11 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                           });
                                     }
                                   : null,
-                              child: TextDefault(AppLocalizations.of(context)!
-                                  .forumThreadSeeMessagesBtn)),
+                              child: TextDefault(
+                                AppLocalizations.of(context)!
+                                    .forumThreadSeeMessagesBtn,
+                                color: TextColors.white,
+                              )),
                         )
                       ],
                     ))));
