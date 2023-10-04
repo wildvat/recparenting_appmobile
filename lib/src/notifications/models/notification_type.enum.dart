@@ -15,6 +15,7 @@ enum NotificationType {
   patientDisabledAtReminderNotification,
   toTherapistWhenPatientDisabledAtNotification,
   conversationUnreadNotification,
+  receiveMessageNotification //only for push notification
 }
 
 NotificationType convertNotificationTypeFromString(String type) {
@@ -67,6 +68,9 @@ NotificationType convertNotificationTypeFromString(String type) {
       break;
     case 'ConversationUnreadNotification':
       value = NotificationType.conversationUnreadNotification;
+      break;
+    case 'ReceiveMessageNotification':
+      value = NotificationType.receiveMessageNotification;
       break;
     default:
       value = NotificationType.therapistDisabledAtNotificationTherapist;
@@ -126,6 +130,9 @@ String convertStringFromNotificationType(NotificationType type) {
       break;
     case  NotificationType.conversationUnreadNotification:
       value = 'ConversationUnreadNotification';
+      break;
+    case  NotificationType.receiveMessageNotification:
+      value = 'ReceiveMessageNotification';
       break;
     default:
       value = 'ConversationUnreadNotification';
