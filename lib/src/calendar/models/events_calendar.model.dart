@@ -3,7 +3,6 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/events_color.enum.dart';
 

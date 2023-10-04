@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
-import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/snackbar_modal.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
