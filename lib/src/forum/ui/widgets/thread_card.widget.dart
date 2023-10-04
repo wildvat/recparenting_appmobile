@@ -4,7 +4,6 @@ import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/routes.dart';
 import 'package:recparenting/src/forum/models/thread.model.dart';
 
 class ThreadCard extends StatefulWidget {
