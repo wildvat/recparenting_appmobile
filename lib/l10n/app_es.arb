@@ -40,6 +40,7 @@
   "generalFormFieldTitle": "Título",
   "generalFormFieldDescription": "Descripción",
   "generalReplyBtn": "Responder",
+  "generalShow": "Ver",
   "calendarTitle": "Agenda",
   "calendarGeneralError": "No se ha podido mostrar el calendario",
   "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",
