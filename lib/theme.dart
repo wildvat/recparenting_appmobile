@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/notransition_builder.dart';
 import 'package:recparenting/constants/colors.dart';
 
@@ -31,15 +32,22 @@ class RecThemeData {
                       BorderSide(style: BorderStyle.solid, color: colorRecDark),
                 ),
                 activeIndicatorBorder: const BorderSide(color: colorRecLight),
-                hintStyle: TextStyle(color: TextColors.muted.color),
+                hintStyle: TextStyle(
+                    color: TextColors.muted.color,
+                    fontSize: TextSizes.small.size),
                 labelStyle: const TextStyle(color: colorRecDark),
                 border: const UnderlineInputBorder(
                     borderSide: BorderSide(
                         style: BorderStyle.solid, color: colorRecLight))),
-            elevatedButtonTheme: const ElevatedButtonThemeData(
+            elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor: MaterialStatePropertyAll(colorRecLight))),
+                    textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(
+                        fontSize: TextSizes.small.size,
+                        fontWeight: FontWeight.bold)),
+                    foregroundColor:
+                        const MaterialStatePropertyAll(Colors.white),
+                    backgroundColor:
+                        const MaterialStatePropertyAll(colorRecLight))),
             textButtonTheme: const TextButtonThemeData(
                 style: ButtonStyle(
                     foregroundColor: MaterialStatePropertyAll(colorRecLight))),

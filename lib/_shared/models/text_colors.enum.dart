@@ -9,6 +9,10 @@ enum TextColors {
   rec,
   recLight,
   recDark,
+  chat,
+  chatDark,
+  masterclass,
+  masterclassDark,
   danger,
   warning,
   success;
@@ -29,6 +33,14 @@ enum TextColors {
         return colorRecLight;
       case TextColors.recDark:
         return colorRecDark;
+      case TextColors.chat:
+        return colorChat;
+      case TextColors.chatDark:
+        return const Color(0xff453A12);
+      case TextColors.masterclass:
+        return colorMasterclass;
+      case TextColors.masterclassDark:
+        return const Color(0xff006269);
       case TextColors.danger:
         return Colors.red;
       case TextColors.success:
@@ -39,5 +51,4 @@ enum TextColors {
         return Colors.black87;
     }
   }
-
 }
