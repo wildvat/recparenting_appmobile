@@ -51,6 +51,9 @@ class _CalendarFormCreateEventWidgetState
       _appointmentTypes = AppointmentTypes.patientAppointmentTypes();
     } else {
       _appointmentTypes = AppointmentTypes.therapistAppointmentTypes();
+      if (widget.start != null) {
+        _endEditingController.text = _startEditingController.text;
+      }
     }
     _appointmentType =
         AppointmentTypes.getAppointMentTypeString(_appointmentTypes[0]);
@@ -84,6 +87,9 @@ class _CalendarFormCreateEventWidgetState
             '${pickedDate.toString().substring(0, 10)} ${picked.hour < 10 ? '0${picked.hour}' : picked.hour}:${picked.minute < 10 ? '0${picked.minute}' : picked.minute}';
         if (type == TypeDatePicker.start) {
           _startEditingController.text = datetTime;
+          if (_endEditingController.text == '') {
+            _endEditingController.text = datetTime;
+          }
         } else {
           _endEditingController.text = datetTime;
         }
@@ -190,7 +196,6 @@ class _CalendarFormCreateEventWidgetState
                               controller: _endEditingController,
                               keyboardType: TextInputType.datetime,
                               readOnly: true,
-                              // The validator receives the text that the user has entered.
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return AppLocalizations.of(context)!
