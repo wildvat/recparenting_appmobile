@@ -49,7 +49,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
     return ScaffoldDefault(
       title: widget.patient.name,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
           _currentUser.isTherapist()
@@ -130,9 +130,11 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                       ],
                     ));
                   } else {
-                    return Center(
-                        child: TextDefault(
-                            AppLocalizations.of(context)!.patientNotHasEvents));
+                    return Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Center(
+                            child: TextDefault(AppLocalizations.of(context)!
+                                .patientNotHasEvents)));
                   }
                 }
               })

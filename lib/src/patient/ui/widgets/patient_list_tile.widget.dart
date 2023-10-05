@@ -32,6 +32,8 @@ class PatientListTile extends StatelessWidget {
           size: TextSizes.small);
     }
     return ListTile(
+        onTap: () =>
+            Navigator.pushNamed(context, patientShowRoute, arguments: patient),
         leading: CircleAvatar(
           radius: 30,
           backgroundColor: Colors.transparent,
