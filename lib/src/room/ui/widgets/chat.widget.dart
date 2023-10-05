@@ -156,7 +156,6 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     Widget currentDate = const SizedBox();
     Widget separator = const SizedBox();
-    // todo check why date print after message
     if (_shouldShowDateSeparator(previousMessage, message)) {
       currentDate = Center(
           child: Container(
