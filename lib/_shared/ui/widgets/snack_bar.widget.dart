@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/navigator_key.dart';
 
 import '../../providers/r_language.dart';
@@ -32,7 +33,8 @@ class SnackBarRec {
         showCloseIcon: showCloseIcon,
         action: onPress != null
             ? SnackBarAction(
-                textColor: Colors.black,
+                backgroundColor: colorRec,
+                textColor: Colors.white,
                 label: R.string.generalShow,
                 onPressed: onPress!,
               )
