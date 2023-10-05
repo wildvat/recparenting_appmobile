@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:developer' as developer;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,13 +15,17 @@ import 'package:recparenting/src/notifications/bloc/notification_bloc.dart';
 import 'package:recparenting/theme.dart';
 
 import '_shared/helpers/push_permision.dart';
+import '_shared/providers/route_observer.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((__) => runApp(const MyApp()));
 }
@@ -42,19 +45,23 @@ class _MyAppState extends State<MyApp> {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
     if (initialMessage != null) {
-      _handleMessage(initialMessage);
+      _handleOnMessageOpenedApp(initialMessage);
     }
-
     // Also handle any interaction when the app is in the background via a
     // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleOnMessageOpenedApp);
+    FirebaseMessaging.onMessage.listen(_handleOnMessage);
   }
-
-  void _handleMessage(RemoteMessage message) {
-    developer.log('push redirect message ${message.data['type']}');
+  void _handleOnMessage(RemoteMessage message) {
+    //print('onMessage | app open ${message.data}');
+    ActionNotificationPush(message: message)
+        .execute(_notificationsBloc);
+  }
+  void _handleOnMessageOpenedApp(RemoteMessage message) {
+    //print('onMessageOpenedApp | app semiOpened ${message.data}');
+    ActionNotificationPush(message: message)
+        .redirectFromPush(_notificationsBloc);
   }
 
   @override
@@ -64,17 +71,8 @@ class _MyAppState extends State<MyApp> {
     getPermissionPushApp();
     setupInteractedMessage();
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      developer.log('onMessage | app opened ${message.notification!.title}');
-      developer.log('push redirect message ${message.data}');
-      ActionNotificationPush(message: message, context: context)
-          .execute(_notificationsBloc);
-      developer.log('he lanzado el pusg');
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      developer.log('onMessageOpenedApp | app semiOpened ${message.data}');
-      developer.log('push redirect message ${message.data}');
-    });
+
+
   }
 
   @override
@@ -107,6 +105,7 @@ class _MyAppState extends State<MyApp> {
               scaffoldMessengerKey: scaffoldKey,
               //home: const HomePage(),
               navigatorKey: navigatorKey,
+              navigatorObservers: [routeObserverRec],
               locale: Locale(state.language),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
