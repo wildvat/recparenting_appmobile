@@ -80,22 +80,9 @@ class ChatApi {
 
   void onEvent(PusherEvent event) {
     try {
-     // developer.log("onEventOk: $event");
       if (event.eventName == 'new-message') {
         Message message = Message.fromJson(jsonDecode(event.data));
-        print('envio evento ReceiveMessageToConversation');
         _conversationBloc.add(ReceiveMessageToConversation(message: message));
-        print('ya esta enviado evento ReceiveMessageToConversation');
-
-        if (message.type == 'text') {
-         // developer.log("onEventOk1 ${message.message}");
-        //  developer.log("onEventOk2 ${message.user.id}");
-        //  final String messageDecrypted =
-        //      decryptAESCryptoJS(message.message, message.user.id);
-       //   developer.log('Decrypt: $messageDecrypted');
-         // message.message = messageDecrypted;
-          // todo add message to screen
-        }
       }
     } catch (e) {
       developer.log("onEventError: ${e.toString()}");
