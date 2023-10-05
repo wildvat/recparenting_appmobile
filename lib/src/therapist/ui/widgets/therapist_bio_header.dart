@@ -40,6 +40,7 @@ class TherapistBioHeaderWidget extends StatelessWidget {
             _therapist.getFullName(),
             size: TitleSize.large,
             color: TextColors.white,
+            textAlign: TextAlign.center,
           ),
           TextDefault(
             AppLocalizations.of(context)!

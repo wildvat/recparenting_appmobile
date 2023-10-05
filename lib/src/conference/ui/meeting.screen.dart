@@ -70,7 +70,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                   child: showLocalVideoTile(meetingProvider, context),
                 ),
                 Positioned(
-                  bottom: 10,
+                  bottom: 20,
                   child: localListInfo(meetingProvider, context),
                 ),
                 WillPopScope(
@@ -78,7 +78,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     meetingProvider.stopMeeting();
                     return true;
                   },
-                  child: const Spacer(),
+                  child: const SizedBox.shrink(),
                 ),
               ],
             )));
@@ -94,37 +94,45 @@ class _MeetingScreenState extends State<MeetingScreen> {
     developer.log('paramsVT $paramsVT');
     Widget videoTile;
     if (Platform.isIOS) {
-      videoTile = UiKitView(
+      videoTile = SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child:  UiKitView(
         viewType: "videoTile",
         creationParams: paramsVT,
         creationParamsCodec: const StandardMessageCodec(),
-      );
+      ));
     } else if (Platform.isAndroid) {
-      videoTile = PlatformViewLink(
-        viewType: 'videoTile',
-        surfaceFactory:
-            (BuildContext context, PlatformViewController controller) {
-          return AndroidViewSurface(
-            controller: controller as AndroidViewController,
-            gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
-            hitTestBehavior: PlatformViewHitTestBehavior.transparent,
-          );
-        },
-        onCreatePlatformView: (PlatformViewCreationParams params) {
-          final AndroidViewController controller =
-              PlatformViewsService.initExpensiveAndroidView(
-            id: params.id,
-            viewType: 'videoTile',
-            layoutDirection: TextDirection.ltr,
-            creationParams: paramsVT,
-            creationParamsCodec: const StandardMessageCodec(),
-          );
-          controller
-              .addOnPlatformViewCreatedListener(params.onPlatformViewCreated);
-          controller.create();
-          return controller;
-        },
+      videoTile = SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child:  PlatformViewLink(
+          viewType: 'videoTile',
+          surfaceFactory:
+              (BuildContext context, PlatformViewController controller) {
+            return AndroidViewSurface(
+              controller: controller as AndroidViewController,
+              gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+              hitTestBehavior: PlatformViewHitTestBehavior.transparent,
+            );
+          },
+          onCreatePlatformView: (PlatformViewCreationParams params) {
+            final AndroidViewController controller =
+            PlatformViewsService.initExpensiveAndroidView(
+              id: params.id,
+              viewType: 'videoTile',
+              layoutDirection: TextDirection.ltr,
+              creationParams: paramsVT,
+              creationParamsCodec: const StandardMessageCodec(),
+            );
+            controller
+                .addOnPlatformViewCreatedListener(params.onPlatformViewCreated);
+            controller.create();
+            return controller;
+          },
+        ),
       );
+
     } else {
       videoTile =
           TextDefault(AppLocalizations.of(context)!.mettingErrorPlatform);
@@ -278,9 +286,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
       AppLocalizations.of(context)!.meetingWaitingToCamera(
           _currentUser.isPatient() ? 'therapist' : 'patient'),
       size: TitleSize.large,
+      textAlign: TextAlign.center,
     );
     return Center(
-      widthFactor: 2.5,
       child: emptyVideos,
     );
   }
