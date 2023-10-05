@@ -19,15 +19,16 @@ import '_shared/providers/route_observer.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((__) => runApp(const MyApp()));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((__) => runApp(const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -53,11 +54,12 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleOnMessageOpenedApp);
     FirebaseMessaging.onMessage.listen(_handleOnMessage);
   }
+
   void _handleOnMessage(RemoteMessage message) {
     //print('onMessage | app open ${message.data}');
-    ActionNotificationPush(message: message)
-        .execute(_notificationsBloc);
+    ActionNotificationPush(message: message).execute(_notificationsBloc);
   }
+
   void _handleOnMessageOpenedApp(RemoteMessage message) {
     //print('onMessageOpenedApp | app semiOpened ${message.data}');
     ActionNotificationPush(message: message)
@@ -70,9 +72,6 @@ class _MyAppState extends State<MyApp> {
 
     getPermissionPushApp();
     setupInteractedMessage();
-
-
-
   }
 
   @override
