@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'dart:developer' as developer;
 
@@ -49,8 +50,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+        backgroundColor: colorRecDark,
         body: Center(
-      child: CircularProgressIndicator(),
-    ));
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ));
   }
 }
