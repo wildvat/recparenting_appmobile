@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/providers/r_language.dart';
+import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/src/room/models/conversation.model.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
 import 'dart:developer' as developer;
@@ -35,6 +38,37 @@ class RoomApi {
       developer.log('/** ERROR RoomApi.getAll **/');
       developer.log(e.response.toString());
       return null;
+    }
+  }
+
+  Future<Rooms> get({int? page = 1, String? search = ''}) async {
+    /*
+    String endpoint = '${_baseUrl}conversation';
+    if (page != null) {
+      endpoint = '$endpoint?page=$page';
+    }
+    */
+    final String endpoint = 'conversation?page=$page&search=$search';
+
+    try {
+      Response response = await client.dio.get(endpoint);
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        return Rooms.fromJson(response.data);
+      } else {
+        return Rooms(total: 0, rooms: []);
+      }
+    } on DioException catch (e) {
+      developer.log('/** ERROR RoomApi.get **/');
+      developer.log(e.response.toString());
+      String responseError = R.string.generalError;
+      if (e.response?.data != null) {
+        responseError = e.response!.data['message'];
+      }
+      SnackBarRec(
+          message: responseError, backgroundColor: TextColors.danger.color);
+      return Rooms(total: 0, rooms: []);
     }
   }
 
