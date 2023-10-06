@@ -25,7 +25,7 @@ class MeetingScreen extends StatefulWidget {
 
 class _MeetingScreenState extends State<MeetingScreen> {
   final User _currentUser = CurrentUserBuilder().value();
-
+  /*
   @override
   void initState() {
     super.initState();
@@ -45,6 +45,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
     ]);
     super.dispose();
   }
+  */
 
   @override
   Widget build(BuildContext context) {

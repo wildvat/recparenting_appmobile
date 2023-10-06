@@ -23,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   late final LanguageBloc _languageBloc;
   String _language = 'en';
   String _accessToken = '';
@@ -47,105 +46,100 @@ class _HomePageState extends State<HomePage> {
         title: AppLocalizations.of(context)!.menuHome,
         body: BlocBuilder<CurrentUserBloc, CurrentUserState>(
             builder: (context, state) {
-              if (state is CurrentUserLoaded) {
-                return LayoutBuilder(builder: (context, constraints) {
-                  return Column(
+          if (state is CurrentUserLoaded) {
+            return LayoutBuilder(builder: (context, constraints) {
+              return Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/rec-logo-inverse.svg',
+                    height: 60,
+                  ),
+                  GridView(
+                    padding: const EdgeInsets.all(20),
+                    shrinkWrap: true,
+                    //padding: EdgeInsets.all(30),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio:
+                          constraints.maxWidth / (constraints.maxHeight - 100),
+                    ),
                     children: [
-                      SvgPicture.asset(
-                        'assets/images/rec-logo-inverse.svg',
-                        height: 60,
+                      HomeCardWidget(
+                        onPress: () {
+                          if (state.user.isPatient()) {
+                            Navigator.pushNamed(context, chatRoute,
+                                arguments: state.user);
+                          } else {
+                            Navigator.pushNamed(context, patientsRoute);
+                          }
+                        },
+                        colorBack: TextColors.chat.color,
+                        colorText: TextColors.chatDark,
+                        pathImage: 'dashboard_one-min',
+                        text: state.user.isPatient()
+                            ? AppLocalizations.of(context)!.menuChat
+                            : AppLocalizations.of(context)!.menuPatients,
                       ),
-                      GridView(
-                        padding: const EdgeInsets.all(20),
-                        shrinkWrap: true,
-                        //padding: EdgeInsets.all(30),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio:
-                          constraints.maxWidth / (constraints.maxHeight - 60),
-                        ),
-                        children: [
-                          HomeCardWidget(
-                            onPress: () {
-                              if (state.user.isPatient()) {
-                                Navigator.pushNamed(context, chatRoute,
-                                    arguments: state.user);
-                              } else {
-                                Navigator.pushNamed(context, patientsRoute);
-                              }
-                            },
-                            colorBack: TextColors.chat.color,
-                            colorText: TextColors.chatDark,
-                            pathImage: 'dashboard_one-min',
-                            text: state.user.isPatient()
-                                ? AppLocalizations.of(context)!.menuChat
-                                : AppLocalizations.of(context)!.menuPatients,
-                          ),
-                          HomeCardWidget(
-                            onPress: () async {
-                              String url = '${env.web}masterclasses/';
-                              if (_language == 'es') {
-                                url = '${env.web}es/masterclasses/';
-                              }
-                              url = '${env.url}login-token?redirect_to=$url';
-                              await Navigator.pushNamed(context, webPageRoute,
-                                  arguments: WebpageArguments(
-                                      title: AppLocalizations.of(context)!
-                                          .menuMasterclasses,
-                                      url: url,
-                                      token: _accessToken
-                                  ));
-                            },
-                            colorBack: TextColors.masterclass.color,
-                            colorText: TextColors.masterclassDark,
-                            isExternalLink: true,
-                            pathImage: 'dashboard_masterclass-min',
-                            text: AppLocalizations.of(context)!
-                                .menuMasterclasses,
-                          ),
-                          HomeCardWidget(
-                            onPress: () async {
-                              String url = '${env.web}podcast/';
-                              if (_language == 'es') {
-                                url = '${env.web}es/podcast/';
-                              }
-                              url = '${env.url}login-token?redirect_to=$url';
-                              await Navigator.pushNamed(context, webPageRoute,
-                                  arguments: WebpageArguments(
-                                      title: AppLocalizations.of(context)!
-                                          .menuMasterclasses,
-                                      url: url,
-                                      token: _accessToken
-                                  ));
-                            },
-                            colorBack: TextColors.recLight.color,
-                            colorText: TextColors.rec,
-                            isExternalLink: true,
-                            pathImage: 'dashboard_podcast-min',
-                            text: AppLocalizations.of(context)!.menuPodcast,
-                          ),
-                          HomeCardWidget(
-                            onPress: () =>
-                                Navigator.pushNamed(
-                                    context, webPageRoute,
-                                    arguments: WebpageArguments(
-                                        title: AppLocalizations.of(context)!
-                                            .menuFaqs,
-                                        url:
-                                        'https://www.recparenting.com/faq-users/')),
-                            colorBack: TextColors.rec.color,
-                            colorText: TextColors.recLight,
-                            isExternalLink: true,
-                            pathImage: 'dashboard_faqs-min',
-                            text: AppLocalizations.of(context)!.menuFaqs,
-                          )
-                        ],
+                      HomeCardWidget(
+                        onPress: () async {
+                          String url = '${env.web}masterclasses/';
+                          if (_language == 'es') {
+                            url = '${env.web}es/masterclasses/';
+                          }
+                          url = '${env.url}login-token?redirect_to=$url';
+                          await Navigator.pushNamed(context, webPageRoute,
+                              arguments: WebpageArguments(
+                                  title: AppLocalizations.of(context)!
+                                      .menuMasterclasses,
+                                  url: url,
+                                  token: _accessToken));
+                        },
+                        colorBack: TextColors.masterclass.color,
+                        colorText: TextColors.masterclassDark,
+                        isExternalLink: true,
+                        pathImage: 'dashboard_masterclass-min',
+                        text: AppLocalizations.of(context)!.menuMasterclasses,
+                      ),
+                      HomeCardWidget(
+                        onPress: () async {
+                          String url = '${env.web}podcast/';
+                          if (_language == 'es') {
+                            url = '${env.web}es/podcast/';
+                          }
+                          url = '${env.url}login-token?redirect_to=$url';
+                          await Navigator.pushNamed(context, webPageRoute,
+                              arguments: WebpageArguments(
+                                  title: AppLocalizations.of(context)!
+                                      .menuMasterclasses,
+                                  url: url,
+                                  token: _accessToken));
+                        },
+                        colorBack: TextColors.recLight.color,
+                        colorText: TextColors.rec,
+                        isExternalLink: true,
+                        pathImage: 'dashboard_podcast-min',
+                        text: AppLocalizations.of(context)!.menuPodcast,
+                      ),
+                      HomeCardWidget(
+                        onPress: () => Navigator.pushNamed(
+                            context, webPageRoute,
+                            arguments: WebpageArguments(
+                                title: AppLocalizations.of(context)!.menuFaqs,
+                                url:
+                                    'https://www.recparenting.com/faq-users/')),
+                        colorBack: TextColors.rec.color,
+                        colorText: TextColors.recLight,
+                        isExternalLink: true,
+                        pathImage: 'dashboard_faqs-min',
+                        text: AppLocalizations.of(context)!.menuFaqs,
                       )
                     ],
-                  );
-                });
-              }
-              return TitleDefault(AppLocalizations.of(context)!.userNotLogged);
-            }));
+                  )
+                ],
+              );
+            });
+          }
+          return TitleDefault(AppLocalizations.of(context)!.userNotLogged);
+        }));
   }
 }

@@ -107,13 +107,15 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
       MethodChannelCoordinator methodChannelProvider,
       MeetingProvider meetingProvider,
       BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
+    return ScaffoldDefault(
+        body: Center(
+      child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
-              height: 60,
+              height: 20,
             ),
             joinButton(joinMeetingProvider, methodChannelProvider,
                 meetingProvider, context),
@@ -122,7 +124,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 
 //
