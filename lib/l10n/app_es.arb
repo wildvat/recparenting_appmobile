@@ -46,6 +46,7 @@
   "generalFormFieldDescription": "Descripción",
   "generalReplyBtn": "Responder",
   "generalShow": "Ver",
+  "generalNoContent": "No hay contendio",
   "calendarTitle": "Agenda",
   "calendarGeneralError": "No se ha podido mostrar el calendario",
   "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",
