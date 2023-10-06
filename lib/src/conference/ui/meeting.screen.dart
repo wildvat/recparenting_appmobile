@@ -67,7 +67,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
                 Positioned(
                   top: const Size.fromHeight(kToolbarHeight).height,
                   left: 10,
-                  child: showLocalVideoTile(meetingProvider, context),
+                  child:
+                      showLocalVideoTile(meetingProvider, context, orientation),
                 ),
                 Positioned(
                   bottom: 20,
@@ -97,28 +98,29 @@ class _MeetingScreenState extends State<MeetingScreen> {
       videoTile = SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child:  UiKitView(
-        viewType: "videoTile",
-        creationParams: paramsVT,
-        creationParamsCodec: const StandardMessageCodec(),
-      ));
+          child: UiKitView(
+            viewType: "videoTile",
+            creationParams: paramsVT,
+            creationParamsCodec: const StandardMessageCodec(),
+          ));
     } else if (Platform.isAndroid) {
       videoTile = SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child:  PlatformViewLink(
+        child: PlatformViewLink(
           viewType: 'videoTile',
           surfaceFactory:
               (BuildContext context, PlatformViewController controller) {
             return AndroidViewSurface(
               controller: controller as AndroidViewController,
-              gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+              gestureRecognizers: const <Factory<
+                  OneSequenceGestureRecognizer>>{},
               hitTestBehavior: PlatformViewHitTestBehavior.transparent,
             );
           },
           onCreatePlatformView: (PlatformViewCreationParams params) {
             final AndroidViewController controller =
-            PlatformViewsService.initExpensiveAndroidView(
+                PlatformViewsService.initExpensiveAndroidView(
               id: params.id,
               viewType: 'videoTile',
               layoutDirection: TextDirection.ltr,
@@ -132,7 +134,6 @@ class _MeetingScreenState extends State<MeetingScreen> {
           },
         ),
       );
-
     } else {
       videoTile =
           TextDefault(AppLocalizations.of(context)!.mettingErrorPlatform);
@@ -207,8 +208,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
     );
   }
 
-  Widget showLocalVideoTile(
-      MeetingProvider meetingProvider, BuildContext context) {
+  Widget showLocalVideoTile(MeetingProvider meetingProvider,
+      BuildContext context, Orientation orientation) {
     int? paramsVT;
 
     paramsVT = meetingProvider
@@ -259,8 +260,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width / 4,
-        height: MediaQuery.of(context).size.height / 6,
+        width: MediaQuery.of(context).size.width /
+            ((orientation == Orientation.portrait) ? 4 : 6),
+        height: MediaQuery.of(context).size.height /
+            ((orientation == Orientation.portrait) ? 6 : 4),
         child: videoTile,
       ),
     );
