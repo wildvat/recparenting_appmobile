@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                             url = '${env.web}es/masterclasses/';
                           }
                           url = '${env.url}login-token?redirect_to=$url';
-                          await Navigator.pushNamed(context, webPageRoute,
+                          Navigator.pushNamed(context, webPageRoute,
                               arguments: WebpageArguments(
                                   title: AppLocalizations.of(context)!
                                       .menuMasterclasses,
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                             url = '${env.web}es/podcast/';
                           }
                           url = '${env.url}login-token?redirect_to=$url';
-                          await Navigator.pushNamed(context, webPageRoute,
+                          Navigator.pushNamed(context, webPageRoute,
                               arguments: WebpageArguments(
                                   title: AppLocalizations.of(context)!
                                       .menuMasterclasses,
