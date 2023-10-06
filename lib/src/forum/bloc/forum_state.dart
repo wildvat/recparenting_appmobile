@@ -6,6 +6,7 @@ sealed class ForumState extends Equatable {
   BlocStatus blocStatus = BlocStatus.loading;
   int page = 1;
   bool hasReachedMax = false;
+  String search = '';
 }
 
 final class ForumLoaded extends ForumState {
@@ -14,12 +15,14 @@ final class ForumLoaded extends ForumState {
   BlocStatus blocStatus;
   int page;
   bool hasReachedMax;
+  String search;
 
   ForumLoaded({
     required this.threads,
     required this.total,
     this.blocStatus = BlocStatus.loading,
     this.page = 1,
+    this.search = '',
     this.hasReachedMax = false,
   });
 
@@ -28,12 +31,14 @@ final class ForumLoaded extends ForumState {
     int? total,
     BlocStatus? blocStatus,
     int? page,
+    String? search,
     bool? hasReachedMax,
   }) =>
       ForumLoaded(
         threads: threads ?? this.threads,
         total: total ?? this.total,
         page: page ?? this.page,
+        search: search ?? this.search,
         blocStatus: blocStatus ?? this.blocStatus,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       );

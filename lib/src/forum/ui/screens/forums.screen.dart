@@ -31,7 +31,8 @@ class _ForumsScreenState extends State<ForumsScreen> {
     if (_scrollController.position.extentAfter < 200 &&
         !_forumBloc.state.hasReachedMax &&
         _forumBloc.state.blocStatus == BlocStatus.loaded) {
-      _forumBloc.add(ForumThreadsFetch(page: _forumBloc.state.page + 1));
+      _forumBloc.add(ForumThreadsFetch(
+          page: _forumBloc.state.page + 1, search: _forumBloc.state.search));
     }
   }
 

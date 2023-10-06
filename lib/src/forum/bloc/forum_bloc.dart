@@ -29,6 +29,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
 
     emit((state as ForumLoaded).copyWith(
       blocStatus: BlocStatus.loaded,
+      search: event.search ?? '',
       page: event.page,
       threads: [...state.threads, ...forumListApi.threads],
       hasReachedMax: forumListApi.threads.length < 10,
