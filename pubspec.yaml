@@ -48,7 +48,9 @@ flutter:
   fonts:
     - family: ProximaSoft
       fonts:
-        - asset: assets/fonts/Proxima-Soft_Light.ttf
-        - asset: assets/fonts/ProximaSoftExtraBold.ttf
+        #- asset: assets/fonts/Proxima-Soft_Light.ttf
+        - asset: assets/fonts/ProximaSoft-Regular.ttf
+        #- asset: assets/fonts/ProximaSoftExtraBold.ttf
+        - asset: assets/fonts/ProximaSoft-Bold.ttf
           weight: 700
         

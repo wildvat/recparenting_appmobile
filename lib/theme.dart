@@ -8,6 +8,7 @@ class RecThemeData {
   static ThemeData get lightTheme {
     return ThemeData(
             useMaterial3: true,
+            fontFamily: 'ProximaSoft',
             //colorScheme: ColorScheme(brightness: Brightness.light, primary: colorRec, onPrimary: Colors.white, secondary: colorRecLight, onSecondary: colorRecDark)
             pageTransitionsTheme: PageTransitionsTheme(
               builders: {
@@ -81,6 +82,7 @@ class RecThemeData {
   static ThemeData get darkTheme {
     return ThemeData(
         useMaterial3: true,
+        fontFamily: 'ProximaSoft',
         pageTransitionsTheme: PageTransitionsTheme(
           builders: {
             for (final platform in TargetPlatform.values)
