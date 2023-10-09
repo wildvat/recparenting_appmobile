@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bugsnag_flutter:
+    dependency: "direct main"
+    description:
+      name: bugsnag_flutter
+      sha256: "077fcfc87b128fc78a27f3ac40c6eeb950c32cb68fb78b0f4ac76d135ed116b7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   calendar_view:
     dependency: "direct main"
     description:

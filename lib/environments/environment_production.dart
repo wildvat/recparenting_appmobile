@@ -19,4 +19,6 @@ class ProdConfig implements EnvConfig {
   String get pusherAppSecret => 'c79d8ba17123c386ad4e';
   @override
   String get pusherAppCluster => 'eu';
+  @override
+  String get bugsnagApiKey => 'f1894b8b872b2fc94f45e5187da57abe';
 }

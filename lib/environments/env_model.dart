@@ -8,4 +8,5 @@ abstract class EnvConfig {
   String get pusherAppKey;
   String get pusherAppSecret;
   String get pusherAppCluster;
+  String get bugsnagApiKey;
 }

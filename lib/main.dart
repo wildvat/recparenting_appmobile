@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
 import 'package:recparenting/_shared/helpers/action_notification_push.dart';
 import 'package:recparenting/_shared/ui/widgets/bloc_builder3.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/environments/env.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/routes.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
@@ -23,6 +25,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await bugsnag.start(apiKey: env.bugsnagApiKey);
   runApp(const MyApp());
   /*
   SystemChrome.setPreferredOrientations([
