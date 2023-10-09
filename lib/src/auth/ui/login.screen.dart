@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //TODO para ahorrame meter la contraseña en el login
     /*
     Therapist:
-    melyna.kreiger@example.com
+    ryley.kilback@example.net
     password
     ----
     Patient
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     patient@example.com
     password
     */
-    //_emailEditingController.text = 'melyna.kreiger@example.com';
+    //_emailEditingController.text = 'ryley.kilback@example.net';
     //_emailEditingController.text = 'patient@example.com';
     //_emailEditingController.text = 'madelynn97@example.com';
     //_passwordEditingController.text = 'password';
@@ -143,7 +144,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 10),
                       TextButton(
                           onPressed: () => Navigator.pushNamed(
-                              context, passwordRecoveryRoute),
+                              context, webPageRoute,
+                              arguments: WebpageArguments(
+                                  url:
+                                      'https://app.recparenting.com/password/reset',
+                                  title: AppLocalizations.of(context)!
+                                      .recoveryPassLinnk)),
                           child: TextDefault(
                               AppLocalizations.of(context)!.recoveryPassLinnk))
                     ],
