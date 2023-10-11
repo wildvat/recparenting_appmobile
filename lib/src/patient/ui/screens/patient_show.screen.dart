@@ -82,7 +82,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                           CircleAvatar(
                             backgroundColor: colorRecLight.shade700,
                             minRadius: 50.0,
-                            child: AvatarImage(user: widget.patient),
+                            child: AvatarImage(user: widget.patient, size: 90),
                           ),
                           CircleAvatar(
                             backgroundColor: colorRecLight,
@@ -107,6 +107,9 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                   ),
                 )
               : const SizedBox.shrink(),
+          const SizedBox(
+            height: 20,
+          ),
           FutureBuilder<EventsModel?>(
               future: _calendar,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -116,9 +119,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                 } else {
                   if (snapshot.hasData && snapshot.data.events.isNotEmpty) {
                     return Expanded(
-                        child: Column(
-                      children: [
-                        const SizedBox(height: 20),
+                        child:
                         ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -127,8 +128,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                               EventModel event = snapshot.data?.events[index];
                               return getEventListTile(event);
                             })
-                      ],
-                    ));
+                    );
                   } else {
                     return Padding(
                         padding: EdgeInsets.only(top: 20),
