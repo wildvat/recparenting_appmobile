@@ -11,6 +11,7 @@ import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/colors.dart';
+import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 
 import '../provider/meeting_provider.dart';
@@ -193,7 +194,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
             onPressed: () {
               meetingProvider.stopMeeting();
               leaveMeetingButton(meetingProvider, context);
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(
+                  context, homeRoute);
+              //Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
@@ -354,7 +357,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
     return ElevatedButton(
       onPressed: () {
         meetingProvider.stopMeeting();
-        Navigator.pop(context);
+        Navigator.pushReplacementNamed(
+            context, homeRoute);
+      //  Navigator.pop(context);
       },
       child: TextDefault(AppLocalizations.of(context)!.mettingLeave),
     );
