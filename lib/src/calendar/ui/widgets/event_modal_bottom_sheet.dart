@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/_shared/ui/widgets/button_add_calendar.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
+import 'package:recparenting/src/calendar/models/event.model.dart';
+import 'package:recparenting/src/calendar/models/type_appointments.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
@@ -21,13 +23,13 @@ class EventModalBottomSheet extends StatefulWidget {
 
 class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
   late final User _currentUser;
-  late final EventCalendarApiModel _eventApi;
+  late final EventModel _eventApi;
   bool _loading = false;
 
   @override
   void initState() {
     super.initState();
-    _eventApi = widget.event.event as EventCalendarApiModel;
+    _eventApi = widget.event.event as EventModel;
     _currentUser =
         (context.read<CurrentUserBloc>().state as CurrentUserLoaded).user;
   }
@@ -51,7 +53,7 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                 child: TextDefault(AppLocalizations.of(context)!
                     .eventType(
-                        (widget.event.event! as EventCalendarApiModel).type)
+                        (widget.event.event! as EventModel).type.name)
                     .toUpperCase())),
             const SizedBox(height: 20),
             Row(
@@ -79,6 +81,7 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                 )
               ],
             ),
+            widget.event.event is EventModel ? ButtonAddCalendar(event: widget.event.event as EventModel, isIcon: false): const SizedBox.shrink(),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -89,13 +92,12 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
                     if (_currentUser.isPatient()) {
                       patient = _currentUser as Patient;
                     } else {
-                      patient = _eventApi.user as Patient;
+                      patient = _eventApi.patient;
                     }
-                    if (_eventApi.type.contains('appointment_chat')) {
+                    if (_eventApi.type == AppointmentTypes.appointment_chat) {
                       Navigator.pushNamed(context, chatRoute,
                           arguments: patient);
-                    } else if (_eventApi.type.contains('appointment_video')) {
-                      //todo enviar room o paciente....
+                    } else if (_eventApi.type == AppointmentTypes.appointment_video) {
                       Navigator.pushNamed(context, joinConferenceRoute,
                           arguments: patient.conference);
                     }

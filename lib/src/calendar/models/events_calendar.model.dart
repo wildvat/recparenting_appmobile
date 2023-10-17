@@ -3,8 +3,9 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/events_color.enum.dart';
+
+import 'event.model.dart';
 
 //TODO: este deberia ser una extension de EventModel
 class EventsCalendarModel {
@@ -35,7 +36,7 @@ class EventsCalendarModel {
               date: DateTime.parse(event['start']).toLocal(),
               startTime: DateTime.parse(event['start']).toLocal(),
               endTime: DateTime.parse(event['end']).toLocal(),
-              event: EventCalendarApiModel.fromJson(
+              event: EventModel.fromJson(
                   event), //TODO: ver si se puede cambiar por el generio EventModel
               color: color);
         }).toList();

@@ -47,6 +47,8 @@
   "generalReplyBtn": "Responder",
   "generalShow": "Ver",
   "generalNoContent": "No hay contendio",
+  "generalAddToCalendar": "Añadir al calendario",
+  "generalAddToCalendarTitle": "Añade el evento a tu aplicacion de calendario",
   "calendarTitle": "Agenda",
   "calendarGeneralError": "No se ha podido mostrar el calendario",
   "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",

@@ -17,6 +17,8 @@ import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../_shared/ui/widgets/button_add_calendar.dart';
+
 class PatientShowScreen extends StatefulWidget {
   final Patient patient;
 
@@ -153,6 +155,7 @@ class PatientShowScreenState extends State<PatientShowScreen> {
             color: colorRec,
             size: 30,
           )),
+      trailing: ButtonAddCalendar(event: event),
       title: TextDefault(
         DateFormat.yMMMMEEEEd().format(event.start),
         size: TextSizes.large,

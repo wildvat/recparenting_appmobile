@@ -7,7 +7,7 @@ import 'dart:developer' as developer;
 import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/_shared/providers/r_language.dart';
 import 'package:recparenting/src/calendar/models/create_event_api_response.dart';
-import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
+import 'package:recparenting/src/calendar/models/event.model.dart';
 import 'package:recparenting/src/calendar/models/events.model.dart';
 import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/events_color.enum.dart';
@@ -113,7 +113,7 @@ class CalendarApi {
                 date: DateTime.parse(response.data['start']).toLocal(),
                 startTime: DateTime.parse(response.data['start']).toLocal(),
                 endTime: DateTime.parse(response.data['end']).toLocal(),
-                event: EventCalendarApiModel.fromJson(response.data),
+                event: EventModel.fromJson(response.data),
                 color: color));
       }
 

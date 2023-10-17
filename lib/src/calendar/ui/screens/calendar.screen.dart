@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
-import 'package:recparenting/src/calendar/models/event_calendar_api.model.dart';
+import 'package:recparenting/src/calendar/models/event.model.dart';
 import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart';
 import 'package:recparenting/src/calendar/models/type_calendar.enum.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
@@ -180,7 +180,7 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   _onEventTap(CalendarEventData event, DateTime date) async {
     if (_currentUser.isPatient() &&
-        (event.event as EventCalendarApiModel).user.id != _currentUser.id) {
+        (event.event as EventModel).patient.id != _currentUser.id) {
       return;
     }
     bool? eventDeleted = await showModalBottomSheet(

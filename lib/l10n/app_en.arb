@@ -49,6 +49,8 @@
   "generalReplyBtn": "Reply",
   "generalShow": "Show",
   "generalNoContent": "No content",
+  "generalAddToCalendar": "Add to calendar",
+  "generalAddToCalendarTitle": "Add the event to your calendar app.",
   "calendarTitle": "Calendar",
   "calendarGeneralError": "Calendar could not be displayed",
   "calendarTherapistError": "You don't have a therapist, contact administration.",

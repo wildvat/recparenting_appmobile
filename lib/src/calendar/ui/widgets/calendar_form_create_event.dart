@@ -4,10 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/_shared/ui/widgets/button_add_calendar.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/src/calendar/models/create_event_api_response.dart';
+import 'package:recparenting/src/calendar/models/event.model.dart';
 import 'package:recparenting/src/calendar/models/type_appointments.dart';
 import 'package:recparenting/src/calendar/models/type_datepicker.enum.dart';
 import 'package:recparenting/src/calendar/providers/calendar_provider.dart';
@@ -37,6 +39,7 @@ class _CalendarFormCreateEventWidgetState
   bool _isLoading = false;
   late List<AppointmentTypes> _appointmentTypes;
   late String _appointmentType;
+  EventModel? event;
 
   @override
   void initState() {
@@ -109,7 +112,14 @@ class _CalendarFormCreateEventWidgetState
         body: Container(
           padding: const EdgeInsets.all(20),
           width: double.infinity,
-          child: Form(
+          child: event != null ? Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TitleDefault(AppLocalizations.of(context)!.generalAddToCalendarTitle, textAlign: TextAlign.center,),
+                const SizedBox(height: 30),
+                ButtonAddCalendar(event: event!, popOnFinish:true, isIcon: false)
+              ]) : Form(
               key: _formKey,
               child: ListView(controller: scrollController, children: [
                 _currentUser.isTherapist()
@@ -273,7 +283,10 @@ class _CalendarFormCreateEventWidgetState
                                           .eventCreateMessageOk,
                                       backgroundColor: Colors.green);
                                   widget.eventController.add(response.event!);
-                                  Navigator.pop(context);
+                                  setState(() {
+                                    event = response.event?.event is EventModel ? response.event?.event as EventModel : null;
+                                  });
+                                  //Navigator.pop(context);
                                   return;
                                 } else {
                                   SnackBarRec(
