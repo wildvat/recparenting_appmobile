@@ -45,7 +45,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     if (_currentUser.isTherapist()) {
       //Si es terapeuta el roomsShared solo devuelve room si esta compartido con el terapeuta
       // por lo que tengo que añadir a los tabs la actual conversacion con el paciente
-      tabs.add(Tab(text: AppLocalizations.of(context)!.chatTitleWithMe));
+      tabs.add(Tab(text: widget._patient.getFullName()));
       tabsContent.add(BlocProvider(
           create: (_) => ConversationBloc(roomId: widget._patient.room!),
           child: ChatWidget(patient: widget._patient)));

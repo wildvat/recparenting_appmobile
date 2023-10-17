@@ -65,7 +65,7 @@ class _ForumThreadMessageCardWidgetState
                   ),
                   const SizedBox(width: 10),
                   TextDefault(
-                    widget.message.user.name,
+                    widget.message.user.getFullName(),
                     color: TextColors.rec,
                     fontWeight: FontWeight.bold,
                   )

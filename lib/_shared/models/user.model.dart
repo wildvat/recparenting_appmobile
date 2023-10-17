@@ -92,6 +92,12 @@ class User {
     return false;
   }
 
+  String getFullName(){
+    if(isPatient()){
+      return nickname ?? '';
+    }
+    return '$name $lastname';
+  }
   factory User.fromJson(Map<String, dynamic> json) {
     List apiRoles = json['roles'] as List;
     List<String> roles = apiRoles.map((i) => i.toString()).toList();
