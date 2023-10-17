@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
+import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
+import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/ui/widgets/forums_action_button.widget.dart';
 import 'package:recparenting/src/forum/ui/widgets/forums_tabbar.widget.dart';
@@ -18,10 +20,12 @@ class ForumsScreen extends StatefulWidget {
 class _ForumsScreenState extends State<ForumsScreen> {
   late final ForumBloc _forumBloc;
   late final ScrollController _scrollController;
+  late final User _currentUser;
 
   @override
   void initState() {
     super.initState();
+    _currentUser = CurrentUserBuilder().value();
     _forumBloc = ForumBloc()..add(const ForumThreadsFetch(page: 1));
     _scrollController = ScrollController();
     _scrollController.addListener(_onListener);
@@ -49,7 +53,7 @@ class _ForumsScreenState extends State<ForumsScreen> {
         child: ScaffoldDefault(
           tabBar: const ForumsTabbar(),
           actionButton: const ForumsActionButton(),
-          title: AppLocalizations.of(context)!.menuForum,
+          title: _currentUser.isPatient()?AppLocalizations.of(context)!.menuCommunity: AppLocalizations.of(context)!.menuForum,
           body: BlocBuilder<ForumBloc, ForumState>(
             builder: (context, state) {
               if (state.hasReachedMax) {
