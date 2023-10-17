@@ -23,9 +23,7 @@ class Therapist extends User {
       : super(id, name, lastname, email, nickname, status, verified, avatar,
             roles, permission, type, config);
 
-  String getFullName() {
-    return '$name $lastname';
-  }
+
 
   factory Therapist.fromJson(Map<String, dynamic> json) {
     User user = User.fromJson(json);
