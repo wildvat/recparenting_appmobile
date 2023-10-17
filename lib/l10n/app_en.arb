@@ -21,7 +21,9 @@
   "menuPodcast": "Podcast",
   "menuMasterclasses": "Masterclasses",
   "menuBlog": "Blog",
-
+  "menuRoom": "My private room",
+  "menuComunity": "Comunity",
+  "menuCalendar": "Calendar",
   "therapistBioTitle": "Your therapist",
   "therapistShow": "More information",
   "workingHoursTitle": "Working hours",
