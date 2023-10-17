@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
-import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/environments/env.dart';
 import 'package:recparenting/src/home/ui/home_card.widget.dart';
