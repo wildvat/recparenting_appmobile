@@ -1,4 +1,7 @@
+enum EnvTypes { development, production }
+
 abstract class EnvConfig {
+  EnvTypes get type;
   String get web;
   String get url;
   String get apiUrl;
