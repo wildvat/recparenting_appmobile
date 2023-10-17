@@ -91,7 +91,23 @@ class ScaffoldDefault extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: keyboardIsOpened
           ? null
-          : _currentUser is Patient
+          : ModalRoute.of(context)!.settings.name != '/chat'
+              ? FloatingActionButton(
+                  backgroundColor: TextColors.chat.color,
+                  child: const Icon(Icons.home, size: 30),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, homeRoute);
+                  },
+                )
+              : FloatingActionButton.small(
+                  backgroundColor: TextColors.chat.color,
+                  child: const Icon(Icons.home, size: 30),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, homeRoute);
+                  },
+                ),
+      /*
+           _currentUser is Patient
               ? ModalRoute.of(context)!.settings.name != '/chat'
                   ? FloatingActionButton(
                       backgroundColor: TextColors.chat.color,
@@ -109,6 +125,7 @@ class ScaffoldDefault extends StatelessWidget {
                     Navigator.pushReplacementNamed(context, patientsRoute);
                   },
                 ),
+                */
       bottomNavigationBar: _currentUser is Patient
           ? BottomAppBarPatient(patient: _currentUser as Patient)
           : BottomAppBarTherapist(therapist: _currentUser as Therapist),

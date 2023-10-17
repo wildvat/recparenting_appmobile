@@ -50,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
     */
     //_emailEditingController.text = 'ryley.kilback@example.net';
     //_emailEditingController.text = 'patient@example.com';
-    //_emailEditingController.text = 'madelynn97@example.com';
-    //_passwordEditingController.text = 'password';
+    _emailEditingController.text = 'madelynn97@example.com';
+    _passwordEditingController.text = 'password';
     return Scaffold(
         backgroundColor: colorRec,
         body: Container(
