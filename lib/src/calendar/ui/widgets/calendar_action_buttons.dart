@@ -40,8 +40,7 @@ class CalendarActionButtonsWidget extends StatelessWidget {
             onPressed: () {
               showModalBottomSheet<void>(
                   context: context,
-                  builder: (BuildContext context) =>
-                      const CalendarLegendWidget());
+                  builder: (BuildContext context) => CalendarLegendWidget());
             }),
       ],
     );
