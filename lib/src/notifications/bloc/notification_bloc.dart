@@ -5,7 +5,6 @@ import 'package:recparenting/src/notifications/models/notification.model.dart';
 import 'package:recparenting/src/notifications/models/notifications.model.dart';
 import 'package:recparenting/src/notifications/providers/notification.provider.dart';
 import 'package:equatable/equatable.dart';
-
 part 'notification_state.dart';
 
 part 'notification_event.dart';
@@ -91,7 +90,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             loading: false));
       }
     } catch (_) {
-      print(_.toString());
+      develeper.log(_.toString());
     }
   }
 

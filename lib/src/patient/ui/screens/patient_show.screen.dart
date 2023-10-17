@@ -121,19 +121,17 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                 } else {
                   if (snapshot.hasData && snapshot.data.events.isNotEmpty) {
                     return Expanded(
-                        child:
-                        ListView.builder(
+                        child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: snapshot.data!.total,
                             itemBuilder: (BuildContext context, int index) {
                               EventModel event = snapshot.data?.events[index];
                               return getEventListTile(event);
-                            })
-                    );
+                            }));
                   } else {
                     return Padding(
-                        padding: EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 20),
                         child: Center(
                             child: TextDefault(AppLocalizations.of(context)!
                                 .patientNotHasEvents)));

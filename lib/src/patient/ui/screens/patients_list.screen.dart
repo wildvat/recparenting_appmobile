@@ -7,7 +7,6 @@ import 'package:recparenting/src/patient/bloc/patients_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/patient/ui/widgets/patients_tabbar_search.dart';
 import 'package:recparenting/src/room/models/room.model.dart';
-import 'package:recparenting/src/room/models/rooms.model.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
