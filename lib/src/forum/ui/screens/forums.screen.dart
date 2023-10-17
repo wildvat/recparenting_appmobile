@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/src/current_user/helpers/current_user_builder.dart';
 import 'package:recparenting/src/forum/bloc/forum_bloc.dart';
 import 'package:recparenting/src/forum/ui/widgets/forums_action_button.widget.dart';
@@ -53,7 +54,9 @@ class _ForumsScreenState extends State<ForumsScreen> {
         child: ScaffoldDefault(
           tabBar: const ForumsTabbar(),
           actionButton: const ForumsActionButton(),
-          title: _currentUser.isPatient()?AppLocalizations.of(context)!.menuCommunity: AppLocalizations.of(context)!.menuForum,
+          title: _currentUser.isPatient()
+              ? AppLocalizations.of(context)!.menuCommunity
+              : AppLocalizations.of(context)!.menuForum,
           body: BlocBuilder<ForumBloc, ForumState>(
             builder: (context, state) {
               if (state.hasReachedMax) {
@@ -72,6 +75,12 @@ class _ForumsScreenState extends State<ForumsScreen> {
                             backgroundColor: Colors.white,
                           ),
                         )
+                      : const SizedBox.shrink(),
+                  state.blocStatus == BlocStatus.loaded && state.threads.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: TextDefault(
+                              AppLocalizations.of(context)!.generalNoContent))
                       : const SizedBox.shrink()
                 ],
               );
