@@ -51,12 +51,11 @@ class _BottomAppBarTherapistState extends State<BottomAppBarTherapist> {
         children: <Widget>[
           IconButton(
               icon: const Icon(
-                Icons.post_add,
+                Icons.person_search_outlined,
                 color: Colors.white,
                 size: 30,
               ),
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, forumsRoute)),
+              onPressed: () => Navigator.pushNamed(context, patientsRoute)),
           IconButton(
             icon: const Icon(
               Icons.calendar_month_outlined,
@@ -69,41 +68,22 @@ class _BottomAppBarTherapistState extends State<BottomAppBarTherapist> {
           const SizedBox(width: 50),
           IconButton(
               icon: const Icon(
-                Icons.subscriptions,
+                Icons.post_add_outlined,
                 color: Colors.white,
                 size: 30,
               ),
-              onPressed: () async {
-                String url = '${env.web}masterclasses/';
-                if (_language == 'es') {
-                  url = '${env.web}es/masterclasses/';
-                }
-                url = '${env.url}login-token?redirect_to=$url';
-                await Navigator.pushNamed(context, webPageRoute,
-                    arguments: WebpageArguments(
-                        title: AppLocalizations.of(context)!.menuMasterclasses,
-                        url: url,
-                        token: _accessToken));
-              }),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, forumsRoute)),
           IconButton(
-            icon: const Icon(
-              Icons.podcasts,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () {
-              String url = '${env.web}podcast/';
-              if (_language == 'es') {
-                url = '${env.web}es/podcast/';
-              }
-              url = '${env.url}login-token?redirect_to=$url';
-              Navigator.pushNamed(context, webPageRoute,
+              icon: const Icon(
+                Icons.quiz_outlined,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () => Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
-                      title: AppLocalizations.of(context)!.menuMasterclasses,
-                      url: url,
-                      token: _accessToken));
-            },
-          ),
+                      title: AppLocalizations.of(context)!.menuFaqs,
+                      url: '${env.web}faq-users/')))
         ],
       ),
     );
