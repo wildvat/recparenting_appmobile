@@ -30,7 +30,7 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
   String? _accessToken;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _languageBloc = context.read<LanguageBloc>();
     _currentUser =
@@ -39,7 +39,7 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
   }
 
   accessToken() async {
-    TokenRepository().getToken().then((value){
+    TokenRepository().getToken().then((value) {
       _accessToken = value;
     });
   }
@@ -73,6 +73,22 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
               }
             },
             titleUrl: AppLocalizations.of(context)!.menuProfile),
+        _currentUser.isPatient()
+            ? AppSubmenuItemWidget(
+                onPress: () async {
+                  await Navigator.pushNamed(context, forumsRoute);
+                  await Future.delayed(const Duration(milliseconds: 10));
+                  _menuController.close();
+                },
+                titleUrl: AppLocalizations.of(context)!.menuCommunity)
+            : const SizedBox.shrink(),
+        AppSubmenuItemWidget(
+            onPress: () async {
+              await Navigator.pushNamed(context, contactPageRoute);
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: AppLocalizations.of(context)!.menuContact),
         AppSubmenuItemWidget(
             isExternalLink: true,
             onPress: () async {
@@ -92,14 +108,6 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
             },
             titleUrl: AppLocalizations.of(context)!.menuLegal),
         AppSubmenuItemWidget(
-            onPress: () async {
-
-              await Navigator.pushNamed(context, contactPageRoute);
-              await Future.delayed(const Duration(milliseconds: 10));
-              _menuController.close();
-            },
-            titleUrl: AppLocalizations.of(context)!.menuContact),
-        AppSubmenuItemWidget(
             isExternalLink: true,
             onPress: () async {
               String url = '${env.web}blog/';
@@ -112,70 +120,45 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
                   arguments: WebpageArguments(
                       title: AppLocalizations.of(context)!.menuBlog,
                       url: url,
-                      token: _accessToken ?? ''
-                  ));
+                      token: _accessToken ?? ''));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
             titleUrl: AppLocalizations.of(context)!.menuBlog),
-        _currentUser.isPatient()
-            ? AppSubmenuItemWidget(
-                isExternalLink: true,
-                onPress: () async {
-                  String url = '${env.web}masterclasses/';
-                  if (getLang() == 'es') {
-                    url = '${env.web}es/masterclasses/';
-                  }
-                  url = '${env.url}login-token?redirect_to=$url';
-                  await Navigator.pushNamed(context, webPageRoute,
-                      arguments: WebpageArguments(
-                          title: AppLocalizations.of(context)!.menuMasterclasses,
-                          url: url,
-                          token: _accessToken ?? ''
-                      ));
-                  await Future.delayed(const Duration(milliseconds: 10));
-                  _menuController.close();
-                },
-                titleUrl: AppLocalizations.of(context)!.menuMasterclasses)
-            : const SizedBox.shrink(),
-        _currentUser.isPatient()
-            ? AppSubmenuItemWidget(
-                isExternalLink: true,
-                onPress: () async {
-                  String url = '${env.web}podcast/';
-                  if (getLang() == 'es') {
-                    url = '${env.web}es/podcast/';
-                  }
-                  url = '${env.url}login-token?redirect_to=$url';
-                  await Navigator.pushNamed(context, webPageRoute,
-                      arguments: WebpageArguments(
-                          title: AppLocalizations.of(context)!.menuPodcast,
-                          url: url,
-                          token: _accessToken ?? ''
-                      ));
-                  await Future.delayed(const Duration(milliseconds: 10));
-                  _menuController.close();
-                },
-                titleUrl: AppLocalizations.of(context)!.menuPodcast)
-            : const SizedBox.shrink(),
         AppSubmenuItemWidget(
             isExternalLink: true,
             onPress: () async {
-              String url = '${env.web}faqs/';
+              String url = '${env.web}masterclasses/';
               if (getLang() == 'es') {
-                url = '${env.web}es/faqs/';
+                url = '${env.web}es/masterclasses/';
               }
               url = '${env.url}login-token?redirect_to=$url';
               await Navigator.pushNamed(context, webPageRoute,
                   arguments: WebpageArguments(
-                      title: AppLocalizations.of(context)!.menuFaqs,
+                      title: AppLocalizations.of(context)!.menuMasterclasses,
                       url: url,
-                      token: _accessToken ?? ''
-                  ));
+                      token: _accessToken ?? ''));
               await Future.delayed(const Duration(milliseconds: 10));
               _menuController.close();
             },
-            titleUrl: AppLocalizations.of(context)!.menuFaqs)
+            titleUrl: AppLocalizations.of(context)!.menuMasterclasses),
+        AppSubmenuItemWidget(
+            isExternalLink: true,
+            onPress: () async {
+              String url = '${env.web}podcast/';
+              if (getLang() == 'es') {
+                url = '${env.web}es/podcast/';
+              }
+              url = '${env.url}login-token?redirect_to=$url';
+              await Navigator.pushNamed(context, webPageRoute,
+                  arguments: WebpageArguments(
+                      title: AppLocalizations.of(context)!.menuPodcast,
+                      url: url,
+                      token: _accessToken ?? ''));
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: AppLocalizations.of(context)!.menuPodcast),
       ],
       child: const Icon(Icons.more_vert, color: Colors.white),
     );
