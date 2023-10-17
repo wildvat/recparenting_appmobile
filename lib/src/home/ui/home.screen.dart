@@ -37,21 +37,40 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldDefault(
-        backgroundColor: colorRecDark,
+        //backgroundColor: colorRecDark,
         title: AppLocalizations.of(context)!.menuHome,
-        body: BlocBuilder<CurrentUserBloc, CurrentUserState>(
-            builder: (context, state) {
-          if (state is CurrentUserLoaded) {
-            return Center(
-                child: state.user.isPatient()
-                    ? HomePatientWidget(
-                        user: state.user,
-                        lang: _language,
-                        accessToken: _accessToken)
-                    : HomeTherapistWidget(
-                        lang: _language, accessToken: _accessToken));
-          }
-          return TitleDefault(AppLocalizations.of(context)!.userNotLogged);
-        }));
+        body: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [
+              .48,
+              .48,
+              .495,
+              .495,
+            ],
+            colors: [
+              colorRecDark,
+              colorRecLight,
+              colorRecLight,
+              Colors.white,
+            ],
+          )),
+          child: BlocBuilder<CurrentUserBloc, CurrentUserState>(
+              builder: (context, state) {
+            if (state is CurrentUserLoaded) {
+              return Center(
+                  child: state.user.isPatient()
+                      ? HomePatientWidget(
+                          user: state.user,
+                          lang: _language,
+                          accessToken: _accessToken)
+                      : HomeTherapistWidget(
+                          lang: _language, accessToken: _accessToken));
+            }
+            return TitleDefault(AppLocalizations.of(context)!.userNotLogged);
+          }),
+        ));
   }
 }
