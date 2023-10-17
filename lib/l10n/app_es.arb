@@ -211,5 +211,6 @@
       "userType": {}
     }
   },
-  "userNotLogged": "No estás autenticado"
+  "userNotLogged": "No estás autenticado",
+  "upcomingAppointmentsTitle": "Mis próximas citas"
 }

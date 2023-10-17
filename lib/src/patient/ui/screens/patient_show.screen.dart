@@ -16,6 +16,7 @@ import 'package:recparenting/src/current_user/helpers/current_user_builder.dart'
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recparenting/src/patient/ui/widgets/patient_header_therapist.dart';
 
 import '../../../../_shared/ui/widgets/button_add_calendar.dart';
 
@@ -49,9 +50,9 @@ class PatientShowScreenState extends State<PatientShowScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldDefault(
-      title: widget.patient.name,
+      title: AppLocalizations.of(context)!.menuRoom,
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
           _currentUser.isTherapist()
@@ -108,10 +109,19 @@ class PatientShowScreenState extends State<PatientShowScreen> {
                     ],
                   ),
                 )
-              : const SizedBox.shrink(),
+              : widget.patient.therapist != null
+                  ? PatientHeaderTherapist(therapist: widget.patient.therapist!)
+                  : const SizedBox.shrink(),
           const SizedBox(
             height: 20,
           ),
+          Padding(
+              padding: const EdgeInsets.only(left: 30, bottom: 10),
+              child: TitleDefault(
+                AppLocalizations.of(context)!.upcomingAppointmentsTitle,
+                size: TitleSize.large,
+                textAlign: TextAlign.start,
+              )),
           FutureBuilder<EventsModel?>(
               future: _calendar,
               builder: (BuildContext context, AsyncSnapshot snapshot) {

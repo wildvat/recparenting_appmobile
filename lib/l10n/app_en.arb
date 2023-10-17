@@ -211,5 +211,6 @@
       "userType": {}
     }
   },
-  "userNotLogged": "You are not logged in"
+  "userNotLogged": "You are not logged in",
+  "upcomingAppointmentsTitle": "My upcoming appointments'"
 }
