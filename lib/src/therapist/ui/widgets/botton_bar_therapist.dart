@@ -1,41 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:recparenting/_shared/bloc/language/language_bloc.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/environments/env.dart';
-import 'package:recparenting/src/auth/repository/token_respository.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 
-class BottomAppBarTherapist extends StatefulWidget {
+class BottomAppBarTherapist extends StatelessWidget {
   final Therapist therapist;
   const BottomAppBarTherapist({
     required this.therapist,
     super.key,
   });
-
-  @override
-  State<BottomAppBarTherapist> createState() => _BottomAppBarTherapistState();
-}
-
-class _BottomAppBarTherapistState extends State<BottomAppBarTherapist> {
-  late final LanguageBloc _languageBloc;
-  String _language = 'en';
-  String _accessToken = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _languageBloc = context.read<LanguageBloc>();
-    if (_languageBloc.state is LanguageLoaded) {
-      _language = _languageBloc.state.language;
-    }
-    TokenRepository().getToken().then((value) {
-      _accessToken = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
