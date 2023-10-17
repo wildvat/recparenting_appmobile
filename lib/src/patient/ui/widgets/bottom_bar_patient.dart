@@ -38,14 +38,13 @@ class BottomAppBarPatient extends StatelessWidget {
               color: Colors.white,
               disabledColor: Colors.white54,
               icon: const Icon(
-                Icons.badge_outlined,
+                Icons.chat_outlined,
                 size: 30,
               ),
               onPressed: patient.therapist == null
                   ? null
-                  : () => Navigator.pushReplacementNamed(
-                      context, therapistBioPageRoute,
-                      arguments: patient.therapist)),
+                  : () => Navigator.pushReplacementNamed(context, chatRoute,
+                      arguments: patient)),
           const SizedBox(width: 50),
           IconButton(
               color: Colors.white,
