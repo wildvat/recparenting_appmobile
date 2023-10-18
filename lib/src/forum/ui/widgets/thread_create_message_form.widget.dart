@@ -70,7 +70,7 @@ class _ThreadCreateMessageFormState extends State<ThreadCreateMessageForm> {
                                     .forumThreadMessageCreateTitle,
                             size: TitleSize.large),
                         IconButton(
-                            icon: const Icon(Icons.attach_file_outlined),
+                            icon: const Icon(Icons.attach_file_outlined, color: Colors.white),
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(colorRec)),

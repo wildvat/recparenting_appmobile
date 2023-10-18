@@ -88,11 +88,6 @@ class _ForumThreadMessageCardWidgetState
                                         ForumMessageRemoved(
                                             id: widget.message.id));
                                   });
-                              /*
-                              context.read<ForumThreadBloc>().add(
-                                  ForumMessageRemoved(id: widget.message.id));
-
-                               */
                               setState((){
                                 _loadingDelete = false;
                                 //Navigator.pop(context);
