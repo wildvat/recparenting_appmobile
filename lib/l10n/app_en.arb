@@ -155,10 +155,13 @@
       "user": {}
     }
   },
+  "forumThreadMessageDeleteTitle": "Delete message",
+  "forumThreadMessageDeleteContent": "Are you sure you want to delete this message?",
   "forumThreadMessageCreateComment": "Menssage",
   "forumThreadMessageCreateFiles": "Add Files",
-  "forumThreadTitle": "Comments: {number}",
-  "@forumThreadTitle": {
+  "forumThreadCommentsNotFoundTitle": "There are no messages",
+  "forumThreadCommentsTitle": "Comments: {number}",
+  "@forumThreadCommentsTitle": {
     "placeholder": {
       "number": {}
     }

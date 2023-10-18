@@ -6,6 +6,7 @@ import 'package:recparenting/_shared/helpers/avatar_image.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
 import 'package:recparenting/_shared/models/text_sizes.enum.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/_shared/ui/widgets/alert_dialog.dart';
 import 'package:recparenting/_shared/ui/widgets/show_files.widget.dart';
 import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
@@ -17,6 +18,7 @@ import 'package:recparenting/src/forum/ui/widgets/thread_create_message_form.wid
 class ForumThreadMessageCardWidget extends StatefulWidget {
   final int index;
   final MessageForum message;
+
   const ForumThreadMessageCardWidget(
       {required this.message, required this.index, super.key});
 
@@ -31,6 +33,7 @@ class _ForumThreadMessageCardWidgetState
   final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
   bool _expandReplyMessage = false;
   bool _loadingDelete = false;
+
   @override
   void initState() {
     super.initState();
@@ -77,9 +80,23 @@ class _ForumThreadMessageCardWidgetState
                           ? null
                           : () {
                               setState(() => _loadingDelete = true);
+                              AlertDialogRec(
+                                  title: AppLocalizations.of(context)!.forumThreadMessageDeleteTitle,
+                                  content:AppLocalizations.of(context)!.forumThreadMessageDeleteContent,
+                                  onConfirm: () {
+                                    context.read<ForumThreadBloc>().add(
+                                        ForumMessageRemoved(
+                                            id: widget.message.id));
+                                  });
+                              /*
                               context.read<ForumThreadBloc>().add(
                                   ForumMessageRemoved(id: widget.message.id));
-                              setState(() => _loadingDelete = false);
+
+                               */
+                              setState((){
+                                _loadingDelete = false;
+                                //Navigator.pop(context);
+                              });
                             },
                       icon: Icon(Icons.delete_forever,
                           color: _loadingDelete

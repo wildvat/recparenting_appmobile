@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recparenting/_shared/models/bloc_status.dart';
+import 'package:recparenting/_shared/ui/widgets/text.widget.dart';
 import 'package:recparenting/constants/colors.dart';
 import 'package:recparenting/src/forum/bloc/forum_thread_bloc.dart';
 import 'package:recparenting/src/forum/models/forum_tabbar_type.enum.dart';
 import 'package:recparenting/src/forum/ui/widgets/forum_thread_message_card.widget.dart';
 import 'package:recparenting/src/forum/ui/widgets/forums_tabbar.widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForumThreadMessagesWidget extends StatefulWidget {
   final ScrollController scrollController;
@@ -36,37 +38,46 @@ class _ForumThreadMessagesWidgetState extends State<ForumThreadMessagesWidget> {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<ForumThreadBloc, ForumThreadState>(
-          builder: (BuildContext context, ForumThreadState state) => Stack(
+          builder: (BuildContext context, ForumThreadState state) {
+            Widget listMessages;
+            if(state.messages.isEmpty){
+              listMessages = Center(
+                child: TextDefault(AppLocalizations.of(context)!.forumThreadCommentsNotFoundTitle),
+              );
+            }else{
+              listMessages =  ListView.builder(
+                  shrinkWrap: true,
+                  controller: widget.scrollController,
+                  itemCount: state.messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index < 1) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding:
+                            const EdgeInsets.only(top: 20, bottom: 10),
+                            color: colorRecDark,
+                            child: const ForumsTabbar(
+                              type: ForumTabbarType.thread,
+                            ),
+                          ),
+                          ForumThreadMessageCardWidget(
+                            index: index,
+                            message: state.messages[index]!,
+                          )
+                        ],
+                      );
+                    }
+                    return ForumThreadMessageCardWidget(
+                      index: index,
+                      message: state.messages[index]!,
+                    );
+                  });
+            }
+            return Stack(
                 children: [
-                  ListView.builder(
-                      shrinkWrap: true,
-                      controller: widget.scrollController,
-                      itemCount: state.messages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index < 1) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 10),
-                                color: colorRecDark,
-                                child: const ForumsTabbar(
-                                  type: ForumTabbarType.thread,
-                                ),
-                              ),
-                              ForumThreadMessageCardWidget(
-                                index: index,
-                                message: state.messages[index]!,
-                              )
-                            ],
-                          );
-                        }
-                        return ForumThreadMessageCardWidget(
-                          index: index,
-                          message: state.messages[index]!,
-                        );
-                      }),
+                 listMessages,
                   Positioned(
                       top: 5,
                       right: 5,
@@ -90,5 +101,7 @@ class _ForumThreadMessagesWidgetState extends State<ForumThreadMessagesWidget> {
                             )
                           : const SizedBox.shrink())
                 ],
-              ));
+              );
+
+          });
 }

@@ -37,8 +37,8 @@ class _ThreadScreenState extends State<ThreadScreen> {
                 ScaffoldDefault(
                     title: state.total > 0
                         ? AppLocalizations.of(context)!
-                            .forumThreadTitle(state.total)
-                        : '-',
+                            .forumThreadCommentsTitle(state.total)
+                        : AppLocalizations.of(context)!.forumThreadCommentsNotFoundTitle,
                     actionButton: ThreadActionButton(thread: widget.thread),
                     body: ListView(
                       children: [
