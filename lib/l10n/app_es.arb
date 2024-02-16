@@ -1,0 +1,216 @@
+{
+  "@@locale": "es",
+  "title": "REC Parenting ES",
+  "@title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentLanguage": "es",
+  "generalTitle": "Hola",
+  "generalButtonMoreInfo": "Más información",
+  "menuHome": "Inicio",
+  "menuChat": "Chat",
+  "menuForum": "Forum",
+  "menuProfile": "Perfil",
+  "menuLegal": "Legal",
+  "menuContact": "Contacta",
+  "menuPatients": "Pacientes",
+  "menuNotifications": "Notifications",
+  "menuFaqs": "FAQs",
+  "menuPodcast": "Podcast",
+  "menuMasterclasses": "Masterclasses",
+  "menuBlog": "Blog",
+  "menuRoom": "Mi sala privada",
+  "menuCommunity": "Comunidad",
+  "menuCalendar": "Agenda",
+  "therapistBioTitle": "Tu terapeuta",
+  "therapistShow": "Más información",
+  "workingHoursTitle": "Horario laboral",
+  "logout": "Salir",
+  "passwordRecoveryTitle": "Recuperar contraseña",
+  "generalButtonDelete": "Eliminar",
+  "generalEmail": "Email",
+  "generalPassword": "Contraseña",
+  "generalAccess": "Acceder",
+  "generalSend": "Enviar",
+  "generalMoreInfo": "+ Info",
+  "generalSearch": "Buscar...",
+  "generalError": "Hubo un error al intentar esta acción",
+  "generalOk": "Acción realizada correctamente",
+  "generalFormLoginError": "Usuario o contraseña incorrectos",
+  "generalNoData": "No hay datos disponibles",
+  "generalFormErrorEmail": "Por favor introduzca un email",
+  "generalFormErrorText": "Por favor introduzca un texto",
+  "generalCancel": "Cancelar",
+  "generalAccept": "Aceptar",
+  "generalContinue": "Continuar",
+  "generalFormRequired": "Campo requerido",
+  "generalFormFieldTitle": "Título",
+  "generalFormFieldDescription": "Descripción",
+  "generalReplyBtn": "Responder",
+  "generalShow": "Ver",
+  "generalNoContent": "No hay contendio",
+  "generalAddToCalendar": "Añadir al calendario",
+  "generalAddToCalendarTitle": "Añade el evento a tu aplicacion de calendario",
+  "calendarTitle": "Agenda",
+  "calendarGeneralError": "No se ha podido mostrar el calendario",
+  "calendarTherapistError": "No tienes terapeuta, conatcta con administración.",
+  "calendarHelpMonth": "En el calendario mensual, mantener puslsado una hora, te redirige al calendario de ese día",
+  "calendarHelpDayWeek": "En el calendario semanal y diario, mantener puslsado te abre la interfaz de crear una cita",
+  "calendarHelpColors": "Colores de los eventos:",
+  "calendarNotAvailableHour": "Este horario no está disponible",
+  "terapistChangeButton": "Cambio de terapeuta",
+  "therapistNotasigned": "No tienes terapeuta asignado",
+  "therapistYears": "{years} años de experiencia",
+  "@therapistYears": {
+    "placeholder": {
+      "years": {}
+    }
+  },
+  "recoveryPassLinnk": "Recuperar contraseña",
+  "webPageTitle": "WEB externa",
+  "eventType": "{type, select, basic {cita} appointment_chat {chat} appointment_video {videoconferencia} availability {disponible} not_available {no disponible}  other {cita}}",
+  "@eventType": {
+    "placeholder": {
+      "type": {}
+    }
+  },
+  "eventFrom": "Desde",
+  "eventTo": "Hasta",
+  "eventDeleteOk": "Evento eliminado",
+  "eventDeleteError": "No se ha podido eliminar el evento",
+  "eventGoSessionBtn": "Ir a la sesión",
+  "eventCreateTitle": "Título",
+  "eventCreateAppointmentType": "Tipo de cita",
+  "eventCreateStart": "Desde",
+  "eventCreateStartHelp": "La duración de las sesiones son de 55 minutos.",
+  "eventCreateEnd": "Hasta",
+  "eventCreateBtnSend": "Guardar",
+  "eventCreateMessageOk": "Cita creada correctamente",
+  "eventCreateMessageRequired": "Faltan campos por cubrir",
+  "eventCreateMessageError": "No se ha podido crear la cita",
+  "getDay": "{date, select, monday {lunes} tuesday {martes} wednesday {miercoles} thursday {jueves} friday {viernes} saturday {sábado} sunday {domingo} other {día}}",
+  "@getDay": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "monday": "lunes",
+  "tuesday": "martes",
+  "wednesday": "miércoles",
+  "thursday": "jueves",
+  "friday": "viernes",
+  "saturday": "sábado",
+  "sunday": "domingo",
+  "premiumTitle": "ACCESO PREMIUM",
+  "premiumText": "Esta funcionalidad sólo es visible para usuarios con suscripciones premium",
+  "offerValidAt": "Hasta: {date}",
+  "@offerValidAt": {
+    "placeholders": {
+      "date": {
+              "type": "String"
+      }
+    }
+  },
+  "conferenceTitle": "Videoconferencia",
+  "conferenceJoin": "Unirse a la videoconferencia",
+  "conferenceWaitingTherapist":"Esperando al terapeuta",
+  "conferenceNotAvailable": "The conference is not available",
+  "permissionAudioVideoDenied": "No se ha podido acceder a la cámara o al micrófono",
+  "permissionAudioNotAuthorized": "You have denied access to the microphone. Please allow access to the microphone to continue",
+  "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
+  "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
+  "loading": "Cargando...",
+  "patientNotHasEvents": "No tienes eventos",
+  "today": "hoy",
+  "chatTitleWith": "Chat con {name}",
+  "@chatTitleWith": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chatTitleWithMe": "Chat conmigo",
+  "chatEnterMessage": "Escribe un mensaje...",
+  "chatDeleteMessageTitle": "Eliminar mensaje",
+  "chatDeleteMessageContent": "¿Estás seguro de que quieres eliminar este mensaje?",
+  "chatDeleted": "Este mensaje ha sido eliminado",
+  "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
+  "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
+  "@patientChangeTherapistReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
+  "fieldIncomplete": "Campo obligatorio",
+  "forumThreadTitle": "Forum | Hilo",
+  "forumThreadCreateTitle": "Añadir hilo",
+  "forumThreadSeeMessagesBtn": "Ver mensajes",
+  "forumThreadCreated": "Hilo creado correctamente",
+  "forumThreadMessageCreateTitle": "Añade un mensaje",
+  "forumThreadMessageCreateReplyTitle": "Añade una respuesta",
+  "forumThreadMessageCreateReplyLink": "En respuesta a un comentario de {user}",
+  "@forumThreadMessageCreateReplyLink": {
+    "placeholder": {
+      "user": {}
+    }
+  },
+  "forumThreadMessageCreateComment": "Mensaje",
+  "forumThreadMessageCreateFiles": "Añade archivos",
+  "forumThreadTitle": "Mensajes: {number}",
+  "@forumThreadTitle": {
+    "placeholder": {
+      "number": {}
+    }
+  },
+  "therapistAreasExpertiseTitle": "Areas de especialización",
+  "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy} adoption {Adoption} difficultiesConceiving {Difficulties conceiving} issuesDuringInfancy {Issues during infancy} issuesDuringToddlerhood {Issues during toddlerhood} issuesDuringChildhood {Issues during childhood} issuesDuringAdolescence {Issues during adolescence}  educationIssues {Education issues} learningDifficulties {Learning difficulties} technologyUse {Technology use} discipline {Discipline} anxiety {Anxiety} depressionAndMoodDisorders {Depression and mood disorders} eatingDisorders {Eating disorders} bullyingCyberbullyingAndSexting {Bullying, cyberbullying and sexting} atypicalDevelopment {Atypical development (e.g., autism)} substanceUse {Substance use} siblingRilvalry {Sibling rilvalry} parentChildConflict {Parent-child conflict} childrensMentalHealth {Children's mental health} adultMentalHealth {Adult mental health} coParentingIssues {Co-parenting issues} parentingAlone {Parenting alone} divorce {Divorce} relationships {Relationships} bereavement {Bereavement} trauma {Trauma} other {Otros}}",
+  "@therapistAreasExpertise": {
+    "placeholders": {
+      "area": {}
+    }
+  },
+  "therapistOtherDataTitle": "Otros datos",
+  "generalLanguageTitle": "Idioma",
+  "generalGenderTitle": "Género",
+  "generalReligionTitle" : "Religión",
+  
+  "generalGender": "{gender, select, male {Hombre}  female {Mujer} transGender {Trans genero} nonBinay {No binaro} preferNotToAnswer {Prefiero no responder} other {Otros}}",
+  "@generalGender": {
+    "placeholders": {
+      "gender": {}
+    }
+  },
+  "generalReligion": "{religion, select, catholic {Católico}  christian {Cristiano} jewish {Judio} muslim {Musulman} nonReligious {No soy religioso} other {Otros}}",
+  "@generalReligion": {
+    "placeholders": {
+      "religion": {}
+    }
+  },
+  "generalLanguage": "{language, select, en {Ingles}  es {Español} fr {Francés} ar {Árabe}  other {Otro}}",
+  "@generalLanguage": {
+    "placeholders": {
+      "language": {}
+    }
+  },
+  "notificationsType": "{type, select, therapistDisabledAtNotificationTherapist {Your account will be disabled on [date_disabled]} therapistDisabledAtNotificationPatient {Your therapist [therapist] , will be deactivated at [date_disabled]}  toPatientWhenTherapistWasAssigned {Your new therapist is [therapist], click here for more info} userDisabledAtNotification {Your account will be disabled on [date_disabled]} patientDisabledAtNotification {Your patient, [patient] will be deactivated at [date_disabled] } toTherapistWhenPatientWasAssigned {You have a new patient, [patient]  } toTherapistDisabledWhenPatientWasAssigned {Your patient, [patient] has changed his/her therapist} toPatientWhenRequestedChange {Your request to change your therapist is in progress} toTherapistWhenPatientRequestedChange {Your patient, [patient] has requested to change his/her therapist} toParticipantsWhenEventAppointmentWasCreated {Appointemt was created on [date_appointment]} toParticipantsWhenEventAppointmentWasDeleted {Appoint was deleted on [date_appointment]} toParticipantsWhenForumMessageWasCreated {Forum message was created}   conversationUnreadNotification {Conversation unread} other {Other} }",
+  "@notificationsType": {
+    "placeholders": {
+      "type": {}
+    }
+  },  
+  "notificationsEmpty": "No tienes notificaciones",
+  "pageNotFound": "Página no encontrada",
+  "mettingErrorPlatform": "Platforma no reconocida",
+  "mettingChooseAudio": "Choose Audio Device",
+  "mettingLeave": "Abandonar la reunión",
+  "meetingTherapistMustInit": "La videoconferencia debe ser iniciada por la terapeuta.",
+  "meetingWaitingToCamera": "Esperando a la cámara del {userType}...",
+  "@meetingWaitingToCamera": {
+    "placeholder": {
+      "userType": {}
+    }
+  },
+  "userNotLogged": "No estás autenticado",
+  "upcomingAppointmentsTitle": "Mis próximas citas"
+}

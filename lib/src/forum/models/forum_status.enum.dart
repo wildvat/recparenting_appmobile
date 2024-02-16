@@ -1,0 +1,4 @@
+enum ForunMessageStatus {
+  active,
+  inactive;
+}

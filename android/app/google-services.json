@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "899954583080",
+    "project_id": "rec-parenting",
+    "storage_bucket": "rec-parenting.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899954583080:android:82b43440fcb0085aae771d",
+        "android_client_info": {
+          "package_name": "appmobile.recparenting.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjPwn9EQBzuZGsTnJdLd8NaIi2XEMxZqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
