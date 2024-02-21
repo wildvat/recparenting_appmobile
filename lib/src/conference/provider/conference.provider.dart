@@ -4,33 +4,36 @@
  */
 
 import 'package:dio/dio.dart';
+import 'package:recparenting/_shared/providers/dio_provider.dart';
 import 'package:recparenting/environments/env.dart';
 import 'package:recparenting/src/conference/models/attendee_info.model.dart';
 import 'package:recparenting/src/conference/models/meeting.model.dart';
-import '../../../_shared/providers/http.dart';
 import '../models/join_info.model.dart';
 import 'dart:developer' as developer;
 
 class ConferenceApi {
   final String _baseUrl = env.apiUrl;
-  final AuthApiHttp _client = AuthApiHttp();
+  final Dio _client = dioApi;
 
   Future<void> deleteMeeting(String meetingId) async {
     String url = "${_baseUrl}conference/$meetingId/meeting";
-    await _client.dio.delete(url);
+    await _client.delete(url);
   }
+
   Future<List<AttendeeInfo>> listAttendees(String meetingId) async {
-    developer.log('************************************* GET LIST ATTENDEES $meetingId');
+    developer.log(
+        '************************************* GET LIST ATTENDEES $meetingId');
     String url = "${_baseUrl}conference/$meetingId/attendees";
     List<AttendeeInfo> attendees = [];
     try {
-      Response response = await _client.dio.get(url);
+      Response response = await _client.get(url);
       if (response.statusCode! == 200) {
-        if(response.data['Attendees'] != null && response.data['Attendees'].length > 0){
-            for(var element in response.data['Attendees']){
-              element['Attendee'] = element;
-              attendees.add(AttendeeInfo.fromJson(element));
-            }
+        if (response.data['Attendees'] != null &&
+            response.data['Attendees'].length > 0) {
+          for (var element in response.data['Attendees']) {
+            element['Attendee'] = element;
+            attendees.add(AttendeeInfo.fromJson(element));
+          }
         }
       }
       developer.log('TOTAL ATTENDEES ${attendees.length}');
@@ -41,11 +44,12 @@ class ConferenceApi {
   }
 
   Future<Meeting?> get(String meetingId) async {
-    developer.log('************************************* GET MEETING $meetingId');
+    developer
+        .log('************************************* GET MEETING $meetingId');
     String url = "${_baseUrl}conference/$meetingId/meeting";
 
     try {
-      final Response response = await _client.dio.get(url);
+      final Response response = await _client.get(url);
       developer.log("STATUS MEETING: ${response.statusCode}");
 
       if (response.statusCode! == 200) {
@@ -68,16 +72,14 @@ class ConferenceApi {
     }
   }
 
-  Future<AttendeeInfo?> createAttendee(String meetingId, String userId)
-  async {
+  Future<AttendeeInfo?> createAttendee(String meetingId, String userId) async {
     String url = "${_baseUrl}conference/$meetingId/attendee";
     try {
       //final http.Response response = await http.post(Uri.parse(url));
-      Response response = await _client.dio.post(url);
+      Response response = await _client.post(url);
       //final http.Response responseAttendee = await http.post(Uri.parse(urlAttendee));
       developer.log("STATUS CREATE ATTENDEE: ${response.statusCode}");
-      if (response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
         developer.log("POST - create attendee api call successful!");
         developer.log(response.data.toString());
         //Map<String, dynamic> joinInfoAttendeeMap = response.data;
@@ -97,9 +99,9 @@ class ConferenceApi {
     String urlAttendee = "${_baseUrl}conference/$meetingId/attendee";
     try {
       //final http.Response response = await http.post(Uri.parse(url));
-      Response response = await _client.dio.post(url);
+      Response response = await _client.post(url);
       //final http.Response responseAttendee = await http.post(Uri.parse(urlAttendee));
-      Response responseAttendee = await _client.dio.post(urlAttendee);
+      Response responseAttendee = await _client.post(urlAttendee);
       developer.log("STATUS MEETING: ${response.statusCode}");
       developer.log("STATUS ATTENDEE: ${responseAttendee.statusCode}");
       if (response.statusCode! >= 200 &&
@@ -137,4 +139,3 @@ class ConferenceApi {
     return flattenedJSON;
   }
 }
-

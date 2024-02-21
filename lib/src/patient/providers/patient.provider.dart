@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:recparenting/_shared/providers/dio_provider.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/src/patient/models/change_therapist.model.dart';
 import 'package:recparenting/src/patient/models/change_therapist_reasons.enum.dart';
@@ -9,22 +9,18 @@ import 'package:recparenting/src/patient/providers/api_response_bool.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/src/auth/repository/token_respository.dart';
-
-import '../../../environments/env.dart';
 
 class PatientApi {
   late User user;
-  AuthApiHttp client = AuthApiHttp();
-  final String _baseUrl = env.apiUrl;
+  Dio client = dioApi;
 
   final TokenRepository _tokenRepository = TokenRepository();
 
   Future<User?> getAll() async {
-    String endpoint = '${_baseUrl}patient';
+    String endpoint = 'patient';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         User user = User.fromJson(response.data);
         if (user.type == 'patient') {
@@ -48,12 +44,12 @@ class PatientApi {
 
   Future<ChangeTherapist?> requestChangeTherapist(
       String therapistId, ChangeTherapistReasons reason) async {
-    String endpoint = '${_baseUrl}therapist/$therapistId/change';
+    String endpoint = 'therapist/$therapistId/change';
     try {
       Map<String, dynamic> body = {
         'reason': convertChangeTherapistReasonToString(reason),
       };
-      Response response = await client.dio.post(
+      Response response = await client.post(
         endpoint,
         data: FormData.fromMap(body),
       );
@@ -71,9 +67,9 @@ class PatientApi {
   }
 
   Future<ChangeTherapist?> hasRequestChangeTherapist(String therapistId) async {
-    String endpoint = '${_baseUrl}therapist/$therapistId/change';
+    String endpoint = 'therapist/$therapistId/change';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ChangeTherapist.fromJson(response.data);
       }
@@ -90,12 +86,12 @@ class PatientApi {
 
   Future<ApiResponseBool> sharedRoomWith(
       String therapistId, bool shared) async {
-    String endpoint = '${_baseUrl}conversation/user/$therapistId/shared';
+    String endpoint = 'conversation/user/$therapistId/shared';
     try {
       Map<String, dynamic> body = {
         'shared': shared ? 'shared' : 'remove',
       };
-      Response response = await client.dio.post(
+      Response response = await client.post(
         endpoint,
         data: FormData.fromMap(body),
       );
@@ -115,9 +111,9 @@ class PatientApi {
   }
 
   Future<ApiResponseBool> isSharedRoomWith(String therapistId) async {
-    String endpoint = '${_baseUrl}conversation/user/$therapistId/shared';
+    String endpoint = 'conversation/user/$therapistId/shared';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       developer.log(response.statusCode.toString());
       if (response.statusCode == 201) {
         return ApiResponseBool(

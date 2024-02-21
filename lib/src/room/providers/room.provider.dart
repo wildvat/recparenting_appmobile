@@ -1,19 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:recparenting/_shared/models/text_colors.enum.dart';
+import 'package:recparenting/_shared/providers/dio_provider.dart';
 import 'package:recparenting/_shared/providers/r_language.dart';
 import 'package:recparenting/_shared/ui/widgets/snack_bar.widget.dart';
 import 'package:recparenting/src/room/models/conversation.model.dart';
 import 'package:recparenting/src/room/models/message.model.dart';
 import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/_shared/providers/http.dart';
-
 import '../../../environments/env.dart';
 import '../models/rooms.model.dart';
 
 class RoomApi {
   late User user;
-  AuthApiHttp client = AuthApiHttp();
+  final Dio client = dioApi;
   final String _baseUrl = env.apiUrl;
 
   Future<Rooms?> getAll(int? page, int? limit) async {
@@ -28,7 +27,7 @@ class RoomApi {
       endpoint = '$endpoint${(queryAdded ? '&' : '?')}limit=$limit';
     }
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         return Rooms.fromJson(response.data);
       } else {
@@ -51,7 +50,7 @@ class RoomApi {
     final String endpoint = 'conversation?page=$page&search=$search';
 
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
@@ -79,7 +78,7 @@ class RoomApi {
     }
 
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         return Conversation.fromJson(response.data);
       } else {
@@ -95,7 +94,7 @@ class RoomApi {
   Future<Conversation?> getConversationWithUser(User user) async {
     String endpoint = '${_baseUrl}conversation/user/${user.id}';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         return Conversation.fromJson(response.data);
       } else {
@@ -111,7 +110,7 @@ class RoomApi {
   Future<Rooms?> getConversationSharedPatientWithTherapist(User user) async {
     String endpoint = '${_baseUrl}patient/${user.id}/shared/conversations';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         return Rooms.fromJson(response.data);
       } else {
@@ -131,7 +130,7 @@ class RoomApi {
         'type': message.type,
         'message': message.message,
       };
-      Response response = await client.dio.post(
+      Response response = await client.post(
         endpoint,
         data: FormData.fromMap(body),
       );
@@ -176,7 +175,7 @@ class RoomApi {
     String endpoint =
         '${_baseUrl}conversation/$idConversation/message/$idMessage';
     try {
-      Response response = await client.dio.delete(endpoint);
+      Response response = await client.delete(endpoint);
       if (response.statusCode == 200) {
         return;
       } else {
@@ -192,7 +191,7 @@ class RoomApi {
   Future<void> deleteConversation(String id) async {
     String endpoint = '${_baseUrl}conversation/$id';
     try {
-      Response response = await client.dio.delete(endpoint);
+      Response response = await client.delete(endpoint);
       if (response.statusCode == 200) {
         return;
       } else {

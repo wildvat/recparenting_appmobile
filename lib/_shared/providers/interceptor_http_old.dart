@@ -66,14 +66,15 @@ class AuthInterceptors extends QueuedInterceptor {
     }
 
     // Check retry attempt
+    /*
     final attempt = err.requestOptions._retryAttempt + 1;
     if (attempt > retries) {
       return super.onError(err, handler);
-    }
-
-    // todo remove delayed in order to lock
+    }    
     err.requestOptions._retryAttempt = attempt;
-    await Future<void>.delayed(const Duration(seconds: 1));
+    */
+    // todo remove delayed in order to lock
+    //  await Future<void>.delayed(const Duration(seconds: 1));
 
     // Force refresh auth token
     await _getRefreshFromApi(err.requestOptions, handler);
@@ -87,7 +88,7 @@ class AuthInterceptors extends QueuedInterceptor {
       RequestOptions options, ErrorInterceptorHandler handler) async {
     final String accessToken = await _tokenRepository.getToken();
     if (accessToken == '') {
-     _onErrorRefreshingToken();
+      _onErrorRefreshingToken();
       return null;
     }
     try {
@@ -112,8 +113,8 @@ class AuthInterceptors extends QueuedInterceptor {
       await _tokenRepository.setToken(responseRefresh.data['access_token']);
       await _tokenRepository
           .setRefreshToken(responseRefresh.data['refresh_token']);
-        final Response response = await dio.fetch(options);
-        handler.resolve(response);
+      final Response response = await dio.fetch(options);
+      handler.resolve(response);
     } on DioException catch (e) {
       developer.log(e.toString());
       _authApi.logout();

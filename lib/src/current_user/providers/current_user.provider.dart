@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recparenting/_shared/providers/dio_provider.dart';
 import 'package:recparenting/navigator_key.dart';
 import 'package:recparenting/src/current_user/bloc/current_user_bloc.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/src/auth/repository/token_respository.dart';
 
 class CurrentUserApi {
   late User user;
-  final AuthApiHttp client = AuthApiHttp();
+  final Dio client = dioApi;
   final CurrentUserBloc _currentUserBloc =
       BlocProvider.of<CurrentUserBloc>(navigatorKey.currentContext!);
 
@@ -23,7 +23,7 @@ class CurrentUserApi {
     }
     const String endpoint = 'user/me';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         User user = User.fromJson(response.data);
         if (user.type == 'patient') {
@@ -37,20 +37,22 @@ class CurrentUserApi {
         return user;
       } else {
         _tokenRepository.clearTokens();
-        return null;
+        return throw Exception('Error getting user');
       }
     } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
+      print('/** ERROR CurrentUserApi.getUser 1 **/');
+      print(e.response.toString());
       _tokenRepository.clearTokens();
-      return null;
+      return throw Exception('Error getting user');
     }
   }
 
   Future<User?> reloadUser() async {
     const String endpoint = 'user/me';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         User user = User.fromJson(response.data);
         if (user.type == 'patient') {
@@ -69,6 +71,8 @@ class CurrentUserApi {
     } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
+      print('/** ERROR CurrentUserApi.getUser 2 **/');
+      print(e.response.toString());
       _tokenRepository.clearTokens();
       return null;
     }
@@ -82,8 +86,7 @@ class CurrentUserApi {
       'platform': platform
     };
     try {
-      Response response =
-          await client.dio.post(url, data: FormData.fromMap(body));
+      Response response = await client.post(url, data: FormData.fromMap(body));
       if (response.statusCode == 201) {
         return token;
       } else {

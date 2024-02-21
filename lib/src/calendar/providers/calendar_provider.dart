@@ -1,10 +1,9 @@
 import 'package:calendar_view/calendar_view.dart';
-import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:recparenting/_shared/models/user.model.dart';
+import 'package:recparenting/_shared/providers/dio_provider.dart';
 import 'dart:developer' as developer;
-
-import 'package:recparenting/_shared/providers/http.dart';
 import 'package:recparenting/_shared/providers/r_language.dart';
 import 'package:recparenting/src/calendar/models/create_event_api_response.dart';
 import 'package:recparenting/src/calendar/models/event.model.dart';
@@ -13,7 +12,7 @@ import 'package:recparenting/src/calendar/models/events_calendar_api.model.dart'
 import 'package:recparenting/src/calendar/models/events_color.enum.dart';
 
 class CalendarApi {
-  AuthApiHttp client = AuthApiHttp();
+  final Dio client = dioApi;
 
   Future<EventsCalendarApiModel> getTherapistEvents(
       {required String therapist,
@@ -25,13 +24,13 @@ class CalendarApi {
     final String startToApi = start.toUtc().toString();
     final String endToApi = end.toUtc().toString();
     try {
-      dio.Response response = await client.dio
+      Response response = await client
           .get('$endpoint/$therapist?start=$startToApi&end=$endToApi');
       if (response.statusCode == 200) {
         return EventsCalendarApiModel.fromJson(response.data, currentUser);
       }
       return EventsCalendarApiModel.mock(currentUser);
-    } on dio.DioException catch (e) {
+    } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
       return EventsCalendarApiModel.mock(currentUser);
@@ -48,14 +47,14 @@ class CalendarApi {
     final String startToApi = start.toUtc().toString();
     final String endToApi = end.toUtc().toString();
     try {
-      dio.Response response = await client.dio
+      Response response = await client
           .get('$endpoint/$patientId?start=$startToApi&end=$endToApi');
       if (response.statusCode == 200) {
         EventsModel events = EventsModel.fromJson(response.data['events']);
         return events;
       }
       return null;
-    } on dio.DioException catch (_) {
+    } on DioException catch (_) {
       return null;
     }
   }
@@ -63,12 +62,12 @@ class CalendarApi {
   Future<bool> deleteEvent(String idEvent) async {
     final String endpoint = 'calendar/event/$idEvent';
     try {
-      dio.Response response = await client.dio.delete(endpoint);
+      Response response = await client.delete(endpoint);
       if (response.statusCode == 204) {
         return true;
       }
       return false;
-    } on dio.DioException catch (e) {
+    } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
       developer.log(e.response.toString());
       return false;
@@ -86,7 +85,7 @@ class CalendarApi {
       required DateTime end}) async {
     const String endpoint = 'calendar/event';
     try {
-      dio.Response response = await client.dio.post(endpoint, data: {
+      Response response = await client.post(endpoint, data: {
         'user_id': userId,
         'model_type': modelType,
         'model_id': modelId,
@@ -118,7 +117,7 @@ class CalendarApi {
       }
 
       return CreateEventApiResponse(error: R.string.generalError);
-    } on dio.DioException catch (e) {
+    } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
       developer.log(e.response?.data.toString() ?? 'No message');
       String responseError = R.string.generalError;
