@@ -8,7 +8,7 @@ import 'dart:developer' as developer;
 import 'package:recparenting/src/current_user/providers/current_user.provider.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
   @override
   State<SplashScreen> createState({Key? key}) => _SplashScreenState();
 }
@@ -28,6 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
         return false;
+      }, onError: (e) {
+        print('OnErrro ${e.toString()}');
       }).catchError((onError) {
         FlutterNativeSplash.remove();
 

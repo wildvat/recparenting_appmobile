@@ -1,19 +1,18 @@
 import 'package:dio/dio.dart';
+import 'package:recparenting/_shared/providers/dio_provider.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
 import 'dart:developer' as developer;
 import 'package:recparenting/_shared/models/user.model.dart';
-import 'package:recparenting/_shared/providers/http.dart';
 
 class UserApi {
   late User user;
-  final AuthApiHttp client = AuthApiHttp();
+  final Dio client = dioApi;
 
   Future<User?> getUserById(String id) async {
-
     String endpoint = 'user/$id';
     try {
-      Response response = await client.dio.get(endpoint);
+      Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
         User user = User.fromJson(response.data);
         if (user.type == 'patient') {
@@ -33,6 +32,4 @@ class UserApi {
       return null;
     }
   }
-
-
 }

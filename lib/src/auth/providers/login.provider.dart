@@ -38,7 +38,9 @@ class AuthApi {
         return null;
       }
     } on DioException catch (e) {
-      developer.log('error 2');
+      print('AuthApi error login');
+      print(e.message.toString());
+      developer.log('AuthApi error login');
       developer.log(e.message.toString());
       return null;
     }
