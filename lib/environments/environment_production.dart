@@ -6,19 +6,19 @@ class ProdConfig implements EnvConfig {
   @override
   String get web => 'https://www.recparenting.com/';
   @override
-  String get url => 'https://www.recparenting.net/';
+  String get url => 'https://app.recparenting.com/';
   @override
-  String get apiUrl => 'https://www.recparenting.net/apiMobile/';
+  String get apiUrl => 'https://app.recparenting.com/api/';
   @override
-  String get clientId => '2';
+  String get clientId => '9a1b7e82-7e64-4167-b751-02345a21783e';
   @override
-  String get clientSecret => 'EV0UA75FX23zhkJFbB7D8SaHNRloZdQCXDW17hdu';
+  String get clientSecret => 'a2ppSmwcxyP7YUsp6ARWmpW49jXSli4EWdA0nvNb';
   @override
-  String get pusherAppId => '1404349';
+  String get pusherAppId => '1441200';
   @override
   String get pusherAppKey => '75a6a9ada98076b7556c';
   @override
-  String get pusherAppSecret => 'c79d8ba17123c386ad4e';
+  String get pusherAppSecret => '67afed448f3f308cf250';
   @override
   String get pusherAppCluster => 'eu';
   @override
