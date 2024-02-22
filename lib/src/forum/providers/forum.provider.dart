@@ -81,7 +81,7 @@ class ForumApi {
           );
           filesToApi.add(file);
         }
-        data['files[]'] = files;
+        data['files[]'] = filesToApi;
       }
 
       final FormData formData = FormData.fromMap(data);
