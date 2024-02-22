@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
         return false;
       }, onError: (e) {
-        print('OnErrro ${e.toString()}');
+        developer.log('OnErrro ${e.toString()}');
       }).catchError((onError) {
         FlutterNativeSplash.remove();
 

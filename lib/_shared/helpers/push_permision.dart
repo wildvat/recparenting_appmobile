@@ -15,6 +15,7 @@ getPermissionPushApp() async {
     dev.log('User granted provisional push permission');
   } else {
     dev.log('User declined or has not accepted  push permission');
+    return;
   }
 
   String platform = '';
@@ -27,11 +28,10 @@ getPermissionPushApp() async {
   }
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   String? token = await firebaseMessaging.getToken();
-  if(token != null){
+  if (token != null) {
     dev.log('token device: $token');
     CurrentUserApi().addDevice(token, platform);
-  }else{
+  } else {
     dev.log('token device: null');
   }
-
 }

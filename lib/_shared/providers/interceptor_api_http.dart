@@ -7,9 +7,7 @@ import 'package:recparenting/src/auth/repository/token_respository.dart';
 import 'dart:developer' as developer;
 
 class AuthApiInterceptor extends InterceptorsWrapper {
-  AuthApiInterceptor() {
-    print('AuthApiInterceptor');
-  }
+  AuthApiInterceptor();
 
   // when accessToken is expired & having multiple requests call
   // this variable to lock others request to make sure only trigger call refresh token 01 times
@@ -28,7 +26,6 @@ class AuthApiInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    print('inbterceptor');
     String accessToken = await _tokenRepository.getToken();
     if (accessToken == '') {
       _authApi.logout();
@@ -44,9 +41,6 @@ class AuthApiInterceptor extends InterceptorsWrapper {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final response = err.response;
-    print(response?.requestOptions.path);
-    print(refreshUrl);
-    print(_isRefreshing);
     if (response != null &&
         // status code for unauthorized usually 401
         response.statusCode == 401 &&
@@ -65,17 +59,14 @@ class AuthApiInterceptor extends InterceptorsWrapper {
 
         // call api refresh token
         final isRefreshSuccess = await _refreshToken(err.requestOptions);
-        print('isRefreshSuccess ${false}');
         _isRefreshing = false;
 
         if (isRefreshSuccess) {
           // refresh success, loop requests need retry
           for (var requestNeedRetry in _requestsNeedRetry) {
-            print(requestNeedRetry.options.path);
             // don't need set new accessToken to header here, because these retry
             // will go through onRequest callback above (where new accessToken will be set to header)
             final retry = await dioApi.fetch(requestNeedRetry.options);
-            print('retry response: ${retry.data.toString()}');
             requestNeedRetry.handler.resolve(retry);
           }
           _requestsNeedRetry.clear();
@@ -100,7 +91,6 @@ class AuthApiInterceptor extends InterceptorsWrapper {
 
   Future<bool> _refreshToken(RequestOptions options) async {
     try {
-      print('init refreshToken');
       final String accessToken = await _tokenRepository.getToken();
       final String refreshToken = await _tokenRepository.getRefreshToken();
       if (accessToken == '' || refreshToken == '') {
@@ -114,17 +104,14 @@ class AuthApiInterceptor extends InterceptorsWrapper {
           "client_secret": env.clientSecret,
           "refresh_token": refreshToken
         };
-        print(refreshToken);
         Response responseRefresh = await _refreshDio.dio.post(
           refreshUrl,
           data: data,
         );
-        print('loaded refreshToken');
         if (responseRefresh.statusCode == 401) {
           _onErrorRefreshingToken();
           return false;
         }
-        print(responseRefresh.data['refresh_token']);
         options._setHeadersJson();
         options._setAuthenticationHeader(accessToken);
         await _tokenRepository.setToken(responseRefresh.data['access_token']);
@@ -132,13 +119,12 @@ class AuthApiInterceptor extends InterceptorsWrapper {
             .setRefreshToken(responseRefresh.data['refresh_token']);
         return true;
       } on DioException catch (e) {
-        print("refresh 22222 token fail ${e.toString()}");
         developer.log(e.toString());
         _authApi.logout();
         return false;
       }
     } catch (error) {
-      print("refresh token fail ${error.toString()}");
+      developer.log("refresh token fail ${error.toString()}");
       return false;
     }
   }

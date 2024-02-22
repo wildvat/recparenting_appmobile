@@ -42,8 +42,6 @@ class CurrentUserApi {
     } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
-      print('/** ERROR CurrentUserApi.getUser 1 **/');
-      print(e.response.toString());
       _tokenRepository.clearTokens();
       return throw Exception('Error getting user');
     }
@@ -69,10 +67,8 @@ class CurrentUserApi {
         return null;
       }
     } on DioException catch (e) {
-      developer.log('/** ERROR CurrentUserApi.getUser **/');
+      developer.log('/** ERROR CurrentUserApi.reloadUser **/');
       developer.log(e.response.toString());
-      print('/** ERROR CurrentUserApi.getUser 2 **/');
-      print(e.response.toString());
       _tokenRepository.clearTokens();
       return null;
     }
