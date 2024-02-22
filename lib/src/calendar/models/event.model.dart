@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recparenting/_shared/models/user.model.dart';
 import 'package:recparenting/src/calendar/models/type_appointments.dart';
 import 'package:recparenting/src/patient/models/patient.model.dart';
 import 'package:recparenting/src/therapist/models/therapist.model.dart';
@@ -14,20 +15,13 @@ class EventModel {
   final AppointmentTypes type;
   final DateTime start;
   final DateTime end;
-  final Patient patient;
-  final Therapist therapist;
+  final User user;
+  final Patient? patient;
+  final Therapist? therapist;
 
-  EventModel(
-      this.id,
-      this.modelType,
-      this.modelId,
-      this.title,
-      this.description,
-      this.type,
-      this.start,
-      this.end,
-      this.patient,
-      this.therapist);
+  EventModel(this.id, this.modelType, this.modelId, this.title,
+      this.description, this.type, this.start, this.end, this.user,
+      {this.patient, this.therapist});
 
   IconData getIcon() {
     late IconData icon;
@@ -98,8 +92,12 @@ class EventModel {
         appointmentType,
         DateTime.parse(json["start"]).toLocal(),
         DateTime.parse(json["end"]).toLocal(),
-        Patient.fromJson(json["patient"]),
-        Therapist.fromJson(json["therapist"]));
+        User.fromJson(json["user"]),
+        patient:
+            json["patient"] != null ? Patient.fromJson(json["patient"]) : null,
+        therapist: json["therapist"] != null
+            ? Therapist.fromJson(json["therapist"])
+            : null);
     return event;
   }
 }

@@ -173,8 +173,11 @@ class PatientShowScreenState extends State<PatientShowScreen> {
           color: TextColors.muted),
       onTap: () {
         if (event.type == AppointmentTypes.appointment_video) {
+          if (event.patient == null) {
+            return;
+          }
           Navigator.pushNamed(context, joinConferenceRoute,
-              arguments: event.patient.conference);
+              arguments: event.patient!.conference);
         } else if (event.type == AppointmentTypes.appointment_chat) {
           Navigator.pushNamed(context, chatRoute, arguments: event.patient);
         }

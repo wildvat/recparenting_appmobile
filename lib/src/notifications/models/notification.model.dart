@@ -78,12 +78,18 @@ class NotificationRec {
       case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
         if (data.event != null) {
           if (data.event!.type == AppointmentTypes.appointment_chat) {
+            if (data.event!.patient == null) {
+              return null;
+            }
             notificationAction = NotificationAction(
                 route: chatRoute, argument: data.event!.patient);
           } else if (data.event!.type == AppointmentTypes.appointment_video) {
+            if (data.event!.patient == null) {
+              return null;
+            }
             notificationAction = NotificationAction(
                 route: joinConferenceRoute,
-                argument: data.event!.patient.conference);
+                argument: data.event!.patient!.conference);
           }
         }
         break;
@@ -172,8 +178,11 @@ class NotificationData {
         : null;
     event = json['event'] != null ? EventModel.fromJson(json['event']) : null;
     reason = json['reason'];
-    messageForum = json['message'] != null ? MessageForum.fromJson(json['message']) : null;
-    room = json['conversation'] != null ? Room.fromJson(json['conversation']) : null;
+    messageForum =
+        json['message'] != null ? MessageForum.fromJson(json['message']) : null;
+    room = json['conversation'] != null
+        ? Room.fromJson(json['conversation'])
+        : null;
   }
 }
 

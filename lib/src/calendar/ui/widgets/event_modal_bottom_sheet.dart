@@ -85,26 +85,29 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      late final Patient patient;
-                      if (_currentUser.isPatient()) {
-                        patient = _currentUser as Patient;
-                      } else {
-                        patient = _eventApi.patient;
-                      }
-                      if (_eventApi.type == AppointmentTypes.appointment_chat) {
-                        Navigator.pushNamed(context, chatRoute,
-                            arguments: patient);
-                      } else if (_eventApi.type ==
-                          AppointmentTypes.appointment_video) {
-                        Navigator.pushNamed(context, joinConferenceRoute,
-                            arguments: patient.conference);
-                      }
-                    },
-                    child: TextDefault(
-                        AppLocalizations.of(context)!.eventGoSessionBtn),
-                  ),
+                  (_eventApi.patient != null)
+                      ? ElevatedButton(
+                          onPressed: () {
+                            late final Patient patient;
+                            if (_currentUser.isPatient()) {
+                              patient = _currentUser as Patient;
+                            } else {
+                              patient = _eventApi.patient!;
+                            }
+                            if (_eventApi.type ==
+                                AppointmentTypes.appointment_chat) {
+                              Navigator.pushNamed(context, chatRoute,
+                                  arguments: patient);
+                            } else if (_eventApi.type ==
+                                AppointmentTypes.appointment_video) {
+                              Navigator.pushNamed(context, joinConferenceRoute,
+                                  arguments: patient.conference);
+                            }
+                          },
+                          child: TextDefault(
+                              AppLocalizations.of(context)!.eventGoSessionBtn),
+                        )
+                      : const SizedBox.shrink(),
 
                   /// only tehrapist or my owns events can be visible in modal
                   /// then not need to check if visible here
@@ -131,11 +134,13 @@ class _EventModalBottomSheetState extends State<EventModalBottomSheet> {
               )
             ],
           ),
-        widget.event.event is EventModel ? Positioned(
-            top: 0,
-            right: 20,
-            child:  ButtonAddCalendar(event: widget.event.event as EventModel, isIcon: true)): const SizedBox.shrink(),
-
+          widget.event.event is EventModel
+              ? Positioned(
+                  top: 0,
+                  right: 20,
+                  child: ButtonAddCalendar(
+                      event: widget.event.event as EventModel, isIcon: true))
+              : const SizedBox.shrink(),
         ]));
   }
 }

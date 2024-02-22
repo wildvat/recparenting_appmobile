@@ -180,7 +180,8 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   _onEventTap(CalendarEventData event, DateTime date) async {
     if (_currentUser.isPatient() &&
-        (event.event as EventModel).patient.id != _currentUser.id) {
+        ((event.event as EventModel).patient == null ||
+            (event.event as EventModel).patient?.id != _currentUser.id)) {
       return;
     }
     bool? eventDeleted = await showModalBottomSheet(
