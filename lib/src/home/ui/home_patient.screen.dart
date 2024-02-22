@@ -57,6 +57,7 @@ class HomePatientWidget extends StatelessWidget {
                     url = '${env.web}es/masterclasses/';
                   }
                   url = '${env.url}login-token?redirect_to=$url';
+                  print(url);
                   Navigator.pushNamed(context, webPageRoute,
                       arguments: WebpageArguments(
                           title:
