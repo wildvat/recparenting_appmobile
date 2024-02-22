@@ -117,9 +117,9 @@
   "conferenceWaitingTherapist":"Esperando al terapeuta",
   "conferenceNotAvailable": "La videoconferencia no está operativa",
   "permissionAudioVideoDenied": "No se ha podido acceder a la cámara o al micrófono",
-  "permissionAudioNotAuthorized": "You have denied access to the microphone. Please allow access to the microphone to continue",
-  "permissionVideoNotAuthorized": "You have denied access to the camera. Please allow access to the camera to continue.",
-  "notConnectedInternet": "You are not connected to the internet. Please check your connection and try again.",
+  "permissionAudioNotAuthorized": "Ha denegado el acceso al micrófono. Por favor permita el acceso al micrófono para continuar.",
+  "permissionVideoNotAuthorized": "Ha denegado el acceso a la cámara. Permita el acceso a la cámara para continuar.",
+  "notConnectedInternet": "No estás conectado a Internet. Por favor, compruebe la conexión y vuelva a intentarlo.",
   "loading": "Cargando...",
   "patientNotHasEvents": "No tienes eventos",
   "today": "hoy",
@@ -135,13 +135,13 @@
   "chatDeleted": "Este mensaje ha sido eliminado",
   "patientChangeTherapistTitle": "Formulario de cambio de terapeuta",
   "patientChangeTherapistOptionsTitle": "Selecciona una opcion",
-  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {Was not responsive}  wasNotAddressingMyNeeds {Was not addressing my needs}  wasNotConnect {We had no connection}  wantDifferentExpertise {I need different expertise}  therapistRecommendedChange {Therapist recommended change}  other {Otros}}",
+  "patientChangeTherapistReason": "{reason, select, scheduleDoesNotMatch {Nuestros horarios no coinciden} wasNotResponsive {No fue receptiva}  wasNotAddressingMyNeeds {No estaba abordando mis necesidades}  wasNotConnect {Nosotras no teníamos conexión}  wantDifferentExpertise {Necesito experiencia diferente}  therapistRecommendedChange {Cambio recomendado por el terapeuta.}  other {Otros}}",
   "@patientChangeTherapistReason": {
     "placeholders": {
       "reason": {}
     }
   },
-  "patientSharedRoomWithTherapist": "Transfer your chat history to your current therapist ",
+  "patientSharedRoomWithTherapist": "Transfiera su historial de chat a su terapeuta actual ",
   "fieldIncomplete": "Campo obligatorio",
   "forumThreadTitle": "Forum | Hilo",
   "forumThreadCreateTitle": "Añadir hilo",
@@ -164,7 +164,7 @@
     }
   },
   "therapistAreasExpertiseTitle": "Areas de especialización",
-  "therapistAreasExpertise": "{area, select, pregnancy {Pregnancy} adoption {Adoption} difficultiesConceiving {Difficulties conceiving} issuesDuringInfancy {Issues during infancy} issuesDuringToddlerhood {Issues during toddlerhood} issuesDuringChildhood {Issues during childhood} issuesDuringAdolescence {Issues during adolescence}  educationIssues {Education issues} learningDifficulties {Learning difficulties} technologyUse {Technology use} discipline {Discipline} anxiety {Anxiety} depressionAndMoodDisorders {Depression and mood disorders} eatingDisorders {Eating disorders} bullyingCyberbullyingAndSexting {Bullying, cyberbullying and sexting} atypicalDevelopment {Atypical development (e.g., autism)} substanceUse {Substance use} siblingRilvalry {Sibling rilvalry} parentChildConflict {Parent-child conflict} childrensMentalHealth {Children's mental health} adultMentalHealth {Adult mental health} coParentingIssues {Co-parenting issues} parentingAlone {Parenting alone} divorce {Divorce} relationships {Relationships} bereavement {Bereavement} trauma {Trauma} other {Otros}}",
+  "therapistAreasExpertise": "{area, select, pregnancy {El embarazo} adoption {Adopción} difficultiesConceiving {Dificultades para concebir} issuesDuringInfancy {Problemas durante la infancia} issuesDuringToddlerhood {Problemas durante la niñez} issuesDuringChildhood {Problemas durante la infancia} issuesDuringAdolescence {Problemas durante la adolescencia}  educationIssues {Problemas educativos} learningDifficulties {Dificultades de aprendizaje} technologyUse {Uso de tecnología} discipline {Disciplina} anxiety {Ansiedad} depressionAndMoodDisorders {Depresión y trastornos del estado de ánimo} eatingDisorders {Trastornos de la alimentación} bullyingCyberbullyingAndSexting {Bullying, ciberbullying y sexting} atypicalDevelopment {Desarrollo atípico (por ejemplo, autismo)} substanceUse {Uso de sustancias} siblingRilvalry {La rivalidad entre hermanos} parentChildConflict {Conflicto entre padres e hijos} childrensMentalHealth {La salud mental de los niños} adultMentalHealth {Salud mental de adultos} coParentingIssues {Problemas de co-paternidad} parentingAlone {Ser padre solo} divorce {Divorcio} relationships {Relaciones} bereavement {Duelo} trauma {Trauma} other {Otros}}",
   "@therapistAreasExpertise": {
     "placeholders": {
       "area": {}
@@ -193,7 +193,7 @@
       "language": {}
     }
   },
-  "notificationsType": "{type, select, therapistDisabledAtNotificationTherapist {Your account will be disabled on [date_disabled]} therapistDisabledAtNotificationPatient {Your therapist [therapist] , will be deactivated at [date_disabled]}  toPatientWhenTherapistWasAssigned {Your new therapist is [therapist], click here for more info} userDisabledAtNotification {Your account will be disabled on [date_disabled]} patientDisabledAtNotification {Your patient, [patient] will be deactivated at [date_disabled] } toTherapistWhenPatientWasAssigned {You have a new patient, [patient]  } toTherapistDisabledWhenPatientWasAssigned {Your patient, [patient] has changed his/her therapist} toPatientWhenRequestedChange {Your request to change your therapist is in progress} toTherapistWhenPatientRequestedChange {Your patient, [patient] has requested to change his/her therapist} toParticipantsWhenEventAppointmentWasCreated {Appointemt was created on [date_appointment]} toParticipantsWhenEventAppointmentWasDeleted {Appoint was deleted on [date_appointment]} toParticipantsWhenForumMessageWasCreated {Forum message was created}   conversationUnreadNotification {Conversation unread} other {Other} }",
+  "notificationsType": "{type, select, therapistDisabledAtNotificationTherapist {Su cuenta será deshabilitada el [date_disabled]} therapistDisabledAtNotificationPatient {Tu terapeuta [therapist] , se desactivará el [date_disabled]}  toPatientWhenTherapistWasAssigned {Tu nueva terapeuta es [therapist], Haga clic aquí para más información} userDisabledAtNotification {Su cuenta será deshabilitada el [date_disabled]} patientDisabledAtNotification {Tu paciente, [patient] se desactivará el [date_disabled] } toTherapistWhenPatientWasAssigned {Tienes una nueva paciente, [patient]  } toTherapistDisabledWhenPatientWasAssigned {Tu paciente, [patient] ha cambiado de terapeuta} toPatientWhenRequestedChange {Su solicitud para cambiar de terapeuta está en curso} toTherapistWhenPatientRequestedChange {Tu paciente, [patient] ha solicitado cambiar de terapeuta} toParticipantsWhenEventAppointmentWasCreated {La cita fue creada el [date_appointment]} toParticipantsWhenEventAppointmentWasDeleted {La cita fue eliminada el [date_appointment]} toParticipantsWhenForumMessageWasCreated {Se creó un mensaje en el foro.}   conversationUnreadNotification {Conversación no leída} other {Otros} }",
   "@notificationsType": {
     "placeholders": {
       "type": {}
