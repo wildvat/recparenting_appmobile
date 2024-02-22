@@ -33,7 +33,7 @@ class HomeTherapistWidget extends StatelessWidget {
                         pathImage: 'dashboard_one-min',
                         onPress: () =>
                             Navigator.pushNamed(context, patientsRoute),
-                        isExternalLink: true,
+                        isExternalLink: false,
                         colorBack: TextColors.chat.color,
                         colorText: TextColors.chatDark,
                         text: AppLocalizations.of(context)!.menuPatients,
@@ -42,7 +42,7 @@ class HomeTherapistWidget extends StatelessWidget {
                         pathImage: 'dashboard_calendar-min',
                         onPress: () =>
                             Navigator.pushNamed(context, calendarRoute),
-                        isExternalLink: true,
+                        isExternalLink: false,
                         colorBack: TextColors.light.color,
                         colorText: TextColors.rec,
                         text: AppLocalizations.of(context)!.menuCalendar,
