@@ -19,8 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final LanguageBloc _languageBloc;
+  late Future<String> _getAccessToken;
   String _language = 'en';
-  String _accessToken = '';
 
   @override
   void initState() {
@@ -29,9 +29,7 @@ class _HomePageState extends State<HomePage> {
     if (_languageBloc.state is LanguageLoaded) {
       _language = _languageBloc.state.language;
     }
-    TokenRepository().getToken().then((value) {
-      _accessToken = value;
-    });
+    _getAccessToken = TokenRepository().getToken();
   }
 
   @override
@@ -60,14 +58,24 @@ class _HomePageState extends State<HomePage> {
           child: BlocBuilder<CurrentUserBloc, CurrentUserState>(
               builder: (context, state) {
             if (state is CurrentUserLoaded) {
-              return Center(
-                  child: state.user.isPatient()
-                      ? HomePatientWidget(
-                          user: state.user,
-                          lang: _language,
-                          accessToken: _accessToken)
-                      : HomeTherapistWidget(
-                          lang: _language, accessToken: _accessToken));
+              return FutureBuilder<String>(
+                  future: _getAccessToken,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      return Center(
+                          child: state.user.isPatient()
+                              ? HomePatientWidget(
+                                  user: state.user,
+                                  lang: _language,
+                                  accessToken: snapshot.data ?? '')
+                              : HomeTherapistWidget(
+                                  lang: _language,
+                                  accessToken: snapshot.data ?? ''));
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  });
             }
             return TitleDefault(AppLocalizations.of(context)!.userNotLogged);
           }),

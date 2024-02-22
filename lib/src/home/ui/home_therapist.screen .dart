@@ -81,8 +81,8 @@ class HomeTherapistWidget extends StatelessWidget {
                           url = '${env.url}login-token?redirect_to=$url';
                           Navigator.pushNamed(context, webPageRoute,
                               arguments: WebpageArguments(
-                                  title: AppLocalizations.of(context)!
-                                      .menuMasterclasses,
+                                  title:
+                                      AppLocalizations.of(context)!.menuPodcast,
                                   url: url,
                                   token: accessToken));
                         },
