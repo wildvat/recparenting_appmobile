@@ -145,9 +145,14 @@ class _ChatWidgetState extends State<ChatWidget> {
     Color backgroundColor = Colors.grey.shade100;
     TextColors textColor = TextColors.dark;
     Alignment alignment = Alignment.centerLeft;
-    if (message.user.id == widget._patient.id) {
+    if (message.user.id == _currentUser?.id) {
       backgroundColor = colorRecLight.shade300;
       textColor = TextColors.dark;
+      alignment = Alignment.centerRight;
+    }
+    if (_currentUser != null &&
+        _currentUser!.isTherapist() &&
+        message.user.isTherapist()) {
       alignment = Alignment.centerRight;
     }
     if (message.isDeleted) {
