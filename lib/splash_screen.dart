@@ -30,16 +30,15 @@ class _SplashScreenState extends State<SplashScreen> {
         return false;
       }, onError: (e) {
         developer.log('OnErrro ${e.toString()}');
+        return false;
       }).catchError((onError) {
         FlutterNativeSplash.remove();
-
         developer.log('SplashScreen Error 1 ${onError.toString()}');
         return Navigator.pushReplacementNamed(context, loginRoute);
       });
     } catch (error) {
       FlutterNativeSplash.remove();
       developer.log('SplashScreen Error 2 ${error.toString()}');
-      return Navigator.pushReplacementNamed(context, loginRoute);
     }
   }
 

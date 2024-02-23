@@ -25,16 +25,21 @@ class CurrentUserApi {
     try {
       Response response = await client.get(endpoint);
       if (response.statusCode == 200) {
-        User user = User.fromJson(response.data);
-        if (user.type == 'patient') {
-          user = Patient.fromJson(response.data);
-        } else if (user.type == 'therapist') {
-          user = Therapist.fromJson(response.data);
-        } else {
-          return null;
+        try {
+          User user = User.fromJson(response.data);
+          if (user.type == 'patient') {
+            user = Patient.fromJson(response.data);
+          } else if (user.type == 'therapist') {
+            user = Therapist.fromJson(response.data);
+          } else {
+            return throw Exception('Error getting user');
+          }
+
+          _currentUserBloc.add(FetchCurrentUser(user));
+          return user;
+        } catch (e) {
+          return throw Exception('Error getting user');
         }
-        _currentUserBloc.add(FetchCurrentUser(user));
-        return user;
       } else {
         _tokenRepository.clearTokens();
         return throw Exception('Error getting user');
@@ -42,6 +47,11 @@ class CurrentUserApi {
     } on DioException catch (e) {
       developer.log('/** ERROR CurrentUserApi.getUser **/');
       developer.log(e.response.toString());
+      _tokenRepository.clearTokens();
+      return throw Exception('Error getting user');
+    } catch (e) {
+      developer.log('/** ERROR CurrentUserApi.getUser **/');
+      developer.log(e.toString());
       _tokenRepository.clearTokens();
       return throw Exception('Error getting user');
     }

@@ -41,6 +41,10 @@ class AuthApi {
       developer.log('AuthApi error login');
       developer.log(e.message.toString());
       return null;
+    } catch (e) {
+      developer.log('AuthApi error login');
+      developer.log(e.toString());
+      return null;
     }
   }
 
