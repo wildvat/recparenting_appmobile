@@ -14,11 +14,11 @@ class DevConfig implements EnvConfig {
   @override
   String get clientSecret => 'a2ppSmwcxyP7YUsp6ARWmpW49jXSli4EWdA0nvNb';
   @override
-  String get pusherAppId => '1441198';
+  String get pusherAppId => '1441200';
   @override
-  String get pusherAppKey => 'fe85be4e0fa8ffac8574';
+  String get pusherAppKey => '7e49681775b557e70717';
   @override
-  String get pusherAppSecret => '74e6149e0d6f08818c97';
+  String get pusherAppSecret => '67afed448f3f308cf250';
   @override
   String get pusherAppCluster => 'eu';
   @override
