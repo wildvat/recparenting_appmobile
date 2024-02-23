@@ -25,10 +25,10 @@ class HomePatientWidget extends StatelessWidget {
         children: [
           SvgPicture.asset(
             'assets/images/rec-logo-inverse.svg',
-            height: 60,
+            height: 50,
           ),
           GridView(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(10),
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
