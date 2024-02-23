@@ -16,7 +16,7 @@ class ProdConfig implements EnvConfig {
   @override
   String get pusherAppId => '1441200';
   @override
-  String get pusherAppKey => '75a6a9ada98076b7556c';
+  String get pusherAppKey => '7e49681775b557e70717';
   @override
   String get pusherAppSecret => '67afed448f3f308cf250';
   @override
