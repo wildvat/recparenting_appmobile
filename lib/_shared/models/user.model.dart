@@ -92,12 +92,13 @@ class User {
     return false;
   }
 
-  String getFullName(){
-    if(isPatient()){
+  String getFullName() {
+    if (isPatient()) {
       return nickname ?? '';
     }
-    return '$name $lastname';
+    return '$name ${lastname ?? ''}';
   }
+
   factory User.fromJson(Map<String, dynamic> json) {
     List apiRoles = json['roles'] as List;
     List<String> roles = apiRoles.map((i) => i.toString()).toList();
@@ -113,15 +114,17 @@ class User {
     String avatar = json['image'];
     UserConfig config = UserConfig.fromJson(json['config']);
     String name = '';
+    String lastName = '';
     if (json['type'] == 'patient') {
       name = json['nickname'];
     } else {
       name = json['name'];
+      lastName = json['last_name'];
     }
     return User(
         json['uuid'],
         name,
-        json['last_name'],
+        lastName,
         json['nickname'],
         json['email'],
         json['status'],
