@@ -146,7 +146,7 @@ class WorkingHours {
       }
       if (json['wednesday'] != null) {
         _workingHoursToLocal(
-            json: json['tuesday'],
+            json: json['wednesday'],
             timeOffset: timeZoneOffset,
             current: wednesday,
             prev: tuesday,
@@ -156,7 +156,7 @@ class WorkingHours {
       }
       if (json['thursday'] != null) {
         _workingHoursToLocal(
-            json: json['tuesday'],
+            json: json['thursday'],
             timeOffset: timeZoneOffset,
             current: thursday,
             prev: wednesday,
@@ -166,7 +166,7 @@ class WorkingHours {
       }
       if (json['friday'] != null) {
         _workingHoursToLocal(
-            json: json['tuesday'],
+            json: json['friday'],
             timeOffset: timeZoneOffset,
             current: friday,
             prev: thursday,

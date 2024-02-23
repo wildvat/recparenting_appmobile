@@ -8,7 +8,7 @@ class TherapistData {
   late String bio;
   late int years_practice;
   late List<AreasExpertise> areas_expertise;
-  late WorkingHours working_hours;
+  late WorkingHours? working_hours;
   late Religion religion;
   late Gender gender;
   late List<Language> language;
@@ -24,12 +24,14 @@ class TherapistData {
     years_practice = json['years_practice'];
     religion = convertStringToReligion(json['religion']);
     gender = convertStringToGender(json['gender']);
-    language = apiLanguages.map((i) => convertStringToLanguage(i.toString())).toList();
+    language =
+        apiLanguages.map((i) => convertStringToLanguage(i.toString())).toList();
     areas_expertise = apiAreasExpertise.map((i) {
       return convertStringFromAreaExpertise(i.toString());
-    }
-    ).toList();
-    working_hours = WorkingHours.fromJson(json['working_hours']);
+    }).toList();
+    working_hours = json['working_hours'] != null
+        ? WorkingHours.fromJson(json['working_hours'])
+        : null;
   }
 /*
   toJson(){

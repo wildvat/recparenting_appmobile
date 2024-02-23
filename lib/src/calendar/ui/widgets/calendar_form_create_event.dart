@@ -306,9 +306,11 @@ class _CalendarFormCreateEventWidgetState
                                       //Navigator.pop(context);
                                       return;
                                     } else {
+                                      String? errorMessage = response.error;
                                       SnackBarRec(
-                                          message: AppLocalizations.of(context)!
-                                              .generalError);
+                                          message: errorMessage ??
+                                              AppLocalizations.of(context)!
+                                                  .generalError);
                                     }
                                   },
                             child: SizedBox(

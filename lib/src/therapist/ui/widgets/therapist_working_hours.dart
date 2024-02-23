@@ -18,12 +18,14 @@ class TherapistWorkingHours extends StatefulWidget {
 }
 
 class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
-  late List _workingHours;
+  List<Map<String, dynamic>?> _workingHours = [];
 
   @override
   void initState() {
     super.initState();
-    _workingHours = widget.therapist.data.working_hours.toList();
+    if (widget.therapist.data.working_hours != null) {
+      _workingHours = widget.therapist.data.working_hours!.toList();
+    }
   }
 
   @override
@@ -38,7 +40,7 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
         ),
         const SizedBox(height: 10),
         _workingHours.isEmpty
-            ? const SizedBox.shrink()
+            ? TextDefault('No Working Hours')
             : ListView.separated(
                 shrinkWrap: true,
                 itemCount: _workingHours.length,
@@ -55,7 +57,7 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
                         width: 120,
                         child: TextDefault(
                           AppLocalizations.of(context)!
-                              .getDay(_workingHours[index]['day'])
+                              .getDay(_workingHours[index]?['day'])
                               .toUpperCase(),
                           color: TextColors.recLight,
                           fontWeight: FontWeight.bold,
@@ -66,13 +68,13 @@ class _TherapistWorkingHoursState extends State<TherapistWorkingHours> {
                       Expanded(
                         child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: (_workingHours[index]['startEnd']
+                            itemCount: (_workingHours[index]?['startEnd']
                                     as WorkingHoursStartEndList)
                                 .hours
                                 .length,
                             itemBuilder: (BuildContext context, int indexWh) {
                               return TextDefault(
-                                '${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.start} - ${(_workingHours[index]['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.end}',
+                                '${(_workingHours[index]?['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.start} - ${(_workingHours[index]?['startEnd'] as WorkingHoursStartEndList).hours[indexWh]!.end}',
                                 size: TextSizes.large,
                               );
                             }),

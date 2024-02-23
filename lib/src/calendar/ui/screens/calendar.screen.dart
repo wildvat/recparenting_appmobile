@@ -97,7 +97,9 @@ class _CalendarScreenState extends State<CalendarScreen>
     _getUntilAvailableCalendar =
         _getUntilAvailableCalendarFn().then((therapist) {
       if (therapist != null) {
-        _workingHours = therapist.data.working_hours;
+        if (therapist.data.working_hours != null) {
+          _workingHours = therapist.data.working_hours!;
+        }
         _therapist = therapist;
         _getTherapistEvents = CalendarApi().getTherapistEvents(
             therapist: therapist.id,
@@ -277,65 +279,75 @@ class _CalendarScreenState extends State<CalendarScreen>
                           builder: (BuildContext context,
                               AsyncSnapshot<EventsCalendarApiModel>
                                   asyncSnapshotEvents) {
-                            if (asyncSnapshotEvents.hasData) {
-                              _eventController.addAll(asyncSnapshotEvents
-                                  .data!.events.events.nonNulls
-                                  .toList());
-                              if (_calendarType == CalendarTypes.month) {
-                                return MonthViewRec(
-                                  workingHours: _workingHours,
-                                  minMonth: _minMonth,
-                                  onPageChange: _onPageChange,
-                                  onEventTap: _onEventTap,
-                                  onCellTap: (events, date) {
-                                    if (date.difference(DateTime.now()).inDays >
-                                        -1) {
-                                      String dayName = DateFormat('EEEE')
-                                          .format(date)
-                                          .toLowerCase();
-                                      bool isInWorkingHour = false;
-                                      for (var whour
-                                          in _workingHours.toList()) {
-                                        if (whour['day'] == dayName) {
-                                          isInWorkingHour = true;
-                                          break;
+                            if (asyncSnapshotEvents.connectionState ==
+                                ConnectionState.done) {
+                              if (asyncSnapshotEvents.hasData) {
+                                _eventController.addAll(asyncSnapshotEvents
+                                    .data!.events.events.nonNulls
+                                    .toList());
+                                if (_calendarType == CalendarTypes.month) {
+                                  return MonthViewRec(
+                                    workingHours: _workingHours,
+                                    minMonth: _minMonth,
+                                    onPageChange: _onPageChange,
+                                    onEventTap: _onEventTap,
+                                    onCellTap: (events, date) {
+                                      if (date
+                                              .difference(DateTime.now())
+                                              .inDays >
+                                          -1) {
+                                        String dayName = DateFormat('EEEE')
+                                            .format(date)
+                                            .toLowerCase();
+                                        bool isInWorkingHour = false;
+                                        for (var whour
+                                            in _workingHours.toList()) {
+                                          if (whour['day'] == dayName) {
+                                            isInWorkingHour = true;
+                                            break;
+                                          }
+                                        }
+                                        if (isInWorkingHour) {
+                                          setState(() {
+                                            _initialDay = date;
+                                            _tabController.index = 1;
+                                          });
                                         }
                                       }
-                                      if (isInWorkingHour) {
-                                        setState(() {
-                                          _initialDay = date;
-                                          _tabController.index = 1;
-                                        });
-                                      }
-                                    }
-                                  },
-                                  eventController: _eventController,
-                                  therapist: snapshotAvailable.data!,
-                                );
-                              } else if (_calendarType == CalendarTypes.week) {
-                                return WeekView(
+                                    },
+                                    eventController: _eventController,
+                                    therapist: snapshotAvailable.data!,
+                                  );
+                                } else if (_calendarType ==
+                                    CalendarTypes.week) {
+                                  return WeekView(
+                                      minDay: _minMonth,
+                                      onPageChange: _onPageChange,
+                                      onEventTap: _onEventsTap,
+                                      onDateLongPress: _onDateLongPressWeekDay,
+                                      headerStyle: const HeaderCalendarStyle());
+                                }
+                                return DayView(
+                                    key: _dayViewdKey,
+                                    showLiveTimeLineInAllDays: true,
+                                    hourIndicatorSettings:
+                                        const HourIndicatorSettings(
+                                            color: colorRecLight),
+                                    timeLineBuilder: _dayDetectorBuilder,
                                     minDay: _minMonth,
                                     onPageChange: _onPageChange,
                                     onEventTap: _onEventsTap,
+                                    initialDay: _initialDay,
+                                    heightPerMinute: 1,
+                                    controller: _eventController,
                                     onDateLongPress: _onDateLongPressWeekDay,
                                     headerStyle: const HeaderCalendarStyle());
+                              } else {
+                                return Center(
+                                    child: TextDefault('No events found'));
                               }
-                              return DayView(
-                                  key: _dayViewdKey,
-                                  showLiveTimeLineInAllDays: true,
-                                  hourIndicatorSettings:
-                                      const HourIndicatorSettings(
-                                          color: colorRecLight),
-                                  timeLineBuilder: _dayDetectorBuilder,
-                                  minDay: _minMonth,
-                                  onPageChange: _onPageChange,
-                                  onEventTap: _onEventsTap,
-                                  initialDay: _initialDay,
-                                  heightPerMinute: 1,
-                                  controller: _eventController,
-                                  onDateLongPress: _onDateLongPressWeekDay,
-                                  headerStyle: const HeaderCalendarStyle());
                             }
+
                             return const Center(
                                 child: CircularProgressIndicator());
                           });
@@ -347,6 +359,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                     child: TextDefault(
                         AppLocalizations.of(context)!.calendarGeneralError)));
           }
+          print('aquiiii');
           return const Center(child: CircularProgressIndicator());
         });
   }

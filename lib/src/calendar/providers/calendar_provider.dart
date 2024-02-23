@@ -118,7 +118,7 @@ class CalendarApi {
 
       return CreateEventApiResponse(error: R.string.generalError);
     } on DioException catch (e) {
-      developer.log('/** ERROR CurrentUserApi.deleteEvent **/');
+      developer.log('/** ERROR CalendarApi.createEvent **/');
       developer.log(e.response?.data.toString() ?? 'No message');
       String responseError = R.string.generalError;
       if (e.response?.data != null) {
