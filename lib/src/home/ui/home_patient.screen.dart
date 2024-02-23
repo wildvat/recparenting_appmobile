@@ -33,7 +33,7 @@ class HomePatientWidget extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: (constraints.maxWidth - 40) /
-                    (constraints.maxHeight - 100)),
+                    (constraints.maxHeight - 110)),
             children: [
               HomeCardWidget(
                 onPress: () => Navigator.pushNamed(context, patientShowRoute,

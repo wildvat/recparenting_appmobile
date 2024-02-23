@@ -23,7 +23,7 @@ class HomeTherapistWidget extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     'assets/images/rec-logo-inverse.svg',
-                    height: 60,
+                    height: 50,
                   ),
                   const SizedBox(height: 20),
                   Row(
