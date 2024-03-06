@@ -37,20 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO para ahorrame meter la contraseña en el login
-    /*
-    Therapist:
-    ryley.kilback@example.net
-    password
-    ----
-    Patient
-    madelynn97@example.com
-    patient@example.com
-    password
-
-    _emailEditingController.text = 'sdickens@example.com';
-    _passwordEditingController.text = 'password';
-    */
     return Scaffold(
         backgroundColor: colorRec,
         body: Container(
