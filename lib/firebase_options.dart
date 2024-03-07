@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDn2V7Uz_w-28ZK_2rDxjvDggGlild0Iss',
-    appId: '1:899954583080:ios:be3af55ecb812117ae771d',
+    appId: '1:899954583080:ios:cc0f25081be6d431ae771d',
     messagingSenderId: '899954583080',
     projectId: 'rec-parenting',
     storageBucket: 'rec-parenting.appspot.com',
-    iosBundleId: 'appmobile.recparenting',
+    iosBundleId: 'com.recparenting.appmobile',
   );
 }

@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Recparenting Appmobile</string>
+		<string>REC Parenting</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -46,6 +46,19 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UIStatusBarHidden</key>
+		<false/>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+		</dict>
+		<key>NSCalendarsUsageDescription</key>
+		<string>We need this permission to add to your calendar the appointments</string>
+		<key>NSCameraUsageDescription</key>
+		<string>The app needs camera permission for video conferencing</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Use microphone to start call</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>
 </plist>
