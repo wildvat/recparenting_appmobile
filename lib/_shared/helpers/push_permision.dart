@@ -27,7 +27,22 @@ getPermissionPushApp() async {
     platform = 'undefined';
   }
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  String? token = await firebaseMessaging.getToken();
+  String? token;
+  /*
+  if (Platform.isIOS) {
+    token = await firebaseMessaging.getAPNSToken();
+    if (token == null) {
+      await Future<void>.delayed(
+        const Duration(
+          seconds: 3,
+        ),
+      );
+      token = await firebaseMessaging.getAPNSToken();
+    }
+  } else {
+    */
+  token = await firebaseMessaging.getToken();
+  //}
   if (token != null) {
     dev.log('token device: $token');
     CurrentUserApi().addDevice(token, platform);

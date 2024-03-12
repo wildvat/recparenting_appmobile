@@ -16,43 +16,41 @@ class ActionNotificationPush {
 
   ActionNotificationPush({required this.message});
 
-  redirectFromPush( NotificationBloc? notificationsBloc) async {
-    if(notificationsBloc != null) {
+  redirectFromPush(NotificationBloc? notificationsBloc) async {
+    if (notificationsBloc != null) {
       notificationsBloc.add(const NotificationsFetch(page: 1));
     }
     NotificationType notificationType =
-    convertNotificationTypeFromString(message.data['type']);
+        convertNotificationTypeFromString(message.data['type']);
     String? actionId = message.data['action_id'];
 
     switch (notificationType) {
       case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
-        navigatorKey.currentState!
-              .pushNamed(calendarRoute);
+        navigatorKey.currentState!.pushNamed(calendarRoute);
         break;
       case NotificationType.receiveMessageNotification:
-      //el action id aqui se corresponde con un conversation id
+        //el action id aqui se corresponde con un conversation id
         if (actionId != null) {
           Conversation? conversation =
-          await RoomApi().getConversation(actionId, 1);
+              await RoomApi().getConversation(actionId, 1);
           if (conversation != null) {
             Patient? patient = getPatientFromRoom(conversation.room);
             if (patient != null) {
-                navigatorKey.currentState!
-                    .pushNamed(chatRoute, arguments: patient);
+              navigatorKey.currentState!
+                  .pushNamed(chatRoute, arguments: patient);
             }
           }
         }
         break;
       case NotificationType.participantJoinedNotification:
         if (actionId != null) {
-            navigatorKey.currentState!
-                .pushNamed(joinConferenceRoute, arguments: actionId);
+          navigatorKey.currentState!
+              .pushNamed(joinConferenceRoute, arguments: actionId);
         }
-    //el action id aqui se corresponde con un conversation id
+      //el action id aqui se corresponde con un conversation id
       default:
     }
   }
-
 
   execute(NotificationBloc notificationsBloc) async {
     notificationsBloc.add(const NotificationsFetch(page: 1));
@@ -88,8 +86,7 @@ class ActionNotificationPush {
       case NotificationType.toParticipantsWhenEventAppointmentWasCreated:
         showSnackBar = true;
         onPress = () {
-          navigatorKey.currentState!
-              .pushNamed(calendarRoute);
+          navigatorKey.currentState!.pushNamed(calendarRoute);
         };
         break;
       case NotificationType.receiveMessageNotification:
