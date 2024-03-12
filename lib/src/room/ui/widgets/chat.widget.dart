@@ -116,16 +116,22 @@ class _ChatWidgetState extends State<ChatWidget> {
         } else {
           widgets.add(const SizedBox(height: 10));
         }
-        return Column(
-          children: widgets,
-        );
+        return (state.messages.total == 0)
+            ? Center(child: TextDefault('No messages'))
+            : Column(
+                children: widgets,
+              );
       }
 
       if (state is ConversationUninitialized) {
         return const Center(child: CircularProgressIndicator());
       }
 
-      return TextDefault('_');
+      if (state is ConversationError) {
+        return Center(child: TextDefault(state.errorMessage));
+      }
+
+      return Center(child: TextDefault('No messages'));
     });
   }
 
