@@ -359,7 +359,6 @@ class _CalendarScreenState extends State<CalendarScreen>
                     child: TextDefault(
                         AppLocalizations.of(context)!.calendarGeneralError)));
           }
-          print('aquiiii');
           return const Center(child: CircularProgressIndicator());
         });
   }
