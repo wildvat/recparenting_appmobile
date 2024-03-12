@@ -34,11 +34,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         developer.log('no ahy mensajes');
         return;
       }
-    } catch (_) {
+    } catch (error) {
       developer.log('*******************************************');
       developer.log('entro en  error _onAddMessageToConversation ');
-      developer.log(_.toString());
-      emit(ConversationError());
+      developer.log(error.toString());
+      emit(ConversationError(error.toString()));
     }
   }
 
@@ -73,11 +73,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       } else {
         developer.log('esta estate es ${state.runtimeType}');
       }
-    } catch (_) {
+    } catch (error) {
       developer.log('*******************************************');
       developer.log('entro en  error _onReceiveMessageToConversation ');
-      developer.log(_.toString());
-      emit(ConversationError());
+      developer.log(error.toString());
+      emit(ConversationError(error.toString()));
     }
   }
 
@@ -98,7 +98,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       final Conversation? conversation =
           await _getConversation(event.page ?? 1);
       if (conversation == null) {
-        emit(ConversationError());
+        emit(const ConversationError('Error fetching conversation'));
         return;
       }
 
@@ -124,8 +124,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
             indexDate: 0,
             loading: false));
       }
-    } catch (_) {
-      emit(ConversationError());
+    } catch (error) {
+      emit(ConversationError(error.toString()));
     }
   }
 
@@ -142,9 +142,9 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         currentStatus.messages.messages[message] = event.message;
         emit(currentStatus.copyWith(messages: currentStatus.messages));
       }
-    } catch (_) {
-      developer.log(_.toString());
-      emit(ConversationError());
+    } catch (error) {
+      developer.log(error.toString());
+      emit(ConversationError(error.toString()));
     }
   }
 

@@ -1,6 +1,4 @@
-
 part of 'conversation_bloc.dart';
-
 
 @immutable
 abstract class ConversationState extends Equatable {
@@ -10,9 +8,13 @@ abstract class ConversationState extends Equatable {
   List<Object> get props => [];
 }
 
-
 class ConversationUninitialized extends ConversationState {}
-class ConversationError extends ConversationState {}
+
+class ConversationError extends ConversationState {
+  final String errorMessage;
+  const ConversationError(this.errorMessage);
+}
+
 class ConversationLoading extends ConversationState {}
 
 final class ConversationLoaded extends ConversationState {
