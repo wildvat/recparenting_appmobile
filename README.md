@@ -16,6 +16,6 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## TODOs
-- [ ] Firebase push hay que probarlo en un dispositivo real y haciendo una release en el iphone negro por problemas con las veriones de ios y mac. Usar Flutterfire para optimizar la configuración
+- [ ] Firebase push hay que probarlo en un dispositivo real y haciendo una release en el iphone negro por problemas con las veriones de ios y mac. Usar Flutterfire para optimizar la configuración. Añadi       FirebaseApp.configure() //add this before the code below enel AppDelegate
 - [ ] Pusher eliminar los parámetros de js en iOs, como por ejemplo el authEndpoint y el authParams. Poner el token como sincrono
 - [ ] Chime, hay que crear los directorios directamente desde Xcode. Los nombre del methodChannel no son relevantes, lo único que deben de coincidir en Runner y en Lib
