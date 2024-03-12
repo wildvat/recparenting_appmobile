@@ -10,24 +10,28 @@ import 'package:recparenting/src/room/models/message.model.dart';
 import '../bloc/conversation_bloc.dart';
 
 class ChatApi {
-
   late ConversationBloc _conversationBloc;
 
-  ChatApi(context){
+  ChatApi(context) {
     _conversationBloc = BlocProvider.of<ConversationBloc>(context);
-
   }
   final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
   Future<void> connect(String roomId) async {
+    final String token = await TokenRepository().getToken();
+    developer.log(token);
     try {
       await pusher.init(
         apiKey: env.pusherAppKey,
         cluster: env.pusherAppCluster,
+        /* onl js */
+        /*
         authEndpoint: '${env.url}broadcasting/auth',
         authParams: {
-          'headers': {'Authorization': 'Bearer ${TokenRepository().getToken()}'}
+          'headers': {'Authorization': 'Bearer $token'}
         },
+        */
+        /* onl js */
         onEvent: onEvent,
         onError: onError,
         onConnectionStateChange: onConnectionStateChange,
@@ -85,6 +89,7 @@ class ChatApi {
         _conversationBloc.add(ReceiveMessageToConversation(message: message));
       }
     } catch (e) {
+      developer.log('error onEvent: ${e.toString()}');
       developer.log("onEventError: ${e.toString()}");
     }
   }
@@ -109,5 +114,4 @@ class ChatApi {
     developer.log(
         "onSubscriptionCount: $channelName subscriptionCount: $subscriptionCount");
   }
-
 }
