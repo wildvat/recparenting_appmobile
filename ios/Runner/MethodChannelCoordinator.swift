@@ -20,7 +20,7 @@ class MethodChannelCoordinator {
     var videoTileObserver: VideoTileObserver?
     
     init(binaryMessenger: FlutterBinaryMessenger) {
-        self.methodChannel = FlutterMethodChannel(name: "com.amazonaws.services.chime.flutterDemo.methodChannel", binaryMessenger: binaryMessenger)
+        self.methodChannel = FlutterMethodChannel(name: "appmobile.recparenting.methodChannel", binaryMessenger: binaryMessenger)
     }
     
     //
