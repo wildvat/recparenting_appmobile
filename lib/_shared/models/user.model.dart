@@ -114,12 +114,12 @@ class User {
     String avatar = json['image'];
     UserConfig config = UserConfig.fromJson(json['config']);
     String name = '';
-    String lastName = '';
+    String? lastName = '';
     if (json['type'] == 'patient') {
       name = json['nickname'];
     } else {
       name = json['name'];
-      lastName = json['last_name'];
+      lastName = json['last_name'] ?? '';
     }
     return User(
         json['uuid'],
