@@ -92,15 +92,22 @@ class HomeTherapistWidget extends StatelessWidget {
                         text: AppLocalizations.of(context)!.menuPodcast,
                       ),
                       HomeCardWidget(
-                        onPress: () => Navigator.pushNamed(context, forumsRoute,
-                            arguments: WebpageArguments(
-                                title: AppLocalizations.of(context)!.menuFaqs,
-                                url: '${env.web}faq-users/')),
-                        isExternalLink: true,
-                        colorBack: TextColors.rec.color,
-                        colorText: TextColors.recLight,
-                        text: AppLocalizations.of(context)!.menuFaqs,
-                      ),
+                          onPress: () {
+                            String url = '${env.web}faq-users/';
+                            if (lang == 'es') {
+                              url = '${env.web}es/faq-users/';
+                            }
+                            url = '${env.url}login-token?redirect_to=$url';
+                            Navigator.pushNamed(context, webPageRoute,
+                                arguments: WebpageArguments(
+                                    title:
+                                        AppLocalizations.of(context)!.menuFaqs,
+                                    url: url));
+                          },
+                          isExternalLink: true,
+                          colorBack: TextColors.rec.color,
+                          colorText: TextColors.recLight,
+                          text: AppLocalizations.of(context)!.menuFaqs),
                     ],
                   ),
                   const SizedBox(height: 10),

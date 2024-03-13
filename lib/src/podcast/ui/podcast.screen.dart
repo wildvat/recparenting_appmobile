@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:recparenting/_shared/models/webpage_arguments.dart';
 import 'package:recparenting/_shared/ui/widgets/scaffold_default.dart';
 import 'package:recparenting/constants/router_names.dart';
+import 'package:recparenting/environments/env.dart';
 
 class PodcastScreen extends StatefulWidget {
   const PodcastScreen({super.key});
@@ -18,9 +19,11 @@ class _PodcastScreenState extends State<PodcastScreen> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      String url = '${env.web}poadcast/';
+      url = '${env.url}login-token?redirect_to=$url';
       Navigator.pushReplacementNamed(context, webPageRoute,
           arguments: WebpageArguments(
-            url: 'https://www.recparenting.com/masterclasses/',
+            url: url,
             title: AppLocalizations.of(context)!.menuPodcast,
           ));
     });

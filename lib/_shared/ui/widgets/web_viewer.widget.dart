@@ -18,11 +18,16 @@ class _WebViewerWidgetState extends State<WebViewerWidget> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url) {
-        setState(() {
-          _loading = false;
-        });
-      }))
+      ..setNavigationDelegate(NavigationDelegate(
+        onPageFinished: (String url) {
+          setState(() {
+            _loading = false;
+          });
+        },
+        onNavigationRequest: (request) {
+          return NavigationDecision.navigate;
+        },
+      ))
       ..loadRequest(Uri.parse(widget.url), headers: {
         'Content-Type': 'text/html; charset=UTF-8',
         'Authorization': 'Bearer ${widget.token ?? ''}'

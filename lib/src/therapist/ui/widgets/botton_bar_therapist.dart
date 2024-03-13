@@ -56,10 +56,14 @@ class BottomAppBarTherapist extends StatelessWidget {
                 color: Colors.white,
                 size: 30,
               ),
-              onPressed: () => Navigator.pushNamed(context, webPageRoute,
-                  arguments: WebpageArguments(
-                      title: AppLocalizations.of(context)!.menuFaqs,
-                      url: '${env.web}faq-users/')))
+              onPressed: () {
+                String url = '${env.web}faq-users/';
+                url = '${env.url}login-token?redirect_to=$url';
+                Navigator.pushNamed(context, webPageRoute,
+                    arguments: WebpageArguments(
+                        title: AppLocalizations.of(context)!.menuFaqs,
+                        url: url));
+              })
         ],
       ),
     );
