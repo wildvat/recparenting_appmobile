@@ -175,6 +175,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       )
                                     ],
+                                  )),
+                              TextButton(
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, selectPlanRoute),
+                                  child: TextDefault(
+                                    AppLocalizations.of(context)!
+                                        .generateAccountLink,
+                                    textAlign: TextAlign.center,
+                                    color: TextColors.white,
                                   ))
                             ],
                           ),

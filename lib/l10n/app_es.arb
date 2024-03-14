@@ -215,5 +215,8 @@
   "userNotLogged": "No estás autenticado",
   "upcomingAppointmentsTitle": "Mis próximas citas",
   "deleteAccountTitle":"Solicitar eliminar cuenta",
-  "deleteAccountText":"Escribe los motivos"
+  "deleteAccountText":"Escribe los motivos",
+  "generateAccountLink": "Don't have an account?\nRegister and sign up for a subscription",
+  "selectPlanTitle": "Seleccionar plan",
+  "register": "Suscribirse"
 }

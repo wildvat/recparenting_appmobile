@@ -215,5 +215,8 @@
   "userNotLogged": "You are not logged in",
   "upcomingAppointmentsTitle": "My upcoming appointments",
   "deleteAccountTitle":"Request to delete account",
-  "deleteAccountText":"Write the reasons"
+  "deleteAccountText":"Write the reasons",
+  "generateAccountLink": "¿No tienes cuenta?.\nRegístrate y contrata una suscripción",
+  "selectPlanTitle": "Select Plan",
+  "register": "Subscribe"
 }
