@@ -216,7 +216,7 @@
   "upcomingAppointmentsTitle": "My upcoming appointments",
   "deleteAccountTitle":"Request to delete account",
   "deleteAccountText":"Write the reasons",
-  "generateAccountLink": "¿No tienes cuenta?.\nRegístrate y contrata una suscripción",
+  "generateAccountLink": "¿No tienes cuenta?\nRegístrate y contrata una suscripción",
   "selectPlanTitle": "Select Plan",
   "register": "Subscribe"
 }
