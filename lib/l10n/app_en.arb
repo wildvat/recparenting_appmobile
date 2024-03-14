@@ -23,6 +23,7 @@
   "menuRoom": "My private room",
   "menuCommunity": "Comunity",
   "menuCalendar": "Calendar",
+  "menuDeleteAccount": "Delete account",
   "therapistBioTitle": "Your therapist",
   "therapistShow": "More information",
   "workingHoursTitle": "Working hours",
@@ -212,5 +213,7 @@
     }
   },
   "userNotLogged": "You are not logged in",
-  "upcomingAppointmentsTitle": "My upcoming appointments'"
+  "upcomingAppointmentsTitle": "My upcoming appointments",
+  "deleteAccountTitle":"Request to delete account",
+  "deleteAccountText":"Write the reasons"
 }

@@ -159,6 +159,13 @@ class _AppSubmenuWidgetState extends State<AppSubmenuWidget> {
               _menuController.close();
             },
             titleUrl: AppLocalizations.of(context)!.menuPodcast),
+        AppSubmenuItemWidget(
+            onPress: () async {
+              await Navigator.pushNamed(context, deleteAccountRoute);
+              await Future.delayed(const Duration(milliseconds: 10));
+              _menuController.close();
+            },
+            titleUrl: AppLocalizations.of(context)!.menuDeleteAccount),
       ],
       child: const Icon(Icons.more_vert, color: Colors.white),
     );

@@ -23,6 +23,7 @@
   "menuRoom": "Mi sala privada",
   "menuCommunity": "Comunidad",
   "menuCalendar": "Agenda",
+  "menuDeleteAccount": "Eliminar cuenta",
   "therapistBioTitle": "Tu terapeuta",
   "therapistShow": "Más información",
   "workingHoursTitle": "Horario laboral",
@@ -212,5 +213,7 @@
     }
   },
   "userNotLogged": "No estás autenticado",
-  "upcomingAppointmentsTitle": "Mis próximas citas"
+  "upcomingAppointmentsTitle": "Mis próximas citas",
+  "deleteAccountTitle":"Solicitar eliminar cuenta",
+  "deleteAccountText":"Escribe los motivos"
 }

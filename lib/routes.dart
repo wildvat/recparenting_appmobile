@@ -8,6 +8,7 @@ import 'package:recparenting/_shared/ui/webpage_screen.dart';
 import 'package:recparenting/_shared/ui/widgets/title.widget.dart';
 import 'package:recparenting/constants/router_names.dart';
 import 'package:recparenting/splash_screen.dart';
+import 'package:recparenting/src/account_delete/screen/account_delete.screen.dart';
 import 'package:recparenting/src/auth/ui/login.screen.dart';
 import 'package:recparenting/src/auth/ui/pasword_recovery.dart';
 import 'package:recparenting/src/calendar/ui/screens/calendar.screen.dart';
@@ -91,6 +92,7 @@ class RouterRec {
         ),
       );
     },
+    deleteAccountRoute: (_) => const AccountDeleteScreen(),
     /*
     newsListRoute: (_) => const NewsListScreen(),
     newsSingleRoute: (BuildContext context) {

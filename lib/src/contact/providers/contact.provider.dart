@@ -33,4 +33,9 @@ class ContactApi {
       return false;
     }
   }
+
+  Future<bool> requestDeleteAccount(String message) async {
+    message = 'This user requests to delete their account. $message';
+    return sendMessage(message);
+  }
 }

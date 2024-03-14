@@ -20,3 +20,4 @@ const String notificationsRoute = '/notifications';
 const String masterclassRoute = '/masterclasses';
 const String podcastsRoute = '/podcasts';
 const String roomRoute = '/room';
+const String deleteAccountRoute = '/delete_account';
